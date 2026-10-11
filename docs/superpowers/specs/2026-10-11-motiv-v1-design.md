@@ -132,8 +132,9 @@ Toutes les tables ont `user_id uuid not null references auth.users` et une polit
 
 **Sport**
 
-- `sport_programs` : `id`, `name`, `position int`.
-- `program_exercises` : `id`, `program_id`, `name`, `target_sets int`, `target_reps int`, `position int`.
+- `sport_programs` : `id`, `name`, `position int`, `archived bool`.
+- `program_exercises` : `id`, `program_id`, `name`, `target_sets int`, `target_reps int`, `position int`, `archived bool`.
+- Supprimer une séance type ou un exo dans Réglages l'archive (`archived = true`) : il disparaît des listes mais l'historique des séries reste lisible.
 - `sport_sessions` : `id`, `day date`, `program_id`, `duration_min`, `flow_rating 1-5`, `desire_rating 1-5`, `xp int`, `created_at`.
 - `sport_sets` : `id`, `session_id`, `program_exercise_id`, `set_index int`, `reps int`, `weight_kg numeric` (0 = poids du corps).
 
