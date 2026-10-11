@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import { useAppData } from '../data/AppDataContext'
 import { BottomNav } from '../ui/BottomNav'
 import { PendingBanner } from '../ui/PendingBanner'
+import { TodayPage } from '../features/today/TodayPage'
+import { XpResultPage } from '../features/xp/XpResultPage'
 
 function Placeholder({ title }: { title: string }) {
   return <h1 className="text-xl font-semibold">{title}</h1>
@@ -36,10 +38,10 @@ export function AppRoutes() {
     <Routes>
       <Route path="/log/guitare" element={<Focus><Placeholder title="Log guitare" /></Focus>} />
       <Route path="/log/sport" element={<Focus><Placeholder title="Log sport" /></Focus>} />
-      <Route path="/xp" element={<Focus><Placeholder title="XP" /></Focus>} />
+      <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/progres" element={<Shell><Placeholder title="Progrès" /></Shell>} />
       <Route path="/reglages" element={<Shell><Placeholder title="Réglages" /></Shell>} />
-      <Route path="*" element={<Shell><Placeholder title="Aujourd'hui" /></Shell>} />
+      <Route path="*" element={<Shell><TodayPage /></Shell>} />
     </Routes>
   )
 }
