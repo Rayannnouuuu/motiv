@@ -114,6 +114,10 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         await writeChallengeUpdates(acceptEasier(dataRef.current, id, todayParis(), deps))
         await refresh()
       },
+      async setPassword(password) {
+        const { error } = await supabase.auth.updateUser({ password })
+        if (error) throw new Error(error.message)
+      },
       async signOut() {
         await supabase.auth.signOut()
         qc.clear()

@@ -80,4 +80,15 @@ describe('SettingsPage', () => {
     await click('Se déconnecter')
     expect(actions.signOut).toHaveBeenCalled()
   })
+
+  test('mot de passe : 8 caractères min., puis enregistré', async () => {
+    const { actions } = renderWithData(<SettingsPage />, { today })
+    const input = screen.getByLabelText(/Mot de passe/)
+    await userEvent.type(input, 'court')
+    expect(screen.getByRole('button', { name: 'Enregistrer le mot de passe' })).toBeDisabled()
+    await userEvent.type(input, '-assez-long')
+    await click('Enregistrer le mot de passe')
+    expect(actions.setPassword).toHaveBeenCalledWith('court-assez-long')
+    expect(await screen.findByText('Mot de passe enregistré ✓')).toBeInTheDocument()
+  })
 })

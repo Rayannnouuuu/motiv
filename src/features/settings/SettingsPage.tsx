@@ -1,5 +1,6 @@
 import { useActions } from '../../data/AppDataContext'
 import { Button } from '../../ui/Button'
+import { PasswordForm } from './PasswordForm'
 import { ProgramEditor } from './ProgramEditor'
 import { SongList } from './SongList'
 import { useRun } from './useRun'
@@ -14,6 +15,7 @@ export function SettingsPage() {
       <SongList />
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Compte</h2>
+        <PasswordForm />
         <Button variant="secondary" disabled={busy} onClick={() => run(signOut)}>
           Se déconnecter
         </Button>
