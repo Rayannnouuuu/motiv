@@ -48,6 +48,9 @@ export function XpResultPage() {
       <Link to="/" className="rounded-xl bg-accent px-4 py-3 font-semibold text-white">
         Continuer
       </Link>
+      <Link to="/log/corriger" className="text-sm text-muted underline">
+        Une erreur ? Corriger ce log
+      </Link>
     </div>
   )
 }

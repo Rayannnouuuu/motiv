@@ -24,6 +24,10 @@ export function enqueue(e: OutboxEntry): void {
   write([...readOutbox().filter((x) => x.id !== e.id), e])
 }
 
+export function removeFromOutbox(id: string): void {
+  write(readOutbox().filter((x) => x.id !== id))
+}
+
 let running: Promise<{ sent: number; left: number }> | null = null
 
 /** Envoie les entrées dans l'ordre ; s'arrête au premier échec (les suivantes restent). */
@@ -37,7 +41,9 @@ export function flush(send: (e: OutboxEntry) => Promise<void>): Promise<{ sent: 
         } catch {
           break
         }
-        write(readOutbox().filter((x) => x.id !== e.id))
+        // Retire seulement la version envoyée : une correction ajoutée pendant l'envoi reste dans la file.
+        const sentJson = JSON.stringify(e)
+        write(readOutbox().filter((x) => x.id !== e.id || JSON.stringify(x) !== sentJson))
         sent++
       }
       return { sent, left: readOutbox().length }

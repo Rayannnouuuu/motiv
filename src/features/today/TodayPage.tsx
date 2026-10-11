@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { lastLog } from '../../domain/lastLog'
 import { allLevels, type DomainLevel } from '../../domain/levels'
 import { nextProgram } from '../../domain/progression'
 import { GUITAR_DAILY_MIN, guitarStreak, SPORT_WEEKLY_SESSIONS, sportStreak } from '../../domain/streak'
@@ -89,6 +90,12 @@ export function TodayPage() {
       )}
 
       <TodayPlan />
+
+      {lastLog(data) && (
+        <Link to="/log/corriger" className="self-center text-sm text-muted underline">
+          Corriger le dernier log
+        </Link>
+      )}
 
       <Card>
         <div className="flex items-baseline justify-between">

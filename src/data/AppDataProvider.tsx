@@ -2,13 +2,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { todayParis } from '../domain/date'
 import { acceptEasier, rerollChallenge, settleChallenges, type Deps } from '../domain/progression'
-import { EMPTY_DATA, type GuitarSession, type SportSession } from '../domain/types'
+import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from '../domain/types'
 import { guitarSessionXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, type Actions } from './AppDataContext'
 import { toAppData } from './mappers'
 import { mergePending } from './merge'
-import { enqueue, flush, readOutbox, type OutboxEntry } from './outbox'
-import { fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
+import { enqueue, flush, readOutbox, removeFromOutbox, type OutboxEntry } from './outbox'
+import { deleteSessionRemote, fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
 import { supabase } from './supabase'
 
 const QUERY_KEY = ['appData']
@@ -66,7 +66,15 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     () => ({
       async saveGuitarSession(d) {
         const current = dataRef.current
-        const xp = guitarSessionXp(d, current.guitarSessions, [...current.songs, ...d.newSongs])
+        // Correction d'un log existant : on le retire de l'historique pour que l'XP ne se compare pas à lui-même,
+        // et les morceaux qu'il avait passés en « maîtrisé » redeviennent « en cours » pour le calcul.
+        const original = current.guitarSessions.find((s) => s.id === d.id)
+        const history = current.guitarSessions.filter((s) => s.id !== d.id)
+        const masteredByOriginal = new Set(original?.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : [])))
+        const songs = current.songs.map((s) =>
+          masteredByOriginal.has(s.id) && s.masteredOn === original?.day ? { ...s, status: 'learning' as const, masteredOn: null } : s,
+        )
+        const xp = guitarSessionXp(d, history, [...songs, ...d.newSongs])
         const session: GuitarSession = {
           id: d.id,
           day: d.day,
@@ -74,7 +82,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
           flowRating: d.flowRating,
           desireRating: d.desireRating,
           xp: xp.total,
-          createdAt: new Date().toISOString(),
+          createdAt: original?.createdAt ?? new Date().toISOString(),
           items: d.items,
         }
         const masteredSongIds = d.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : []))
@@ -86,8 +94,10 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       async saveSportSession(d) {
         const current = dataRef.current
         const names = new Map(current.programs.flatMap((p) => p.exercises.map((e) => [e.id, e.name] as const)))
-        const xp = sportSessionXp(d, current.sportSessions, (id) => names.get(id) ?? 'Exo inconnu')
-        const session: SportSession = { ...d, xp: xp.total, createdAt: new Date().toISOString() }
+        const original = current.sportSessions.find((s) => s.id === d.id)
+        const history = current.sportSessions.filter((s) => s.id !== d.id)
+        const xp = sportSessionXp(d, history, (id) => names.get(id) ?? 'Exo inconnu')
+        const session: SportSession = { ...d, xp: xp.total, createdAt: original?.createdAt ?? new Date().toISOString() }
         enqueue({ id: d.id, kind: 'sportSession', payload: session })
         setPending(readOutbox())
         void flushNow()
@@ -113,6 +123,17 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       async acceptEasier(id) {
         await writeChallengeUpdates(acceptEasier(dataRef.current, id, todayParis(), deps))
         await refresh()
+      },
+      async deleteLog(kind, id) {
+        removeFromOutbox(id)
+        setPending(readOutbox())
+        const server = qc.getQueryData<AppData>(QUERY_KEY)
+        const onServer = (kind === 'guitar' ? server?.guitarSessions : server?.sportSessions)?.some((s) => s.id === id)
+        if (onServer) {
+          if (!navigator.onLine) throw new Error('Connexion nécessaire pour supprimer ce log')
+          await deleteSessionRemote(kind, id)
+          await refresh()
+        }
       },
       async setPassword(password) {
         const { error } = await supabase.auth.updateUser({ password })

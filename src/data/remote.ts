@@ -39,6 +39,18 @@ async function upsert(table: keyof Rows, rows: object | object[]) {
   check(await supabase.from(table).upsert(rows))
 }
 
+/** Supprime les lignes enfants qui ne font plus partie d'une session corrigée. */
+async function deleteOrphans(table: 'guitar_session_items' | 'sport_sets', sessionId: string, keep: string[]) {
+  let q = supabase.from(table).delete().eq('session_id', sessionId)
+  if (keep.length > 0) q = q.not('id', 'in', `(${keep.join(',')})`)
+  check(await q)
+}
+
+export async function deleteSessionRemote(kind: 'guitar' | 'sport', id: string): Promise<void> {
+  // Les items / séries partent avec la session (on delete cascade).
+  check(await supabase.from(kind === 'guitar' ? 'guitar_sessions' : 'sport_sessions').delete().eq('id', id))
+}
+
 /** Envoi idempotent d'une entrée de la file hors-ligne (upserts par id). */
 export async function sendEntry(e: OutboxEntry): Promise<void> {
   if (e.kind === 'guitarSession') {
@@ -61,10 +73,12 @@ export async function sendEntry(e: OutboxEntry): Promise<void> {
     const rows = guitarSessionToRows(session)
     await upsert('guitar_sessions', rows.session)
     await upsert('guitar_session_items', rows.items)
+    await deleteOrphans('guitar_session_items', session.id, rows.items.map((r) => r.id))
   } else if (e.kind === 'sportSession') {
     const rows = sportSessionToRows(e.payload)
     await upsert('sport_sessions', rows.session)
     await upsert('sport_sets', rows.sets)
+    await deleteOrphans('sport_sets', e.payload.id, rows.sets.map((r) => r.id))
   } else {
     await upsert('body_metrics', bodyMetricToRow(e.payload))
   }

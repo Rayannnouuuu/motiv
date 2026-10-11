@@ -29,3 +29,10 @@ test('séance sport et mesure en attente', () => {
   expect(merged.sportSessions).toEqual([s])
   expect(merged.bodyMetrics).toEqual([m])
 })
+
+test('un log corrigé en attente remplace la version du serveur', () => {
+  const s = g('2026-10-11', 30)
+  const fixed = { ...s, durationMin: 45 }
+  const pending: OutboxEntry[] = [{ id: s.id, kind: 'guitarSession', payload: { session: fixed, newSongs: [], masteredSongIds: [] } }]
+  expect(mergePending(data({ guitarSessions: [s] }), pending).guitarSessions).toEqual([fixed])
+})

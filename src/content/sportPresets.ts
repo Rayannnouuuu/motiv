@@ -17,6 +17,35 @@ const ex = (name: string, sets: number, reps: number): PresetExercise => ({ name
 
 export const SPORT_PRESETS: SportPreset[] = [
   {
+    id: 'full-body',
+    name: 'Full body A / B',
+    description: 'Tout le corps à chaque séance, deux séances qui alternent. Idéal à 3 séances par semaine.',
+    sessions: [
+      {
+        name: 'Full body A',
+        exercises: [
+          ex('Squat', 4, 8),
+          ex('Développé couché', 4, 8),
+          ex('Rowing barre', 4, 8),
+          ex('Développé militaire', 3, 10),
+          ex('Curl biceps', 3, 12),
+          ex('Crunchs', 3, 15),
+        ],
+      },
+      {
+        name: 'Full body B',
+        exercises: [
+          ex('Soulevé de terre', 4, 6),
+          ex('Développé incliné haltères', 3, 10),
+          ex('Tractions', 4, 8),
+          ex('Fentes marchées', 3, 10),
+          ex('Élévations latérales', 3, 15),
+          ex('Extension triceps poulie', 3, 12),
+        ],
+      },
+    ],
+  },
+  {
     id: 'upper-lower',
     name: 'Haut / Bas',
     description: 'Deux séances en alternance : haut du corps, puis jambes.',

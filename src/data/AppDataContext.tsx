@@ -30,6 +30,7 @@ export interface Actions {
   saveProgram(p: Program): Promise<void>
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
+  deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
   setPassword(password: string): Promise<void>
   signOut(): Promise<void>
 }

@@ -58,3 +58,13 @@ test('deux flush simultanés n’envoient pas deux fois', async () => {
   await Promise.all([flush(send), flush(send)])
   expect(send).toHaveBeenCalledTimes(1)
 })
+
+test('une correction ajoutée pendant l’envoi reste dans la file', async () => {
+  const first = { id: 'a', kind: 'bodyMetric' as const, payload: { id: 'a', day: '2026-10-11', weightKg: 78, waistCm: null, chestCm: null, armCm: null, thighCm: null } }
+  enqueue(first)
+  const fixed = { ...first, payload: { ...first.payload, weightKg: 77 } }
+  await flush(async () => {
+    enqueue(fixed)
+  })
+  expect(readOutbox()).toEqual([fixed])
+})
