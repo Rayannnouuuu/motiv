@@ -14,8 +14,22 @@
   color-scheme: light;
 }
 
+:root[data-theme='dark'] {
+  --bg: #0c0a09;
+  --surface: #1c1917;
+  --surface-2: #292524;
+  --line: #3a3532;
+  --ink: #fafaf9;
+  --muted: #a8a29e;
+  --accent: #f97316;
+  --guitar: #34d399;
+  --sport: #38bdf8;
+  --danger: #f87171;
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root[data-theme='auto'] {
     --bg: #0c0a09;
     --surface: #1c1917;
     --surface-2: #292524;

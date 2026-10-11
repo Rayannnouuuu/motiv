@@ -114,4 +114,14 @@ describe('SettingsPage', () => {
       ['Legs', 3],
     ])
   })
+
+  test('thème : clair par défaut, choix appliqué et mémorisé', async () => {
+    localStorage.clear()
+    renderWithData(<SettingsPage />, { today })
+    expect(screen.getByRole('button', { name: 'Clair' })).toHaveAttribute('aria-pressed', 'true')
+    await click('Sombre')
+    expect(document.documentElement.dataset.theme).toBe('dark')
+    expect(localStorage.getItem('motiv.theme.v1')).toBe('dark')
+    expect(screen.getByRole('button', { name: 'Sombre' })).toHaveAttribute('aria-pressed', 'true')
+  })
 })
