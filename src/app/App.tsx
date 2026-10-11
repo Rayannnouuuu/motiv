@@ -4,6 +4,7 @@ import { useAppData } from '../data/AppDataContext'
 import { BottomNav } from '../ui/BottomNav'
 import { PendingBanner } from '../ui/PendingBanner'
 import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
+import { LogSportPage } from '../features/log-sport/LogSportPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
 
@@ -38,7 +39,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
-      <Route path="/log/sport" element={<Focus><Placeholder title="Log sport" /></Focus>} />
+      <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/progres" element={<Shell><Placeholder title="Progrès" /></Shell>} />
       <Route path="/reglages" element={<Shell><Placeholder title="Réglages" /></Shell>} />

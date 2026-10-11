@@ -6,7 +6,8 @@ import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { StepBar } from '../../ui/StepBar'
 import { StepContent, type Entry } from './StepContent'
-import { PRESETS, StepDuration, parseDuration, type DurationChoice } from './StepDuration'
+import { PRESETS, parseDuration, type DurationChoice } from './duration'
+import { StepDuration } from './StepDuration'
 import { StepRatings } from './StepRatings'
 
 function initialDuration(min: unknown): { choice: DurationChoice; other: string } {
