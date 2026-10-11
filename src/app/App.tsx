@@ -6,12 +6,9 @@ import { PendingBanner } from '../ui/PendingBanner'
 import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
 import { LogSportPage } from '../features/log-sport/LogSportPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
+import { SettingsPage } from '../features/settings/SettingsPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
-
-function Placeholder({ title }: { title: string }) {
-  return <h1 className="text-xl font-semibold">{title}</h1>
-}
 
 function Shell({ children }: { children: ReactNode }) {
   const { error } = useAppData()
@@ -43,7 +40,7 @@ export function AppRoutes() {
       <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />
-      <Route path="/reglages" element={<Shell><Placeholder title="Réglages" /></Shell>} />
+      <Route path="/reglages" element={<Shell><SettingsPage /></Shell>} />
       <Route path="*" element={<Shell><TodayPage /></Shell>} />
     </Routes>
   )

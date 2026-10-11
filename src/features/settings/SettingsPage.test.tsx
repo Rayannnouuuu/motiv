@@ -1,0 +1,83 @@
+import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { describe, expect, test, vi } from 'vitest'
+import type { Program } from '../../domain/types'
+import { mkSong, pe, program } from '../../test/factories'
+import { renderWithData } from '../../test/renderWithData'
+import { SettingsPage } from './SettingsPage'
+
+const today = '2026-10-15'
+const click = (name: string) => userEvent.click(screen.getByRole('button', { name }))
+
+describe('SettingsPage', () => {
+  test('créer la séance « Haut » avec « Développé couché » 4×8', async () => {
+    const { actions } = renderWithData(<SettingsPage />, { today })
+    await userEvent.type(screen.getByLabelText('Nom de la nouvelle séance'), 'Haut')
+    await userEvent.type(screen.getByLabelText("Nom de l'exo"), 'Développé couché')
+    await click("Ajouter l'exo")
+    await click('Créer la séance')
+    const saved = vi.mocked(actions.saveProgram).mock.calls[0][0]
+    expect(saved).toMatchObject({ name: 'Haut', position: 0, archived: false })
+    expect(saved.exercises).toEqual([
+      { id: expect.any(String), programId: saved.id, name: 'Développé couché', targetSets: 4, targetReps: 8, position: 0, archived: false },
+    ])
+  })
+
+  test('↑ / ↓ changent la position des séances et des exos', async () => {
+    const a = program({ id: 'a', name: 'Haut', position: 0, exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', position: 0 }), pe({ id: 'y', programId: 'a', name: 'Rowing', position: 1 })] })
+    const b = program({ id: 'b', name: 'Bas', position: 1 })
+    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [a, b] } })
+
+    await click('Descendre Haut')
+    const calls = vi.mocked(actions.saveProgram).mock.calls.map((c) => c[0] as Program)
+    expect(calls.map((p) => [p.id, p.position])).toEqual([
+      ['b', 0],
+      ['a', 1],
+    ])
+
+    await click('Monter Rowing')
+    const last = vi.mocked(actions.saveProgram).mock.calls.at(-1)![0]
+    expect(last.exercises.map((e) => [e.id, e.position])).toEqual([
+      ['x', 1],
+      ['y', 0],
+    ])
+  })
+
+  test('Supprimer archive et l’élément disparaît', async () => {
+    const a = program({ id: 'a', name: 'Haut', exercises: [pe({ id: 'x', programId: 'a', name: 'Dips' })] })
+    const { actions, unmount } = renderWithData(<SettingsPage />, { today, data: { programs: [a] } })
+    await click('Supprimer Dips')
+    const saved = vi.mocked(actions.saveProgram).mock.calls[0][0]
+    expect(saved.exercises[0]).toMatchObject({ id: 'x', archived: true })
+    await click('Supprimer Haut')
+    expect(vi.mocked(actions.saveProgram).mock.calls[1][0]).toMatchObject({ id: 'a', archived: true })
+
+    // Avec les données à jour, la séance archivée n'est plus listée.
+    unmount()
+    renderWithData(<SettingsPage />, { today, data: { programs: [{ ...a, archived: true }] } })
+    expect(screen.queryByLabelText('Nom de la séance · Haut')).not.toBeInTheDocument()
+  })
+
+  test('morceaux : renommer et basculer le statut', async () => {
+    const s = mkSong({ id: 's1', title: 'Paranoid' })
+    const m = mkSong({ id: 's2', title: 'Iron Man', status: 'mastered', masteredOn: '2026-09-01' })
+    const { actions } = renderWithData(<SettingsPage />, { today, data: { songs: [s, m] } })
+
+    const title = screen.getByLabelText('Titre · Paranoid')
+    await userEvent.clear(title)
+    await userEvent.type(title, 'War Pigs')
+    await userEvent.tab()
+    expect(actions.saveSong).toHaveBeenCalledWith({ ...s, title: 'War Pigs' })
+
+    await userEvent.click(screen.getByLabelText('Maîtrisé · Paranoid'))
+    expect(actions.saveSong).toHaveBeenCalledWith({ ...s, status: 'mastered', masteredOn: today })
+    await userEvent.click(screen.getByLabelText('Maîtrisé · Iron Man'))
+    expect(actions.saveSong).toHaveBeenCalledWith({ ...m, status: 'learning', masteredOn: null })
+  })
+
+  test('« Se déconnecter » appelle signOut', async () => {
+    const { actions } = renderWithData(<SettingsPage />, { today })
+    await click('Se déconnecter')
+    expect(actions.signOut).toHaveBeenCalled()
+  })
+})
