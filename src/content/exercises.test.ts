@@ -26,6 +26,6 @@ test('nextInCategory renvoie undefined à la difficulté 10', () => {
 
 test('ne garde que les champs utiles', () => {
   expect(Object.keys(getExercise('scales-1')!).sort()).toEqual(
-    ['category', 'description', 'difficulty', 'id', 'targetBpm', 'title'],
+    ['category', 'description', 'difficulty', 'id', 'pattern', 'targetBpm', 'title'],
   )
 })

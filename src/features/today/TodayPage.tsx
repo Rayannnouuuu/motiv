@@ -8,6 +8,7 @@ import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { Gauge } from '../../ui/Gauge'
 import { ChallengeCard } from './ChallengeCard'
+import { TodayPlan } from './TodayPlan'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
@@ -86,6 +87,8 @@ export function TodayPage() {
           Créer ton programme
         </Link>
       )}
+
+      <TodayPlan />
 
       <Card>
         <div className="flex items-baseline justify-between">

@@ -17,6 +17,15 @@ export type ExerciseCategory =
   | 'scales'
   | 'sweep'
 
+export interface TabNote {
+  /** 1 = mi aigu, 6 = mi grave. */
+  string: number
+  fret: number
+  startBeat: number
+  duration: number
+  technique?: 'hammer' | 'bend' | 'palmMute'
+}
+
 export interface Exercise {
   id: string
   title: string
@@ -24,19 +33,21 @@ export interface Exercise {
   difficulty: number
   description: string
   targetBpm: number
+  pattern: TabNote[]
 }
 
 const suffix = (id: string) => Number(id.slice(id.lastIndexOf('-') + 1))
 
 export const EXERCISES: Exercise[] = [arpeggios, bends, legato, palmMuting, picking, rhythm, scales, sweep]
   .flat()
-  .map(({ id, title, category, difficulty, description, targetBpm }) => ({
+  .map(({ id, title, category, difficulty, description, targetBpm, pattern }) => ({
     id,
     title,
     category: category as ExerciseCategory,
     difficulty,
     description,
     targetBpm,
+    pattern: pattern as TabNote[],
   }))
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]))

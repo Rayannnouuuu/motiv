@@ -7,6 +7,7 @@ import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
 import { LogSportPage } from '../features/log-sport/LogSportPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
 import { SettingsPage } from '../features/settings/SettingsPage'
+import { ExercisePage } from '../features/exercise/ExercisePage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
 
@@ -39,6 +40,7 @@ export function AppRoutes() {
       <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
       <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
+      <Route path="/exo/:id" element={<Shell><ExercisePage /></Shell>} />
       <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />
       <Route path="/reglages" element={<Shell><SettingsPage /></Shell>} />
       <Route path="*" element={<Shell><TodayPage /></Shell>} />
