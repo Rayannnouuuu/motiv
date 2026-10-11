@@ -41,7 +41,7 @@ Mode anti-stagnation, enregistrements audio avant/après, photos, parking à id�
 |---|---|
 | Front | Vite + React + TypeScript + Tailwind CSS + React Router |
 | PWA | `vite-plugin-pwa` (manifest, icône, coquille hors-ligne) |
-| Données + auth | Supabase (Postgres, Row Level Security, lien magique par email) |
+| Données + auth | Supabase, projet `motiv` (ref `gizlmwnknbkexqvfvyrn`, eu-west-1) : Postgres, Row Level Security, lien magique par email |
 | Requêtes | `@supabase/supabase-js` + TanStack Query |
 | Courbes | Composant SVG maison (une courbe à la fois) |
 | Tests | Vitest + Testing Library |
