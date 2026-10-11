@@ -45,9 +45,17 @@ Mode anti-stagnation, enregistrements audio avant/après, photos, parking à id�
 | Requêtes | `@supabase/supabase-js` + TanStack Query |
 | Courbes | Composant SVG maison (une courbe à la fois) |
 | Tests | Vitest + Testing Library |
-| Hébergement | Vercel (statique), Supabase offre gratuite |
+| Hébergement | GitHub Pages (`https://rayannnouuuu.github.io/motiv/`), Supabase offre gratuite |
 
-Auth : connexion par lien magique. Les inscriptions sont désactivées dans Supabase une fois le compte du propriétaire créé.
+Auth : connexion par lien magique, flux PKCE (le code revient dans `?code=`, pas dans le hash). Les inscriptions sont désactivées dans Supabase une fois le compte du propriétaire créé.
+
+### Déploiement GitHub Pages
+
+- Source Pages : « GitHub Actions ». Un workflow `.github/workflows/deploy.yml` lance tests + build à chaque push sur `main`, puis publie `dist/`.
+- Le site vit sous `/motiv/` : `base: '/motiv/'` dans Vite, `scope` et `start_url` du manifest PWA à `/motiv/`, `basename="/motiv"` dans React Router.
+- Pages ne gère pas les routes d'une SPA : le build copie `index.html` en `404.html` pour qu'un rechargement sur `/motiv/progres` ouvre l'appli.
+- `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` viennent des variables du dépôt GitHub (Settings → Secrets and variables → Actions). La clé anon est publique par conception ; la protection repose sur la RLS.
+- Dans Supabase (Auth → URL Configuration) : Site URL et Redirect URL = `https://rayannnouuuu.github.io/motiv/`, plus `http://localhost:5173/motiv/` pour le dev.
 
 ## 4. Écrans
 
