@@ -5,6 +5,7 @@ import { BottomNav } from '../ui/BottomNav'
 import { PendingBanner } from '../ui/PendingBanner'
 import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
 import { LogSportPage } from '../features/log-sport/LogSportPage'
+import { ProgressPage } from '../features/progress/ProgressPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
 
@@ -41,7 +42,7 @@ export function AppRoutes() {
       <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
       <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
-      <Route path="/progres" element={<Shell><Placeholder title="Progrès" /></Shell>} />
+      <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />
       <Route path="/reglages" element={<Shell><Placeholder title="Réglages" /></Shell>} />
       <Route path="*" element={<Shell><TodayPage /></Shell>} />
     </Routes>
