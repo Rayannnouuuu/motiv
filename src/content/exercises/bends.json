@@ -1,0 +1,372 @@
+[
+  {
+    "id": "bends-1",
+    "title": "Bend contrôlé 1",
+    "category": "bends",
+    "difficulty": 1,
+    "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-2",
+    "title": "Bend et relâche 2",
+    "category": "bends",
+    "difficulty": 2,
+    "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-3",
+    "title": "Bend expressif 3",
+    "category": "bends",
+    "difficulty": 3,
+    "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-4",
+    "title": "Bend contrôlé 4",
+    "category": "bends",
+    "difficulty": 4,
+    "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-5",
+    "title": "Bend et relâche 5",
+    "category": "bends",
+    "difficulty": 5,
+    "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 9,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 9,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 9,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-6",
+    "title": "Bend expressif 6",
+    "category": "bends",
+    "difficulty": 6,
+    "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "targetBpm": 96,
+    "xpReward": 60,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 4,
+        "duration": 2,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-7",
+    "title": "Bend contrôlé 7",
+    "category": "bends",
+    "difficulty": 7,
+    "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "targetBpm": 102,
+    "xpReward": 70,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 11,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 11,
+        "startBeat": 0.5,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 11,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-8",
+    "title": "Bend et relâche 8",
+    "category": "bends",
+    "difficulty": 8,
+    "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "targetBpm": 108,
+    "xpReward": 80,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 0.5,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-9",
+    "title": "Bend expressif 9",
+    "category": "bends",
+    "difficulty": 9,
+    "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "targetBpm": 114,
+    "xpReward": 90,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 13,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 13,
+        "startBeat": 0.5,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 1,
+        "fret": 11,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 13,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-10",
+    "title": "Bend contrôlé 10",
+    "category": "bends",
+    "difficulty": 10,
+    "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "targetBpm": 120,
+    "xpReward": 100,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 0.5,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  }
+]

@@ -1,0 +1,815 @@
+[
+  {
+    "id": "scales-1",
+    "title": "Gamme majeure 1",
+    "category": "scales",
+    "difficulty": 1,
+    "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-2",
+    "title": "Gamme mineure naturelle 2",
+    "category": "scales",
+    "difficulty": 2,
+    "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-3",
+    "title": "Pentatonique mineure 3",
+    "category": "scales",
+    "difficulty": 3,
+    "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 5,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-4",
+    "title": "Pentatonique majeure 4",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 5,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-5",
+    "title": "Gamme par positions (majeure) 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-6",
+    "title": "Gamme majeure 6",
+    "category": "scales",
+    "difficulty": 6,
+    "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "targetBpm": 96,
+    "xpReward": 60,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 17,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-7",
+    "title": "Gamme mineure naturelle 7",
+    "category": "scales",
+    "difficulty": 7,
+    "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "targetBpm": 102,
+    "xpReward": 70,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 16,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 18,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-8",
+    "title": "Pentatonique mineure 8",
+    "category": "scales",
+    "difficulty": 8,
+    "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "targetBpm": 108,
+    "xpReward": 80,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 2.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-9",
+    "title": "Pentatonique majeure 9",
+    "category": "scales",
+    "difficulty": 9,
+    "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "targetBpm": 114,
+    "xpReward": 90,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 13,
+        "startBeat": 2.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-10",
+    "title": "Gamme par positions (majeure) 10",
+    "category": "scales",
+    "difficulty": 10,
+    "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "targetBpm": 120,
+    "xpReward": 100,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-11",
+    "title": "Gamme majeure 11",
+    "category": "scales",
+    "difficulty": 1,
+    "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-12",
+    "title": "Gamme mineure naturelle 12",
+    "category": "scales",
+    "difficulty": 2,
+    "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 11,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-13",
+    "title": "Pentatonique mineure 13",
+    "category": "scales",
+    "difficulty": 3,
+    "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 17,
+        "startBeat": 5,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-14",
+    "title": "Pentatonique majeure 14",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 18,
+        "startBeat": 5,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-15",
+    "title": "Gamme par positions (majeure) 15",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 11,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  }
+]

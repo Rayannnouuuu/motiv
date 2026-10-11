@@ -1,0 +1,527 @@
+[
+  {
+    "id": "arpeggios-1",
+    "title": "Arpège majeur 1",
+    "category": "arpeggios",
+    "difficulty": 1,
+    "description": "Joue chaque note de l'accord majeur l'une après l'autre, en gardant un son clair.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-2",
+    "title": "Arpège mineur 2",
+    "category": "arpeggios",
+    "difficulty": 2,
+    "description": "Même principe que l'arpège majeur, avec une tierce mineure pour la couleur triste/sombre.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-3",
+    "title": "Arpège sur 4 cordes (majeur) 3",
+    "category": "arpeggios",
+    "difficulty": 3,
+    "description": "Arpège étalé sur 4 cordes différentes : surveille que chaque note sonne distinctement.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-4",
+    "title": "Arpège majeur 4",
+    "category": "arpeggios",
+    "difficulty": 4,
+    "description": "Joue chaque note de l'accord majeur l'une après l'autre, en gardant un son clair.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-5",
+    "title": "Arpège mineur 5",
+    "category": "arpeggios",
+    "difficulty": 5,
+    "description": "Même principe que l'arpège majeur, avec une tierce mineure pour la couleur triste/sombre.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 11,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 16,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-6",
+    "title": "Arpège sur 4 cordes (majeur) 6",
+    "category": "arpeggios",
+    "difficulty": 6,
+    "description": "Arpège étalé sur 4 cordes différentes : surveille que chaque note sonne distinctement.",
+    "targetBpm": 96,
+    "xpReward": 60,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-7",
+    "title": "Arpège majeur 7",
+    "category": "arpeggios",
+    "difficulty": 7,
+    "description": "Joue chaque note de l'accord majeur l'une après l'autre, en gardant un son clair.",
+    "targetBpm": 102,
+    "xpReward": 70,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 13,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 18,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-8",
+    "title": "Arpège mineur 8",
+    "category": "arpeggios",
+    "difficulty": 8,
+    "description": "Même principe que l'arpège majeur, avec une tierce mineure pour la couleur triste/sombre.",
+    "targetBpm": 108,
+    "xpReward": 80,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 19,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-9",
+    "title": "Arpège sur 4 cordes (majeur) 9",
+    "category": "arpeggios",
+    "difficulty": 9,
+    "description": "Arpège étalé sur 4 cordes différentes : surveille que chaque note sonne distinctement.",
+    "targetBpm": 114,
+    "xpReward": 90,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-10",
+    "title": "Arpège majeur 10",
+    "category": "arpeggios",
+    "difficulty": 10,
+    "description": "Joue chaque note de l'accord majeur l'une après l'autre, en gardant un son clair.",
+    "targetBpm": 120,
+    "xpReward": 100,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-11",
+    "title": "Arpège mineur 11",
+    "category": "arpeggios",
+    "difficulty": 1,
+    "description": "Même principe que l'arpège majeur, avec une tierce mineure pour la couleur triste/sombre.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 14,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-12",
+    "title": "Arpège sur 4 cordes (majeur) 12",
+    "category": "arpeggios",
+    "difficulty": 2,
+    "description": "Arpège étalé sur 4 cordes différentes : surveille que chaque note sonne distinctement.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-13",
+    "title": "Arpège majeur 13",
+    "category": "arpeggios",
+    "difficulty": 3,
+    "description": "Joue chaque note de l'accord majeur l'une après l'autre, en gardant un son clair.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 11,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 16,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-14",
+    "title": "Arpège mineur 14",
+    "category": "arpeggios",
+    "difficulty": 4,
+    "description": "Même principe que l'arpège majeur, avec une tierce mineure pour la couleur triste/sombre.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-15",
+    "title": "Arpège sur 4 cordes (majeur) 15",
+    "category": "arpeggios",
+    "difficulty": 5,
+    "description": "Arpège étalé sur 4 cordes différentes : surveille que chaque note sonne distinctement.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 13,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 16,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  }
+]

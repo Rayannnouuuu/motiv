@@ -1,0 +1,1247 @@
+[
+  {
+    "id": "rhythm-1",
+    "title": "Riff rythmique 1",
+    "category": "rhythm",
+    "difficulty": 1,
+    "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-2",
+    "title": "Power chords alternés 2",
+    "category": "rhythm",
+    "difficulty": 2,
+    "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-3",
+    "title": "Rythmique metal 3",
+    "category": "rhythm",
+    "difficulty": 3,
+    "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-4",
+    "title": "Riff rythmique 4",
+    "category": "rhythm",
+    "difficulty": 4,
+    "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-5",
+    "title": "Power chords alternés 5",
+    "category": "rhythm",
+    "difficulty": 5,
+    "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-6",
+    "title": "Rythmique metal 6",
+    "category": "rhythm",
+    "difficulty": 6,
+    "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "targetBpm": 96,
+    "xpReward": 60,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-7",
+    "title": "Riff rythmique 7",
+    "category": "rhythm",
+    "difficulty": 7,
+    "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "targetBpm": 102,
+    "xpReward": 70,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "rhythm-8",
+    "title": "Power chords alternés 8",
+    "category": "rhythm",
+    "difficulty": 8,
+    "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "targetBpm": 108,
+    "xpReward": 80,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 2.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "rhythm-9",
+    "title": "Rythmique metal 9",
+    "category": "rhythm",
+    "difficulty": 9,
+    "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "targetBpm": 114,
+    "xpReward": 90,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 2.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "rhythm-10",
+    "title": "Riff rythmique 10",
+    "category": "rhythm",
+    "difficulty": 10,
+    "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "targetBpm": 120,
+    "xpReward": 100,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 2.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "rhythm-11",
+    "title": "Power chords alternés 11",
+    "category": "rhythm",
+    "difficulty": 1,
+    "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "targetBpm": 66,
+    "xpReward": 10,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-12",
+    "title": "Rythmique metal 12",
+    "category": "rhythm",
+    "difficulty": 2,
+    "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "targetBpm": 72,
+    "xpReward": 20,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 11,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-13",
+    "title": "Riff rythmique 13",
+    "category": "rhythm",
+    "difficulty": 3,
+    "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "targetBpm": 78,
+    "xpReward": 30,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-14",
+    "title": "Power chords alternés 14",
+    "category": "rhythm",
+    "difficulty": 4,
+    "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "targetBpm": 84,
+    "xpReward": 40,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-15",
+    "title": "Rythmique metal 15",
+    "category": "rhythm",
+    "difficulty": 5,
+    "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "targetBpm": 90,
+    "xpReward": 50,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 16,
+        "startBeat": 5,
+        "duration": 0.5
+      }
+    ]
+  }
+]
