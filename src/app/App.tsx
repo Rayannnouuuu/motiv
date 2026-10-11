@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useAppData } from '../data/AppDataContext'
 import { BottomNav } from '../ui/BottomNav'
 import { PendingBanner } from '../ui/PendingBanner'
+import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
 
@@ -36,7 +37,7 @@ function Focus({ children }: { children: ReactNode }) {
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/log/guitare" element={<Focus><Placeholder title="Log guitare" /></Focus>} />
+      <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
       <Route path="/log/sport" element={<Focus><Placeholder title="Log sport" /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/progres" element={<Shell><Placeholder title="Progrès" /></Shell>} />

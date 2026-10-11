@@ -66,7 +66,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     () => ({
       async saveGuitarSession(d) {
         const current = dataRef.current
-        const xp = guitarSessionXp(d, current.guitarSessions, current.songs)
+        const xp = guitarSessionXp(d, current.guitarSessions, [...current.songs, ...d.newSongs])
         const session: GuitarSession = {
           id: d.id,
           day: d.day,
