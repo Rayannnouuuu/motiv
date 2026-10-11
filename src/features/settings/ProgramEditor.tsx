@@ -3,6 +3,7 @@ import { useActions, useAppData } from '../../data/AppDataContext'
 import type { Program, ProgramExercise } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
+import { PresetPicker } from './PresetPicker'
 import { useRun } from './useRun'
 
 const byPosition = (a: { position: number }, b: { position: number }) => a.position - b.position
@@ -166,6 +167,8 @@ export function ProgramEditor() {
   return (
     <section className="flex flex-col gap-3" aria-busy={busy}>
       <h2 className="text-lg font-semibold">Programme sport</h2>
+      <PresetPicker />
+      <h3 className="font-semibold">Tes séances</h3>
       {programs.map((p, i) => (
         <ProgramCard key={p.id} program={p} first={i === 0} last={i === programs.length - 1} onSave={(x) => save(x)} onMove={(dir) => save(...move(programs, i, dir))} />
       ))}

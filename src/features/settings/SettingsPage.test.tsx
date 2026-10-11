@@ -91,4 +91,27 @@ describe('SettingsPage', () => {
     expect(actions.setPassword).toHaveBeenCalledWith('court-assez-long')
     expect(await screen.findByText('Mot de passe enregistré ✓')).toBeInTheDocument()
   })
+
+  test('programme tout fait sans séance : créé directement', async () => {
+    const { actions } = renderWithData(<SettingsPage />, { today })
+    await click('Suivre Haut / Bas')
+    const saved = vi.mocked(actions.saveProgram).mock.calls.map((c) => c[0])
+    expect(saved.map((p) => p.name)).toEqual(['Haut', 'Bas'])
+    expect(saved[0].exercises).toHaveLength(6)
+  })
+
+  test('programme tout fait avec séances existantes : confirmation puis remplacement', async () => {
+    const old = program({ id: 'old', name: 'Ancienne' })
+    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [old] } })
+    await click('Suivre Push / Pull / Legs')
+    expect(actions.saveProgram).not.toHaveBeenCalled()
+    await click('Remplacer')
+    const saved = vi.mocked(actions.saveProgram).mock.calls.map((c) => c[0])
+    expect(saved[0]).toMatchObject({ id: 'old', archived: true })
+    expect(saved.slice(1).map((p) => [p.name, p.position])).toEqual([
+      ['Push', 1],
+      ['Pull', 2],
+      ['Legs', 3],
+    ])
+  })
 })
