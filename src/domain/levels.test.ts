@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { challenge } from '../test/factories'
-import { domainLevel, globalLevel, totalXp } from './levels'
+import { allLevels, domainLevel, globalLevel, totalXp } from './levels'
 
 const done = (level: number, domain: 'guitar' | 'sport' = 'guitar') => challenge({ level, domain, status: 'done', doneOn: '2026-10-01' })
 
@@ -40,4 +40,16 @@ test('global sans réserve', () => {
 
 test('totalXp', () => {
   expect(totalXp([{ xp: 40 }, { xp: 75 }])).toBe(115)
+})
+
+test('allLevels combine les deux domaines et le global sans réserve', () => {
+  const d = {
+    guitarSessions: [{ xp: 1540 }],
+    sportSessions: [{ xp: 300 }],
+    challenges: [],
+  } as unknown as Parameters<typeof allLevels>[0]
+  const l = allLevels(d)
+  expect(l.guitar).toMatchObject({ level: 1, reserve: 340 })
+  expect(l.sport).toMatchObject({ level: 1, xpInLevel: 300 })
+  expect(l.global).toEqual({ level: 1, xpInLevel: 1500, perLevel: 1800 })
 })

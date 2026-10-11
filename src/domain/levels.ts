@@ -1,4 +1,4 @@
-import type { Challenge, Domain } from './types'
+import type { AppData, Challenge, Domain } from './types'
 
 export const XP_PER_LEVEL = { guitar: 1200, sport: 600 } as const
 export const GLOBAL_XP_PER_LEVEL = 1800
@@ -42,4 +42,10 @@ export function globalLevel(unlockedGuitar: number, unlockedSport: number): { le
     xpInLevel: xp % GLOBAL_XP_PER_LEVEL,
     perLevel: GLOBAL_XP_PER_LEVEL,
   }
+}
+
+export function allLevels(data: Pick<AppData, 'guitarSessions' | 'sportSessions' | 'challenges'>) {
+  const guitar = domainLevel('guitar', totalXp(data.guitarSessions), data.challenges)
+  const sport = domainLevel('sport', totalXp(data.sportSessions), data.challenges)
+  return { guitar, sport, global: globalLevel(guitar.unlockedXp, sport.unlockedXp) }
 }
