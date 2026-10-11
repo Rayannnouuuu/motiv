@@ -18,12 +18,14 @@ function recentExerciseIds(sessions: GuitarSession[]): string[] {
   return ids
 }
 
-type Result = { key: string; label: string; add: () => void }
+type Result = { key: string; label: string; add: () => void; planned?: boolean }
 
-export function StepContent({ entries, songs, sessions, onEntries, onCreateSong }: {
+export function StepContent({ entries, songs, sessions, planned, onEntries, onCreateSong }: {
   entries: Entry[]
   songs: Song[]
   sessions: GuitarSession[]
+  /** Exos proposés aujourd'hui, affichés en premier. */
+  planned: string[]
   onEntries: (e: Entry[]) => void
   onCreateSong: (title: string) => void
 }) {
@@ -47,13 +49,18 @@ export function StepContent({ entries, songs, sessions, onEntries, onCreateSong 
     const best = bestBpm(sessions, id)
     return { key: `ex:${id}`, label: ex.title, add: () => add({ kind: 'exercise', exerciseId: id, bpm: best === null ? '' : String(best) }) }
   }
-  const recentResults = recent.filter((id) => !usedEx.has(id) && matches(getExercise(id)!.title)).map(exResult)
+  const plannedResults = planned
+    .filter((id) => getExercise(id) && !usedEx.has(id) && matches(getExercise(id)!.title))
+    .map((id) => ({ ...exResult(id), planned: true }))
+  const recentResults = recent
+    .filter((id) => !usedEx.has(id) && !planned.includes(id) && matches(getExercise(id)!.title))
+    .map(exResult)
   const songResults: Result[] = songs
     .filter((s) => !usedSongs.has(s.id) && (q === '' ? s.status === 'learning' : matches(s.title)))
     .map((s) => ({ key: `song:${s.id}`, label: s.title, add: () => add({ kind: 'song', songId: s.id, mastered: false }) }))
   const otherResults =
-    q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && matches(e.title)).map((e) => exResult(e.id))
-  const results = [...recentResults, ...songResults, ...otherResults].slice(0, MAX_RESULTS)
+    q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && matches(e.title)).map((e) => exResult(e.id))
+  const results = [...plannedResults, ...recentResults, ...songResults, ...otherResults].slice(0, MAX_RESULTS)
   const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q)
 
   return (
@@ -115,15 +122,20 @@ export function StepContent({ entries, songs, sessions, onEntries, onCreateSong 
 
       <input
         type="search"
-        placeholder="Chercher un exo ou un morceau"
+        placeholder="Chercher dans la bibliothèque (exos, morceaux)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="rounded-xl border border-line bg-surface px-3 py-2"
       />
       <div className="flex flex-col gap-1">
         {results.map((r) => (
-          <button key={r.key} type="button" onClick={r.add} className="rounded-xl px-3 py-2 text-left hover:bg-surface-2">
-            + {r.label}
+          <button key={r.key} type="button" onClick={r.add} className="flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-surface-2">
+            <span>+ {r.label}</span>
+            {r.planned && (
+              <span aria-hidden className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">
+                du jour
+              </span>
+            )}
           </button>
         ))}
         {canCreate && (

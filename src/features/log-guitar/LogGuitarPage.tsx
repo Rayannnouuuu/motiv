@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { getExercise } from '../../content/exercises'
 import { useActions, useAppData } from '../../data/AppDataContext'
+import { dailyPlan } from '../../domain/dailyPlan'
 import { addDays } from '../../domain/date'
+import { bestBpm } from '../../domain/records'
 import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { StepBar } from '../../ui/StepBar'
@@ -25,13 +28,19 @@ export function LogGuitarPage() {
   const { data, today } = useAppData()
   const actions = useActions()
   const navigate = useNavigate()
-  const init = initialDuration((useLocation().state as { durationMin?: unknown } | null)?.durationMin)
+  const nav = useLocation().state as { durationMin?: unknown; exerciseId?: unknown } | null
+  const init = initialDuration(nav?.durationMin)
 
   const [step, setStep] = useState(0)
   const [choice, setChoice] = useState<DurationChoice>(init.choice)
   const [other, setOther] = useState(init.other)
   const [yesterday, setYesterday] = useState(false)
-  const [entries, setEntries] = useState<Entry[]>([])
+  const [entries, setEntries] = useState<Entry[]>(() => {
+    // Ouvert depuis la fiche d'un exo : il est déjà dans la liste.
+    if (typeof nav?.exerciseId !== 'string' || !getExercise(nav.exerciseId)) return []
+    const best = bestBpm(data.guitarSessions, nav.exerciseId)
+    return [{ kind: 'exercise', exerciseId: nav.exerciseId, bpm: best === null ? '' : String(best) }]
+  })
   const [newSongs, setNewSongs] = useState<Song[]>([])
   const [flow, setFlow] = useState<Rating | null>(null)
   const [desire, setDesire] = useState<Rating | null>(null)
@@ -95,6 +104,7 @@ export function LogGuitarPage() {
             entries={entries}
             songs={[...data.songs, ...newSongs]}
             sessions={data.guitarSessions}
+            planned={dailyPlan(data, today).map((e) => e.id)}
             onEntries={setEntries}
             onCreateSong={createSong}
           />

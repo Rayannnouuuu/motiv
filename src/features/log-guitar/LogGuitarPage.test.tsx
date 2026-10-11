@@ -109,13 +109,26 @@ describe('LogGuitarPage', () => {
     expect(screen.getByRole('button', { name: 'Suivant' })).toBeEnabled()
   })
 
-  test('exos récents en premier, exo inconnu de l’historique ignoré', async () => {
+  test('exos du jour en premier, puis récents ; exo inconnu ignoré', async () => {
     renderLog({ data: { guitarSessions: [g('2026-10-14', 30, [ex('ghost-1', 90), ex('sweep-3', 80)])] } })
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
-    const results = screen.getAllByRole('button', { name: /^\+ / })
-    expect(results[0]).toHaveTextContent('Sweep picking ascendant 3')
+    const results = screen.getAllByRole('button', { name: /^\+ / }).map((b) => b.textContent)
+    // Plan : suite de la dernière catégorie (sweep 4), puis 2 autres ; ensuite les récents.
+    expect(results[0]).toMatch(/^\+ Sweep.*4du jour$/)
+    expect(results.filter((r) => r?.endsWith('du jour'))).toHaveLength(3)
+    expect(results[3]).toBe('+ Sweep picking ascendant 3')
     expect(screen.queryByText(/ghost/)).not.toBeInTheDocument()
+  })
+
+  test('ouvert depuis la fiche d’un exo : déjà ajouté avec le record', async () => {
+    renderLog({
+      route: { pathname: '/log/guitare', state: { exerciseId: 'legato-4' } },
+      data: { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 100)])] },
+    })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(100)
   })
 
   test('créer un morceau par son nom l’ajoute à newSongs', async () => {
