@@ -1,10 +1,13 @@
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test, vi } from 'vitest'
+import { ActionsContext, AppDataContext } from '../../data/AppDataContext'
 import { addDays } from '../../domain/date'
+import { EMPTY_DATA } from '../../domain/types'
 import { challenge, ex, g, mkSong } from '../../test/factories'
-import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
+import { fakeActions, renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
+import { loadPractice, savePractice, startPractice } from '../practice/practiceSession'
 import { LogGuitarPage } from './LogGuitarPage'
 
 const today = '2026-10-15'
@@ -95,7 +98,9 @@ describe('LogGuitarPage', () => {
 
   test('durée « autre » invalide : Suivant désactivé', async () => {
     renderLog()
-    expect(screen.getByRole('button', { name: 'Suivant' })).toBeDisabled()
+    // Sans état (rappel push) : les minutes qui manquent aujourd'hui sont présélectionnées.
+    expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Suivant' })).toBeEnabled()
     await userEvent.click(screen.getByRole('button', { name: 'autre' }))
     const input = screen.getByLabelText('Durée en minutes')
     expect(screen.getByRole('button', { name: 'Suivant' })).toBeDisabled()
@@ -107,6 +112,87 @@ describe('LogGuitarPage', () => {
     await userEvent.clear(input)
     await userEvent.type(input, '90')
     expect(screen.getByRole('button', { name: 'Suivant' })).toBeEnabled()
+  })
+
+  test('sans état : les minutes restantes du jour sont présélectionnées ; rien quand l’objectif est atteint', () => {
+    const { unmount } = renderLog({ data: { guitarSessions: [g(today, 35)] } })
+    expect(screen.getByRole('button', { name: 'autre' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByLabelText('Durée en minutes')).toHaveValue(25)
+    unmount()
+    renderLog({ data: { guitarSessions: [g(today, 60)] } })
+    expect(screen.getByRole('button', { name: 'Suivant' })).toBeDisabled()
+  })
+
+  test('ouvert pendant le chargement : présélection refaite avec les minutes du jour', () => {
+    const { rerender } = renderLog({ loading: true })
+    expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'true')
+    rerender(
+      <MemoryRouter initialEntries={['/log/guitare']}>
+        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 30)] }, pendingCount: 0, rejected: [], today, loading: false, error: null }}>
+          <ActionsContext.Provider value={fakeActions()}>
+            <Routes>
+              <Route path="/log/guitare" element={<LogGuitarPage />} />
+            </Routes>
+          </ActionsContext.Provider>
+        </AppDataContext.Provider>
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  test('depuis le chrono : notes directement, contenu pré-rempli, id de la séance, chrono effacé', async () => {
+    const paranoid = mkSong({ id: 'song-p', title: 'Paranoid' })
+    savePractice({ ...startPractice(new Date('2026-10-15T16:00:00Z'), 'practice-1'), exercises: ['legato-4'], songs: ['song-p'] })
+    const state = {
+      durationMin: 42,
+      step: 2,
+      day: today,
+      practiceId: 'practice-1',
+      entries: [
+        { kind: 'exercise', exerciseId: 'legato-4', bpm: '100' },
+        { kind: 'exercise', exerciseId: 'ghost-1', bpm: '90' },
+        { kind: 'song', songId: 'song-p', mastered: false },
+        { kind: 'song', songId: 'song-inconnu', mastered: false },
+      ],
+    }
+    const { actions } = renderLog({ route: { pathname: '/log/guitare', state }, data: { songs: [paranoid] } })
+    expect(screen.getByRole('heading', { name: "Comment c'était ?" })).toBeInTheDocument()
+
+    // « ‹ Retour » : le contenu pré-rempli, puis la durée.
+    await userEvent.click(screen.getByRole('button', { name: 'Retour' }))
+    const content = screen.getByRole('list', { name: 'Travaillé pendant la séance' })
+    expect(within(content).getAllByRole('listitem')).toHaveLength(2)
+    expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(100)
+    await userEvent.click(screen.getByRole('button', { name: 'Retour' }))
+    expect(screen.getByLabelText('Durée en minutes')).toHaveValue(42)
+    await next()
+    await next()
+
+    await finish()
+    expect(actions.saveGuitarSession).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'practice-1',
+        day: today,
+        durationMin: 42,
+        items: [
+          { kind: 'exercise', exerciseId: 'legato-4', maxBpm: 100 },
+          { kind: 'song', songId: 'song-p', markedMastered: false },
+        ],
+      }),
+    )
+    expect(loadPractice()).toBeNull()
+  })
+
+  test('chrono d’une autre séance : pas effacé à l’enregistrement', async () => {
+    savePractice(startPractice(new Date('2026-10-15T16:00:00Z'), 'en-cours'))
+    renderLog({ route: { pathname: '/log/guitare', state: { durationMin: 30, step: 2 } } })
+    await finish()
+    expect(loadPractice()?.id).toBe('en-cours')
+  })
+
+  test('séance commencée la veille : « Hier » présélectionné', () => {
+    renderLog({ route: { pathname: '/log/guitare', state: { durationMin: 30, day: addDays(today, -1) } } })
+    expect(screen.getByRole('button', { name: 'Hier' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   test('exos du jour en premier, puis récents ; exo inconnu ignoré', async () => {
@@ -129,6 +215,16 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(100)
+  })
+
+  test('tempo du métronome de la fiche exo : prioritaire sur le record', async () => {
+    renderLog({
+      route: { pathname: '/log/guitare', state: { exerciseId: 'legato-4', bpm: 92 } },
+      data: { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 100)])] },
+    })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(92)
   })
 
   test('morceau du catalogue : ajouté automatiquement à tes morceaux', async () => {

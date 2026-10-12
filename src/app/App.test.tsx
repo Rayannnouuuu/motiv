@@ -14,3 +14,9 @@ test('les écrans de log n’ont pas de navigation basse', () => {
   renderWithData(<AppRoutes />, { route: '/log/guitare' })
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
 })
+
+test('le chrono guitare n’a pas de navigation basse', () => {
+  renderWithData(<AppRoutes />, { route: '/jouer' })
+  expect(screen.getByRole('button', { name: '▶︎ Démarrer' })).toBeInTheDocument()
+  expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+})

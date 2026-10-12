@@ -22,6 +22,20 @@ export function guitarStreak(
   return { days, todayMin, remainingMin: Math.max(0, GUITAR_DAILY_MIN - todayMin) }
 }
 
+/** Plus longue suite de jours consécutifs à ≥ 60 min de guitare (0 sans historique). */
+export function bestGuitarStreak(sessions: GuitarSession[]): number {
+  const minutes = new Map<Day, number>()
+  for (const s of sessions) minutes.set(s.day, (minutes.get(s.day) ?? 0) + s.durationMin)
+  const days = [...minutes].filter(([, m]) => m >= GUITAR_DAILY_MIN).map(([d]) => d).sort()
+  let best = 0
+  let run = 0
+  days.forEach((d, i) => {
+    run = i > 0 && addDays(days[i - 1], 1) === d ? run + 1 : 1
+    best = Math.max(best, run)
+  })
+  return best
+}
+
 export function sportStreak(sessions: SportSession[], today: Day): { weeks: number; thisWeekCount: number } {
   const perWeek = new Map<Day, number>()
   for (const s of sessions) {

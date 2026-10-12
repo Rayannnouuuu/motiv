@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { CATEGORY_LABELS } from '../../content/exercises'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { guitarWeek } from '../../domain/guitarWeek'
@@ -9,8 +8,8 @@ import { songOfTheDay } from '../../domain/songSuggestion'
 import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
-import { Gauge } from '../../ui/Gauge'
 import { WeekStrip } from '../../ui/WeekStrip'
+import { runningPracticeMinutes } from '../practice/practiceSession'
 
 function Chevron() {
   return (
@@ -20,7 +19,7 @@ function Chevron() {
   )
 }
 
-/** Guitare sur l'accueil : la semaine, l'objectif du jour, la séance du jour (exos, morceaux), le log. */
+/** Guitare sur l'accueil : la semaine, la séance du jour (exos, morceaux), le log sans chrono. */
 export function GuitarCard() {
   const { data, today } = useAppData()
   const { saveSong } = useActions()
@@ -37,6 +36,19 @@ export function GuitarCard() {
     data.guitarSessions.filter((s) => s.day === today).flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))),
   )
   const goalMet = streak.remainingMin === 0
+  const practiceRunning = runningPracticeMinutes() !== null
+
+  async function addSuggestion(title: string) {
+    setAdding(true)
+    setAddError(null)
+    try {
+      await saveSong({ id: crypto.randomUUID(), title, status: 'learning', masteredOn: null })
+    } catch (e) {
+      setAddError(e instanceof Error ? e.message : 'Ajout impossible')
+    } finally {
+      setAdding(false)
+    }
+  }
 
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="guitar-title">
@@ -62,16 +74,6 @@ export function GuitarCard() {
       />
 
       <div className="flex flex-col gap-2">
-        <p className="t-subhead">
-          <span className="font-semibold tabular-nums">
-            {streak.todayMin}/{GUITAR_DAILY_MIN} min
-          </span>{' '}
-          <span className="text-muted">· {goalMet ? 'Objectif du jour atteint ✓' : `Encore ${streak.remainingMin} min aujourd'hui`}</span>
-        </p>
-        <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
-      </div>
-
-      <div className="flex flex-col gap-2">
         <h3 className="t-footnote font-semibold text-muted uppercase">Séance du jour</h3>
         <ul className="rows -mx-1 overflow-hidden rounded-[0.875rem] bg-surface-2 dark:bg-fill">
           {plan.map((ex) => {
@@ -79,18 +81,15 @@ export function GuitarCard() {
             const done = doneToday.has(ex.id)
             return (
               <li key={ex.id}>
-                <Link to={`/exo/${ex.id}`} className={`tap-row flex gap-3 px-3.5 py-3 ${done ? 'opacity-55' : ''}`}>
+                <Link to={`/exo/${ex.id}`} className={`tap-row flex gap-3 px-3.5 py-2.5 ${done ? 'opacity-55' : ''}`}>
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span className="flex items-baseline justify-between gap-2">
                       <span className="t-headline truncate">
                         {done && '✓ '}
                         {ex.title}
                       </span>
-                      <span className="t-caption shrink-0 text-muted">
-                        {CATEGORY_LABELS[ex.category]} · niv. {ex.difficulty}
-                      </span>
+                      <span className="t-caption shrink-0 text-muted">niv. {ex.difficulty}</span>
                     </span>
-                    <span className="t-footnote line-clamp-1 text-muted">{ex.description}</span>
                     <span className="t-subhead text-guitar tabular-nums">
                       Cible {ex.targetBpm} bpm{best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
                     </span>
@@ -102,43 +101,27 @@ export function GuitarCard() {
           })}
         </ul>
 
-        {songs.length > 0 && (
+        {(songs.length > 0 || suggestion) && (
           <ul className="flex flex-wrap gap-1.5 pt-1" aria-label="Morceaux en cours">
             {songs.map((s) => (
               <li key={s.id} className="t-footnote rounded-full bg-fill px-3 py-1.5">
                 🎵 {s.title}
               </li>
             ))}
+            {suggestion && (
+              <li>
+                <button
+                  type="button"
+                  disabled={adding}
+                  aria-label={`Ajouter ${suggestion.title}`}
+                  className="tap-scale t-footnote rounded-full border border-dashed border-faint px-3 py-[0.3125rem] text-accent disabled:opacity-35"
+                  onClick={() => addSuggestion(suggestion.title)}
+                >
+                  + {suggestion.title}
+                </button>
+              </li>
+            )}
           </ul>
-        )}
-        {suggestion && (
-          <div className="flex items-center gap-3 rounded-[0.875rem] border border-dashed border-line px-3.5 py-2.5">
-            <div className="min-w-0 flex-1">
-              <p className="t-caption text-muted">Morceau suggéré</p>
-              <p className="t-subhead truncate font-semibold">
-                🎵 {suggestion.title} <span className="font-normal text-muted">· {suggestion.artist}</span>
-              </p>
-            </div>
-            <button
-              type="button"
-              disabled={adding}
-              aria-label={`Ajouter ${suggestion.title}`}
-              className="tap-scale t-subhead shrink-0 rounded-full bg-accent/12 px-3.5 py-1.5 font-semibold text-accent disabled:opacity-35"
-              onClick={async () => {
-                setAdding(true)
-                setAddError(null)
-                try {
-                  await saveSong({ id: crypto.randomUUID(), title: suggestion.title, status: 'learning', masteredOn: null })
-                } catch (e) {
-                  setAddError(e instanceof Error ? e.message : 'Ajout impossible')
-                } finally {
-                  setAdding(false)
-                }
-              }}
-            >
-              Ajouter
-            </button>
-          </div>
         )}
         {addError && (
           <p role="alert" className="t-footnote text-danger">
@@ -147,12 +130,19 @@ export function GuitarCard() {
         )}
       </div>
 
-      <Button
-        variant={goalMet ? 'secondary' : 'primary'}
-        onClick={() => navigate('/log/guitare', goalMet ? undefined : { state: { durationMin: streak.remainingMin } })}
-      >
-        {goalMet ? 'Logger une session' : `Logger ${streak.remainingMin} min`}
-      </Button>
+      <div className="flex flex-col gap-1">
+        {goalMet && !practiceRunning && (
+          <Button variant="secondary" onClick={() => navigate('/jouer', { state: { autostart: true } })}>
+            ▶︎ Rejouer avec le chrono
+          </Button>
+        )}
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/log/guitare', streak.remainingMin > 0 ? { state: { durationMin: streak.remainingMin } } : undefined)}
+        >
+          Logger sans chrono
+        </Button>
+      </div>
     </Card>
   )
 }

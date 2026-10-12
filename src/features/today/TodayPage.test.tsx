@@ -6,6 +6,7 @@ import { addDays } from '../../domain/date'
 import { challenge, g, pe, program, set, ss } from '../../test/factories'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { saveLive } from '../log-sport/liveSession'
+import { savePractice, startPractice } from '../practice/practiceSession'
 import { TodayPage } from './TodayPage'
 
 const today = '2026-10-15'
@@ -32,8 +33,9 @@ const lvl1 = [
 describe('TodayPage', () => {
   test('compte neuf', async () => {
     renderToday({ data: { challenges: lvl1 } })
-    expect(screen.getByText('0 jour')).toBeInTheDocument()
-    expect(screen.getByText('Encore 60 min de guitare pour tenir la série')).toBeInTheDocument()
+    expect(screen.getByText('Nouvelle série')).toBeInTheDocument()
+    expect(screen.getByText("60 min aujourd'hui pour lancer ta série")).toBeInTheDocument()
+    expect(screen.getByRole('progressbar', { name: "Minutes de guitare aujourd'hui" })).toHaveAttribute('aria-valuenow', '0')
     expect(screen.getByRole('button', { name: 'Niveau 1, voir la progression' })).toBeInTheDocument()
     expect(screen.getByText('Gamme majeure 1 à 66 bpm')).toBeInTheDocument()
     expect(screen.getByText('3 séances de sport dans la même semaine')).toBeInTheDocument()
@@ -41,21 +43,69 @@ describe('TodayPage', () => {
     expect(screen.getByText(/at \/reglages/)).toBeInTheDocument()
   })
 
-  test('35 min aujourd’hui et série de 12 : bouton « Logger 25 min »', async () => {
+  test('compte neuf : « Jouer » lance le chrono', async () => {
+    renderToday({})
+    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 60 min' }))
+    expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
+  })
+
+  test('35 min aujourd’hui et série de 12 : « Jouer · encore 25 min »', async () => {
     const past = Array.from({ length: 12 }, (_, i) => g(addDays(today, -(i + 1)), 60))
     renderToday({ data: { guitarSessions: [...past, g(today, 35)] } })
     expect(screen.getByText('12 jours')).toBeInTheDocument()
-    expect(screen.getByText('Encore 25 min de guitare pour tenir la série')).toBeInTheDocument()
-    expect(screen.getByText('35/60 min')).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Logger 25 min' }))
-    expect(screen.getByText('at /log/guitare {"durationMin":25}')).toBeInTheDocument()
+    expect(screen.getByText('Encore 25 min pour tenir la série')).toBeInTheDocument()
+    expect(screen.getByRole('progressbar', { name: "Minutes de guitare aujourd'hui" })).toHaveAttribute('aria-valuenow', '35')
+    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 25 min' }))
+    expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
   })
 
-  test('60 min aujourd’hui : série tenue', () => {
+  test('série cassée : le record est rappelé', () => {
+    const past = Array.from({ length: 5 }, (_, i) => g(addDays('2026-10-10', -i), 60))
+    renderToday({ data: { guitarSessions: past } })
+    expect(screen.getByText('Nouvelle série')).toBeInTheDocument()
+    expect(screen.getByText("Record : 5 jours · 60 min aujourd'hui pour repartir")).toBeInTheDocument()
+  })
+
+  test('60 min aujourd’hui, sans programme : série tenue, journée bouclée', () => {
     renderToday({ data: { guitarSessions: [g(today, 60)] } })
     expect(screen.getByText("Série tenue aujourd'hui ✓")).toBeInTheDocument()
     expect(screen.getByText('1 jour')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Logger une session' })).toBeInTheDocument()
+    expect(screen.getByText('Journée bouclée ✓ · à demain')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Logger sans chrono' })).toBeInTheDocument()
+  })
+
+  test('60 min faites et séance de sport due : « Commencer » la prochaine séance', async () => {
+    const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1 })]
+    renderToday({ data: { programs, guitarSessions: [g(today, 60)], sportSessions: [ss([], '2026-10-14', 'a')] } })
+    await userEvent.click(screen.getByRole('button', { name: '🏋️ Commencer Bas' }))
+    expect(screen.getByText('at /log/sport {"programId":"b"}')).toBeInTheDocument()
+  })
+
+  test('guitare et sport faits aujourd’hui : journée bouclée', () => {
+    const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1 })]
+    renderToday({ data: { programs, guitarSessions: [g(today, 60)], sportSessions: [ss([], today, 'a')] } })
+    expect(screen.getByText(/Journée bouclée ✓/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^🏋️/ })).not.toBeInTheDocument()
+  })
+
+  test('chrono guitare en cours : le reprendre', async () => {
+    savePractice(startPractice(new Date(Date.now() - 12 * 60_000), 'p'))
+    renderToday({ data: { guitarSessions: [g(today, 60)] } })
+    expect(screen.queryByRole('button', { name: '▶︎ Rejouer avec le chrono' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: '⏱ Reprendre la guitare · 12 min' }))
+    expect(screen.getByText('at /jouer null')).toBeInTheDocument()
+  })
+
+  test('chrono guitare oublié depuis plus de 12 h : pas proposé', () => {
+    savePractice(startPractice(new Date(Date.now() - 13 * 3_600_000), 'p'))
+    renderToday({})
+    expect(screen.getByRole('button', { name: '▶︎ Jouer · encore 60 min' })).toBeInTheDocument()
+  })
+
+  test('pendant le chargement : pas de bouton d’action', () => {
+    renderToday({ loading: true })
+    expect(screen.queryByRole('button', { name: /Jouer/ })).not.toBeInTheDocument()
+    expect(screen.queryByText(/Journée bouclée/)).not.toBeInTheDocument()
   })
 
   test('sport : semaine, séance du jour détaillée, suivante', async () => {
@@ -122,6 +172,16 @@ describe('TodayPage', () => {
     expect(within(list).getAllByRole('listitem').map((li) => li.textContent)).toEqual(['✓ Squat3/3 séries', '▸ Fentes1/3 séries'])
     await userEvent.click(screen.getByRole('button', { name: 'Reprendre la séance' }))
     expect(screen.getByText(/at \/log\/sport/)).toBeInTheDocument()
+    saveLive(null)
+  })
+
+  test('séance de sport en cours : prioritaire sur la guitare en haut de l’accueil', async () => {
+    saveLive({ id: 'live', programId: 'p', startedAt: new Date().toISOString(), exerciseIndex: 0, exerciseId: null, weightKg: 20, reps: 10, sets: [] })
+    savePractice(startPractice(new Date(), 'g'))
+    renderToday({ data: { programs: [program({ id: 'p', name: 'Bas', exercises: [pe({ id: 'a', programId: 'p' })] })] } })
+    expect(screen.queryByRole('button', { name: /Reprendre la guitare/ })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: '🏋️ Reprendre Bas' }))
+    expect(screen.getByText('at /log/sport null')).toBeInTheDocument()
     saveLive(null)
   })
 })

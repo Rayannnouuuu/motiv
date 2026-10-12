@@ -5,18 +5,51 @@ import { useActions, useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { addDays } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
+import { guitarStreak } from '../../domain/streak'
 import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
 import { StepBar } from '../../ui/StepBar'
+import { loadPractice, savePractice } from '../practice/practiceSession'
 import { StepContent, type Entry } from './StepContent'
 import { PRESETS, parseDuration, type DurationChoice } from './duration'
 import { StepDuration } from './StepDuration'
 import { StepRatings } from './StepRatings'
 
-function initialDuration(min: unknown): { choice: DurationChoice; other: string } {
-  if (typeof min !== 'number' || min <= 0) return { choice: null, other: '' }
-  return (PRESETS as readonly number[]).includes(min) ? { choice: min as DurationChoice, other: '' } : { choice: 'other', other: String(min) }
+/** État de navigation accepté (accueil, chrono, fiche exo et son métronome). */
+interface NavState {
+  durationMin?: unknown
+  exerciseId?: unknown
+  bpm?: unknown
+  entries?: unknown
+  step?: unknown
+  day?: unknown
+  practiceId?: unknown
+}
+
+/** Durée reçue, sinon les minutes qui manquent aujourd'hui (rappel push, ouvert sans état). */
+function initialDuration(min: unknown, remainingMin: number): { choice: DurationChoice; other: string } {
+  const n = typeof min === 'number' && min > 0 ? min : remainingMin
+  if (n <= 0) return { choice: null, other: '' }
+  return (PRESETS as readonly number[]).includes(n) ? { choice: n as DurationChoice, other: '' } : { choice: 'other', other: String(n) }
+}
+
+/** Entrées pré-remplies (chrono) : seulement les exos connus et les morceaux de ta liste, sans doublon. */
+function validEntries(list: unknown[], songs: Song[]): Entry[] {
+  const out: Entry[] = []
+  const seen = new Set<string>()
+  for (const v of list) {
+    if (!v || typeof v !== 'object') continue
+    const e = v as Record<string, unknown>
+    if (e.kind === 'exercise' && typeof e.exerciseId === 'string' && getExercise(e.exerciseId) && !seen.has(`ex:${e.exerciseId}`)) {
+      seen.add(`ex:${e.exerciseId}`)
+      out.push({ kind: 'exercise', exerciseId: e.exerciseId, bpm: typeof e.bpm === 'string' ? e.bpm : '' })
+    } else if (e.kind === 'song' && typeof e.songId === 'string' && songs.some((s) => s.id === e.songId) && !seen.has(`song:${e.songId}`)) {
+      seen.add(`song:${e.songId}`)
+      out.push({ kind: 'song', songId: e.songId, mastered: e.mastered === true })
+    }
+  }
+  return out
 }
 
 function toItem(e: Entry): GuitarItem {
@@ -26,21 +59,36 @@ function toItem(e: Entry): GuitarItem {
 }
 
 export function LogGuitarPage() {
-  const { data, today } = useAppData()
+  const { data, today, loading } = useAppData()
   const actions = useActions()
   const navigate = useNavigate()
-  const nav = useLocation().state as { durationMin?: unknown; exerciseId?: unknown } | null
-  const init = initialDuration(nav?.durationMin)
+  const nav = useLocation().state as NavState | null
+  const remainingMin = guitarStreak(data.guitarSessions, today).remainingMin
+  const [init] = useState(() => initialDuration(nav?.durationMin, remainingMin))
 
-  const [step, setStep] = useState(0)
   const [choice, setChoice] = useState<DurationChoice>(init.choice)
   const [other, setOther] = useState(init.other)
-  const [yesterday, setYesterday] = useState(false)
+  // Ouvert à froid (rappel) pendant le chargement : la présélection est refaite avec les vraies minutes du jour,
+  // sauf si une durée a déjà été choisie.
+  const [loadedOnce, setLoadedOnce] = useState(!loading)
+  if (!loadedOnce && !loading) {
+    setLoadedOnce(true)
+    if (choice === init.choice && other === init.other) {
+      const d = initialDuration(nav?.durationMin, remainingMin)
+      setChoice(d.choice)
+      setOther(d.other)
+    }
+  }
+  // Depuis le chrono : directement aux notes, le contenu et la durée sont déjà remplis.
+  const [step, setStep] = useState(() => (nav?.step === 2 && parseDuration(init.choice, init.other) !== null ? 2 : 0))
+  // Séance commencée avant minuit : datée de la veille.
+  const [yesterday, setYesterday] = useState(() => nav?.day === addDays(today, -1))
   const [entries, setEntries] = useState<Entry[]>(() => {
-    // Ouvert depuis la fiche d'un exo : il est déjà dans la liste.
+    if (Array.isArray(nav?.entries)) return validEntries(nav.entries, data.songs)
+    // Ouvert depuis la fiche d'un exo : il est déjà dans la liste, au tempo du métronome s'il est donné.
     if (typeof nav?.exerciseId !== 'string' || !getExercise(nav.exerciseId)) return []
-    const best = bestBpm(data.guitarSessions, nav.exerciseId)
-    return [{ kind: 'exercise', exerciseId: nav.exerciseId, bpm: best === null ? '' : String(best) }]
+    const bpm = typeof nav.bpm === 'number' && Number.isFinite(nav.bpm) && nav.bpm > 0 ? Math.round(nav.bpm) : bestBpm(data.guitarSessions, nav.exerciseId)
+    return [{ kind: 'exercise', exerciseId: nav.exerciseId, bpm: bpm === null ? '' : String(bpm) }]
   })
   const [newSongs, setNewSongs] = useState<Song[]>([])
   const [flow, setFlow] = useState<Rating | null>(null)
@@ -62,7 +110,8 @@ export function LogGuitarPage() {
     setError(null)
     try {
       const usedSongs = new Set(entries.flatMap((e) => (e.kind === 'song' ? [e.songId] : [])))
-      const id = crypto.randomUUID()
+      // Depuis le chrono, l'id de la séance : renvoyer le même log ne le duplique pas.
+      const id = typeof nav?.practiceId === 'string' && nav.practiceId !== '' ? nav.practiceId : crypto.randomUUID()
       const result = await actions.saveGuitarSession({
         id,
         day: yesterday ? addDays(today, -1) : today,
@@ -72,6 +121,8 @@ export function LogGuitarPage() {
         flowRating: flow,
         desireRating: desire,
       })
+      // Le chrono de cette séance est terminé.
+      if (loadPractice()?.id === id) savePractice(null)
       navigate('/xp', { replace: true, state: { result, domain: 'guitar', logId: id } })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
