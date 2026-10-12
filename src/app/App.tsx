@@ -8,6 +8,7 @@ import { LogSportPage } from '../features/log-sport/LogSportPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
 import { SettingsPage } from '../features/settings/SettingsPage'
 import { EditLogPage } from '../features/edit-log/EditLogPage'
+import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
 import { ExercisePage } from '../features/exercise/ExercisePage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
@@ -37,6 +38,7 @@ function Focus({ children }: { children: ReactNode }) {
 
 export function AppRoutes() {
   return (
+    <>
     <Routes>
       <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
       <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
@@ -48,5 +50,7 @@ export function AppRoutes() {
       <Route path="/reglages" element={<Shell><SettingsPage /></Shell>} />
       <Route path="*" element={<Shell><TodayPage /></Shell>} />
     </Routes>
+    <LevelUpWatcher />
+    </>
   )
 }
