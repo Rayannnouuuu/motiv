@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { g, ss } from '../test/factories'
-import { guitarStreak, sportStreak } from './streak'
+import { bestGuitarStreak, guitarStreak, sportStreak } from './streak'
 
 test('35 + 25 min le même jour = jour valide', () => {
   expect(guitarStreak([g('2026-10-11', 35), g('2026-10-11', 25)], '2026-10-11').days).toBe(1)
@@ -41,4 +41,21 @@ test('série sport en semaines de 3 séances, semaine en cours non comptée tant
 test('série sport : semaine en cours complète comptée', () => {
   const sessions = [ss([], '2026-10-12'), ss([], '2026-10-13'), ss([], '2026-10-14')]
   expect(sportStreak(sessions, '2026-10-14')).toEqual({ weeks: 1, thisWeekCount: 3 })
+})
+
+test('meilleure série : la plus longue suite, même avec un trou au milieu', () => {
+  const sessions = [
+    g('2026-10-01', 60), g('2026-10-02', 60), g('2026-10-03', 60),
+    g('2026-10-05', 60), g('2026-10-06', 60),
+  ]
+  expect(bestGuitarStreak(sessions)).toBe(3)
+})
+
+test('meilleure série : deux logs le même jour sont additionnés', () => {
+  expect(bestGuitarStreak([g('2026-10-01', 60), g('2026-10-02', 30), g('2026-10-02', 30), g('2026-10-03', 45)])).toBe(2)
+})
+
+test('meilleure série : aucun jour à 60 min, ou aucun historique → 0', () => {
+  expect(bestGuitarStreak([g('2026-10-01', 59), g('2026-10-02', 20)])).toBe(0)
+  expect(bestGuitarStreak([])).toBe(0)
 })

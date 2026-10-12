@@ -1,13 +1,18 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels } from '../../domain/levels'
-import { guitarStreak } from '../../domain/streak'
+import { nextAction } from '../../domain/nextAction'
+import { GUITAR_DAILY_MIN, bestGuitarStreak, guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
+import { Button } from '../../ui/Button'
+import { Gauge } from '../../ui/Gauge'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { Screen } from '../../ui/Screen'
 import { LevelSheet } from '../levels/LevelSheet'
+import { loadLive } from '../log-sport/liveSession'
+import { runningPracticeMinutes } from '../practice/practiceSession'
 import { ChallengeCard } from './ChallengeCard'
 import { GuitarCard } from './GuitarCard'
 import { SportCard } from './SportCard'
@@ -17,12 +22,33 @@ const SECTION_TITLE = 't-footnote px-4 pb-1.5 text-muted uppercase'
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 export function TodayPage() {
-  const { data, today } = useAppData()
+  const { data, today, loading } = useAppData()
+  const navigate = useNavigate()
   const [showLevels, setShowLevels] = useState(false)
 
   const streak = guitarStreak(data.guitarSessions, today)
   const levels = allLevels(data)
-  const done = streak.remainingMin === 0
+  const r = streak.remainingMin
+  const done = r === 0
+  const best = streak.days === 0 ? bestGuitarStreak(data.guitarSessions) : 0
+  const subtitle = done
+    ? "Série tenue aujourd'hui ✓"
+    : streak.days > 0
+      ? `Encore ${r} min pour tenir la série`
+      : best > 0
+        ? `Record : ${plural(best, 'jour', 'jours')} · ${r} min aujourd'hui pour repartir`
+        : `${r} min aujourd'hui pour lancer ta série`
+
+  // La seule prochaine action : une séance en cours d'abord, puis la guitare du jour, puis le sport.
+  const live = loadLive()
+  const action = nextAction({
+    data,
+    today,
+    guitarLiveMin: runningPracticeMinutes(),
+    sportLiveProgram: (live && data.programs.find((p) => p.id === live.programId)?.name) ?? null,
+  })
+  // Seul « done » n'a pas de destination.
+  const to = action.kind === 'done' ? undefined : action.to
   const active = (domain: Domain) => data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
   // Défis bloquants en premier.
   const challenges = (['guitar', 'sport'] as const)
@@ -48,21 +74,28 @@ export function TodayPage() {
   return (
     <Screen title="Aujourd'hui" trailing={ring}>
       <div className="flex flex-col gap-6">
-        <section className="flex items-center gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Série">
-          <span
-            className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-[2.25rem] leading-none ${
-              streak.days === 0 ? 'bg-fill opacity-60 grayscale' : 'bg-gradient-to-b from-accent/25 to-accent/5'
-            }`}
-            aria-hidden
-          >
-            🔥
-          </span>
-          <div className="min-w-0">
-            <p className="t-title1 tabular-nums">{plural(streak.days, 'jour', 'jours')}</p>
-            <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>
-              {done ? "Série tenue aujourd'hui ✓" : `Encore ${streak.remainingMin} min de guitare pour tenir la série`}
-            </p>
+        <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Série">
+          <div className="flex items-center gap-4">
+            <span
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-accent/25 to-accent/5 text-[2.25rem] leading-none"
+              aria-hidden
+            >
+              🔥
+            </span>
+            <div className="min-w-0">
+              <p className="t-title1 tabular-nums">{streak.days === 0 ? 'Nouvelle série' : plural(streak.days, 'jour', 'jours')}</p>
+              <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>{subtitle}</p>
+            </div>
           </div>
+          <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
+          {!loading &&
+            (to ? (
+              <Button className="w-full" onClick={() => navigate(to, { state: action.state })}>
+                {action.label}
+              </Button>
+            ) : (
+              <p className="t-subhead text-center font-semibold text-guitar">Journée bouclée ✓ · à demain</p>
+            ))}
         </section>
 
         {challenges.length > 0 && (
