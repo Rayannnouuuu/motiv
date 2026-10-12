@@ -86,20 +86,18 @@ function SessionEditor({ initial, isNew, onSave, onCancel, onDelete }: {
                 <input aria-label={`Nom · exo ${i + 1}`} placeholder="Nom de l'exo" value={ex.name} onChange={(e) => setExercise(ex.id, { name: e.target.value })} className={`${input} min-w-0`} />
                 <input
                   aria-label={`Séries · ${label}`}
-                  type="number"
+                  type="text"
                   inputMode="numeric"
-                  min={1}
                   value={ex.targetSets || ''}
-                  onChange={(e) => setExercise(ex.id, { targetSets: Number(e.target.value) })}
+                  onChange={(e) => setExercise(ex.id, { targetSets: Number(e.target.value.replace(/\D/g, '')) })}
                   className={`${input} w-12 text-center tabular-nums`}
                 />
                 <input
                   aria-label={`Reps · ${label}`}
-                  type="number"
+                  type="text"
                   inputMode="numeric"
-                  min={1}
                   value={ex.targetReps || ''}
-                  onChange={(e) => setExercise(ex.id, { targetReps: Number(e.target.value) })}
+                  onChange={(e) => setExercise(ex.id, { targetReps: Number(e.target.value.replace(/\D/g, '')) })}
                   className={`${input} w-12 text-center tabular-nums`}
                 />
                 <div className="flex">

@@ -6,7 +6,7 @@ import { renderWithData } from '../../test/renderWithData'
 import { SettingsPage } from './SettingsPage'
 
 const today = '2026-10-15'
-const click = (name: string) => userEvent.click(screen.getByRole('button', { name }))
+const click = (name: string | RegExp) => userEvent.click(screen.getByRole('button', { name }))
 
 describe('SettingsPage', () => {
   test('nouvelle séance « Haut » avec « Développé couché » 4×8', async () => {
@@ -155,5 +155,15 @@ describe('SettingsPage', () => {
     expect(document.documentElement.dataset.theme).toBe('dark')
     expect(localStorage.getItem('motiv.theme.v1')).toBe('dark')
     expect(screen.getByRole('button', { name: 'Sombre' })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  test('morceaux à essayer : du plus facile, ajout en un geste, déjà ajoutés exclus', async () => {
+    const { actions } = renderWithData(<SettingsPage />, { today, data: { songs: [mkSong({ title: 'Seven Nation Army' })] } })
+    expect(screen.getByText('Morceaux à essayer')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Ajouter Seven Nation Army' })).not.toBeInTheDocument()
+    await click('Ajouter Smoke on the Water')
+    expect(actions.saveSong).toHaveBeenCalledWith({ id: expect.any(String), title: 'Smoke on the Water', status: 'learning', masteredOn: null })
+    await click(/Voir les \d+ morceaux/)
+    expect(screen.getByRole('button', { name: 'Voir moins' })).toBeInTheDocument()
   })
 })

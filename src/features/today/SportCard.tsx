@@ -25,10 +25,10 @@ export function SportCard() {
     <Card className="flex flex-col gap-4" aria-labelledby="sport-title">
       <div className="flex items-baseline justify-between">
         <h2 id="sport-title" className="text-lg font-semibold">
-          🏋️ Sport cette semaine
+          🏋️ Sport
         </h2>
         <p className="text-sm text-muted">
-          {streak.weeks > 0 ? `${streak.weeks} sem. d'affilée` : 'Objectif 3 / semaine'}
+          {streak.weeks > 0 ? `${streak.weeks} sem. d'affilée` : 'Cette semaine'}
         </p>
       </div>
 

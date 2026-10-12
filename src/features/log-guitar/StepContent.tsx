@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { EXERCISES, getExercise } from '../../content/exercises'
+import { SONG_CATALOG, normTitle } from '../../content/songCatalog'
 import { bestBpm } from '../../domain/records'
 import type { GuitarSession, Song } from '../../domain/types'
 
@@ -60,8 +61,21 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
     .map((s) => ({ key: `song:${s.id}`, label: s.title, add: () => add({ kind: 'song', songId: s.id, mastered: false }) }))
   const otherResults =
     q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && matches(e.title)).map((e) => exResult(e.id))
-  const results = [...plannedResults, ...recentResults, ...songResults, ...otherResults].slice(0, MAX_RESULTS)
-  const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q)
+  // Morceaux du catalogue pas encore dans ta liste : les choisir les ajoute automatiquement.
+  const mine = new Set(songs.map((s) => normTitle(s.title)))
+  const catalogResults: Result[] =
+    q === ''
+      ? []
+      : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist))).map((c) => ({
+          key: `cat:${c.title}`,
+          label: `${c.title} · ${c.artist}`,
+          add: () => {
+            onCreateSong(c.title)
+            setQuery('')
+          },
+        }))
+  const results = [...plannedResults, ...recentResults, ...songResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
+  const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q) && !SONG_CATALOG.some((c) => norm(c.title) === q)
 
   return (
     <div className="flex flex-col gap-4">

@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CATEGORY_LABELS } from '../../content/exercises'
-import { useAppData } from '../../data/AppDataContext'
+import { useActions, useAppData } from '../../data/AppDataContext'
+import { songOfTheDay } from '../../domain/songSuggestion'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { bestBpm } from '../../domain/records'
 import { Card } from '../../ui/Card'
@@ -8,6 +10,9 @@ import { Card } from '../../ui/Card'
 /** Exos proposés aujourd'hui (avec détails) et morceaux en cours (nom seul). */
 export function TodayPlan() {
   const { data, today } = useAppData()
+  const { saveSong } = useActions()
+  const [adding, setAdding] = useState(false)
+  const suggestion = songOfTheDay(data.songs, today)
   const plan = dailyPlan(data, today)
   const doneToday = new Set(
     data.guitarSessions.filter((s) => s.day === today).flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))),
@@ -50,6 +55,32 @@ export function TodayPlan() {
             </li>
           ))}
         </ul>
+      )}
+      {suggestion && (
+        <div className="flex items-center gap-2 rounded-xl border border-dashed border-line px-3 py-2">
+          <div className="min-w-0 flex-1">
+            <p className="text-xs text-muted">Morceau suggéré</p>
+            <p className="truncate font-medium">
+              🎵 {suggestion.title} <span className="text-sm font-normal text-muted">· {suggestion.artist}</span>
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={adding}
+            aria-label={`Ajouter ${suggestion.title}`}
+            className="shrink-0 font-semibold text-accent disabled:opacity-40"
+            onClick={async () => {
+              setAdding(true)
+              try {
+                await saveSong({ id: crypto.randomUUID(), title: suggestion.title, status: 'learning', masteredOn: null })
+              } finally {
+                setAdding(false)
+              }
+            }}
+          >
+            + Ajouter
+          </button>
+        </div>
       )}
     </section>
   )

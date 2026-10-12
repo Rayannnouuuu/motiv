@@ -131,16 +131,29 @@ describe('LogGuitarPage', () => {
     expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(100)
   })
 
-  test('créer un morceau par son nom l’ajoute à newSongs', async () => {
+  test('morceau du catalogue : ajouté automatiquement à tes morceaux', async () => {
     const { actions } = renderLog()
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
-    await userEvent.type(screen.getByRole('searchbox'), 'Iron Man')
-    await userEvent.click(screen.getByRole('button', { name: '+ Nouveau morceau « Iron Man »' }))
+    await userEvent.type(screen.getByRole('searchbox'), 'sabbath')
+    await userEvent.click(screen.getByRole('button', { name: '+ Iron Man · Black Sabbath' }))
+    expect(screen.queryByRole('button', { name: /Nouveau morceau/ })).not.toBeInTheDocument()
     await next()
     await finish()
     const draft = vi.mocked(actions.saveGuitarSession).mock.calls[0][0]
     expect(draft.newSongs).toEqual([{ id: expect.any(String), title: 'Iron Man', status: 'learning', masteredOn: null }])
+  })
+
+  test('créer un morceau par son nom l’ajoute à newSongs', async () => {
+    const { actions } = renderLog()
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    await userEvent.type(screen.getByRole('searchbox'), 'Ma compo')
+    await userEvent.click(screen.getByRole('button', { name: '+ Nouveau morceau « Ma compo »' }))
+    await next()
+    await finish()
+    const draft = vi.mocked(actions.saveGuitarSession).mock.calls[0][0]
+    expect(draft.newSongs).toEqual([{ id: expect.any(String), title: 'Ma compo', status: 'learning', masteredOn: null }])
     expect(draft.items).toEqual([{ kind: 'song', songId: draft.newSongs[0].id, markedMastered: false }])
   })
 })
