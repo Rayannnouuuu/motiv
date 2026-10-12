@@ -11,7 +11,7 @@ import { Gauge } from '../../ui/Gauge'
 const LABEL: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
 
 export function XpResultPage() {
-  const state = useLocation().state as { result: XpResult; domain: Domain } | null
+  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string } | null
   const { data } = useAppData()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
@@ -60,7 +60,7 @@ export function XpResultPage() {
       <Link to="/" className="rounded-xl bg-accent px-4 py-3 font-semibold text-white">
         Continuer
       </Link>
-      <Link to="/log/corriger" className="text-sm text-muted underline">
+      <Link to={state.logId ? `/log/corriger/${state.logId}` : '/log/corriger'} className="text-sm text-muted underline">
         Une erreur ? Corriger ce log
       </Link>
     </div>

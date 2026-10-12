@@ -10,6 +10,7 @@ export interface RenderWithDataOptions {
   actions?: Partial<Actions>
   today?: Day
   pendingCount?: number
+  loading?: boolean
   route?: string | { pathname: string; state?: unknown }
 }
 
@@ -37,7 +38,7 @@ export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {
     pendingCount: opts.pendingCount ?? 0,
     rejected: [],
     today: opts.today ?? '2026-10-15',
-    loading: false,
+    loading: opts.loading ?? false,
     error: null,
   }
   const result = render(

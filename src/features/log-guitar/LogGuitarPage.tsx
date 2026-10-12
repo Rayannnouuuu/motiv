@@ -61,8 +61,9 @@ export function LogGuitarPage() {
     setError(null)
     try {
       const usedSongs = new Set(entries.flatMap((e) => (e.kind === 'song' ? [e.songId] : [])))
+      const id = crypto.randomUUID()
       const result = await actions.saveGuitarSession({
-        id: crypto.randomUUID(),
+        id,
         day: yesterday ? addDays(today, -1) : today,
         durationMin,
         items: entries.map(toItem),
@@ -70,7 +71,7 @@ export function LogGuitarPage() {
         flowRating: flow,
         desireRating: desire,
       })
-      navigate('/xp', { replace: true, state: { result, domain: 'guitar' } })
+      navigate('/xp', { replace: true, state: { result, domain: 'guitar', logId: id } })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
       setSaving(false)

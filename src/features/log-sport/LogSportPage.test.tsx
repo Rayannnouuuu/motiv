@@ -49,7 +49,7 @@ describe('LogSportPage', () => {
     const recent = screen.getByRole('region', { name: 'Tes dernières fois' })
     expect(within(recent).getByText('8 oct.')).toBeInTheDocument()
     expect(within(recent).getAllByText('62,5 kg × 8')).toHaveLength(4)
-    expect(screen.getByLabelText('Charge (kg)')).toHaveValue(62.5)
+    expect(screen.getByLabelText('Charge (kg)')).toHaveValue('62,5')
     await click('Charge +')
     await click('✓ Série 1 faite')
     unmount()
@@ -67,7 +67,7 @@ describe('LogSportPage', () => {
     expect(screen.getByText(/Première fois sur cet exo/)).toBeInTheDocument()
     expect(screen.getByText('PDC')).toBeInTheDocument()
     await click('Charge −')
-    expect(screen.getByLabelText('Charge (kg)')).toHaveValue(0)
+    expect(screen.getByLabelText('Charge (kg)')).toHaveValue('0')
   })
 
   test('exo archivé depuis le début de la séance : sauté sans plantage', async () => {
@@ -124,7 +124,7 @@ describe('LogSportPage', () => {
       flowRating: 4,
       desireRating: 5,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'sport' })}`)).toBeInTheDocument()
+    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'sport', logId: vi.mocked(actions.saveSportSession).mock.calls[0][0].id })}`)).toBeInTheDocument()
     expect(loadLive()).toBeNull()
   })
 
@@ -139,6 +139,20 @@ describe('LogSportPage', () => {
     await click('Fin de séance →')
     await click('← Revenir au dernier exo')
     expect(screen.getByRole('heading', { name: 'Rowing' })).toBeInTheDocument()
+  })
+
+  test('fin sans série : Terminer bloqué, abandon en deux temps', async () => {
+    const { actions } = renderSport({ data: { programs: [haut] } })
+    await click('Commencer')
+    await click('Exo suivant →')
+    await click('Fin de séance →')
+    expect(screen.getByRole('button', { name: 'Terminer' })).toBeDisabled()
+    await click('Abandonner la séance')
+    expect(loadLive()).not.toBeNull()
+    await click("Oui, abandonner (rien n'est enregistré)")
+    expect(loadLive()).toBeNull()
+    expect(actions.saveSportSession).not.toHaveBeenCalled()
+    expect(screen.getByText('at / null')).toBeInTheDocument()
   })
 
   test('sans programme : lien vers les réglages', () => {

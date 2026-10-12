@@ -19,6 +19,7 @@ export function GuitarCard() {
   const { saveSong } = useActions()
   const navigate = useNavigate()
   const [adding, setAdding] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
 
   const week = guitarWeek(data.guitarSessions, today)
   const streak = guitarStreak(data.guitarSessions, today)
@@ -128,8 +129,11 @@ export function GuitarCard() {
               className="shrink-0 font-semibold text-accent disabled:opacity-40"
               onClick={async () => {
                 setAdding(true)
+                setAddError(null)
                 try {
                   await saveSong({ id: crypto.randomUUID(), title: suggestion.title, status: 'learning', masteredOn: null })
+                } catch (e) {
+                  setAddError(e instanceof Error ? e.message : 'Ajout impossible')
                 } finally {
                   setAdding(false)
                 }
@@ -138,6 +142,11 @@ export function GuitarCard() {
               + Ajouter
             </button>
           </div>
+        )}
+        {addError && (
+          <p role="alert" className="text-sm text-danger">
+            {addError}
+          </p>
         )}
 
         <Button

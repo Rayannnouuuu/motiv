@@ -67,7 +67,7 @@ describe('LogGuitarPage', () => {
       flowRating: 4,
       desireRating: 5,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar' })}`)).toBeInTheDocument()
+    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: vi.mocked(actions.saveGuitarSession).mock.calls[0][0].id })}`)).toBeInTheDocument()
   })
 
   async function finish() {

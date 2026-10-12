@@ -16,6 +16,10 @@ const QUERY_KEY = ['appData']
 const RETRY_MS = 60_000
 const deps: Deps = { rng: Math.random, newId: () => crypto.randomUUID() }
 
+/** Séance antérieure à celle qu'on enregistre : l'XP (records, progression) ne se compare qu'au passé. */
+const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt: string) =>
+  s.day < day || (s.day === day && s.createdAt < createdAt)
+
 export function AppDataProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient()
   const query = useQuery({ queryKey: QUERY_KEY, queryFn: async () => toAppData(await fetchAllRows()) })
@@ -69,10 +73,11 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     () => ({
       async saveGuitarSession(d) {
         const current = dataRef.current
-        // Correction d'un log existant : on le retire de l'historique pour que l'XP ne se compare pas à lui-même,
+        // Correction d'un log existant : l'historique s'arrête avant lui (ni lui-même ni les logs suivants),
         // et les morceaux qu'il avait passés en « maîtrisé » redeviennent « en cours » pour le calcul.
         const original = current.guitarSessions.find((s) => s.id === d.id)
-        const history = current.guitarSessions.filter((s) => s.id !== d.id)
+        const createdAt = original?.createdAt ?? new Date().toISOString()
+        const history = current.guitarSessions.filter((s) => s.id !== d.id && isBefore(s, d.day, createdAt))
         const masteredByOriginal = new Set(original?.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : [])))
         const songs = current.songs.map((s) =>
           masteredByOriginal.has(s.id) && s.masteredOn === original?.day ? { ...s, status: 'learning' as const, masteredOn: null } : s,
@@ -85,7 +90,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
           flowRating: d.flowRating,
           desireRating: d.desireRating,
           xp: xp.total,
-          createdAt: original?.createdAt ?? new Date().toISOString(),
+          createdAt,
           items: d.items,
         }
         const masteredSongIds = d.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : []))
@@ -98,9 +103,10 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         const current = dataRef.current
         const names = new Map(current.programs.flatMap((p) => p.exercises.map((e) => [e.id, e.name] as const)))
         const original = current.sportSessions.find((s) => s.id === d.id)
-        const history = current.sportSessions.filter((s) => s.id !== d.id)
+        const createdAt = original?.createdAt ?? new Date().toISOString()
+        const history = current.sportSessions.filter((s) => s.id !== d.id && isBefore(s, d.day, createdAt))
         const xp = sportSessionXp(d, history, (id) => names.get(id) ?? 'Exo inconnu')
-        const session: SportSession = { ...d, xp: xp.total, createdAt: original?.createdAt ?? new Date().toISOString() }
+        const session: SportSession = { ...d, xp: xp.total, createdAt }
         enqueue({ id: d.id, kind: 'sportSession', payload: session })
         setPending(readOutbox())
         void flushNow()

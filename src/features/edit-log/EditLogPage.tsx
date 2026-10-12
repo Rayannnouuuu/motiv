@@ -8,6 +8,7 @@ import type { GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } 
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
 import { RatingPicker } from '../../ui/RatingPicker'
+import { WeightInput } from '../../ui/WeightInput'
 import { StepContent, type Entry } from '../log-guitar/StepContent'
 
 const input = 'rounded-lg border border-line bg-surface px-2 py-1 tabular-nums'
@@ -75,12 +76,12 @@ function useSave() {
   const navigate = useNavigate()
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  async function run(fn: () => Promise<XpResult | null>, domain: 'guitar' | 'sport') {
+  async function run(fn: () => Promise<XpResult | null>, domain: 'guitar' | 'sport', logId: string) {
     setSaving(true)
     setError(null)
     try {
       const result = await fn()
-      if (result) navigate('/xp', { replace: true, state: { result, domain } })
+      if (result) navigate('/xp', { replace: true, state: { result, domain, logId } })
       else navigate('/', { replace: true })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
@@ -152,7 +153,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         flowRating: flow,
         desireRating: desire,
       })
-    }, 'guitar')
+    }, 'guitar', session.id)
 
   return (
     <>
@@ -182,9 +183,14 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         disabled={saving}
         onDelete={() =>
           run(async () => {
+            // Les morceaux passés en « maîtrisé » par ce log redeviennent « en cours ».
+            for (const id of masteredHere) {
+              const song = data.songs.find((s) => s.id === id)
+              if (song?.status === 'mastered' && song.masteredOn === session.day) await actions.saveSong({ ...song, status: 'learning', masteredOn: null })
+            }
             await actions.deleteLog('guitar', session.id)
             return null
-          }, 'guitar')
+          }, 'guitar', session.id)
         }
       />
     </>
@@ -222,14 +228,10 @@ function EditSport({ session }: { session: SportSession }) {
               s.programExerciseId !== pe ? null : (
                 <div key={i} className="flex items-center gap-2">
                   <span className="w-16 text-sm text-muted">Série {s.setIndex}</span>
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    step={2.5}
-                    min={0}
+                  <WeightInput
                     aria-label={`Charge · ${name} · série ${s.setIndex}`}
                     value={s.weightKg}
-                    onChange={(e) => update(i, { weightKg: Number(e.target.value) })}
+                    onChange={(kg) => update(i, { weightKg: kg })}
                     className={`${input} w-20 text-right`}
                   />
                   <span className="text-sm text-muted">kg ×</span>
@@ -276,6 +278,7 @@ function EditSport({ session }: { session: SportSession }) {
                 desireRating: desire,
               }),
             'sport',
+            session.id,
           )
         }
       >
@@ -287,7 +290,7 @@ function EditSport({ session }: { session: SportSession }) {
           run(async () => {
             await actions.deleteLog('sport', session.id)
             return null
-          }, 'sport')
+          }, 'sport', session.id)
         }
       />
     </>
@@ -296,9 +299,16 @@ function EditSport({ session }: { session: SportSession }) {
 
 /** Corriger (ou supprimer) le dernier log enregistré. */
 export function EditLogPage() {
+  const { loading } = useAppData()
+  const { id } = useParams()
+  // La cible est figée au montage : on attend les données (ouverture directe de l'URL, relance de l'appli).
+  if (loading) return <p className="text-center text-muted">Chargement…</p>
+  return <EditLog key={id} id={id} />
+}
+
+function EditLog({ id }: { id: string | undefined }) {
   const { data } = useAppData()
   const navigate = useNavigate()
-  const { id } = useParams()
   // Figé à l'ouverture : la cible ne change pas pendant qu'on la modifie.
   const [target] = useState<LastLog | null>(() => {
     if (!id) return lastLog(data)

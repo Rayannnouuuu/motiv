@@ -7,6 +7,7 @@ import type { Rating } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Chip } from '../../ui/Chip'
 import { RatingPicker } from '../../ui/RatingPicker'
+import { WeightInput } from '../../ui/WeightInput'
 import { Stepper } from '../../ui/Stepper'
 import {
   activeExercises,
@@ -85,7 +86,18 @@ export function LogSportPage() {
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
-  if (index >= exercises.length) return <FinishSession live={live} onDone={clear} onBack={exercises.length > 0 ? goBack : undefined} />
+  if (index >= exercises.length)
+    return (
+      <FinishSession
+        live={live}
+        onDone={clear}
+        onBack={exercises.length > 0 ? goBack : undefined}
+        onAbandon={() => {
+          clear()
+          navigate('/')
+        }}
+      />
+    )
 
   const current = exercises[index]
   const recent = recentSetsFor(current, data.sportSessions)
@@ -130,14 +142,10 @@ export function LogSportPage() {
       )}
 
       <Stepper label="Charge" onMinus={() => dispatch({ type: 'weight', delta: -2.5 })} onPlus={() => dispatch({ type: 'weight', delta: 2.5 })}>
-        <input
-          type="number"
-          inputMode="decimal"
-          step={2.5}
-          min={0}
+        <WeightInput
           aria-label="Charge (kg)"
           value={live.weightKg}
-          onChange={(e) => dispatch({ type: 'setWeight', weightKg: Number(e.target.value) })}
+          onChange={(kg) => dispatch({ type: 'setWeight', weightKg: kg })}
           className="w-full bg-transparent text-center text-3xl font-bold tabular-nums"
         />
         <p className="text-xs text-muted">{live.weightKg === 0 ? 'PDC' : 'kg'}</p>
@@ -240,7 +248,7 @@ function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
   )
 }
 
-function FinishSession({ live, onDone, onBack }: { live: LiveState; onDone: () => void; onBack?: () => void }) {
+function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; onDone: () => void; onBack?: () => void; onAbandon: () => void }) {
   const actions = useActions()
   const navigate = useNavigate()
   const [duration, setDuration] = useState(() => {
@@ -252,12 +260,14 @@ function FinishSession({ live, onDone, onBack }: { live: LiveState; onDone: () =
   const [desire, setDesire] = useState<Rating | null>(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [confirmAbandon, setConfirmAbandon] = useState(false)
+  const noSets = live.sets.length === 0
 
   const min = Number(duration)
   const validDuration = Number.isInteger(min) && min > 0 && min <= MAX_DURATION
 
   async function finish() {
-    if (!validDuration || flow === null || desire === null) return
+    if (noSets || !validDuration || flow === null || desire === null) return
     setSaving(true)
     setError(null)
     try {
@@ -271,7 +281,7 @@ function FinishSession({ live, onDone, onBack }: { live: LiveState; onDone: () =
         desireRating: desire,
       })
       onDone()
-      navigate('/xp', { replace: true, state: { result, domain: 'sport' } })
+      navigate('/xp', { replace: true, state: { result, domain: 'sport', logId: live.id } })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
       setSaving(false)
@@ -309,9 +319,21 @@ function FinishSession({ live, onDone, onBack }: { live: LiveState; onDone: () =
           {error}
         </p>
       )}
-      <Button className="mt-auto" disabled={!validDuration || flow === null || desire === null || saving} onClick={finish}>
-        Terminer
-      </Button>
+      {noSets && <p className="text-sm text-muted">Aucune série cochée : rien à enregistrer. Reviens à l'exo ou abandonne la séance.</p>}
+      <div className="mt-auto flex flex-col gap-2">
+        <Button disabled={noSets || !validDuration || flow === null || desire === null || saving} onClick={finish}>
+          Terminer
+        </Button>
+        {confirmAbandon ? (
+          <Button variant="ghost" onClick={onAbandon}>
+            Oui, abandonner (rien n'est enregistré)
+          </Button>
+        ) : (
+          <Button variant="ghost" onClick={() => setConfirmAbandon(true)}>
+            Abandonner la séance
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

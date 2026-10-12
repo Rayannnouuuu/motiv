@@ -57,7 +57,7 @@ describe('EditLogPage', () => {
       flowRating: 4,
       desireRating: 3,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar' })}`)).toBeInTheDocument()
+    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: last.id })}`)).toBeInTheDocument()
   })
 
   test('guitare : décocher un morceau passé en maîtrisé par ce log le remet en cours', async () => {
@@ -93,6 +93,21 @@ describe('EditLogPage', () => {
     await click('Supprimer')
     expect(actions.deleteLog).toHaveBeenCalledWith('guitar', last.id)
     expect(await screen.findByText('at / null')).toBeInTheDocument()
+  })
+
+  test('supprimer un log qui avait maîtrisé un morceau : le morceau redevient en cours', async () => {
+    const s1 = mkSong({ id: 's1', status: 'mastered', masteredOn: today })
+    const last = g(today, 30, [song('s1', true)])
+    const { actions } = renderEdit({ data: { guitarSessions: [last], songs: [s1] } })
+    await click('Supprimer ce log')
+    await click('Supprimer')
+    expect(actions.saveSong).toHaveBeenCalledWith({ ...s1, status: 'learning', masteredOn: null })
+    expect(actions.deleteLog).toHaveBeenCalledWith('guitar', last.id)
+  })
+
+  test('ouverture pendant le chargement : attend les données', () => {
+    renderEdit({ loading: true, data: { guitarSessions: [g(today, 30)] } })
+    expect(screen.getByText('Chargement…')).toBeInTheDocument()
   })
 
   test('corriger un log précis (pas le dernier) via son id', async () => {
