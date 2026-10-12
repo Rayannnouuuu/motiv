@@ -10,6 +10,9 @@ import { ProgramEditor } from './ProgramEditor'
 import { SongList } from './SongList'
 import { useRun } from './useRun'
 
+// Version installée (date du build + commit) : on voit d'un coup d'œil si la dernière est arrivée.
+const VERSION = `${new Date(__BUILD_DATE__).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${__BUILD_SHA__}`
+
 const THEMES: { value: Theme; label: string }[] = [
   { value: 'light', label: 'Clair' },
   { value: 'dark', label: 'Sombre' },
@@ -58,6 +61,9 @@ export function SettingsPage() {
             {error}
           </p>
         )}
+        <Group>
+          <Row title="Version" detail={VERSION} />
+        </Group>
       </div>
     </Screen>
   )
