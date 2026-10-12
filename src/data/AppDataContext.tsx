@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
+import type { RejectedEntry } from './outbox'
 
 export interface GuitarDraft {
   id: string
@@ -31,6 +32,7 @@ export interface Actions {
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
+  discardRejected(id: string): void
   setPassword(password: string): Promise<void>
   signOut(): Promise<void>
 }
@@ -38,6 +40,7 @@ export interface Actions {
 export interface AppDataValue {
   data: AppData
   pendingCount: number
+  rejected: RejectedEntry[]
   today: Day
   loading: boolean
   error: string | null

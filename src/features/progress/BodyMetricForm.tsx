@@ -6,7 +6,7 @@ import { BODY_FIELDS } from './bodyFields'
 
 const parse = (s: string) => {
   const n = Number(s.replace(',', '.'))
-  return s.trim() !== '' && Number.isFinite(n) && n > 0 ? n : null
+  return s.trim() !== '' && Number.isFinite(n) && n > 0 && n < 1000 ? n : null
 }
 
 export function BodyMetricForm({ onClose }: { onClose: () => void }) {

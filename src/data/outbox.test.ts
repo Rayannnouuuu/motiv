@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest'
 import { g } from '../test/factories'
-import { enqueue, flush, readOutbox, type OutboxEntry } from './outbox'
+import { discardRejected, enqueue, flush, readOutbox, readRejected, type OutboxEntry } from './outbox'
 
 const entry = (id: string): OutboxEntry => ({ id, kind: 'guitarSession', payload: { session: { ...g('2026-10-11', 30), id }, newSongs: [], masteredSongIds: [] } })
 
@@ -67,4 +67,17 @@ test('une correction ajoutée pendant l’envoi reste dans la file', async () =>
     enqueue(fixed)
   })
   expect(readOutbox()).toEqual([fixed])
+})
+
+test('un refus définitif du serveur met l’entrée de côté sans bloquer les suivantes', async () => {
+  enqueue(entry('a'))
+  enqueue(entry('b'))
+  const send = vi.fn(async (e: OutboxEntry) => {
+    if (e.id === 'a') throw Object.assign(new Error('numeric field overflow'), { code: '22003' })
+  })
+  expect(await flush(send)).toEqual({ sent: 1, left: 0 })
+  expect(readOutbox()).toEqual([])
+  expect(readRejected()).toEqual([{ entry: entry('a'), message: 'numeric field overflow' }])
+  discardRejected('a')
+  expect(readRejected()).toEqual([])
 })

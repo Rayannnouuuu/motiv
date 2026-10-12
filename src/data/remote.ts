@@ -15,8 +15,8 @@ import { supabase } from './supabase'
 
 const PAGE = 1000 // limite par requête de PostgREST
 
-function check<T>(res: { data: T; error: { message: string } | null }): T {
-  if (res.error) throw new Error(res.error.message)
+function check<T>(res: { data: T; error: { message: string; code?: string } | null }): T {
+  if (res.error) throw Object.assign(new Error(res.error.message), { code: res.error.code })
   return res.data
 }
 

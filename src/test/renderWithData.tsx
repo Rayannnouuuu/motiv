@@ -23,6 +23,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     rerollChallenge: vi.fn(async () => {}),
     acceptEasier: vi.fn(async () => {}),
     deleteLog: vi.fn(async () => {}),
+    discardRejected: vi.fn(),
     setPassword: vi.fn(async () => {}),
     signOut: vi.fn(async () => {}),
     ...over,
@@ -34,6 +35,7 @@ export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {
   const value = {
     data: { ...EMPTY_DATA, ...opts.data },
     pendingCount: opts.pendingCount ?? 0,
+    rejected: [],
     today: opts.today ?? '2026-10-15',
     loading: false,
     error: null,

@@ -7,7 +7,8 @@ import { guitarSessionXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, type Actions } from './AppDataContext'
 import { toAppData } from './mappers'
 import { mergePending } from './merge'
-import { enqueue, flush, readOutbox, removeFromOutbox, type OutboxEntry } from './outbox'
+import { discardRejected, enqueue, flush, readOutbox, readRejected, removeFromOutbox, whenIdle, type OutboxEntry } from './outbox'
+import { disablePush } from './push'
 import { deleteSessionRemote, fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
 import { supabase } from './supabase'
 
@@ -19,6 +20,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient()
   const query = useQuery({ queryKey: QUERY_KEY, queryFn: async () => toAppData(await fetchAllRows()) })
   const [pending, setPending] = useState<OutboxEntry[]>(readOutbox)
+  const [rejected, setRejected] = useState(readRejected)
   const today = todayParis()
 
   const data = useMemo(() => mergePending(query.data ?? EMPTY_DATA, pending), [query.data, pending])
@@ -32,6 +34,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     // Recharger le serveur avant de retirer les entrées de l'affichage, pour éviter un clignotement.
     if (r.sent > 0) await refresh()
     setPending(readOutbox())
+    setRejected(readRejected())
   }, [refresh])
 
   // Envoi de la file : au montage, au retour du réseau, puis toutes les 60 s tant qu'elle n'est pas vide.
@@ -125,21 +128,33 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         await refresh()
       },
       async deleteLog(kind, id) {
+        if (!navigator.onLine) {
+          const server = qc.getQueryData<AppData>(QUERY_KEY)
+          const onServer = (kind === 'guitar' ? server?.guitarSessions : server?.sportSessions)?.some((s) => s.id === id)
+          // Vérifié avant de toucher la file : une correction en attente n'est pas perdue si la suppression échoue.
+          if (onServer) throw new Error('Connexion nécessaire pour supprimer ce log')
+          removeFromOutbox(id)
+          setPending(readOutbox())
+          return
+        }
+        // Un envoi en cours de ce log arriverait après la suppression et le ferait réapparaître : on l'attend.
+        await whenIdle()
         removeFromOutbox(id)
         setPending(readOutbox())
-        const server = qc.getQueryData<AppData>(QUERY_KEY)
-        const onServer = (kind === 'guitar' ? server?.guitarSessions : server?.sportSessions)?.some((s) => s.id === id)
-        if (onServer) {
-          if (!navigator.onLine) throw new Error('Connexion nécessaire pour supprimer ce log')
-          await deleteSessionRemote(kind, id)
-          await refresh()
-        }
+        await deleteSessionRemote(kind, id) // sans effet s'il n'a jamais atteint le serveur
+        await refresh()
+      },
+      discardRejected(id) {
+        discardRejected(id)
+        setRejected(readRejected())
       },
       async setPassword(password) {
         const { error } = await supabase.auth.updateUser({ password })
         if (error) throw new Error(error.message)
       },
       async signOut() {
+        // Plus de rappels sur un appareil déconnecté.
+        await disablePush().catch(() => {})
         await supabase.auth.signOut()
         qc.clear()
       },
@@ -151,11 +166,12 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     () => ({
       data,
       pendingCount: pending.length,
+      rejected,
       today,
       loading: query.isPending,
       error: query.error ? query.error.message : null,
     }),
-    [data, pending.length, today, query.isPending, query.error],
+    [data, pending.length, rejected, today, query.isPending, query.error],
   )
 
   return (
