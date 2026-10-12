@@ -33,7 +33,7 @@ describe('TodayPage', () => {
     renderToday({ data: { challenges: lvl1 } })
     expect(screen.getByText('0 jour')).toBeInTheDocument()
     expect(screen.getByText('Encore 60 min de guitare pour tenir la série')).toBeInTheDocument()
-    expect(screen.getByText('Niveau 1')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Niveau 1, voir la progression' })).toBeInTheDocument()
     expect(screen.getByText('Gamme majeure 1 à 66 bpm')).toBeInTheDocument()
     expect(screen.getByText('3 séances de sport dans la même semaine')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('link', { name: 'Choisir ton programme' }))
@@ -80,8 +80,7 @@ describe('TodayPage', () => {
   test('niveau guitare bloqué : défi requis, réserve, relance', async () => {
     const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-10' })
     const { actions } = renderToday({ data: { guitarSessions: [g('2026-10-14', 60, [], 1540)], challenges: [blocked, lvl1[1]] } })
-    expect(screen.getByText('Défi requis')).toBeInTheDocument()
-    expect(screen.getByText('+340 XP en réserve')).toBeInTheDocument()
+    expect(screen.getByText('Bloquant')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 84 bpm/ }))
     expect(screen.queryByRole('button', { name: 'Défi plus facile' })).not.toBeInTheDocument()
     await userEvent.click(screen.getAllByRole('button', { name: /^Relancer/ })[0])
@@ -99,5 +98,17 @@ describe('TodayPage', () => {
   test('relances épuisées : bouton absent', () => {
     renderToday({ data: { challenges: [challenge({ rerolls: 2 })] } })
     expect(screen.queryByRole('button', { name: /^Relancer/ })).not.toBeInTheDocument()
+  })
+
+  test('cercle de niveau : ouvre le détail, se ferme', async () => {
+    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-10' })
+    renderToday({ data: { guitarSessions: [g('2026-10-14', 60, [], 1540)], challenges: [blocked] } })
+    await userEvent.click(screen.getByRole('button', { name: 'Niveau 1, voir la progression' }))
+    const sheet = screen.getByRole('dialog', { name: 'Progression' })
+    expect(within(sheet).getByText('Défi requis pour passer au niveau 2')).toBeInTheDocument()
+    expect(within(sheet).getByText('+340 XP en réserve')).toBeInTheDocument()
+    expect(within(sheet).getByText('1200 / 1200 XP')).toBeInTheDocument()
+    await userEvent.click(within(sheet).getByRole('button', { name: 'Fermer' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 })

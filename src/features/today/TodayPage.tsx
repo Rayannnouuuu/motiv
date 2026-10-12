@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { lastLog } from '../../domain/lastLog'
-import { allLevels, type DomainLevel } from '../../domain/levels'
+import { allLevels } from '../../domain/levels'
 import { guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
-import { Card } from '../../ui/Card'
-import { Gauge } from '../../ui/Gauge'
+import { ProgressRing } from '../../ui/ProgressRing'
+import { LevelSheet } from '../levels/LevelSheet'
 import { ChallengeCard } from './ChallengeCard'
 import { GuitarCard } from './GuitarCard'
 import { SportCard } from './SportCard'
@@ -14,23 +15,9 @@ const SECTION_TITLE = 'text-xs font-semibold tracking-wide text-muted uppercase'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
-function DomainLine({ icon, label, lvl, color }: { icon: string; label: string; lvl: DomainLevel; color: 'guitar' | 'sport' }) {
-  return (
-    <div className="flex-1">
-      <div className="flex items-baseline justify-between text-sm">
-        <span>
-          {icon} niv. {lvl.level}
-        </span>
-        {lvl.blocked && <span className="text-xs font-semibold text-accent">Défi requis</span>}
-      </div>
-      <Gauge value={lvl.xpInLevel} max={lvl.perLevel} color={color} label={`${label} : ${lvl.xpInLevel} / ${lvl.perLevel} XP`} className="mt-1 h-1.5" />
-      {lvl.reserve > 0 && <p className="mt-1 text-xs text-muted">+{lvl.reserve} XP en réserve</p>}
-    </div>
-  )
-}
-
 export function TodayPage() {
   const { data, today } = useAppData()
+  const [showLevels, setShowLevels] = useState(false)
 
   const streak = guitarStreak(data.guitarSessions, today)
   const levels = allLevels(data)
@@ -46,7 +33,17 @@ export function TodayPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="flex flex-col items-center gap-1 pt-4 text-center">
+      <section className="relative flex flex-col items-center gap-1 pt-4 text-center">
+        <button
+          type="button"
+          aria-label={`Niveau ${levels.global.level}, voir la progression`}
+          className="absolute top-0 right-0 rounded-full active:scale-95"
+          onClick={() => setShowLevels(true)}
+        >
+          <ProgressRing value={levels.global.xpInLevel} max={levels.global.perLevel} size={52} stroke={6}>
+            <span className="text-base font-bold tabular-nums">{levels.global.level}</span>
+          </ProgressRing>
+        </button>
         <div className={`text-7xl leading-none ${streak.days === 0 ? 'opacity-40 grayscale' : ''}`} aria-hidden>
           🔥
         </div>
@@ -80,22 +77,7 @@ export function TodayPage() {
         )}
       </section>
 
-      <section className="flex flex-col gap-4" aria-labelledby="levels-title">
-        <h2 id="levels-title" className={SECTION_TITLE}>
-          Progression
-        </h2>
-        <Card>
-        <div className="flex items-baseline justify-between">
-          <p className="text-lg font-semibold">Niveau {levels.global.level}</p>
-          <p className="text-sm text-muted">{levels.global.perLevel - levels.global.xpInLevel} XP restants</p>
-        </div>
-        <Gauge value={levels.global.xpInLevel} max={levels.global.perLevel} label="Niveau global" className="mt-2 h-2.5" />
-        <div className="mt-3 flex gap-4">
-          <DomainLine icon="🎸" label="Guitare" lvl={levels.guitar} color="guitar" />
-          <DomainLine icon="🏋️" label="Sport" lvl={levels.sport} color="sport" />
-        </div>
-        </Card>
-      </section>
+      {showLevels && <LevelSheet onClose={() => setShowLevels(false)} />}
     </div>
   )
 }
