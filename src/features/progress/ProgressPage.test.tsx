@@ -22,8 +22,9 @@ const metric = (day: string, weightKg: number | null, waistCm: number | null = n
 describe('ProgressPage', () => {
   test('les 6 onglets', () => {
     renderWithData(<ProgressPage />, { today })
-    for (const name of ['Heures guitare', 'Tempo', 'Morceaux maîtrisés', 'Charges', 'Poids', 'Mensurations'])
+    for (const name of ['Heures guitare', 'Tempo', 'Morceaux maîtrisés', 'Force', 'Poids', 'Mensurations'])
       expect(screen.getByRole('tab', { name })).toBeInTheDocument()
+    expect(screen.queryByRole('tab', { name: 'Charges' })).not.toBeInTheDocument()
   })
 
   test('compte neuf : pas de plantage, pas de données', () => {
@@ -51,14 +52,50 @@ describe('ProgressPage', () => {
     expect(screen.getByText('90 bpm')).toBeInTheDocument()
   })
 
-  test('Charges : exos avec séries, archivés compris', async () => {
+  test('Force : exos avec séries, archivés compris', async () => {
     const archived = pe({ id: 'pe-old', name: 'Dips', archived: true })
     renderWithData(<ProgressPage />, {
       today,
       data: { programs: [program({ exercises: [archived] })], sportSessions: [ss([set(20, 8, 'pe-old')], '2026-10-10')] },
     })
-    await tab('Charges')
+    await tab('Force')
     expect(screen.getByRole('option', { name: 'Dips' })).toBeInTheDocument()
+  })
+
+  test('Force : sans séance, message vide', async () => {
+    renderWithData(<ProgressPage />, { today })
+    await tab('Force')
+    expect(screen.getByText('Fais une séance de sport pour voir ta force.')).toBeInTheDocument()
+  })
+
+  test('Force au poids du corps : max de reps', async () => {
+    const dips = pe({ id: 'pe-dips', name: 'Dips' })
+    renderWithData(<ProgressPage />, {
+      today,
+      data: { programs: [program({ exercises: [dips] })], sportSessions: [ss([set(0, 6, 'pe-dips')], '2026-10-01'), ss([set(0, 8, 'pe-dips')], '2026-10-10')] },
+    })
+    await tab('Force')
+    expect(screen.getByText('Max de reps en une série')).toBeInTheDocument()
+    expect(screen.getAllByText('8 reps').length).toBeGreaterThan(0)
+    expect(screen.getByTestId('delta')).toHaveTextContent('+2 reps sur 90 j')
+  })
+
+  test('Force chargée : 1RM estimé, écart et records détaillés', async () => {
+    const bench = pe({ id: 'pe-bench', name: 'Développé couché' })
+    renderWithData(<ProgressPage />, {
+      today,
+      data: {
+        programs: [program({ exercises: [bench] })],
+        sportSessions: [ss([set(0, 12, 'pe-bench'), set(62.5, 8, 'pe-bench')], '2026-10-01'), ss([set(65, 8, 'pe-bench')], '2026-10-10')],
+      },
+    })
+    await tab('Force')
+    expect(screen.getByText('Force estimée (1RM)')).toBeInTheDocument()
+    expect(screen.getByText('≈ 82,5 kg')).toBeInTheDocument()
+    expect(screen.getByTestId('delta')).toHaveTextContent('+3,5 kg sur 90 j')
+    expect(screen.getByText('65 kg × 8 → ≈ 82,5 kg')).toBeInTheDocument()
+    expect(screen.getByText('62,5 kg × 8 → ≈ 79 kg')).toBeInTheDocument()
+    expect(screen.getByText(/Estimation d'Epley/)).toBeInTheDocument()
   })
 
   test('Poids : « + mesure », Enregistrer désactivé si tout est vide', async () => {

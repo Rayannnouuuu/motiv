@@ -1,5 +1,5 @@
 import { addDays } from './date'
-import type { BodyField, BodyMetric, Day, GuitarSession, Song, SportSession } from './types'
+import type { BodyField, BodyMetric, Day, GuitarSession, Song, SportSession, SportSet } from './types'
 
 export interface Point {
   day: Day
@@ -54,10 +54,40 @@ export function tempoSeries(sessions: GuitarSession[], exerciseId: string): Poin
   )
 }
 
-export function weightSeries(sessions: SportSession[], programExerciseId: string): Point[] {
-  return runningMax(
-    sessions.flatMap((s) => s.sets.filter((x) => x.programExerciseId === programExerciseId).map((x) => ({ day: s.day, value: x.weightKg }))),
-  )
+/** Force estimée (1RM, formule d'Epley) : charge × (1 + reps / 30), reps plafonnées à 12, arrondie au 0,5 kg. */
+export function e1rm(weightKg: number, reps: number): number {
+  return Math.round(weightKg * (1 + Math.min(reps, 12) / 30) * 2) / 2
+}
+
+export interface StrengthSeries {
+  unit: 'kg' | 'reps'
+  points: Point[]
+  /** Pour chaque jour qui a un point : la série qui donne sa valeur (max courant). */
+  best: Map<Day, SportSet>
+}
+
+/**
+ * Courbe de force d'un exo sport, en max courant. Dès qu'une série est chargée (> 0 kg) : 1RM estimé,
+ * les séries à 0 kg (échauffements) sont ignorées. Sinon (poids du corps) : max de reps en une série.
+ */
+export function strengthSeries(sessions: SportSession[], programExerciseId: string): StrengthSeries {
+  const sets = [...sessions]
+    .sort(byDay)
+    .flatMap((s) => s.sets.filter((x) => x.programExerciseId === programExerciseId).map((set) => ({ day: s.day, set })))
+  const unit = sets.some((x) => x.set.weightKg > 0) ? 'kg' : 'reps'
+  const valueOf = (set: SportSet) => (unit === 'kg' ? e1rm(set.weightKg, set.reps) : set.reps)
+  const points: Point[] = []
+  const best = new Map<Day, SportSet>()
+  let top: SportSet | null = null
+  for (const { day, set } of sets) {
+    if (unit === 'kg' && set.weightKg <= 0) continue
+    if (top === null || valueOf(set) > valueOf(top)) top = set
+    const point = { day, value: valueOf(top) }
+    if (points.at(-1)?.day === day) points[points.length - 1] = point
+    else points.push(point)
+    best.set(day, top)
+  }
+  return { unit, points, best }
 }
 
 export function bodySeries(metrics: BodyMetric[], field: BodyField): Point[] {
