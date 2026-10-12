@@ -10,6 +10,8 @@ import { ChallengeCard } from './ChallengeCard'
 import { GuitarCard } from './GuitarCard'
 import { SportCard } from './SportCard'
 
+const SECTION_TITLE = 'text-xs font-semibold tracking-wide text-muted uppercase'
+
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 function DomainLine({ icon, label, lvl, color }: { icon: string; label: string; lvl: DomainLevel; color: 'guitar' | 'sport' }) {
@@ -43,8 +45,8 @@ export function TodayPage() {
     .sort((a, b) => Number(levels[b.d].blocked) - Number(levels[a.d].blocked))
 
   return (
-    <div className="flex flex-col gap-4">
-      <section className="flex flex-col items-center gap-1 pt-4 pb-2 text-center">
+    <div className="flex flex-col gap-8">
+      <section className="flex flex-col items-center gap-1 pt-4 text-center">
         <div className={`text-7xl leading-none ${streak.days === 0 ? 'opacity-40 grayscale' : ''}`} aria-hidden>
           🔥
         </div>
@@ -55,9 +57,9 @@ export function TodayPage() {
       </section>
 
       {challenges.length > 0 && (
-        <section className="flex flex-col gap-3" aria-labelledby="challenges-title">
-          <h2 id="challenges-title" className="text-lg font-semibold">
-            🎯 Tes défis
+        <section className="flex flex-col gap-2 rounded-2xl border border-accent/30 bg-accent/5 p-3" aria-labelledby="challenges-title">
+          <h2 id="challenges-title" className={SECTION_TITLE}>
+            🎯 Défis en cours
           </h2>
           {challenges.map(({ c, d }) => (
             <ChallengeCard key={c.id} challenge={c} level={levels[d]} />
@@ -65,17 +67,24 @@ export function TodayPage() {
         </section>
       )}
 
-      <GuitarCard />
+      <section className="flex flex-col gap-4" aria-labelledby="today-title">
+        <h2 id="today-title" className={SECTION_TITLE}>
+          Aujourd'hui
+        </h2>
+        <GuitarCard />
+        <SportCard />
+        {lastLog(data) && (
+          <Link to="/log/corriger" className="self-center text-sm text-muted underline">
+            Corriger le dernier log
+          </Link>
+        )}
+      </section>
 
-      <SportCard />
-
-      {lastLog(data) && (
-        <Link to="/log/corriger" className="self-center text-sm text-muted underline">
-          Corriger le dernier log
-        </Link>
-      )}
-
-      <Card>
+      <section className="flex flex-col gap-4" aria-labelledby="levels-title">
+        <h2 id="levels-title" className={SECTION_TITLE}>
+          Progression
+        </h2>
+        <Card>
         <div className="flex items-baseline justify-between">
           <p className="text-lg font-semibold">Niveau {levels.global.level}</p>
           <p className="text-sm text-muted">{levels.global.perLevel - levels.global.xpInLevel} XP restants</p>
@@ -85,8 +94,8 @@ export function TodayPage() {
           <DomainLine icon="🎸" label="Guitare" lvl={levels.guitar} color="guitar" />
           <DomainLine icon="🏋️" label="Sport" lvl={levels.sport} color="sport" />
         </div>
-      </Card>
-
+        </Card>
+      </section>
     </div>
   )
 }

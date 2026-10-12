@@ -82,6 +82,7 @@ describe('TodayPage', () => {
     const { actions } = renderToday({ data: { guitarSessions: [g('2026-10-14', 60, [], 1540)], challenges: [blocked, lvl1[1]] } })
     expect(screen.getByText('Défi requis')).toBeInTheDocument()
     expect(screen.getByText('+340 XP en réserve')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 84 bpm/ }))
     expect(screen.queryByRole('button', { name: 'Défi plus facile' })).not.toBeInTheDocument()
     await userEvent.click(screen.getAllByRole('button', { name: /^Relancer/ })[0])
     expect(actions.rerollChallenge).toHaveBeenCalledWith('cg')
@@ -90,6 +91,7 @@ describe('TodayPage', () => {
   test('bloqué depuis 14 jours : version plus facile proposée', async () => {
     const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-01' })
     const { actions } = renderToday({ data: { guitarSessions: [g('2026-10-14', 60, [], 1300)], challenges: [blocked] } })
+    await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 84 bpm/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Défi plus facile' }))
     expect(actions.acceptEasier).toHaveBeenCalledWith('cg')
   })
