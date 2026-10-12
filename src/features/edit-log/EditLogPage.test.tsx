@@ -57,7 +57,7 @@ describe('EditLogPage', () => {
       flowRating: 4,
       desireRating: 3,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: last.id })}`)).toBeInTheDocument()
+    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: last.id, edited: true })}`)).toBeInTheDocument()
   })
 
   test('guitare : décocher un morceau passé en maîtrisé par ce log le remet en cours', async () => {
