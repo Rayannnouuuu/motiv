@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CATEGORY_LABELS, getExercise } from '../../content/exercises'
 import { tipsFor } from '../../content/tips'
@@ -6,6 +7,7 @@ import { bestBpm } from '../../domain/records'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
 import { TabView } from '../../ui/TabView'
+import { Metronome } from './Metronome'
 
 const HISTORY_SIZE = 8
 
@@ -27,6 +29,8 @@ export function ExercisePage() {
   const { data } = useAppData()
   const navigate = useNavigate()
   const ex = getExercise(id)
+  // Dernier tempo joué au métronome sur cet exo, transmis au log.
+  const [played, setPlayed] = useState<{ exerciseId: string; bpm: number } | null>(null)
 
   if (!ex)
     return (
@@ -49,6 +53,7 @@ export function ExercisePage() {
     .slice(0, HISTORY_SIZE)
   const challenge = data.challenges.find((c) => c.status === 'active' && c.target.kind === 'bpm' && c.target.exerciseId === ex.id)
   const challengeBpm = challenge?.target.kind === 'bpm' ? challenge.target.bpm : null
+  const playedBpm = played?.exerciseId === ex.id ? played.bpm : null
 
   return (
     <div className="flex flex-col gap-6 pb-4">
@@ -101,6 +106,15 @@ export function ExercisePage() {
         )}
       </section>
 
+      <Metronome
+        key={ex.id}
+        pattern={ex.pattern}
+        best={best}
+        targetBpm={ex.targetBpm}
+        challengeBpm={challengeBpm}
+        onPlayed={(bpm) => setPlayed({ exerciseId: ex.id, bpm })}
+      />
+
       <section className="flex flex-col gap-2">
         <h2 className="t-footnote px-4 text-muted uppercase">Tablature</h2>
         <TabView pattern={ex.pattern} />
@@ -121,7 +135,9 @@ export function ExercisePage() {
         </ul>
       </section>
 
-      <Button onClick={() => navigate('/log/guitare', { state: { exerciseId: ex.id } })}>Logger cet exo</Button>
+      <Button onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}>
+        Logger cet exo
+      </Button>
     </div>
   )
 }

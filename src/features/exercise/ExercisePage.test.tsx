@@ -1,7 +1,7 @@
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { expect, test } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import { getExercise } from '../../content/exercises'
 import { challenge, ex, g } from '../../test/factories'
 import { renderWithData } from '../../test/renderWithData'
@@ -49,4 +49,44 @@ test('historique des tempos avec lien de correction, défi en cours', () => {
 test('exo inconnu', () => {
   renderPage('ghost-1')
   expect(screen.getByText('Exo inconnu')).toBeInTheDocument()
+})
+
+/** Faux AudioContext du navigateur : juste de quoi lancer le métronome. */
+class FakeAudioContext {
+  currentTime = 0
+  state = 'running'
+  destination = {}
+  resume = vi.fn(async () => {})
+  suspend = vi.fn(async () => {})
+  close = vi.fn(async () => {})
+  createOscillator = vi.fn(() => ({ frequency: { value: 0 }, connect: vi.fn(), start: vi.fn(), stop: vi.fn() }))
+  createGain = vi.fn(() => ({ gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() }, connect: vi.fn() }))
+}
+
+afterEach(() => vi.unstubAllGlobals())
+
+test('la carte Métronome démarre au tempo du record, juste au-dessus de la tablature', () => {
+  renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
+  const card = screen.getByRole('region', { name: 'Métronome' })
+  expect(within(card).getByText('bpm').previousElementSibling).toHaveTextContent('80')
+  expect(within(card).getByRole('button', { name: 'Record 80' })).toHaveAttribute('aria-pressed', 'true')
+  expect(within(card).getByRole('button', { name: `Cible ${getExercise('legato-4')!.targetBpm}` })).toBeInTheDocument()
+  expect(card.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Tablature' }))
+})
+
+test('« Logger cet exo » sans lecture du métronome : pas de tempo transmis', async () => {
+  renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
+  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4"}')).toBeInTheDocument()
+})
+
+test('« Logger cet exo » après lecture : le dernier tempo joué est transmis', async () => {
+  vi.stubGlobal('AudioContext', FakeAudioContext)
+  renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
+  await userEvent.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
+  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":82}')).toBeInTheDocument()
 })

@@ -1,0 +1,276 @@
+import { useEffect, useRef, useState } from 'react'
+import type { TabNote } from '../../content/exercises'
+import { Segmented } from '../../ui/Segmented'
+import { haptic } from '../../ui/spring'
+import { Stepper } from '../../ui/Stepper'
+import { clampBpm, resubdivide, schedule, startBpm, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
+
+/** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
+export type AudioContextLike = Pick<AudioContext, 'currentTime' | 'destination' | 'state' | 'resume' | 'suspend' | 'close' | 'createOscillator' | 'createGain'>
+
+/** Le moteur se réveille toutes les 25 ms et programme les clics des 100 ms à venir sur l'horloge audio. */
+const TICK_MS = 25
+const LOOKAHEAD = 0.1
+const START_DELAY = 0.05
+const BPM_STEP = 2
+const BEATS = 4
+
+const TONES: Record<ClickKind, { freq: number; gain: number }> = {
+  bar: { freq: 1600, gain: 0.9 },
+  beat: { freq: 1000, gain: 0.6 },
+  sub: { freq: 700, gain: 0.3 },
+}
+
+const SUB_LABELS: Record<number, string> = { 2: 'Croches', 3: 'Triolets', 4: 'Doubles' }
+
+function defaultContext(): AudioContextLike {
+  const Ctor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+  return new Ctor()
+}
+
+/** Sur iPhone, « playback » fait sonner l'audio web malgré l'interrupteur silencieux (API absente de lib.dom). */
+function setAudioSession(type: 'playback' | 'auto') {
+  try {
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
+    if (session) session.type = type
+  } catch {
+    // non disponible
+  }
+}
+
+/** Un clic = un oscillateur bref : montée en 2 ms, extinction à 40 ms. */
+function playClick(ctx: AudioContextLike, { time, kind }: Click) {
+  const { freq, gain: peak } = TONES[kind]
+  const osc = ctx.createOscillator()
+  const gain = ctx.createGain()
+  osc.frequency.value = freq
+  gain.gain.setValueAtTime(0.0001, time)
+  gain.gain.exponentialRampToValueAtTime(peak, time + 0.002)
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.04)
+  osc.connect(gain)
+  gain.connect(ctx.destination)
+  osc.start(time)
+  osc.stop(time + 0.05)
+}
+
+/** Moteur audio : vit hors du rendu React, lit le tempo et la subdivision à chaque réveil. */
+class Engine {
+  bpm: number
+  sub: number
+  private ctx: AudioContextLike | null = null
+  private timer: ReturnType<typeof setInterval> | undefined
+  private cursor: Cursor = { nextTime: 0, index: 0 }
+  private visuals = new Set<ReturnType<typeof setTimeout>>()
+  private createContext: () => AudioContextLike
+  private onBeat: (beat: number) => void
+
+  constructor(bpm: number, sub: number, createContext: () => AudioContextLike, onBeat: (beat: number) => void) {
+    this.bpm = bpm
+    this.sub = sub
+    this.createContext = createContext
+    this.onBeat = onBeat
+  }
+
+  get playing() {
+    return this.timer !== undefined
+  }
+
+  /** À appeler dans le geste de l'utilisateur (sinon iOS garde l'audio muet). */
+  start(): boolean {
+    if (this.playing) return true
+    setAudioSession('playback')
+    if (!this.ctx) {
+      try {
+        this.ctx = this.createContext()
+      } catch {
+        setAudioSession('auto')
+        return false
+      }
+    }
+    if (this.ctx.state !== 'running') this.ctx.resume().catch(() => {})
+    this.cursor = { nextTime: this.ctx.currentTime + START_DELAY, index: 0 }
+    this.tick()
+    this.timer = setInterval(() => this.tick(), TICK_MS)
+    return true
+  }
+
+  stop() {
+    if (!this.playing) return
+    clearInterval(this.timer)
+    this.timer = undefined
+    for (const id of this.visuals) clearTimeout(id)
+    this.visuals.clear()
+    this.ctx?.suspend().catch(() => {})
+    setAudioSession('auto')
+  }
+
+  setSub(sub: number) {
+    if (this.playing) this.cursor = resubdivide(this.cursor, this.sub, sub, this.bpm)
+    this.sub = sub
+  }
+
+  dispose() {
+    this.stop()
+    this.ctx?.close().catch(() => {})
+    this.ctx = null
+  }
+
+  private tick() {
+    const ctx = this.ctx
+    if (!ctx) return
+    const { clicks, next } = schedule(this.cursor, ctx.currentTime, LOOKAHEAD, this.bpm, this.sub)
+    this.cursor = next
+    for (const click of clicks) {
+      playClick(ctx, click)
+      if (click.kind === 'sub') continue
+      // Le point s'allume quand le clic sonne, pas quand il est programmé.
+      const beat = Math.floor((click.index % (this.sub * BEATS)) / this.sub)
+      const id = setTimeout(() => {
+        this.visuals.delete(id)
+        this.onBeat(beat)
+      }, Math.max(0, (click.time - ctx.currentTime) * 1000))
+      this.visuals.add(id)
+    }
+  }
+}
+
+/** Métronome de la fiche exo : réglé sur ton record, il remonte au log le tempo réellement joué. */
+export function Metronome({ pattern, best, targetBpm, challengeBpm, onPlayed, createContext = defaultContext }: {
+  pattern: TabNote[]
+  best: number | null
+  targetBpm: number
+  challengeBpm: number | null
+  onPlayed?: (bpm: number) => void
+  createContext?: () => AudioContextLike
+}) {
+  const patternSub = subdivisionOf(pattern)
+  const [bpm, setBpm] = useState(() => startBpm(best, targetBpm))
+  const [sub, setSub] = useState<number>(patternSub)
+  const [playing, setPlaying] = useState(false)
+  const [beat, setBeat] = useState(-1)
+  const engineRef = useRef<Engine | null>(null)
+
+  const engine = () => (engineRef.current ??= new Engine(bpm, sub, createContext, setBeat))
+
+  // Arrêt quand la page passe en arrière-plan, et au démontage.
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState !== 'hidden' || !engineRef.current?.playing) return
+      engineRef.current.stop()
+      setPlaying(false)
+      setBeat(-1)
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility)
+      engineRef.current?.dispose()
+      engineRef.current = null
+    }
+  }, [])
+
+  const toggle = () => {
+    haptic()
+    const e = engine()
+    if (e.playing) {
+      e.stop()
+      setPlaying(false)
+      setBeat(-1)
+    } else if (e.start()) {
+      setPlaying(true)
+      onPlayed?.(e.bpm)
+    }
+  }
+
+  const changeBpm = (n: number) => {
+    const next = clampBpm(n)
+    if (next === bpm) return
+    setBpm(next)
+    if (!engineRef.current) return
+    engineRef.current.bpm = next
+    if (engineRef.current.playing) onPlayed?.(next)
+  }
+
+  const changeSub = (next: number) => {
+    setSub(next)
+    if (engineRef.current) engineRef.current.setSub(next)
+  }
+
+  const shortcuts = [
+    best !== null && { key: 'record', label: `Record ${best}`, value: best },
+    { key: 'target', label: `Cible ${targetBpm}`, value: targetBpm },
+    challengeBpm !== null && { key: 'challenge', label: `🎯 ${challengeBpm}`, aria: `Défi ${challengeBpm}`, value: challengeBpm },
+  ].filter((s) => s !== false)
+
+  return (
+    <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-labelledby="metronome-title">
+      <div className="flex min-h-8 items-center justify-between gap-3">
+        <h2 id="metronome-title" className="t-headline">
+          Métronome
+        </h2>
+        {patternSub > 1 && (
+          <div className="w-44">
+            <Segmented
+              label="Subdivision"
+              options={[
+                { value: '1', label: 'Noires' },
+                { value: String(patternSub), label: SUB_LABELS[patternSub] },
+              ]}
+              value={String(sub)}
+              onChange={(v) => changeSub(Number(v))}
+            />
+          </div>
+        )}
+      </div>
+
+      <Stepper label="Tempo" onMinus={() => changeBpm(bpm - BPM_STEP)} onPlus={() => changeBpm(bpm + BPM_STEP)}>
+        <p className="tabular-nums">
+          <span className="t-large">{bpm}</span> <span className="t-footnote text-muted">bpm</span>
+        </p>
+      </Stepper>
+
+      <div className="flex flex-wrap justify-center gap-2">
+        {shortcuts.map((s) => (
+          <button
+            key={s.key}
+            type="button"
+            aria-label={'aria' in s ? s.aria : undefined}
+            aria-pressed={bpm === clampBpm(s.value)}
+            onClick={() => changeBpm(s.value)}
+            className={`tap t-footnote rounded-full px-3 py-1.5 tabular-nums ${bpm === clampBpm(s.value) ? 'bg-accent/12 font-semibold text-accent' : 'bg-fill'}`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between gap-4">
+        <div aria-hidden className="flex flex-1 justify-center gap-3">
+          {Array.from({ length: BEATS }, (_, i) => (
+            <span
+              key={i}
+              className={`h-3 w-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-accent' : 'bg-guitar'}` : 'bg-fill-strong'}`}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? 'Arrêter le métronome' : 'Lancer le métronome'}
+          className="tap-scale flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent text-white shadow-card"
+        >
+          {playing ? (
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
+              <rect x="3" y="3" width="16" height="16" rx="2.5" fill="currentColor" />
+            </svg>
+          ) : (
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden className="ml-1">
+              <path d="M7 4.7v16.6a1.2 1.2 0 0 0 1.8 1L22.4 14a1.2 1.2 0 0 0 0-2L8.8 3.7A1.2 1.2 0 0 0 7 4.7Z" fill="currentColor" />
+            </svg>
+          )}
+        </button>
+      </div>
+
+      <p className="t-footnote text-muted">Le métronome sonne même en mode silencieux.</p>
+    </section>
+  )
+}
