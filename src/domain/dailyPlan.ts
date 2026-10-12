@@ -25,21 +25,22 @@ function nextFor(category: ExerciseCategory, maxDone: number | undefined): Exerc
 
 /**
  * Exos proposés aujourd'hui, dans l'ordre :
- * 1. l'exo du défi guitare en cours (défi de tempo) ;
- * 2. la suite de la dernière catégorie travaillée (gammes pour un compte neuf) ;
- * 3. une autre catégorie, qui change chaque jour.
+ * 1. la suite de la dernière catégorie travaillée (gammes pour un compte neuf) ;
+ * 2-3. d'autres catégories, qui changent chaque jour.
+ * L'exo du défi en cours n'en fait jamais partie.
  * Le plan est stable sur la journée.
  */
 export function dailyPlan(data: Pick<AppData, 'guitarSessions' | 'challenges'>, today: Day): Exercise[] {
   const plan: Exercise[] = []
+  // L'exo d'un défi en cours se travaille à part : il n'est jamais proposé dans les exos du jour.
+  const challengeIds = new Set(
+    data.challenges.flatMap((c) => (c.domain === 'guitar' && c.status === 'active' && c.target.kind === 'bpm' ? [c.target.exerciseId] : [])),
+  )
   const add = (ex: Exercise | undefined) => {
-    // Doublon : on avance dans la catégorie plutôt que de perdre une place.
-    while (ex && plan.some((p) => p.id === ex!.id)) ex = nextInCategory(ex)
+    // Doublon ou exo de défi : on avance dans la catégorie plutôt que de perdre une place.
+    while (ex && (plan.some((p) => p.id === ex!.id) || challengeIds.has(ex.id))) ex = nextInCategory(ex)
     if (ex && plan.length < DAILY_PLAN_SIZE) plan.push(ex)
   }
-
-  const challenge = data.challenges.find((c) => c.domain === 'guitar' && c.status === 'active' && c.target.kind === 'bpm')
-  if (challenge?.target.kind === 'bpm') add(getExercise(challenge.target.exerciseId))
 
   // Historique jusqu'à hier : le plan ne bouge pas quand on logge un exo du jour.
   const past = data.guitarSessions.filter((s) => s.day < today)

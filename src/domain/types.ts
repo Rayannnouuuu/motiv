@@ -78,7 +78,7 @@ export type ChallengeTarget =
   | { kind: 'song'; songId: string }
   | { kind: 'weight'; programExerciseId: string; reps: number; weightKg: number; baseline: number }
   | { kind: 'reps'; programExerciseId: string; weightKg: number; reps: number; baseline: number }
-  | { kind: 'sessionsInWeek'; count: 3 }
+  | { kind: 'sessionsInWeek'; count: number }
 
 export interface Challenge {
   id: string

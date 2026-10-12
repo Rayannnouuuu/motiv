@@ -61,7 +61,7 @@ describe('relance et version plus facile', () => {
   const twoExos = data({ guitarSessions: [g('2026-10-14', 30, [ex('legato-10', 100), ex('picking-10', 100)])] })
 
   test('rerollChallenge : replace + nouveau défi même niveau, rerolls + 1, cible différente', () => {
-    const c: Challenge = challenge({ id: 'c1', createdOn: '2026-10-10', blockedSince: '2026-10-12', target: { kind: 'bpm', exerciseId: 'legato-10', bpm: 110, baseline: 100 } })
+    const c: Challenge = challenge({ id: 'c1', createdOn: '2026-10-10', blockedSince: '2026-10-12', target: { kind: 'bpm', exerciseId: 'legato-10', bpm: 120, baseline: 100 } })
     const u = rerollChallenge({ ...twoExos, challenges: [c] }, 'c1', today, deps)
     expect(u[0]).toEqual({ type: 'replace', id: 'c1' })
     const next = creates(u)[0]
@@ -75,7 +75,7 @@ describe('relance et version plus facile', () => {
   })
 
   test('rerollChallenge sans autre cible possible : refusé', () => {
-    const c = challenge({ id: 'c1' }) // scales-1, compte vide → seule cible possible
+    const c = challenge({ id: 'c1', target: { kind: 'bpm', exerciseId: 'scales-3', bpm: 78, baseline: null } }) // compte vide → seule cible possible
     expect(rerollChallenge(data({ challenges: [c] }), 'c1', today, deps)).toEqual([])
   })
 

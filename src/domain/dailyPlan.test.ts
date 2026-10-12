@@ -16,12 +16,11 @@ describe('dailyPlan', () => {
     expect(new Set(plan.map((e) => e.category)).size).toBe(3)
   })
 
-  test('défi de tempo en premier, sans doublon avec la progression', () => {
+  test('l’exo du défi en cours n’est jamais proposé', () => {
     const c = challenge({ target: { kind: 'bpm', exerciseId: 'scales-1', bpm: 66, baseline: null } })
     const plan = ids({ guitarSessions: [], challenges: [c] })
-    expect(plan[0]).toBe('scales-1')
-    expect(plan[1]).toMatch(/^scales-/)
-    expect(plan[1]).not.toBe('scales-1')
+    expect(plan).not.toContain('scales-1')
+    expect(plan[0]).toBe('scales-2')
     expect(plan).toHaveLength(3)
   })
 
