@@ -2,11 +2,12 @@ import { expect, test } from 'vitest'
 import { ex, g, mkSong, set, ss } from '../test/factories'
 import {
   bodySeries,
+  e1rm,
   guitarHoursSeries,
   masteredSongsSeries,
   recordsOf,
+  strengthSeries,
   tempoSeries,
-  weightSeries,
   windowPoints,
   type Point,
 } from './series'
@@ -32,9 +33,48 @@ test('tempo : meilleur cumulé par jour loggé', () => {
   expect(tempoSeries(s, 'legato-4')).toEqual([p('2026-10-01', 80), p('2026-10-03', 80), p('2026-10-05', 84)])
 })
 
-test('charge max cumulée', () => {
-  const s = [ss([set(60, 8, 'a'), set(62.5, 5, 'a')], '2026-10-01'), ss([set(60, 8, 'a')], '2026-10-04')]
-  expect(weightSeries(s, 'a')).toEqual([p('2026-10-01', 62.5), p('2026-10-04', 62.5)])
+test('e1rm : Epley arrondi au 0,5 kg, reps plafonnées à 12', () => {
+  expect(e1rm(65, 8)).toBe(82.5)
+  expect(e1rm(62.5, 8)).toBe(79)
+  expect(e1rm(62.5, 10)).toBe(83.5)
+  expect(e1rm(60, 20)).toBe(e1rm(60, 12))
+})
+
+test('force : plus de reps à la même charge fait monter la courbe', () => {
+  const s = [ss([set(62.5, 8, 'a')], '2026-10-01'), ss([set(62.5, 10, 'a')], '2026-10-04')]
+  const r = strengthSeries(s, 'a')
+  expect(r.unit).toBe('kg')
+  expect(r.points).toEqual([p('2026-10-01', 79), p('2026-10-04', 83.5)])
+  expect(r.best.get('2026-10-04')).toEqual(set(62.5, 10, 'a'))
+})
+
+test('force : max courant, la meilleure série du jour et celle qui tient le record', () => {
+  const best = set(65, 8, 'a')
+  const s = [ss([set(60, 8, 'a'), best, set(70, 1, 'b')], '2026-10-01'), ss([set(60, 8, 'a')], '2026-10-04')]
+  const r = strengthSeries(s, 'a')
+  expect(r.points).toEqual([p('2026-10-01', 82.5), p('2026-10-04', 82.5)])
+  expect(r.best.get('2026-10-01')).toBe(best)
+  expect(r.best.get('2026-10-04')).toBe(best)
+})
+
+test('force au poids du corps : max de reps', () => {
+  const s = [ss([set(0, 8, 'dips')], '2026-10-01'), ss([set(0, 10, 'dips'), set(0, 7, 'dips')], '2026-10-04')]
+  const r = strengthSeries(s, 'dips')
+  expect(r.unit).toBe('reps')
+  expect(r.points).toEqual([p('2026-10-01', 8), p('2026-10-04', 10)])
+  expect(r.best.get('2026-10-04')).toEqual(set(0, 10, 'dips'))
+})
+
+test('force : un échauffement à 0 kg est ignoré quand il y a des séries chargées', () => {
+  const s = [ss([set(0, 15, 'a')], '2026-09-28'), ss([set(0, 20, 'a'), set(60, 5, 'a')], '2026-10-01')]
+  const r = strengthSeries(s, 'a')
+  expect(r.unit).toBe('kg')
+  expect(r.points).toEqual([p('2026-10-01', 70)])
+  expect([...r.best.keys()]).toEqual(['2026-10-01'])
+})
+
+test('force : aucune série → courbe vide', () => {
+  expect(strengthSeries([ss([set(60, 8, 'b')])], 'a')).toEqual({ unit: 'reps', points: [], best: new Map() })
 })
 
 test('mesures : valeurs non nulles', () => {

@@ -7,8 +7,8 @@ import {
   guitarHoursSeries,
   masteredSongsSeries,
   recordsOf,
+  strengthSeries,
   tempoSeries,
-  weightSeries,
   windowPoints,
   type Period,
   type Point,
@@ -23,13 +23,13 @@ import { Sheet } from '../../ui/Sheet'
 import { BodyMetricForm } from './BodyMetricForm'
 import { BODY_FIELDS } from './bodyFields'
 
-type Metric = 'hours' | 'tempo' | 'songs' | 'weights' | 'body' | 'measures'
+type Metric = 'hours' | 'tempo' | 'songs' | 'strength' | 'body' | 'measures'
 
 const METRICS: { id: Metric; label: string }[] = [
   { id: 'hours', label: 'Heures guitare' },
   { id: 'tempo', label: 'Tempo' },
   { id: 'songs', label: 'Morceaux maîtrisés' },
-  { id: 'weights', label: 'Charges' },
+  { id: 'strength', label: 'Force' },
   { id: 'body', label: 'Poids' },
   { id: 'measures', label: 'Mensurations' },
 ]
@@ -38,6 +38,8 @@ const MEASURES = BODY_FIELDS.filter((f) => f.field !== 'weightKg')
 const HOURS_MILESTONE = 10
 
 const num = (v: number, digits = 1) => v.toLocaleString('fr-FR', { maximumFractionDigits: digits })
+const reps = (v: number) => `${v} rep${v > 1 ? 's' : ''}`
+const kg = (v: number) => `${num(v, 2)} kg`
 const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 
 interface Option {
@@ -58,7 +60,7 @@ function tempoOptions(data: AppData): Option[] {
 }
 
 /** Exos sport avec au moins une série, archivés compris (l'historique reste lisible). */
-function weightOptions(data: AppData): Option[] {
+function sportOptions(data: AppData): Option[] {
   const names = new Map(data.programs.flatMap((p) => p.exercises.map((e) => [e.id, e.name] as const)))
   const out: Option[] = []
   for (const s of [...data.sportSessions].sort((a, b) => b.day.localeCompare(a.day)))
@@ -70,10 +72,18 @@ function weightOptions(data: AppData): Option[] {
 interface View {
   points: Point[]
   format: (v: number) => string
+  /** Format de l'écart sur la période (par défaut : format). */
+  formatDelta?: (v: number) => string
+  /** Ce que mesure la courbe, sous le sélecteur. */
+  caption?: string
+  /** Explication en pied de carte. */
+  footnote?: string
   listTitle: string
   list: { day: string; label: string }[]
   records: Point[]
 }
+
+const EPLEY_NOTE = "Estimation d'Epley : charge × (1 + reps / 30). Plus de reps à la même charge fait monter la courbe."
 
 function buildView(data: AppData, metric: Metric, sub: string | undefined, today: string, period: Period): View {
   const start = addDays(today, -(period - 1))
@@ -97,12 +107,40 @@ function buildView(data: AppData, metric: Metric, sub: string | undefined, today
         .map((s) => ({ day: s.masteredOn!, label: s.title }))
       return { points: masteredSongsSeries(data.songs), format: (v) => `${v} morceau${v > 1 ? 'x' : ''}`, listTitle: 'Morceaux', list, records: [] }
     }
-    case 'tempo':
-    case 'weights': {
-      const points = !sub ? [] : metric === 'tempo' ? tempoSeries(data.guitarSessions, sub) : weightSeries(data.sportSessions, sub)
-      const format = metric === 'tempo' ? (v: number) => `${v} bpm` : (v: number) => (v === 0 ? 'PDC' : `${num(v, 2)} kg`)
+    case 'tempo': {
+      const points = sub ? tempoSeries(data.guitarSessions, sub) : []
+      const format = (v: number) => `${v} bpm`
       const records = recordsOf(points).filter(inWindow)
       return { points, format, listTitle: 'Records', list: [...records].reverse().map((p) => ({ day: p.day, label: format(p.value) })), records }
+    }
+    case 'strength': {
+      if (!sub) return { points: [], format: kg, footnote: EPLEY_NOTE, listTitle: 'Records', list: [], records: [] }
+      const { unit, points, best } = strengthSeries(data.sportSessions, sub)
+      const records = recordsOf(points).filter(inWindow)
+      if (unit === 'reps')
+        return {
+          points,
+          format: reps,
+          caption: 'Max de reps en une série',
+          listTitle: 'Records',
+          list: [...records].reverse().map((p) => ({ day: p.day, label: reps(p.value) })),
+          records,
+        }
+      const format = (v: number) => `≈ ${kg(v)}`
+      const label = (p: Point) => {
+        const set = best.get(p.day)
+        return set ? `${kg(set.weightKg)} × ${set.reps} → ${format(p.value)}` : format(p.value)
+      }
+      return {
+        points,
+        format,
+        formatDelta: kg,
+        caption: 'Force estimée (1RM)',
+        footnote: EPLEY_NOTE,
+        listTitle: 'Records',
+        list: [...records].reverse().map((p) => ({ day: p.day, label: label(p) })),
+        records,
+      }
     }
     case 'body':
     case 'measures': {
@@ -129,8 +167,8 @@ export function ProgressPage() {
   const options: Option[] =
     metric === 'tempo'
       ? tempoOptions(data)
-      : metric === 'weights'
-        ? weightOptions(data)
+      : metric === 'strength'
+        ? sportOptions(data)
         : metric === 'measures'
           ? MEASURES.map((m) => ({ id: m.field, label: m.label }))
           : []
@@ -138,6 +176,7 @@ export function ProgressPage() {
 
   const view = buildView(data, metric, sub, today, period)
   const win = windowPoints(view.points, today, period)
+  const formatDelta = view.formatDelta ?? view.format
   const list = view.list.slice(0, 10)
 
   return (
@@ -168,7 +207,7 @@ export function ProgressPage() {
                 aria-label={metric === 'measures' ? 'Mesure' : 'Exo'}
                 value={sub}
                 onChange={(e) => setChoice({ ...choice, [metric]: e.target.value })}
-                className="tap min-w-0 max-w-[65%] appearance-none truncate bg-transparent text-right font-semibold text-accent"
+                className="tap t-callout min-w-0 max-w-[65%] appearance-none truncate bg-transparent text-right font-semibold text-accent"
               >
                 {options.map((o) => (
                   <option key={o.id} value={o.id}>
@@ -178,9 +217,10 @@ export function ProgressPage() {
               </select>
             </label>
           )}
-          {(metric === 'tempo' || metric === 'weights') && options.length === 0 && (
+          {view.caption && <p className="t-footnote -mt-3 text-muted">{view.caption}</p>}
+          {(metric === 'tempo' || metric === 'strength') && options.length === 0 && (
             <p className="t-subhead text-muted">
-              {metric === 'tempo' ? 'Logge un tempo sur un exo pour voir sa courbe.' : 'Fais une séance de sport pour voir tes charges.'}
+              {metric === 'tempo' ? 'Logge un tempo sur un exo pour voir sa courbe.' : 'Fais une séance de sport pour voir ta force.'}
             </p>
           )}
 
@@ -189,7 +229,7 @@ export function ProgressPage() {
             {win.delta !== null && (
               <p className={`t-subhead font-semibold ${win.delta > 0 ? 'text-guitar' : 'text-muted'}`} data-testid="delta">
                 {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
-                {view.format(Math.abs(win.delta))} sur {period} j
+                {formatDelta(Math.abs(win.delta))} sur {period} j
               </p>
             )}
           </div>
@@ -202,6 +242,8 @@ export function ProgressPage() {
             value={String(period)}
             onChange={(v) => setPeriod(Number(v) as Period)}
           />
+
+          {view.footnote && <p className="t-footnote text-muted">{view.footnote}</p>}
         </section>
 
         {(metric === 'body' || metric === 'measures') && (
