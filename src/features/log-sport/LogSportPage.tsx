@@ -34,6 +34,8 @@ export function LogSportPage() {
   const [live, setLive] = useState<LiveState | null>(loadLive)
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
+  const [editing, setEditing] = useState<{ exerciseId: string; setIndex: number; before: { weightKg: number; reps: number } } | null>(null)
+  const [confirmAbandon, setConfirmAbandon] = useState(false)
 
   useEffect(() => saveLive(live), [live])
   // Écrit tout de suite : la page peut être démontée avant l'effet (navigation).
@@ -80,6 +82,15 @@ export function LogSportPage() {
 
   const index = resolveIndex(live, exercises)
   const dispatch = (a: LiveAction) => setLive((s) => (s ? liveReducer(s, a, exercises) : s))
+  const abandon = () => {
+    clear()
+    navigate('/')
+  }
+  // Série validée en cours de modification, et les valeurs à remettre si on annule.
+  const stopEditing = (restore: boolean) => {
+    if (restore && editing) dispatch({ type: 'load', ...editing.before })
+    setEditing(null)
+  }
   const goBack = () => {
     const prev = exercises[Math.min(index, exercises.length) - 1]
     const p = prev ? prefillFor(prev, data.sportSessions) : { weightKg: 0, reps: 1 }
@@ -92,10 +103,7 @@ export function LogSportPage() {
         live={live}
         onDone={clear}
         onBack={exercises.length > 0 ? goBack : undefined}
-        onAbandon={() => {
-          clear()
-          navigate('/')
-        }}
+        onAbandon={abandon}
       />
     )
 
@@ -104,6 +112,13 @@ export function LogSportPage() {
   const doneSets = live.sets.filter((s) => s.programExerciseId === current.id)
   const next = exercises[index + 1]
   const boxes = Math.max(current.targetSets, doneSets.length + 1)
+  const edited = editing?.exerciseId === current.id ? editing : null
+  const startEditing = (setIndex: number) => {
+    const s = doneSets[setIndex - 1]
+    const before = edited ? edited.before : { weightKg: live.weightKg, reps: live.reps }
+    setEditing({ exerciseId: current.id, setIndex, before })
+    dispatch({ type: 'load', weightKg: s.weightKg, reps: s.reps })
+  }
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -160,19 +175,58 @@ export function LogSportPage() {
         {Array.from({ length: boxes }, (_, i) => {
           const s = doneSets[i]
           return (
-            <li
-              key={i}
-              className={`flex h-12 flex-1 items-center justify-center rounded-xl text-sm tabular-nums ${s ? 'bg-sport text-white' : 'border border-dashed border-line text-muted'}`}
-            >
-              {s ? `${s.reps}×${formatWeight(s.weightKg)}` : i + 1}
+            <li key={i} className="flex flex-1">
+              {s ? (
+                <button
+                  type="button"
+                  aria-label={`Modifier la série ${i + 1}`}
+                  aria-pressed={edited?.setIndex === i + 1}
+                  onClick={() => startEditing(i + 1)}
+                  className={`flex h-12 flex-1 items-center justify-center rounded-xl bg-sport text-sm text-white tabular-nums ${edited?.setIndex === i + 1 ? 'ring-2 ring-offset-2 ring-sport' : ''}`}
+                >
+                  {s.reps}×{formatWeight(s.weightKg)}
+                </button>
+              ) : (
+                <span className="flex h-12 flex-1 items-center justify-center rounded-xl border border-dashed border-line text-sm text-muted tabular-nums">{i + 1}</span>
+              )}
             </li>
           )
         })}
       </ol>
 
+      {!edited && doneSets.length > 0 && <p className="-mt-4 text-xs text-muted">Touche une série faite pour la corriger.</p>}
+
       <div className="mt-auto flex flex-col gap-2">
-        <Button onClick={() => dispatch({ type: 'completeSet' })}>✓ Série {doneSets.length + 1} faite</Button>
-        <div className="flex gap-2">
+        {edited ? (
+          <>
+            <Button
+              onClick={() => {
+                dispatch({ type: 'updateSet', setIndex: edited.setIndex })
+                stopEditing(true)
+              }}
+            >
+              ✓ Enregistrer la série {edited.setIndex}
+            </Button>
+            <div className="flex gap-2">
+              <Button variant="ghost" className="flex-1" onClick={() => stopEditing(true)}>
+                Annuler
+              </Button>
+              <Button
+                variant="ghost"
+                className="flex-1 text-danger"
+                onClick={() => {
+                  dispatch({ type: 'deleteSet', setIndex: edited.setIndex })
+                  stopEditing(true)
+                }}
+              >
+                Supprimer la série
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Button onClick={() => dispatch({ type: 'completeSet' })}>✓ Série {doneSets.length + 1} faite</Button>
+        )}
+        <div className={`flex gap-2 ${edited ? 'hidden' : ''}`}>
           {index > 0 && (
             <Button variant="ghost" onClick={goBack}>
               ← Précédent
@@ -189,6 +243,20 @@ export function LogSportPage() {
             {next ? 'Exo suivant →' : 'Fin de séance →'}
           </Button>
         </div>
+        {confirmAbandon ? (
+          <div className="flex gap-2">
+            <Button variant="ghost" className="flex-1" onClick={() => setConfirmAbandon(false)}>
+              Continuer
+            </Button>
+            <Button variant="ghost" className="flex-1 text-danger" onClick={abandon}>
+              Oui, abandonner
+            </Button>
+          </div>
+        ) : (
+          <button type="button" className="py-1 text-sm text-muted underline" onClick={() => setConfirmAbandon(true)}>
+            Abandonner la séance
+          </button>
+        )}
       </div>
     </div>
   )

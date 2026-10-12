@@ -155,6 +155,41 @@ describe('LogSportPage', () => {
     expect(screen.getByText('at / null')).toBeInTheDocument()
   })
 
+  test('corriger ou supprimer une série déjà faite', async () => {
+    renderSport({ data: { programs: [haut] } })
+    await click('Commencer')
+    await click('✓ Série 1 faite')
+    await click('Reps +')
+    await click('✓ Série 2 faite')
+    expect(loadLive()!.sets).toEqual([set(0, 8, 'bench', 1), set(0, 9, 'bench', 2)])
+
+    await click('Modifier la série 1')
+    expect(screen.getByLabelText('Reps')).toHaveTextContent('8')
+    await click('Charge +')
+    await click('✓ Enregistrer la série 1')
+    expect(loadLive()!.sets).toEqual([set(2.5, 8, 'bench', 1), set(0, 9, 'bench', 2)])
+    expect(screen.getByLabelText('Reps')).toHaveTextContent('9') // valeurs d'avant la correction
+
+    await click('Modifier la série 1')
+    await click('Supprimer la série')
+    expect(loadLive()!.sets).toEqual([set(0, 9, 'bench', 1)])
+    expect(screen.getByRole('button', { name: '✓ Série 2 faite' })).toBeInTheDocument()
+  })
+
+  test('abandonner pendant la séance, avec confirmation', async () => {
+    const { actions } = renderSport({ data: { programs: [haut] } })
+    await click('Commencer')
+    await click('✓ Série 1 faite')
+    await click('Abandonner la séance')
+    await click('Continuer')
+    expect(loadLive()).not.toBeNull()
+    await click('Abandonner la séance')
+    await click('Oui, abandonner')
+    expect(loadLive()).toBeNull()
+    expect(actions.saveSportSession).not.toHaveBeenCalled()
+    expect(screen.getByText('at / null')).toBeInTheDocument()
+  })
+
   test('sans programme : lien vers les réglages', () => {
     renderSport()
     expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/reglages')

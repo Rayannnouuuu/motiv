@@ -19,6 +19,10 @@ export type LiveAction =
   | { type: 'setWeight'; weightKg: number }
   | { type: 'reps'; delta: 1 | -1 }
   | { type: 'completeSet' }
+  /** Série déjà validée de l'exo en cours (setIndex à partir de 1) : la charge et les reps actuelles la remplacent. */
+  | { type: 'updateSet'; setIndex: number }
+  | { type: 'deleteSet'; setIndex: number }
+  | { type: 'load'; weightKg: number; reps: number }
   | { type: 'nextExercise'; prefill: { weightKg: number; reps: number } }
   | { type: 'prevExercise'; prefill: { weightKg: number; reps: number } }
   | { type: 'finish' }
@@ -54,6 +58,22 @@ export function liveReducer(s: LiveState, a: LiveAction, exercises: ProgramExerc
       const setIndex = s.sets.filter((x) => x.programExerciseId === current.id).length + 1
       return { ...s, sets: [...s.sets, { programExerciseId: current.id, setIndex, reps: s.reps, weightKg: s.weightKg }] }
     }
+    case 'updateSet':
+      if (!current) return s
+      return {
+        ...s,
+        sets: s.sets.map((x) => (x.programExerciseId === current.id && x.setIndex === a.setIndex ? { ...x, weightKg: s.weightKg, reps: s.reps } : x)),
+      }
+    case 'deleteSet': {
+      if (!current) return s
+      let n = 0
+      const sets = s.sets
+        .filter((x) => !(x.programExerciseId === current.id && x.setIndex === a.setIndex))
+        .map((x) => (x.programExerciseId === current.id ? { ...x, setIndex: ++n } : x))
+      return { ...s, sets }
+    }
+    case 'load':
+      return { ...s, weightKg: a.weightKg, reps: a.reps }
     case 'nextExercise': {
       const next = exercises[index + 1]
       return { ...s, exerciseIndex: index + 1, exerciseId: next?.id ?? null, ...a.prefill }
