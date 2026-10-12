@@ -51,9 +51,15 @@ describe('génération guitare (plus dur que les exos du jour)', () => {
     expect(generateGuitarTarget(data(), today, first, [])).toEqual({ kind: 'bpm', exerciseId: 'scales-3', bpm: getExercise('scales-3')!.targetBpm, baseline: null })
   })
 
-  test('exos inconnus et exos de plus de 14 jours ignorés', () => {
-    const d = data({ guitarSessions: [g(yesterday, 30, [ex('ghost-1', 100)]), g('2026-09-25', 30, [ex('legato-4', 100)])] })
-    expect(generateGuitarTarget(d, today, first, [])).toMatchObject({ exerciseId: 'scales-3' })
+  test('exos inconnus ignorés ; sans exo récent, une catégorie déjà travaillée', () => {
+    expect(generateGuitarTarget(data({ guitarSessions: [g(yesterday, 30, [ex('ghost-1', 100)])] }), today, first, [])).toMatchObject({ exerciseId: 'scales-3' })
+    const d = data({ guitarSessions: [g('2026-09-25', 30, [ex('legato-4', 100)])] })
+    expect(generateGuitarTarget(d, today, first, [])).toMatchObject({ exerciseId: 'legato-6' })
+  })
+
+  test('défi suivant après le repli réussi : plus le même', () => {
+    const d = data({ guitarSessions: [g('2026-09-01', 30, [ex('scales-3', 80)])] })
+    expect(generateGuitarTarget(d, today, first, [{ kind: 'bpm', exerciseId: 'scales-3', bpm: 78, baseline: null }])).toMatchObject({ exerciseId: 'scales-5' })
   })
 
   test('le 14e jour en arrière compte encore', () => {
@@ -167,4 +173,9 @@ test('describeTarget', () => {
   expect(describeTarget({ kind: 'weight', programExerciseId: 'pe1', reps: 8, weightKg: 62.5, baseline: 60 }, d)).toBe('Tractions : 8 reps à 62,5 kg')
   expect(describeTarget({ kind: 'reps', programExerciseId: 'pe1', weightKg: 0, reps: 10, baseline: 8 }, d)).toBe('Tractions : 10 reps au poids du corps')
   expect(describeTarget({ kind: 'sessionsInWeek', count: 3 }, d)).toBe('3 séances de sport dans la même semaine')
+})
+
+test('version plus facile identique à la cible : pas proposée', () => {
+  const c = challenge({ target: { kind: 'bpm', exerciseId: 'scales-10', bpm: 132, baseline: 130 }, blockedSince: '2026-09-01' })
+  expect(canOfferEasier(c, '2026-10-15')).toBe(false)
 })

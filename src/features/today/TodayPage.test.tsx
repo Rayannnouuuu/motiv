@@ -89,9 +89,9 @@ describe('TodayPage', () => {
   })
 
   test('bloqué depuis 14 jours : version plus facile proposée', async () => {
-    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-01' })
+    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 96, baseline: 80 }, blockedSince: '2026-10-01' })
     const { actions } = renderToday({ data: { guitarSessions: [g('2026-10-14', 60, [], 1300)], challenges: [blocked] } })
-    await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 84 bpm/ }))
+    await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 96 bpm/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Défi plus facile' }))
     expect(actions.acceptEasier).toHaveBeenCalledWith('cg')
   })

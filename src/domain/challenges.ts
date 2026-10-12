@@ -1,6 +1,7 @@
 import { EXERCISES, getExercise } from '../content/exercises'
 import { addDays, daysBetween, weekStart } from './date'
 import { bestBpm, maxDifficultyByCategory, setsForExercise } from './records'
+import type { ExerciseCategory } from '../content/exercises'
 import type { AppData, Challenge, ChallengeTarget, Day } from './types'
 
 export const RECENT_DAYS = 14
@@ -49,6 +50,7 @@ function exerciseAt(category: string, difficulty: number) {
  * 1. un exo de la catégorie travaillée, 2 niveaux au-dessus du plus dur déjà fait, à son tempo cible ;
  * 2. un exo récent poussé de +15 % (au moins +6 bpm), au-delà du tempo cible si besoin ;
  * 3. maîtriser un morceau en cours ;
+ * 4. sans exo récent : une catégorie déjà travaillée, 2 niveaux au-dessus du plus dur déjà fait ;
  * repli : gammes niveau 3 à leur tempo cible.
  */
 export function generateGuitarTarget(data: AppData, today: Day, rng: () => number, exclude: ChallengeTarget[]): ChallengeTarget {
@@ -61,13 +63,17 @@ export function generateGuitarTarget(data: AppData, today: Day, rng: () => numbe
   }
   const maxDone = maxDifficultyByCategory(data.guitarSessions)
 
-  const rule1: ChallengeTarget[] = []
-  for (const category of new Set(recentIds.map((id) => getExercise(id)!.category))) {
-    const e = exerciseAt(category, Math.min(10, (maxDone[category] ?? 0) + DIFFICULTY_JUMP))
-    if (!e) continue
-    const best = bestBpm(data.guitarSessions, e.id)
-    if (best === null || best < e.targetBpm) rule1.push({ kind: 'bpm', exerciseId: e.id, bpm: e.targetBpm, baseline: best })
+  const harderIn = (categories: Iterable<ExerciseCategory>): ChallengeTarget[] => {
+    const out: ChallengeTarget[] = []
+    for (const category of categories) {
+      const e = exerciseAt(category, Math.min(10, (maxDone[category] ?? 0) + DIFFICULTY_JUMP))
+      if (!e) continue
+      const best = bestBpm(data.guitarSessions, e.id)
+      if (best === null || best < e.targetBpm) out.push({ kind: 'bpm', exerciseId: e.id, bpm: e.targetBpm, baseline: best })
+    }
+    return out
   }
+  const rule1 = harderIn(new Set(recentIds.map((id) => getExercise(id)!.category)))
 
   const rule2: ChallengeTarget[] = []
   for (const id of recentIds) {
@@ -81,7 +87,8 @@ export function generateGuitarTarget(data: AppData, today: Day, rng: () => numbe
 
   const start = exerciseAt('scales', 1 + DIFFICULTY_JUMP)
   const fallback: ChallengeTarget = { kind: 'bpm', exerciseId: start.id, bpm: start.targetBpm, baseline: null }
-  return pick([rule1, rule2, rule3], exclude, rng, fallback)
+  const rule4 = harderIn(Object.keys(maxDone) as ExerciseCategory[])
+  return pick([rule1, rule2, rule3, rule4], exclude, rng, fallback)
 }
 
 export function generateSportTarget(data: AppData, today: Day, rng: () => number, exclude: ChallengeTarget[]): ChallengeTarget {
@@ -151,8 +158,14 @@ export function canOfferEasier(ch: Challenge, today: Day): boolean {
     !ch.easier &&
     ch.blockedSince !== null &&
     daysBetween(ch.blockedSince, today) >= EASIER_AFTER_DAYS &&
-    easierTarget(ch.target) !== null
+    isEasier(ch.target)
   )
+}
+
+/** Vrai seulement si la version facile change vraiment la cible. */
+function isEasier(t: ChallengeTarget): boolean {
+  const e = easierTarget(t)
+  return e !== null && !sameTarget(e, t)
 }
 
 export function canReroll(ch: Challenge): boolean {

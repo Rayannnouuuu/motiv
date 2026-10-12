@@ -53,13 +53,15 @@ export function planChallengeUpdates(data: AppData, today: Day, deps: Deps): Cha
     const lvl = domainLevel(domain, totalXp(sessionsOf(data, domain)), challenges)
     const atLevel = challenges.filter((c) => c.domain === domain && c.level === lvl.level && c.status !== 'replaced')
     if (atLevel.length === 0) {
+      // Pas deux fois le même défi : les cibles déjà réussies dans ce domaine sont exclues.
+      const done = challenges.filter((c) => c.domain === domain && c.status === 'done').map((c) => c.target)
       updates.push({
         type: 'create',
         challenge: {
           id: deps.newId(),
           domain,
           level: lvl.level,
-          target: generate(domain, data, today, deps.rng, []),
+          target: generate(domain, data, today, deps.rng, done),
           easier: false,
           status: 'active',
           createdOn: today,
@@ -89,10 +91,11 @@ export function settleChallenges(data: AppData, today: Day, deps: Deps): Challen
   return all
 }
 
-function replaceWith(ch: Challenge, target: ChallengeTarget, over: Partial<Challenge>, deps: Deps): ChallengeUpdate[] {
+/** Le nouveau défi part d'aujourd'hui : les logs d'avant ne le valident pas d'office. */
+function replaceWith(ch: Challenge, target: ChallengeTarget, over: Partial<Challenge>, today: Day, deps: Deps): ChallengeUpdate[] {
   return [
     { type: 'replace', id: ch.id },
-    { type: 'create', challenge: { ...ch, id: deps.newId(), target, status: 'active', doneOn: null, ...over } },
+    { type: 'create', challenge: { ...ch, id: deps.newId(), target, status: 'active', doneOn: null, createdOn: today, ...over } },
   ]
 }
 
@@ -102,13 +105,13 @@ export function rerollChallenge(data: AppData, id: string, today: Day, deps: Dep
   const exclude = data.challenges.filter((c) => c.domain === ch.domain && c.level === ch.level).map((c) => c.target)
   const target = generate(ch.domain, data, today, deps.rng, exclude)
   if (exclude.some((t) => JSON.stringify(t) === JSON.stringify(target))) return []
-  return replaceWith(ch, target, { rerolls: ch.rerolls + 1 }, deps)
+  return replaceWith(ch, target, { rerolls: ch.rerolls + 1 }, today, deps)
 }
 
 export function acceptEasier(data: AppData, id: string, today: Day, deps: Deps): ChallengeUpdate[] {
   const ch = data.challenges.find((c) => c.id === id)
   if (!ch || !canOfferEasier(ch, today)) return []
-  return replaceWith(ch, easierTarget(ch.target)!, { easier: true }, deps)
+  return replaceWith(ch, easierTarget(ch.target)!, { easier: true }, today, deps)
 }
 
 export function nextProgram(programs: Program[], sessions: SportSession[]): Program | undefined {

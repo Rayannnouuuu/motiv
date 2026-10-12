@@ -65,7 +65,7 @@ describe('relance et version plus facile', () => {
     const u = rerollChallenge({ ...twoExos, challenges: [c] }, 'c1', today, deps)
     expect(u[0]).toEqual({ type: 'replace', id: 'c1' })
     const next = creates(u)[0]
-    expect(next).toMatchObject({ level: 1, domain: 'guitar', rerolls: 1, status: 'active', createdOn: '2026-10-10', blockedSince: '2026-10-12' })
+    expect(next).toMatchObject({ level: 1, domain: 'guitar', rerolls: 1, status: 'active', createdOn: today, blockedSince: '2026-10-12' })
     expect(next.target).toMatchObject({ exerciseId: 'picking-10' })
   })
 

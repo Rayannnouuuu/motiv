@@ -48,7 +48,7 @@ export function dailyPlan(data: Pick<AppData, 'guitarSessions' | 'challenges'>, 
   let lastCategory: ExerciseCategory = 'scales'
   const recent = [...past].sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt))
   outer: for (const s of recent)
-    for (const it of s.items) {
+    for (const it of [...s.items].reverse()) {
       const ex = it.kind === 'exercise' ? getExercise(it.exerciseId) : undefined
       if (ex) {
         lastCategory = ex.category
