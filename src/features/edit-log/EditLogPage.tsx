@@ -84,7 +84,8 @@ function useSave() {
     setError(null)
     try {
       const result = await fn()
-      if (result) navigate('/xp', { replace: true, state: { result, domain, logId } })
+      // edited : une correction ne refête pas la série ni la semaine.
+      if (result) navigate('/xp', { replace: true, state: { result, domain, logId, edited: true } })
       else navigate('/', { replace: true })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')

@@ -2,27 +2,131 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { describeTarget, isChallengeMet } from '../../domain/challenges'
+import { guitarMoment, sportMoment, type GoalMoment } from '../../domain/goalMoment'
 import { allLevels } from '../../domain/levels'
+import { GUITAR_DAILY_MIN, SPORT_WEEKLY_SESSIONS } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
-import { Fireworks } from '../../ui/Fireworks'
+import { Fireworks, type FireworksSize } from '../../ui/Fireworks'
 import { Gauge } from '../../ui/Gauge'
 
 const LABEL: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
 
+const jours = (n: number) => `${n} jour${n > 1 ? 's' : ''}`
+
+/** Grands feux pour un palier, petits pour un objectif atteint (série, semaine, défi). Un simple log : le +XP et la jauge suffisent. */
+function fireworksFor(moment: GoalMoment | null, challengeMet: boolean): FireworksSize | null {
+  switch (moment?.kind) {
+    case 'streakKept':
+    case 'streakRepaired':
+    case 'weekDone':
+      return moment.milestone ? 'big' : 'small'
+    default:
+      return challengeMet ? 'small' : null
+  }
+}
+
+/** Où en sont les deux vrais objectifs après ce log : la série guitare (60 min par jour) et la semaine de sport (3 séances). */
+function GoalBlock({ moment }: { moment: GoalMoment }) {
+  switch (moment.kind) {
+    case 'streakKept':
+    case 'streakRepaired': {
+      const what = moment.kind === 'streakKept' ? 'Série tenue' : 'Série réparée'
+      return (
+        <div className="text-center">
+          <p className="text-[3.5rem] leading-none" aria-hidden>
+            🔥
+          </p>
+          <p className="t-title1 mt-2 tabular-nums">{jours(moment.days)}</p>
+          <p className="t-headline text-guitar">
+            {moment.milestone ? `${what} · palier de ${moment.days} jours 🎉` : moment.kind === 'streakKept' ? 'Série tenue !' : 'Série réparée ✓'}
+          </p>
+        </div>
+      )
+    }
+    case 'guitarRemaining':
+      return (
+        <div className="rounded-[1rem] bg-surface p-4 shadow-card">
+          <p className="t-subhead font-semibold tabular-nums">
+            {moment.todayMin}/{GUITAR_DAILY_MIN} min aujourd'hui
+          </p>
+          <Gauge
+            from={moment.beforeMin}
+            value={moment.todayMin}
+            max={GUITAR_DAILY_MIN}
+            color="guitar"
+            label={`Objectif du jour : ${moment.todayMin} / ${GUITAR_DAILY_MIN} min`}
+            className="mt-2.5 h-2.5"
+          />
+          <p className="t-subhead mt-2 text-muted">
+            {moment.days > 0
+              ? `Encore ${moment.remainingMin} min pour garder ta série de ${jours(moment.days)}`
+              : `Encore ${moment.remainingMin} min pour lancer ta série`}
+          </p>
+        </div>
+      )
+    case 'guitarBonus':
+      return <p className="t-subhead text-center text-muted">Série déjà tenue aujourd'hui · {jours(moment.days)} ✓</p>
+    case 'weekDone':
+      return (
+        <div className="text-center">
+          <p className="text-[3.5rem] leading-none" aria-hidden>
+            🏋️
+          </p>
+          <p className="t-title2 mt-2">Semaine validée ✓</p>
+          <p className="t-headline text-sport">
+            {moment.weeks === 1 ? 'Première semaine validée' : `${moment.weeks} semaines d'affilée${moment.milestone ? ' 🎉' : ''}`}
+          </p>
+        </div>
+      )
+    case 'weekProgress':
+      return (
+        <div className="rounded-[1rem] bg-surface p-4 shadow-card">
+          <Gauge
+            from={moment.done - 1}
+            value={moment.done}
+            max={SPORT_WEEKLY_SESSIONS}
+            color="sport"
+            label={`Séances de la semaine : ${moment.done} / ${SPORT_WEEKLY_SESSIONS}`}
+            className="h-2.5"
+          />
+          <p className="t-subhead mt-2 tabular-nums">
+            {moment.done}/{SPORT_WEEKLY_SESSIONS} cette semaine · {moment.remaining === 1 ? "plus qu'une" : `plus que ${moment.remaining}`}
+          </p>
+        </div>
+      )
+    case 'weekBonus':
+      return <p className="t-subhead text-center text-muted">Séance bonus · {moment.done} cette semaine 💪</p>
+  }
+}
+
 export function XpResultPage() {
-  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string } | null
-  const { data } = useAppData()
+  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean } | null
+  const { data, today } = useAppData()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
+  // Figé aussi : la série ou la semaine que ce log vient de faire avancer. Une correction ne refête rien.
+  const [moment] = useState(() =>
+    !state?.edited && state?.logId
+      ? state.domain === 'guitar'
+        ? guitarMoment(data.guitarSessions, state.logId, today)
+        : sportMoment(data.sportSessions, state.logId, today)
+      : null,
+  )
   if (!state?.result) return <Navigate to="/" replace />
 
   const { result, domain } = state
   const lvl = allLevels(data)[domain]
+  const fireworks = fireworksFor(moment, met.length > 0)
 
   return (
     <div className="flex flex-1 flex-col justify-center gap-6">
-      {(result.total > 0 || met.length > 0) && <Fireworks size="small" />}
+      {fireworks && <Fireworks size={fireworks} />}
+      {moment && (
+        <section aria-label="Objectif" className="animate-pop">
+          <GoalBlock moment={moment} />
+        </section>
+      )}
       <div className="animate-pop text-center">
         <p className="t-footnote font-semibold text-muted uppercase">{LABEL[domain]}</p>
         <p className="text-[3.75rem] leading-none font-bold tracking-[-0.03em] text-accent tabular-nums">+{result.total} XP</p>
