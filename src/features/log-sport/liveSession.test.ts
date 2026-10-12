@@ -39,6 +39,17 @@ describe('liveReducer', () => {
     expect(s).toMatchObject({ exerciseIndex: 1, exerciseId: 'b' })
   })
 
+  test('prevExercise : retour à l’exo précédent avec sa dernière série, rien avant le premier', () => {
+    let s = state({ weightKg: 60, reps: 8 })
+    s = liveReducer(s, { type: 'completeSet' }, exercises)
+    s = liveReducer(s, { type: 'nextExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)
+    s = liveReducer(s, { type: 'prevExercise', prefill: { weightKg: 0, reps: 1 } }, exercises)
+    expect(s).toMatchObject({ exerciseIndex: 0, exerciseId: 'a', weightKg: 60, reps: 8 })
+    expect(liveReducer(s, { type: 'prevExercise', prefill: { weightKg: 0, reps: 1 } }, exercises)).toBe(s)
+    const finished = liveReducer(s, { type: 'finish' }, exercises)
+    expect(liveReducer(finished, { type: 'prevExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)).toMatchObject({ exerciseId: 'b', weightKg: 40, reps: 10 })
+  })
+
   test('exo courant archivé : on passe au suivant', () => {
     const s = state({ exerciseIndex: 0, exerciseId: 'a' })
     expect(resolveIndex(s, [b])).toBe(0)

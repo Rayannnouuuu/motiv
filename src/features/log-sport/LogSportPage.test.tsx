@@ -125,6 +125,19 @@ describe('LogSportPage', () => {
     expect(loadLive()).toBeNull()
   })
 
+  test('« Précédent » ramène à l’exo d’avant, et depuis la fin de séance', async () => {
+    renderSport({ data: { programs: [haut] } })
+    await click('Commencer')
+    expect(screen.queryByRole('button', { name: '← Précédent' })).not.toBeInTheDocument()
+    await click('Exo suivant →')
+    await click('← Précédent')
+    expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
+    await click('Exo suivant →')
+    await click('Fin de séance →')
+    await click('← Revenir au dernier exo')
+    expect(screen.getByRole('heading', { name: 'Rowing' })).toBeInTheDocument()
+  })
+
   test('sans programme : lien vers les réglages', () => {
     renderSport()
     expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/reglages')

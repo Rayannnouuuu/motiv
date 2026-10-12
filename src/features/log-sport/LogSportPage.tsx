@@ -76,8 +76,13 @@ export function LogSportPage() {
 
   const index = resolveIndex(live, exercises)
   const dispatch = (a: LiveAction) => setLive((s) => (s ? liveReducer(s, a, exercises) : s))
+  const goBack = () => {
+    const prev = exercises[Math.min(index, exercises.length) - 1]
+    const p = prev ? prefillFor(prev, data.sportSessions) : { weightKg: 0, reps: 1 }
+    dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
+  }
 
-  if (index >= exercises.length) return <FinishSession live={live} onDone={clear} />
+  if (index >= exercises.length) return <FinishSession live={live} onDone={clear} onBack={exercises.length > 0 ? goBack : undefined} />
 
   const current = exercises[index]
   const prefill = prefillFor(current, data.sportSessions)
@@ -137,15 +142,23 @@ export function LogSportPage() {
 
       <div className="mt-auto flex flex-col gap-2">
         <Button onClick={() => dispatch({ type: 'completeSet' })}>✓ Série {doneSets.length + 1} faite</Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            const p = next ? prefillFor(next, data.sportSessions) : { weightKg: 0, reps: 1 }
-            dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
-          }}
-        >
-          {next ? 'Exo suivant →' : 'Fin de séance →'}
-        </Button>
+        <div className="flex gap-2">
+          {index > 0 && (
+            <Button variant="ghost" onClick={goBack}>
+              ← Précédent
+            </Button>
+          )}
+          <Button
+            variant="secondary"
+            className="flex-1"
+            onClick={() => {
+              const p = next ? prefillFor(next, data.sportSessions) : { weightKg: 0, reps: 1 }
+              dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
+            }}
+          >
+            {next ? 'Exo suivant →' : 'Fin de séance →'}
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -205,7 +218,7 @@ function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
   )
 }
 
-function FinishSession({ live, onDone }: { live: LiveState; onDone: () => void }) {
+function FinishSession({ live, onDone, onBack }: { live: LiveState; onDone: () => void; onBack?: () => void }) {
   const actions = useActions()
   const navigate = useNavigate()
   const [duration, setDuration] = useState(() => {
@@ -245,6 +258,11 @@ function FinishSession({ live, onDone }: { live: LiveState; onDone: () => void }
 
   return (
     <div className="flex flex-1 flex-col gap-6">
+      {onBack && (
+        <button type="button" className="self-start text-sm text-muted" onClick={onBack}>
+          ← Revenir au dernier exo
+        </button>
+      )}
       <h1 className="text-2xl font-bold">Séance terminée 💪</h1>
       <p className="text-muted">
         {live.sets.length} série{live.sets.length > 1 ? 's' : ''} enregistrée{live.sets.length > 1 ? 's' : ''}

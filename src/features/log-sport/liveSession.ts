@@ -20,6 +20,7 @@ export type LiveAction =
   | { type: 'reps'; delta: 1 | -1 }
   | { type: 'completeSet' }
   | { type: 'nextExercise'; prefill: { weightKg: number; reps: number } }
+  | { type: 'prevExercise'; prefill: { weightKg: number; reps: number } }
   | { type: 'finish' }
 
 const KEY = 'motiv.liveSport.v1'
@@ -56,6 +57,13 @@ export function liveReducer(s: LiveState, a: LiveAction, exercises: ProgramExerc
     case 'nextExercise': {
       const next = exercises[index + 1]
       return { ...s, exerciseIndex: index + 1, exerciseId: next?.id ?? null, ...a.prefill }
+    }
+    case 'prevExercise': {
+      if (index <= 0) return s
+      const prev = exercises[index - 1]
+      // On reprend la charge et les reps de la dernière série faite sur cet exo pendant la séance.
+      const last = s.sets.filter((x) => x.programExerciseId === prev.id).at(-1)
+      return { ...s, exerciseIndex: index - 1, exerciseId: prev.id, ...(last ? { weightKg: last.weightKg, reps: last.reps } : a.prefill) }
     }
     case 'finish':
       return { ...s, exerciseIndex: exercises.length, exerciseId: null }

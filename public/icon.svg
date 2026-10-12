@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0c0a09"/>
-  <path d="M256 84c18 62 92 104 92 196a92 92 0 0 1-184 0c0-46 22-78 46-102 4 34 18 54 38 62-8-58 2-112 8-156z" fill="#f97316"/>
-  <path d="M256 268c10 26 40 42 40 80a40 40 0 0 1-80 0c0-24 14-40 26-52 2 14 8 22 14 26z" fill="#fde68a"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="#c2410c"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#fde047"/>
+    </linearGradient>
+  </defs>
+  <!-- Plein cadre, sans coins arrondis : le téléphone arrondit lui-même (pas de bord blanc). -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- Flamme dans la zone sûre centrale (≈ 60 %) pour les icônes « maskable ». -->
+  <path d="M256 96c22 70 112 118 112 222a112 112 0 0 1-224 0c0-54 26-92 56-120 4 40 22 64 46 74-10-68 2-128 10-176z" fill="#fff7ed"/>
+  <path d="M256 300c12 30 48 50 48 94a48 48 0 0 1-96 0c0-28 16-46 30-60 2 16 10 26 18 30z" fill="url(#core)"/>
 </svg>
