@@ -1,0 +1,75 @@
+import { describe, expect, test } from 'vitest'
+import { challenge, data, g, program, ss } from '../test/factories'
+import { buildMessage, dueMessages, parisMinutes, slotMinute, WINDOWS, type NotificationKind } from './notifications'
+
+const today = '2026-10-15' // jeudi
+
+describe('créneaux aléatoires', () => {
+  test('dans la plage, par pas de 5 min, stables sur la journée, variables selon les jours', () => {
+    for (const kind of Object.keys(WINDOWS) as NotificationKind[]) {
+      const m = slotMinute('user-1', today, kind)
+      expect(m).toBeGreaterThanOrEqual(WINDOWS[kind][0])
+      expect(m).toBeLessThan(WINDOWS[kind][1])
+      expect(m % 5).toBe(0)
+      expect(slotMinute('user-1', today, kind)).toBe(m)
+    }
+    const days = Array.from({ length: 10 }, (_, i) => slotMinute('user-1', `2026-10-${10 + i}`, 'streak'))
+    expect(new Set(days).size).toBeGreaterThan(3)
+  })
+
+  test('parisMinutes suit l’heure de Paris (été et hiver)', () => {
+    expect(parisMinutes(new Date('2026-07-14T06:30:00Z'))).toBe(8 * 60 + 30)
+    expect(parisMinutes(new Date('2026-12-14T06:30:00Z'))).toBe(7 * 60 + 30)
+  })
+})
+
+describe('messages', () => {
+  test('série : seulement si l’objectif n’est pas atteint', () => {
+    const past = [g('2026-10-13', 60), g('2026-10-14', 60)]
+    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 20)] }), today)?.body).toBe(
+      'Encore 40 min de guitare pour tenir ta série de 2 jours 🔥',
+    )
+    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 60)] }), today)).toBeNull()
+    expect(buildMessage('streak', data(), today)?.body).toBe("Lance ta série : 60 min de guitare aujourd'hui 🔥")
+  })
+
+  test('plan : 3 exos du jour et la séance si la semaine n’est pas faite', () => {
+    const p = program({ id: 'p', name: 'Push' })
+    const msg = buildMessage('plan', data({ programs: [p] }), today)!
+    expect(msg.body.split('\n')[0].split(' · ')).toHaveLength(3)
+    expect(msg.body).toContain('🏋️ Séance du jour : Push')
+    expect(buildMessage('plan', data({ programs: [p], sportSessions: [ss([], today, 'p')] }), today)!.body).not.toContain('Séance du jour')
+  })
+
+  test('sport : seulement quand il reste autant de séances que de jours', () => {
+    const p = program({ id: 'p', name: 'Push' })
+    // Jeudi : 4 jours restants (jeu → dim), 3 séances à faire → pas encore.
+    expect(buildMessage('sport', data({ programs: [p] }), today)).toBeNull()
+    // Samedi : 2 jours restants, 2 séances à faire → rappel.
+    const sat = '2026-10-17'
+    const d = data({ programs: [p], sportSessions: [ss([], '2026-10-12', 'p')] })
+    expect(buildMessage('sport', d, sat)?.body).toBe('Encore 2 séances pour valider ta semaine 💪 Prochaine : Push')
+  })
+
+  test('défi bloquant : un jour sur trois depuis le blocage', () => {
+    const ch = challenge({ id: 'c', createdOn: '2026-10-01', blockedSince: '2026-10-12', target: { kind: 'bpm', exerciseId: 'legato-6', bpm: 96, baseline: null } })
+    const d = data({ guitarSessions: [g('2026-10-11', 60, [], 1300)], challenges: [ch] })
+    expect(buildMessage('challenge', d, '2026-10-15')?.body).toBe('Legato sur une corde 6 à 96 bpm (0/96 bpm) : réussis-le pour passer au niveau suivant.')
+    expect(buildMessage('challenge', d, '2026-10-14')).toBeNull()
+    expect(buildMessage('challenge', data({ challenges: [ch] }), '2026-10-15')).toBeNull() // pas bloqué
+  })
+})
+
+test('dueMessages : envoie un rappel quand son heure tombe dans la fenêtre de 15 min', () => {
+  const slot = slotMinute('user-1', today, 'streak')
+  const at = (minute: number) => {
+    // Paris = UTC+2 le 15 octobre 2026.
+    const d = new Date(`${today}T00:00:00Z`)
+    d.setUTCMinutes(minute - 120)
+    return d
+  }
+  expect(dueMessages('user-1', data(), at(slot)).map((m) => m.kind)).toContain('streak')
+  expect(dueMessages('user-1', data(), at(slot + 14)).map((m) => m.kind)).toContain('streak')
+  expect(dueMessages('user-1', data(), at(slot + 15)).map((m) => m.kind)).not.toContain('streak')
+  expect(dueMessages('user-1', data(), at(slot - 1)).map((m) => m.kind)).not.toContain('streak')
+})
