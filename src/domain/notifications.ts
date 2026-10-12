@@ -51,11 +51,10 @@ export function parisMinutes(now: Date): number {
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 /**
- * Titre = nom de l'appli : iOS n'ajoute alors pas la ligne « from Motiv ».
- * L'info clé est en tête du texte (emoji + accroche), le détail en dessous.
+ * iOS affiche toujours « from Motiv » sous le titre d'une notification d'appli web :
+ * le titre porte donc l'accroche (emoji + info clé), le texte le détail.
  */
-export const PUSH_TITLE = 'Motiv'
-const msg = (kind: NotificationKind, body: string, url: string): PushMessage => ({ kind, title: PUSH_TITLE, body, url })
+const msg = (kind: NotificationKind, title: string, body: string, url: string): PushMessage => ({ kind, title, body, url })
 
 /** Message d'un type de rappel, ou null s'il n'a pas lieu d'être aujourd'hui. */
 export function buildMessage(kind: NotificationKind, data: AppData, today: Day): PushMessage | null {
@@ -68,18 +67,18 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
     case 'plan': {
       const exos = dailyPlan(data, today).map((e) => e.title)
       const sport = next && week.remaining > 0 && !sportToday ? `\n🏋️ Séance : ${next.name}` : ''
-      return msg(kind, `☀️ Ton plan du jour\n🎸 ${exos.join(' · ')}${sport}`, '/motiv/')
+      return msg(kind, '☀️ Ton plan du jour', `🎸 ${exos.join(' · ')}${sport}`, '/motiv/')
     }
     case 'streak': {
       if (streak.remainingMin === 0) return null
       const head = streak.days > 0 ? `🔥 Série de ${plural(streak.days, 'jour', 'jours')} en jeu` : '🔥 Lance ta série aujourd’hui'
-      return msg(kind, `${head}\nEncore ${streak.remainingMin} min de guitare 🎸`, '/motiv/log/guitare')
+      return msg(kind, head, `Encore ${streak.remainingMin} min de guitare 🎸`, '/motiv/log/guitare')
     }
     case 'sport': {
       // Seulement quand il faut s'y mettre : autant de séances à faire que de jours restants (ou moins de jours).
       const daysLeft = daysBetween(today, addDays(weekStart(today), 6)) + 1
       if (!next || week.remaining === 0 || sportToday || week.remaining < daysLeft) return null
-      return msg(kind, `💪 Plus que ${plural(week.remaining, 'séance', 'séances')} cette semaine\nProchaine : ${next.name}`, '/motiv/log/sport')
+      return msg(kind, `💪 Plus que ${plural(week.remaining, 'séance', 'séances')} cette semaine`, `Prochaine : ${next.name}`, '/motiv/log/sport')
     }
     case 'challenge': {
       const levels = allLevels(data)
@@ -89,7 +88,7 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
         if (!ch?.blockedSince || daysBetween(ch.blockedSince, today) % CHALLENGE_EVERY_DAYS !== 0) continue
         const p = challengeProgress(ch, data, today)
         const progress = p.unit === 'morceau' ? '' : ` · ${p.current}/${p.target} ${p.unit}`
-        return msg(kind, `🎯 Défi requis pour le niveau ${ch.level + 1}\n${describeTarget(ch.target, data)}${progress}`, '/motiv/')
+        return msg(kind, `🎯 Défi requis pour le niveau ${ch.level + 1}`, `${describeTarget(ch.target, data)}${progress}`, '/motiv/')
       }
       return null
     }

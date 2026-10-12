@@ -5,7 +5,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
 import { TABLES, toAppData, type Rows } from '../../../src/data/mappers'
-import { dueMessages, PUSH_TITLE, type PushMessage } from '../../../src/domain/notifications'
+import { dueMessages, type PushMessage } from '../../../src/domain/notifications'
 
 declare const Deno: { env: { get(name: string): string | undefined }; serve(h: (req: Request) => Promise<Response>): void }
 
@@ -75,8 +75,8 @@ Deno.serve(async (req) => {
       if (!subs?.length) return json({ error: 'aucun appareil abonné' }, 404)
       const sent = await send(subs as Sub[], {
         kind: 'test',
-        title: PUSH_TITLE,
-        body: '🔥 Test réussi !\nTes rappels arriveront ici, à des heures différentes chaque jour.',
+        title: '🔥 Test réussi !',
+        body: 'Tes rappels arriveront ici, à des heures différentes chaque jour.',
         url: '/motiv/',
       })
       return json({ sent })
