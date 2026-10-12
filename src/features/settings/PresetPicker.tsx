@@ -24,16 +24,18 @@ export function PresetPicker() {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="font-semibold">Programmes tout faits</h3>
       {SPORT_PRESETS.map((preset) => (
         <Card key={preset.id} className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between gap-2">
             <p className="font-semibold">{preset.name}</p>
             <button type="button" className="text-sm text-muted underline" onClick={() => setOpen(open === preset.id ? null : preset.id)}>
-              {open === preset.id ? 'Masquer' : 'Détails'}
+              {open === preset.id ? 'Masquer les exos' : 'Voir les exos'}
             </button>
           </div>
           <p className="text-sm text-muted">{preset.description}</p>
+          <p className="text-xs text-muted">
+            {preset.sessions.length} séances : {preset.sessions.map((x) => x.name).join(' · ')}
+          </p>
           {open === preset.id && (
             <div className="flex flex-col gap-2 text-sm">
               {preset.sessions.map((s) => (
