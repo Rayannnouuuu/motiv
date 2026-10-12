@@ -3,6 +3,7 @@ import { useAppData } from '../../data/AppDataContext'
 import { allLevels } from '../../domain/levels'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
+import { Fireworks } from '../../ui/Fireworks'
 import { Gauge } from '../../ui/Gauge'
 
 const LABEL: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
@@ -17,6 +18,7 @@ export function XpResultPage() {
 
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 text-center">
+      {result.total > 0 && <Fireworks size="small" />}
       <p className="text-6xl font-bold text-accent tabular-nums">+{result.total} XP</p>
       <ul className="flex flex-col gap-1">
         {result.lines.map((l) => (
