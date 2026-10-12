@@ -1,15 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels, type DomainLevel } from '../../domain/levels'
-import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
+import { guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
-import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { Gauge } from '../../ui/Gauge'
 import { ChallengeCard } from './ChallengeCard'
+import { GuitarCard } from './GuitarCard'
 import { SportCard } from './SportCard'
-import { TodayPlan } from './TodayPlan'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
@@ -30,7 +29,6 @@ function DomainLine({ icon, label, lvl, color }: { icon: string; label: string; 
 
 export function TodayPage() {
   const { data, today } = useAppData()
-  const navigate = useNavigate()
 
   const streak = guitarStreak(data.guitarSessions, today)
   const levels = allLevels(data)
@@ -47,24 +45,11 @@ export function TodayPage() {
         <p className="text-muted">
           {done ? "Série tenue aujourd'hui ✓" : `Encore ${streak.remainingMin} min de guitare pour tenir la série`}
         </p>
-        <div className="mt-2 flex w-full items-center gap-2">
-          <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
-          <span className="shrink-0 text-sm text-muted tabular-nums">
-            {streak.todayMin}/{GUITAR_DAILY_MIN} min
-          </span>
-        </div>
-        <Button
-          variant={done ? 'secondary' : 'primary'}
-          className="mt-3 w-full text-lg"
-          onClick={() => navigate('/log/guitare', done ? undefined : { state: { durationMin: streak.remainingMin } })}
-        >
-          {done ? 'Logger une session' : `Logger ${streak.remainingMin} min`}
-        </Button>
       </section>
 
-      <SportCard />
+      <GuitarCard />
 
-      <TodayPlan />
+      <SportCard />
 
       {lastLog(data) && (
         <Link to="/log/corriger" className="self-center text-sm text-muted underline">

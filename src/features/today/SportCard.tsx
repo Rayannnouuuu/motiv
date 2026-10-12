@@ -22,7 +22,7 @@ export function SportCard() {
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
 
   return (
-    <Card className="flex flex-col gap-4" aria-labelledby="sport-title">
+    <Card className="flex flex-col gap-4" role="region" aria-labelledby="sport-title">
       <div className="flex items-baseline justify-between">
         <h2 id="sport-title" className="text-lg font-semibold">
           🏋️ Sport

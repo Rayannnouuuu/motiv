@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
@@ -64,7 +64,7 @@ describe('TodayPage', () => {
     expect(screen.getByText('2/3')).toBeInTheDocument()
     expect(screen.getByText(/Encore 1 séance cette semaine/)).toBeInTheDocument()
     expect(screen.getByRole('listitem', { name: 'L : Bas' })).toBeInTheDocument()
-    expect(screen.getByText('Séance du jour')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: '🏋️ Sport' })).getByText('Séance du jour')).toBeInTheDocument()
     expect(screen.getByText('4×8 · 80 kg')).toBeInTheDocument()
     expect(screen.getByText('Ensuite : Haut')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Commencer Bas' }))
