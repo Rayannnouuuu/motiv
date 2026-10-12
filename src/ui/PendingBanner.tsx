@@ -11,7 +11,7 @@ const dayOf = ({ entry }: RejectedEntry) =>
   entry.kind === 'guitarSession' ? entry.payload.session.day : entry.payload.day
 
 export function PendingBanner() {
-  const { pendingCount, rejected } = useAppData()
+  const { pendingCount, rejected, offline } = useAppData()
   const { discardRejected } = useActions()
   return (
     <>
@@ -25,9 +25,12 @@ export function PendingBanner() {
           </button>
         </div>
       ))}
-      {pendingCount > 0 && (
-        <p role="status" className="t-footnote material fixed bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] left-1/2 z-30 -translate-x-1/2 rounded-full border border-line px-3.5 py-1.5 text-muted shadow-card">
-          {pendingCount} {pendingCount > 1 ? 'logs' : 'log'} en attente d'envoi
+      {(pendingCount > 0 || offline) && (
+        <p role="status" className="t-footnote material fixed bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 text-muted shadow-card">
+          {offline && 'Hors ligne · '}
+          {pendingCount > 0
+            ? `${pendingCount} ${pendingCount > 1 ? 'logs' : 'log'} en attente d'envoi`
+            : 'tout est gardé sur le téléphone'}
         </p>
       )}
     </>

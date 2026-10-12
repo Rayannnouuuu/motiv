@@ -42,7 +42,13 @@ export interface AppDataValue {
   pendingCount: number
   rejected: RejectedEntry[]
   today: Day
+  /** Aucune donnée encore (ni serveur ni instantané local). */
   loading: boolean
+  /** Des données serveur ont été reçues depuis le lancement (sinon : instantané local, ou rien). */
+  fresh: boolean
+  /** Le serveur n'a pas encore pu répondre (pas de réseau) : on affiche l'instantané local. */
+  offline: boolean
+  /** Échec de chargement, seulement quand il n'y a aucune donnée à montrer. */
   error: string | null
 }
 

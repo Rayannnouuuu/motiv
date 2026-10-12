@@ -1,13 +1,18 @@
-import { render, screen } from '@testing-library/react'
+import { AuthRetryableFetchError, type AuthChangeEvent, type Session } from '@supabase/supabase-js'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
+import { readSnapshot, writeSnapshot } from '../../data/snapshot'
+import { EMPTY_DATA } from '../../domain/types'
 import { renderWithData } from '../../test/renderWithData'
 import { PendingBanner } from '../../ui/PendingBanner'
 import { AuthGate } from './AuthGate'
 
+type AuthCallback = (event: AuthChangeEvent, session: Session | null) => void
+
 const auth = vi.hoisted(() => ({
   getSession: vi.fn(),
-  onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: () => {} } } })),
+  onAuthStateChange: vi.fn((_cb: AuthCallback) => ({ data: { subscription: { unsubscribe: () => {} } } })),
   signInWithOtp: vi.fn(async () => ({ error: null })),
   signInWithPassword: vi.fn(async () => ({ error: null })),
 }))
@@ -62,6 +67,35 @@ test('avec session : l’appli est rendue', async () => {
   expect(await screen.findByText('appli')).toBeInTheDocument()
 })
 
+test('jeton expiré hors ligne : l’appli reste ouverte', async () => {
+  auth.getSession.mockResolvedValue({ data: { session: null }, error: new AuthRetryableFetchError('Failed to fetch', 0) })
+  render(<AuthGate>appli</AuthGate>)
+  expect(await screen.findByText('appli')).toBeInTheDocument()
+  const emit = auth.onAuthStateChange.mock.calls[0][0]
+  // auth-js annonce INITIAL_SESSION à null hors ligne : ignoré, getSession fait foi.
+  act(() => emit('INITIAL_SESSION', null))
+  expect(screen.getByText('appli')).toBeInTheDocument()
+  act(() => emit('SIGNED_OUT', null))
+  expect(await screen.findByLabelText('Email')).toBeInTheDocument()
+  expect(screen.queryByText('appli')).not.toBeInTheDocument()
+})
+
+test('session absente sans erreur : écran de connexion et instantané effacé', async () => {
+  writeSnapshot(EMPTY_DATA)
+  auth.getSession.mockResolvedValue({ data: { session: null }, error: null })
+  render(<AuthGate>appli</AuthGate>)
+  expect(await screen.findByLabelText('Email')).toBeInTheDocument()
+  await waitFor(() => expect(readSnapshot()).toBeNull())
+})
+
+test('session présente : instantané gardé', async () => {
+  writeSnapshot(EMPTY_DATA)
+  auth.getSession.mockResolvedValue({ data: { session: { user: { id: 'u1' } } }, error: null })
+  render(<AuthGate>appli</AuthGate>)
+  expect(await screen.findByText('appli')).toBeInTheDocument()
+  expect(readSnapshot()).not.toBeNull()
+})
+
 test('PendingBanner', () => {
   const { unmount } = renderWithData(<PendingBanner />, { pendingCount: 2 })
   expect(screen.getByText("2 logs en attente d'envoi")).toBeInTheDocument()
@@ -73,4 +107,12 @@ test('PendingBanner', () => {
 test('PendingBanner caché à 0', () => {
   const { container } = renderWithData(<PendingBanner />, { pendingCount: 0 })
   expect(container).toBeEmptyDOMElement()
+})
+
+test('PendingBanner hors ligne', () => {
+  const { unmount } = renderWithData(<PendingBanner />, { pendingCount: 0, offline: true })
+  expect(screen.getByRole('status')).toHaveTextContent('Hors ligne · tout est gardé sur le téléphone')
+  unmount()
+  renderWithData(<PendingBanner />, { pendingCount: 2, offline: true })
+  expect(screen.getByRole('status')).toHaveTextContent("Hors ligne · 2 logs en attente d'envoi")
 })
