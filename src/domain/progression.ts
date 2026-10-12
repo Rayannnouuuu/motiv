@@ -118,3 +118,12 @@ export function nextProgram(programs: Program[], sessions: SportSession[]): Prog
   const idx = last ? active.findIndex((p) => p.id === last.programId) : -1
   return idx === -1 ? active[0] : active[(idx + 1) % active.length]
 }
+
+/** Les `n` prochaines séances dans la rotation (la première est `nextProgram`). */
+export function upcomingPrograms(programs: Program[], sessions: SportSession[], n: number): Program[] {
+  const active = programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
+  const first = nextProgram(programs, sessions)
+  if (!first) return []
+  const start = active.indexOf(first)
+  return Array.from({ length: Math.min(n, active.length) }, (_, i) => active[(start + i) % active.length])
+}

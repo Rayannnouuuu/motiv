@@ -2,13 +2,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels, type DomainLevel } from '../../domain/levels'
-import { nextProgram } from '../../domain/progression'
-import { GUITAR_DAILY_MIN, guitarStreak, SPORT_WEEKLY_SESSIONS, sportStreak } from '../../domain/streak'
+import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { Gauge } from '../../ui/Gauge'
 import { ChallengeCard } from './ChallengeCard'
+import { SportCard } from './SportCard'
 import { TodayPlan } from './TodayPlan'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
@@ -33,9 +33,7 @@ export function TodayPage() {
   const navigate = useNavigate()
 
   const streak = guitarStreak(data.guitarSessions, today)
-  const sport = sportStreak(data.sportSessions, today)
   const levels = allLevels(data)
-  const next = nextProgram(data.programs, data.sportSessions)
   const done = streak.remainingMin === 0
   const active = (domain: Domain) => data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
 
@@ -49,6 +47,12 @@ export function TodayPage() {
         <p className="text-muted">
           {done ? "Série tenue aujourd'hui ✓" : `Encore ${streak.remainingMin} min de guitare pour tenir la série`}
         </p>
+        <div className="mt-2 flex w-full items-center gap-2">
+          <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
+          <span className="shrink-0 text-sm text-muted tabular-nums">
+            {streak.todayMin}/{GUITAR_DAILY_MIN} min
+          </span>
+        </div>
         <Button
           variant={done ? 'secondary' : 'primary'}
           className="mt-3 w-full text-lg"
@@ -58,36 +62,7 @@ export function TodayPage() {
         </Button>
       </section>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Card className="p-3">
-          <p className="text-xs text-muted">🎸 Guitare</p>
-          <p className="text-xl font-semibold tabular-nums">
-            {streak.todayMin}/{GUITAR_DAILY_MIN}
-          </p>
-          <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="mt-2 h-1.5" />
-        </Card>
-        <Card className="p-3">
-          <p className="text-xs text-muted">🏋️ Sport · {plural(sport.weeks, 'semaine', 'semaines')}</p>
-          <p className="text-xl font-semibold tabular-nums">
-            {sport.thisWeekCount}/{SPORT_WEEKLY_SESSIONS}
-          </p>
-          <div className="mt-2 flex gap-1" aria-hidden>
-            {Array.from({ length: SPORT_WEEKLY_SESSIONS }, (_, i) => (
-              <span key={i} className={`h-1.5 flex-1 rounded-full ${i < sport.thisWeekCount ? 'bg-sport' : 'bg-surface-2'}`} />
-            ))}
-          </div>
-        </Card>
-      </div>
-
-      {next ? (
-        <Button variant="secondary" onClick={() => navigate('/log/sport')}>
-          + Séance {next.name}
-        </Button>
-      ) : (
-        <Link to="/reglages" className="rounded-xl border border-accent px-4 py-3 text-center font-semibold text-accent">
-          Créer ton programme
-        </Link>
-      )}
+      <SportCard />
 
       <TodayPlan />
 
