@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test, vi } from 'vitest'
 import { addDays } from '../../domain/date'
-import { ex, g, mkSong } from '../../test/factories'
+import { challenge, ex, g, mkSong } from '../../test/factories'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { LogGuitarPage } from './LogGuitarPage'
 
@@ -155,5 +155,19 @@ describe('LogGuitarPage', () => {
     const draft = vi.mocked(actions.saveGuitarSession).mock.calls[0][0]
     expect(draft.newSongs).toEqual([{ id: expect.any(String), title: 'Ma compo', status: 'learning', masteredOn: null }])
     expect(draft.items).toEqual([{ kind: 'song', songId: draft.newSongs[0].id, markedMastered: false }])
+  })
+
+  test('défi en cours : proposé en premier, objectif affiché sur l’exo', async () => {
+    const c = challenge({ target: { kind: 'bpm', exerciseId: 'legato-6', bpm: 96, baseline: null } })
+    renderLog({ data: { challenges: [c] } })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    const first = screen.getAllByRole('button', { name: /^\+ / })[0]
+    expect(first).toHaveTextContent('Legato sur une corde 6')
+    expect(first).toHaveTextContent('🎯 défi')
+    await userEvent.click(first)
+    expect(screen.getByText('🎯 Défi : note ton tempo max, objectif 96 bpm')).toBeInTheDocument()
+    await userEvent.type(screen.getByLabelText('Tempo max · Legato sur une corde 6'), '96')
+    expect(screen.getByText('🎯 Défi réussi : 96 bpm atteint ✓')).toBeInTheDocument()
   })
 })

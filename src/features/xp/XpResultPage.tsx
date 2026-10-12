@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { describeTarget, isChallengeMet } from '../../domain/challenges'
 import { allLevels } from '../../domain/levels'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
@@ -11,6 +13,8 @@ const LABEL: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
 export function XpResultPage() {
   const state = useLocation().state as { result: XpResult; domain: Domain } | null
   const { data } = useAppData()
+  // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
+  const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
   if (!state?.result) return <Navigate to="/" replace />
 
   const { result, domain } = state
@@ -18,8 +22,14 @@ export function XpResultPage() {
 
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 text-center">
-      {result.total > 0 && <Fireworks size="small" />}
+      {(result.total > 0 || met.length > 0) && <Fireworks size="small" />}
       <p className="text-6xl font-bold text-accent tabular-nums">+{result.total} XP</p>
+      {met.map((c) => (
+        <div key={c.id} className="rounded-2xl border-2 border-accent bg-accent/10 px-4 py-3">
+          <p className="text-lg font-bold text-accent">🎯 Défi réussi !</p>
+          <p>{describeTarget(c.target, data)}</p>
+        </div>
+      ))}
       <ul className="flex flex-col gap-1">
         {result.lines.map((l) => (
           <li key={l.label} className="flex justify-between rounded-xl bg-surface px-4 py-2 text-left">

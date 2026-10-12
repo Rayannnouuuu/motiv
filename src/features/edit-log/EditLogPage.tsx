@@ -162,6 +162,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         songs={songs}
         sessions={data.guitarSessions.filter((s) => s.id !== session.id)}
         planned={dailyPlan(data, today).map((e) => e.id)}
+        challenges={data.challenges.filter((c) => c.domain === 'guitar' && c.status === 'active')}
         onEntries={setEntries}
         onCreateSong={(title) => {
           const song: Song = { id: crypto.randomUUID(), title, status: 'learning', masteredOn: null }

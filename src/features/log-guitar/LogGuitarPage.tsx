@@ -105,6 +105,7 @@ export function LogGuitarPage() {
             songs={[...data.songs, ...newSongs]}
             sessions={data.guitarSessions}
             planned={dailyPlan(data, today).map((e) => e.id)}
+            challenges={data.challenges.filter((c) => c.domain === 'guitar' && c.status === 'active')}
             onEntries={setEntries}
             onCreateSong={createSong}
           />

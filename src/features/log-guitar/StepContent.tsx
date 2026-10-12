@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { EXERCISES, getExercise } from '../../content/exercises'
 import { SONG_CATALOG, normTitle } from '../../content/songCatalog'
 import { bestBpm } from '../../domain/records'
-import type { GuitarSession, Song } from '../../domain/types'
+import type { Challenge, GuitarSession, Song } from '../../domain/types'
 
 export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string } | { kind: 'song'; songId: string; mastered: boolean }
 
@@ -19,14 +19,16 @@ function recentExerciseIds(sessions: GuitarSession[]): string[] {
   return ids
 }
 
-type Result = { key: string; label: string; add: () => void; planned?: boolean }
+type Result = { key: string; label: string; add: () => void; tag?: 'défi' | 'du jour' }
 
-export function StepContent({ entries, songs, sessions, planned, onEntries, onCreateSong }: {
+export function StepContent({ entries, songs, sessions, planned, challenges = [], onEntries, onCreateSong }: {
   entries: Entry[]
   songs: Song[]
   sessions: GuitarSession[]
   /** Exos proposés aujourd'hui, affichés en premier. */
   planned: string[]
+  /** Défis guitare en cours : leur exo ou morceau est mis en avant. */
+  challenges?: Challenge[]
   onEntries: (e: Entry[]) => void
   onCreateSong: (title: string) => void
 }) {
@@ -50,17 +52,22 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
     const best = bestBpm(sessions, id)
     return { key: `ex:${id}`, label: ex.title, add: () => add({ kind: 'exercise', exerciseId: id, bpm: best === null ? '' : String(best) }) }
   }
-  const plannedResults = planned
+  const challengeBpm = new Map(challenges.flatMap((c) => (c.target.kind === 'bpm' ? [[c.target.exerciseId, c.target.bpm] as const] : [])))
+  const challengeSongs = new Set(challenges.flatMap((c) => (c.target.kind === 'song' ? [c.target.songId] : [])))
+  const challengeResults: Result[] = [...challengeBpm.keys()]
     .filter((id) => getExercise(id) && !usedEx.has(id) && matches(getExercise(id)!.title))
-    .map((id) => ({ ...exResult(id), planned: true }))
+    .map((id) => ({ ...exResult(id), tag: 'défi' }))
+  const plannedResults: Result[] = planned
+    .filter((id) => getExercise(id) && !usedEx.has(id) && !challengeBpm.has(id) && matches(getExercise(id)!.title))
+    .map((id) => ({ ...exResult(id), tag: 'du jour' }))
   const recentResults = recent
-    .filter((id) => !usedEx.has(id) && !planned.includes(id) && matches(getExercise(id)!.title))
+    .filter((id) => !usedEx.has(id) && !planned.includes(id) && !challengeBpm.has(id) && matches(getExercise(id)!.title))
     .map(exResult)
   const songResults: Result[] = songs
     .filter((s) => !usedSongs.has(s.id) && (q === '' ? s.status === 'learning' : matches(s.title)))
     .map((s) => ({ key: `song:${s.id}`, label: s.title, add: () => add({ kind: 'song', songId: s.id, mastered: false }) }))
   const otherResults =
-    q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && matches(e.title)).map((e) => exResult(e.id))
+    q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && !challengeBpm.has(e.id) && matches(e.title)).map((e) => exResult(e.id))
   // Morceaux du catalogue pas encore dans ta liste : les choisir les ajoute automatiquement.
   const mine = new Set(songs.map((s) => normTitle(s.title)))
   const catalogResults: Result[] =
@@ -74,7 +81,7 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
             setQuery('')
           },
         }))
-  const results = [...plannedResults, ...recentResults, ...songResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
+  const results = [...challengeResults, ...plannedResults, ...recentResults, ...songResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
   const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q) && !SONG_CATALOG.some((c) => norm(c.title) === q)
 
   return (
@@ -86,8 +93,10 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
           {entries.map((e, i) => {
             if (e.kind === 'exercise') {
               const title = getExercise(e.exerciseId)?.title ?? 'Exo inconnu'
+              const goal = challengeBpm.get(e.exerciseId)
               return (
-                <li key={`ex:${e.exerciseId}`} className="flex items-center gap-2 rounded-xl bg-surface px-3 py-2">
+                <li key={`ex:${e.exerciseId}`} className={`flex flex-col gap-1 rounded-xl bg-surface px-3 py-2 ${goal ? 'ring-2 ring-accent' : ''}`}>
+                  <div className="flex items-center gap-2">
                   <span className="flex-1">{title}</span>
                   <input
                     type="number"
@@ -103,13 +112,20 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
                   <button type="button" aria-label={`Retirer ${title}`} className="px-1 text-muted" onClick={() => remove(i)}>
                     ✕
                   </button>
+                  </div>
+                  {goal !== undefined && (
+                    <p className="text-sm font-medium text-accent">
+                      {Number(e.bpm) >= goal ? `🎯 Défi réussi : ${goal} bpm atteint ✓` : `🎯 Défi : note ton tempo max, objectif ${goal} bpm`}
+                    </p>
+                  )}
                 </li>
               )
             }
             const s = songs.find((x) => x.id === e.songId)
             const title = s?.title ?? 'Morceau'
             return (
-              <li key={`song:${e.songId}`} className="flex items-center gap-2 rounded-xl bg-surface px-3 py-2">
+              <li key={`song:${e.songId}`} className={`flex flex-col gap-1 rounded-xl bg-surface px-3 py-2 ${challengeSongs.has(e.songId) ? 'ring-2 ring-accent' : ''}`}>
+                <div className="flex items-center gap-2">
                 <span className="flex-1">🎵 {title}</span>
                 {s?.status === 'mastered' ? (
                   <span className="text-sm text-muted">déjà maîtrisé</span>
@@ -128,6 +144,10 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
                 <button type="button" aria-label={`Retirer ${title}`} className="px-1 text-muted" onClick={() => remove(i)}>
                   ✕
                 </button>
+                </div>
+                {challengeSongs.has(e.songId) && (
+                  <p className="text-sm font-medium text-accent">🎯 Défi : coche « maîtrisé » quand tu le joues en entier</p>
+                )}
               </li>
             )
           })}
@@ -145,9 +165,12 @@ export function StepContent({ entries, songs, sessions, planned, onEntries, onCr
         {results.map((r) => (
           <button key={r.key} type="button" onClick={r.add} className="flex items-center justify-between rounded-xl px-3 py-2 text-left hover:bg-surface-2">
             <span>+ {r.label}</span>
-            {r.planned && (
-              <span aria-hidden className="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-white">
-                du jour
+            {r.tag && (
+              <span
+                aria-hidden
+                className={`rounded-full px-2 py-0.5 text-xs font-semibold ${r.tag === 'défi' ? 'border border-accent text-accent' : 'bg-accent text-white'}`}
+              >
+                {r.tag === 'défi' ? '🎯 défi' : 'du jour'}
               </span>
             )}
           </button>
