@@ -26,19 +26,22 @@ describe('créneaux aléatoires', () => {
 describe('messages', () => {
   test('série : seulement si l’objectif n’est pas atteint', () => {
     const past = [g('2026-10-13', 60), g('2026-10-14', 60)]
-    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 20)] }), today)?.body).toBe(
-      'Encore 40 min de guitare pour tenir ta série de 2 jours 🔥',
-    )
+    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 20)] }), today)).toMatchObject({
+      title: 'Motiv',
+      body: '🔥 Série de 2 jours en jeu\nEncore 40 min de guitare 🎸',
+    })
     expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 60)] }), today)).toBeNull()
-    expect(buildMessage('streak', data(), today)?.body).toBe("Lance ta série : 60 min de guitare aujourd'hui 🔥")
+    expect(buildMessage('streak', data(), today)?.body).toBe('🔥 Lance ta série aujourd’hui\nEncore 60 min de guitare 🎸')
   })
 
   test('plan : 3 exos du jour et la séance si la semaine n’est pas faite', () => {
     const p = program({ id: 'p', name: 'Push' })
     const msg = buildMessage('plan', data({ programs: [p] }), today)!
-    expect(msg.body.split('\n')[0].split(' · ')).toHaveLength(3)
-    expect(msg.body).toContain('🏋️ Séance du jour : Push')
-    expect(buildMessage('plan', data({ programs: [p], sportSessions: [ss([], today, 'p')] }), today)!.body).not.toContain('Séance du jour')
+    const [head, exos, sport] = msg.body.split('\n')
+    expect(head).toBe('☀️ Ton plan du jour')
+    expect(exos.replace('🎸 ', '').split(' · ')).toHaveLength(3)
+    expect(sport).toBe('🏋️ Séance : Push')
+    expect(buildMessage('plan', data({ programs: [p], sportSessions: [ss([], today, 'p')] }), today)!.body).not.toContain('Séance')
   })
 
   test('sport : seulement quand il reste autant de séances que de jours', () => {
@@ -48,13 +51,13 @@ describe('messages', () => {
     // Samedi : 2 jours restants, 2 séances à faire → rappel.
     const sat = '2026-10-17'
     const d = data({ programs: [p], sportSessions: [ss([], '2026-10-12', 'p')] })
-    expect(buildMessage('sport', d, sat)?.body).toBe('Encore 2 séances pour valider ta semaine 💪 Prochaine : Push')
+    expect(buildMessage('sport', d, sat)?.body).toBe('💪 Plus que 2 séances cette semaine\nProchaine : Push')
   })
 
   test('défi bloquant : un jour sur trois depuis le blocage', () => {
     const ch = challenge({ id: 'c', createdOn: '2026-10-01', blockedSince: '2026-10-12', target: { kind: 'bpm', exerciseId: 'legato-6', bpm: 96, baseline: null } })
     const d = data({ guitarSessions: [g('2026-10-11', 60, [], 1300)], challenges: [ch] })
-    expect(buildMessage('challenge', d, '2026-10-15')?.body).toBe('Legato sur une corde 6 à 96 bpm (0/96 bpm) : réussis-le pour passer au niveau suivant.')
+    expect(buildMessage('challenge', d, '2026-10-15')?.body).toBe('🎯 Défi requis pour le niveau 2\nLegato sur une corde 6 à 96 bpm · 0/96 bpm')
     expect(buildMessage('challenge', d, '2026-10-14')).toBeNull()
     expect(buildMessage('challenge', data({ challenges: [ch] }), '2026-10-15')).toBeNull() // pas bloqué
   })

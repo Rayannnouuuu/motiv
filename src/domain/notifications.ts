@@ -50,6 +50,13 @@ export function parisMinutes(now: Date): number {
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
+/**
+ * Titre = nom de l'appli : iOS n'ajoute alors pas la ligne « from Motiv ».
+ * L'info clé est en tête du texte (emoji + accroche), le détail en dessous.
+ */
+export const PUSH_TITLE = 'Motiv'
+const msg = (kind: NotificationKind, body: string, url: string): PushMessage => ({ kind, title: PUSH_TITLE, body, url })
+
 /** Message d'un type de rappel, ou null s'il n'a pas lieu d'être aujourd'hui. */
 export function buildMessage(kind: NotificationKind, data: AppData, today: Day): PushMessage | null {
   const streak = guitarStreak(data.guitarSessions, today)
@@ -60,27 +67,19 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
   switch (kind) {
     case 'plan': {
       const exos = dailyPlan(data, today).map((e) => e.title)
-      const sport = next && week.remaining > 0 && !sportToday ? `\n🏋️ Séance du jour : ${next.name}` : ''
-      return { kind, title: 'Ton plan du jour', body: `🎸 ${exos.join(' · ')}${sport}`, url: '/motiv/' }
+      const sport = next && week.remaining > 0 && !sportToday ? `\n🏋️ Séance : ${next.name}` : ''
+      return msg(kind, `☀️ Ton plan du jour\n🎸 ${exos.join(' · ')}${sport}`, '/motiv/')
     }
     case 'streak': {
       if (streak.remainingMin === 0) return null
-      const body =
-        streak.days > 0
-          ? `Encore ${streak.remainingMin} min de guitare pour tenir ta série de ${plural(streak.days, 'jour', 'jours')} 🔥`
-          : `Lance ta série : ${streak.remainingMin} min de guitare aujourd'hui 🔥`
-      return { kind, title: 'Ta série guitare', body, url: '/motiv/log/guitare' }
+      const head = streak.days > 0 ? `🔥 Série de ${plural(streak.days, 'jour', 'jours')} en jeu` : '🔥 Lance ta série aujourd’hui'
+      return msg(kind, `${head}\nEncore ${streak.remainingMin} min de guitare 🎸`, '/motiv/log/guitare')
     }
     case 'sport': {
       // Seulement quand il faut s'y mettre : autant de séances à faire que de jours restants (ou moins de jours).
       const daysLeft = daysBetween(today, addDays(weekStart(today), 6)) + 1
       if (!next || week.remaining === 0 || sportToday || week.remaining < daysLeft) return null
-      return {
-        kind,
-        title: 'Ta semaine de sport',
-        body: `Encore ${plural(week.remaining, 'séance', 'séances')} pour valider ta semaine 💪 Prochaine : ${next.name}`,
-        url: '/motiv/log/sport',
-      }
+      return msg(kind, `💪 Plus que ${plural(week.remaining, 'séance', 'séances')} cette semaine\nProchaine : ${next.name}`, '/motiv/log/sport')
     }
     case 'challenge': {
       const levels = allLevels(data)
@@ -89,8 +88,8 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
         const ch = data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
         if (!ch?.blockedSince || daysBetween(ch.blockedSince, today) % CHALLENGE_EVERY_DAYS !== 0) continue
         const p = challengeProgress(ch, data, today)
-        const progress = p.unit === 'morceau' ? '' : ` (${p.current}/${p.target} ${p.unit})`
-        return { kind, title: '🎯 Défi requis', body: `${describeTarget(ch.target, data)}${progress} : réussis-le pour passer au niveau suivant.`, url: '/motiv/' }
+        const progress = p.unit === 'morceau' ? '' : ` · ${p.current}/${p.target} ${p.unit}`
+        return msg(kind, `🎯 Défi requis pour le niveau ${ch.level + 1}\n${describeTarget(ch.target, data)}${progress}`, '/motiv/')
       }
       return null
     }

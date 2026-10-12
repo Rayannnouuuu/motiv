@@ -7,12 +7,18 @@ self.addEventListener('push', (event) => {
     data = { body: event.data ? event.data.text() : '' }
   }
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Motiv', {
-      body: data.body || '',
-      icon: '/motiv/pwa-192x192.png',
-      badge: '/motiv/pwa-64x64.png',
-      data: { url: data.url || '/motiv/' },
-    }),
+    Promise.all([
+      self.registration.showNotification(data.title || 'Motiv', {
+        body: data.body || '',
+        icon: '/motiv/pwa-192x192.png',
+        badge: '/motiv/pwa-64x64.png',
+        // Un nouveau rappel du même type remplace l'ancien au lieu de s'empiler.
+        tag: 'motiv-' + (data.kind || 'rappel'),
+        data: { url: data.url || '/motiv/' },
+      }),
+      // Pastille sur l'icône de l'écran d'accueil, effacée à l'ouverture de l'appli.
+      self.navigator.setAppBadge ? self.navigator.setAppBadge(1).catch(() => {}) : null,
+    ]),
   )
 })
 

@@ -5,7 +5,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
 import { TABLES, toAppData, type Rows } from '../../../src/data/mappers'
-import { dueMessages, type PushMessage } from '../../../src/domain/notifications'
+import { dueMessages, PUSH_TITLE, type PushMessage } from '../../../src/domain/notifications'
 
 declare const Deno: { env: { get(name: string): string | undefined }; serve(h: (req: Request) => Promise<Response>): void }
 
@@ -34,7 +34,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
 }
 
 /** Envoie à chaque appareil ; un abonnement expiré (404/410) est supprimé. */
-async function send(subs: Sub[], msg: Pick<PushMessage, 'title' | 'body' | 'url'>): Promise<number> {
+async function send(subs: Sub[], msg: Pick<PushMessage, 'title' | 'body' | 'url'> & { kind: string }): Promise<number> {
   let sent = 0
   for (const s of subs) {
     try {
@@ -73,7 +73,12 @@ Deno.serve(async (req) => {
       if (!auth.user) return json({ error: 'non connecté' }, 401)
       const { data: subs } = await db.from('push_subscriptions').select('*').eq('user_id', auth.user.id)
       if (!subs?.length) return json({ error: 'aucun appareil abonné' }, 404)
-      const sent = await send(subs as Sub[], { title: 'Motiv 🔥', body: 'Test réussi : les notifications fonctionnent !', url: '/motiv/' })
+      const sent = await send(subs as Sub[], {
+        kind: 'test',
+        title: PUSH_TITLE,
+        body: '🔥 Test réussi !\nTes rappels arriveront ici, à des heures différentes chaque jour.',
+        url: '/motiv/',
+      })
       return json({ sent })
     }
 
