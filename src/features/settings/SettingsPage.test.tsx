@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test, vi } from 'vitest'
 import { mkSong, pe, program } from '../../test/factories'
@@ -51,7 +51,7 @@ describe('SettingsPage', () => {
     await userEvent.type(screen.getByLabelText('Nom de la séance'), ' 2')
     await click('Annuler')
     expect(actions.saveProgram).not.toHaveBeenCalled()
-    expect(screen.queryByLabelText('Nom de la séance')).not.toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByLabelText('Nom de la séance')).not.toBeInTheDocument())
   })
 
   test('↑ / ↓ : ordre des séances et des exos', async () => {
@@ -82,6 +82,7 @@ describe('SettingsPage', () => {
     await click('Retirer Dips')
     await click('Enregistrer')
     expect(vi.mocked(actions.saveProgram).mock.calls[0][0].exercises[0]).toMatchObject({ id: 'x', archived: true })
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
 
     await click('Modifier Haut')
     await click('Supprimer la séance')

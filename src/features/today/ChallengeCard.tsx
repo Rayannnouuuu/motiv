@@ -41,30 +41,37 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
   const xpLeft = level.perLevel - level.xpInLevel
 
   return (
-    <div className={`rounded-xl bg-surface ${blocked ? 'ring-2 ring-accent' : ''}`} role="region" aria-label={DOMAIN_LABEL[challenge.domain]}>
-      <button type="button" aria-expanded={open} onClick={() => setOpen(!open)} className="flex w-full flex-col gap-1.5 px-3 py-2.5 text-left">
-        <span className="flex items-center gap-2">
-          <span aria-hidden>{DOMAIN_ICON[challenge.domain]}</span>
-          <span className="min-w-0 flex-1 truncate font-semibold">{describeTarget(challenge.target, data)}</span>
-          {blocked && <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold text-white">Bloquant</span>}
-          <span className="shrink-0 text-muted" aria-hidden>
-            {open ? '▴' : '▾'}
+    <div role="region" aria-label={DOMAIN_LABEL[challenge.domain]}>
+      <button type="button" aria-expanded={open} onClick={() => setOpen(!open)} className="tap-row flex w-full items-center gap-3 px-4 py-3 text-left">
+        <span
+          aria-hidden
+          className={`flex h-[1.875rem] w-[1.875rem] shrink-0 items-center justify-center rounded-[0.5rem] text-[0.9375rem] ${challenge.domain === 'guitar' ? 'bg-guitar/15' : 'bg-sport/15'}`}
+        >
+          {DOMAIN_ICON[challenge.domain]}
+        </span>
+        <span className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <span className="flex items-center gap-2">
+            <span className="t-headline line-clamp-2 min-w-0 flex-1">{describeTarget(challenge.target, data)}</span>
+            {blocked && <span className="t-caption shrink-0 rounded-full bg-accent px-2 py-0.5 font-semibold text-white">Bloquant</span>}
+          </span>
+          <span className="flex items-center gap-2.5">
+            <Gauge value={p.current} max={p.target} color={challenge.domain} label={`Progression du défi : ${progressText}`} className="h-1.5" />
+            <span className="t-caption shrink-0 font-semibold text-muted tabular-nums">{progressText}</span>
           </span>
         </span>
-        <span className="flex items-center gap-2">
-          <Gauge value={p.current} max={p.target} color={challenge.domain} label={`Progression du défi : ${progressText}`} className="h-1.5" />
-          <span className="shrink-0 text-xs font-semibold tabular-nums">{progressText}</span>
-        </span>
+        <svg width="13" height="8" viewBox="0 0 13 8" aria-hidden className={`shrink-0 text-faint transition-transform duration-300 ease-spring ${open ? 'rotate-180' : ''}`}>
+          <path d="M1.5 1.5 6.5 6.5 11.5 1.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
 
       {open && (
-        <div className="flex flex-col gap-3 border-t border-line px-3 py-3 text-sm">
+        <div className="animate-rise t-subhead flex flex-col gap-3 px-4 pb-4 pl-[3.75rem]">
           <p className="text-muted">
             Défi du niveau {challenge.level} → {challenge.level + 1}
             {challenge.easier && ' · version facile'} · seuls les logs faits depuis le début du défi comptent.
           </p>
           {blocked ? (
-            <div className="rounded-lg bg-accent/10 px-3 py-2">
+            <div className="rounded-[0.75rem] bg-accent/10 px-3 py-2.5">
               <p className="font-semibold text-accent">Défi requis : ta jauge est pleine, réussis-le pour passer au niveau {challenge.level + 1}.</p>
               <p className="text-muted">
                 {level.reserve > 0 ? `+${level.reserve} XP en réserve, versés dès la réussite` : "L'XP gagnée part en réserve en attendant"}
@@ -76,18 +83,18 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
           )}
           <Link
             to={challengeRoute(challenge)}
-            className={`rounded-xl px-4 py-2.5 text-center font-semibold ${blocked ? 'bg-accent text-white' : 'border border-accent text-accent'}`}
+            className={`tap-scale t-headline rounded-[0.75rem] px-4 py-2.5 text-center ${blocked ? 'bg-accent text-white' : 'bg-accent/12 text-accent'}`}
           >
             S'entraîner →
           </Link>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
             {canReroll(challenge) && (
-              <button type="button" disabled={busy} className="text-muted underline" onClick={() => run(() => actions.rerollChallenge(challenge.id))}>
+              <button type="button" disabled={busy} className="tap py-1 text-accent disabled:opacity-35" onClick={() => run(() => actions.rerollChallenge(challenge.id))}>
                 Relancer ({MAX_REROLLS - challenge.rerolls} restante{MAX_REROLLS - challenge.rerolls > 1 ? 's' : ''})
               </button>
             )}
             {canOfferEasier(challenge, today) && (
-              <button type="button" disabled={busy} className="font-medium text-accent underline" onClick={() => run(() => actions.acceptEasier(challenge.id))}>
+              <button type="button" disabled={busy} className="tap py-1 font-semibold text-accent disabled:opacity-35" onClick={() => run(() => actions.acceptEasier(challenge.id))}>
                 Défi plus facile
               </button>
             )}
@@ -100,5 +107,5 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
         </div>
       )}
     </div>
-)
+  )
 }

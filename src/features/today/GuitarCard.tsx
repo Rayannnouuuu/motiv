@@ -10,10 +10,17 @@ import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { Gauge } from '../../ui/Gauge'
+import { WeekStrip } from '../../ui/WeekStrip'
 
-const DAY_LETTERS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+function Chevron() {
+  return (
+    <svg width="8" height="13" viewBox="0 0 8 13" className="shrink-0 self-center text-faint" aria-hidden>
+      <path d="M1.5 1.5 6.5 6.5 1.5 11.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
-/** Guitare sur l'accueil, sur le modèle de la carte sport : la semaine, la séance du jour (exos, morceaux), le log. */
+/** Guitare sur l'accueil : la semaine, l'objectif du jour, la séance du jour (exos, morceaux), le log. */
 export function GuitarCard() {
   const { data, today } = useAppData()
   const { saveSong } = useActions()
@@ -33,72 +40,62 @@ export function GuitarCard() {
 
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="guitar-title">
-      <div className="flex items-baseline justify-between">
-        <h2 id="guitar-title" className="text-lg font-semibold">
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 id="guitar-title" className="t-title3">
           🎸 Guitare
         </h2>
-        <p className="text-sm text-muted">
+        <p className="t-footnote text-muted">
           {week.goalDays}/7 jours à {GUITAR_DAILY_MIN} min
         </p>
       </div>
 
-      <ol className="grid grid-cols-7 gap-1.5" aria-label="Minutes de guitare de la semaine">
-        {week.days.map((d, i) => {
-          const full = d.minutes >= GUITAR_DAILY_MIN
-          const isToday = d.day === today
-          return (
-            <li key={d.day} className="flex flex-col items-center gap-1" aria-label={`${DAY_LETTERS[i]} : ${d.minutes} min`}>
-              <span className={`text-xs ${isToday ? 'font-bold text-ink' : 'text-muted'}`}>{DAY_LETTERS[i]}</span>
-              <span
-                className={`flex h-9 w-full items-center justify-center rounded-lg text-[11px] font-semibold tabular-nums ${
-                  full
-                    ? 'bg-guitar text-white'
-                    : d.minutes > 0
-                      ? `bg-guitar/25 text-ink ${isToday ? 'ring-2 ring-guitar' : ''}`
-                      : isToday
-                        ? 'border-2 border-guitar'
-                        : 'bg-surface-2'
-                }`}
-              >
-                {full ? '✓' : d.minutes > 0 ? d.minutes : ''}
-              </span>
-            </li>
-          )
-        })}
-      </ol>
+      <WeekStrip
+        label="Minutes de guitare de la semaine"
+        color="guitar"
+        today={today}
+        days={week.days.map((d) => ({
+          day: d.day,
+          fill: d.minutes >= GUITAR_DAILY_MIN ? 1 : d.minutes > 0 ? 0.5 : 0,
+          content: d.minutes >= GUITAR_DAILY_MIN ? '✓' : d.minutes > 0 ? d.minutes : '',
+          label: `${d.minutes} min`,
+        }))}
+      />
 
-      <div className="flex flex-col gap-1">
-        <p className="font-medium">
-          <span className="tabular-nums">
+      <div className="flex flex-col gap-2">
+        <p className="t-subhead">
+          <span className="font-semibold tabular-nums">
             {streak.todayMin}/{GUITAR_DAILY_MIN} min
           </span>{' '}
-          · {goalMet ? 'Objectif du jour atteint ✓' : `Encore ${streak.remainingMin} min aujourd'hui`}
+          <span className="text-muted">· {goalMet ? 'Objectif du jour atteint ✓' : `Encore ${streak.remainingMin} min aujourd'hui`}</span>
         </p>
         <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
       </div>
 
-      <div className="flex flex-col gap-2 rounded-xl bg-surface-2 p-3">
-        <p className="text-sm text-muted">Séance du jour</p>
-        <ul className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
+        <h3 className="t-footnote font-semibold text-muted uppercase">Séance du jour</h3>
+        <ul className="rows -mx-1 overflow-hidden rounded-[0.875rem] bg-surface-2 dark:bg-fill">
           {plan.map((ex) => {
             const best = bestBpm(data.guitarSessions, ex.id)
             const done = doneToday.has(ex.id)
             return (
               <li key={ex.id}>
-                <Link to={`/exo/${ex.id}`} className={`flex flex-col gap-0.5 rounded-lg bg-surface px-3 py-2 ${done ? 'opacity-60' : ''}`}>
-                  <span className="flex items-baseline justify-between gap-2">
-                    <span className="font-semibold">
-                      {done && '✓ '}
-                      {ex.title}
+                <Link to={`/exo/${ex.id}`} className={`tap-row flex gap-3 px-3.5 py-3 ${done ? 'opacity-55' : ''}`}>
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="flex items-baseline justify-between gap-2">
+                      <span className="t-headline truncate">
+                        {done && '✓ '}
+                        {ex.title}
+                      </span>
+                      <span className="t-caption shrink-0 text-muted">
+                        {CATEGORY_LABELS[ex.category]} · niv. {ex.difficulty}
+                      </span>
                     </span>
-                    <span className="shrink-0 text-xs text-muted">
-                      {CATEGORY_LABELS[ex.category]} · niv. {ex.difficulty}
+                    <span className="t-footnote line-clamp-1 text-muted">{ex.description}</span>
+                    <span className="t-subhead text-guitar tabular-nums">
+                      Cible {ex.targetBpm} bpm{best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
                     </span>
                   </span>
-                  <span className="line-clamp-1 text-xs text-muted">{ex.description}</span>
-                  <span className="text-sm tabular-nums">
-                    Cible {ex.targetBpm} bpm{best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
-                  </span>
+                  <Chevron />
                 </Link>
               </li>
             )
@@ -106,27 +103,27 @@ export function GuitarCard() {
         </ul>
 
         {songs.length > 0 && (
-          <ul className="flex flex-wrap gap-2" aria-label="Morceaux en cours">
+          <ul className="flex flex-wrap gap-1.5 pt-1" aria-label="Morceaux en cours">
             {songs.map((s) => (
-              <li key={s.id} className="rounded-full bg-surface px-3 py-1 text-sm">
+              <li key={s.id} className="t-footnote rounded-full bg-fill px-3 py-1.5">
                 🎵 {s.title}
               </li>
             ))}
           </ul>
         )}
         {suggestion && (
-          <div className="flex items-center gap-2 rounded-lg border border-dashed border-line px-3 py-2">
+          <div className="flex items-center gap-3 rounded-[0.875rem] border border-dashed border-line px-3.5 py-2.5">
             <div className="min-w-0 flex-1">
-              <p className="text-xs text-muted">Morceau suggéré</p>
-              <p className="truncate font-medium">
-                🎵 {suggestion.title} <span className="text-sm font-normal text-muted">· {suggestion.artist}</span>
+              <p className="t-caption text-muted">Morceau suggéré</p>
+              <p className="t-subhead truncate font-semibold">
+                🎵 {suggestion.title} <span className="font-normal text-muted">· {suggestion.artist}</span>
               </p>
             </div>
             <button
               type="button"
               disabled={adding}
               aria-label={`Ajouter ${suggestion.title}`}
-              className="shrink-0 font-semibold text-accent disabled:opacity-40"
+              className="tap-scale t-subhead shrink-0 rounded-full bg-accent/12 px-3.5 py-1.5 font-semibold text-accent disabled:opacity-35"
               onClick={async () => {
                 setAdding(true)
                 setAddError(null)
@@ -139,24 +136,23 @@ export function GuitarCard() {
                 }
               }}
             >
-              + Ajouter
+              Ajouter
             </button>
           </div>
         )}
         {addError && (
-          <p role="alert" className="text-sm text-danger">
+          <p role="alert" className="t-footnote text-danger">
             {addError}
           </p>
         )}
-
-        <Button
-          className="mt-1"
-          variant={goalMet ? 'secondary' : 'primary'}
-          onClick={() => navigate('/log/guitare', goalMet ? undefined : { state: { durationMin: streak.remainingMin } })}
-        >
-          {goalMet ? 'Logger une session' : `Logger ${streak.remainingMin} min`}
-        </Button>
       </div>
+
+      <Button
+        variant={goalMet ? 'secondary' : 'primary'}
+        onClick={() => navigate('/log/guitare', goalMet ? undefined : { state: { durationMin: streak.remainingMin } })}
+      >
+        {goalMet ? 'Logger une session' : `Logger ${streak.remainingMin} min`}
+      </Button>
     </Card>
   )
 }

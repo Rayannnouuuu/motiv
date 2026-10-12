@@ -17,10 +17,10 @@ function Shell({ children }: { children: ReactNode }) {
   const { error } = useAppData()
   return (
     <>
-      <main className="mx-auto max-w-md px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-24">
+      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(5.5rem+env(safe-area-inset-bottom))]">
         <PendingBanner />
         {error && (
-          <p role="alert" className="mb-3 rounded-xl bg-surface-2 px-3 py-2 text-sm text-danger">
+          <p role="alert" className="t-subhead mt-3 rounded-[0.75rem] bg-surface px-4 py-3 text-danger">
             Impossible de charger tes données : {error}
           </p>
         )}
@@ -31,9 +31,13 @@ function Shell({ children }: { children: ReactNode }) {
   )
 }
 
-/** Écran plein (logs) : pas de navigation basse. */
+/** Écran de saisie, présenté par-dessus (monte en se posant) : pas de navigation basse. */
 function Focus({ children }: { children: ReactNode }) {
-  return <main className="mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-6">{children}</main>
+  return (
+    <main className="animate-present mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-[env(safe-area-inset-top)] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+      {children}
+    </main>
+  )
 }
 
 export function AppRoutes() {

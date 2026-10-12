@@ -1,24 +1,35 @@
 import type { Rating } from '../domain/types'
+import { haptic } from './spring'
 
 const VALUES: Rating[] = [1, 2, 3, 4, 5]
 
-export function RatingPicker({ label, value, onChange }: { label: string; value: Rating | null; onChange: (r: Rating) => void }) {
+/** Note de 1 à 5 : cinq grandes pastilles, la choisie et celles d'avant se remplissent. */
+export function RatingPicker({ label, hint, value, onChange }: { label: string; hint?: string; value: Rating | null; onChange: (r: Rating) => void }) {
   return (
-    <fieldset>
-      <legend className="mb-2 font-semibold">{label}</legend>
+    <fieldset className="flex flex-col gap-2.5">
+      <legend className="t-headline pb-0.5">{label}</legend>
+      {hint && <p className="t-subhead -mt-1.5 text-muted">{hint}</p>}
       <div role="radiogroup" aria-label={label} className="flex gap-2">
-        {VALUES.map((v) => (
-          <button
-            key={v}
-            type="button"
-            role="radio"
-            aria-checked={value === v}
-            onClick={() => onChange(v)}
-            className={`h-12 flex-1 rounded-xl text-lg font-semibold tabular-nums ${value === v ? 'bg-accent text-white' : 'bg-surface-2'}`}
-          >
-            {v}
-          </button>
-        ))}
+        {VALUES.map((v) => {
+          const on = value !== null && v <= value
+          return (
+            <button
+              key={v}
+              type="button"
+              role="radio"
+              aria-checked={value === v}
+              onClick={() => {
+                haptic()
+                onChange(v)
+              }}
+              className={`tap-scale t-title3 h-14 flex-1 rounded-[1rem] tabular-nums transition-colors duration-200 ${
+                value === v ? 'bg-accent text-white' : on ? 'bg-accent/20 text-accent' : 'bg-surface text-ink shadow-card'
+              }`}
+            >
+              {v}
+            </button>
+          )
+        })}
       </div>
     </fieldset>
   )

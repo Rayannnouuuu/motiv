@@ -1,45 +1,82 @@
 @import 'tailwindcss';
 
+/* `dark:` suit le thème choisi dans l'appli (Sombre, ou Auto quand le téléphone est en sombre). */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where([data-theme='auto'], [data-theme='auto'] *) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * Couleurs façon iOS : fond groupé gris, cartes blanches, libellés secondaires translucides,
+ * séparateurs fins. Les mêmes noms servent en clair et en sombre (le sombre est vraiment noir).
+ */
 :root {
-  --bg: #fafaf9;
+  --bg: #f2f2f7;
   --surface: #ffffff;
-  --surface-2: #f5f5f4;
-  --line: #e7e5e4;
-  --ink: #1c1917;
-  --muted: #78716c;
-  --accent: #ea580c;
-  --guitar: #059669;
-  --sport: #0284c7;
-  --danger: #dc2626;
+  --surface-2: #f2f2f7;
+  --fill: rgb(118 118 128 / 0.12);
+  --fill-strong: rgb(118 118 128 / 0.2);
+  --line: rgb(60 60 67 / 0.18);
+  --ink: #000000;
+  --muted: rgb(60 60 67 / 0.6);
+  --faint: rgb(60 60 67 / 0.3);
+  --accent: #e8590c;
+  --guitar: #248a3d;
+  --sport: #007aff;
+  --danger: #ff3b30;
+  --material: rgb(249 249 249 / 0.78);
+  --material-edge: rgb(0 0 0 / 0.12);
+  --scrim: rgb(0 0 0 / 0.32);
+  --shadow: 0 0.5px 0 rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
   color-scheme: light;
 }
 
 :root[data-theme='dark'] {
-  --bg: #0c0a09;
-  --surface: #1c1917;
-  --surface-2: #292524;
-  --line: #3a3532;
-  --ink: #fafaf9;
-  --muted: #a8a29e;
-  --accent: #f97316;
-  --guitar: #34d399;
-  --sport: #38bdf8;
-  --danger: #f87171;
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --fill: rgb(118 118 128 / 0.24);
+  --fill-strong: rgb(118 118 128 / 0.36);
+  --line: rgb(84 84 88 / 0.6);
+  --ink: #ffffff;
+  --muted: rgb(235 235 245 / 0.6);
+  --faint: rgb(235 235 245 / 0.3);
+  --accent: #ff7a1a;
+  --guitar: #30d158;
+  --sport: #0a84ff;
+  --danger: #ff453a;
+  --material: rgb(30 30 30 / 0.75);
+  --material-edge: rgb(255 255 255 / 0.1);
+  --scrim: rgb(0 0 0 / 0.5);
+  --shadow: none;
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root[data-theme='auto'] {
-    --bg: #0c0a09;
-    --surface: #1c1917;
-    --surface-2: #292524;
-    --line: #3a3532;
-    --ink: #fafaf9;
-    --muted: #a8a29e;
-    --accent: #f97316;
-    --guitar: #34d399;
-    --sport: #38bdf8;
-    --danger: #f87171;
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --surface-2: #2c2c2e;
+    --fill: rgb(118 118 128 / 0.24);
+    --fill-strong: rgb(118 118 128 / 0.36);
+    --line: rgb(84 84 88 / 0.6);
+    --ink: #ffffff;
+    --muted: rgb(235 235 245 / 0.6);
+    --faint: rgb(235 235 245 / 0.3);
+    --accent: #ff7a1a;
+    --guitar: #30d158;
+    --sport: #0a84ff;
+    --danger: #ff453a;
+    --material: rgb(30 30 30 / 0.75);
+    --material-edge: rgb(255 255 255 / 0.1);
+    --scrim: rgb(0 0 0 / 0.5);
+    --shadow: none;
     color-scheme: dark;
   }
 }
@@ -48,13 +85,21 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-fill: var(--fill);
+  --color-fill-strong: var(--fill-strong);
   --color-line: var(--line);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-accent: var(--accent);
   --color-guitar: var(--guitar);
   --color-sport: var(--sport);
   --color-danger: var(--danger);
+  --color-scrim: var(--scrim);
+  --shadow-card: var(--shadow);
+  /* Ressorts (réponse 0,4 s) : amorti sans rebond par défaut, léger rebond après un geste. */
+  --ease-spring: linear(0, 0.0596, 0.186, 0.3294, 0.4656, 0.584, 0.6819, 0.7601, 0.821, 0.8677, 0.9029, 0.9292, 0.9487, 0.963, 0.9734, 0.9809, 0.9864, 0.9903, 0.9931, 0.9951, 0.9966, 0.9976, 0.9983, 0.9988, 1);
+  --ease-bounce: linear(0, 0.0624, 0.2017, 0.3663, 0.5257, 0.6644, 0.7763, 0.8613, 0.9223, 0.9637, 0.9898, 1.0049, 1.0124, 1.015, 1.0147, 1.0129, 1.0105, 1.008, 1.0057, 1.0039, 1.0025, 1.0014, 1.0007, 1.0003, 1);
 }
 
 html,
@@ -62,34 +107,226 @@ body {
   background: var(--bg);
   color: var(--ink);
   -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.0625rem; /* 17 pt : corps de texte iOS */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  /* Passage clair ↔ sombre en douceur, pas de saut de luminosité. */
+  transition: background-color 300ms ease;
+}
+
+/*
+ * Échelle typographique (iOS) : la taille, la graisse, l'interligne et l'approche vont ensemble.
+ * Les grands titres sont resserrés, les petits textes légèrement ouverts.
+ */
+@utility t-large {
+  font-size: 2.125rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+@utility t-title1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+@utility t-title2 {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+@utility t-title3 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+@utility t-headline {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+@utility t-body {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+@utility t-callout {
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+@utility t-subhead {
+  font-size: 0.9375rem;
+  line-height: 1.33;
+  letter-spacing: -0.006em;
+}
+@utility t-footnote {
+  font-size: 0.8125rem;
+  line-height: 1.38;
+  letter-spacing: -0.002em;
+}
+@utility t-caption {
+  font-size: 0.75rem;
+  line-height: 1.33;
+  letter-spacing: 0;
+}
+
+/*
+ * Retour au toucher immédiat (à l'appui, pas au relâché) puis retour en douceur.
+ * `tap` : les boutons texte et les lignes s'assombrissent ; `tap-scale` : les boutons pleins s'enfoncent.
+ */
+@utility tap {
+  transition: opacity 250ms ease, background-color 250ms ease;
+  &:active:not(:disabled) {
+    opacity: 0.45;
+    transition-duration: 0ms;
+  }
+}
+@utility tap-row {
+  transition: background-color 300ms ease;
+  &:active {
+    background-color: var(--fill-strong);
+    transition-duration: 0ms;
+  }
+}
+@utility tap-scale {
+  transition: transform 350ms var(--ease-spring), opacity 250ms ease, filter 250ms ease;
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+    filter: brightness(0.92);
+    transition-duration: 80ms;
+  }
+}
+
+/* Matériau translucide (barres, feuilles) : le contenu passe dessous, flouté. */
+@utility material {
+  background: var(--material);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Écran présenté par-dessus (saisie) : monte légèrement en se matérialisant. */
+@keyframes present {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@utility animate-present {
+  animation: present 500ms var(--ease-spring) both;
+}
+@utility animate-fade {
+  animation: fade-in 250ms ease-out both;
+}
+@utility animate-rise {
+  animation: rise 500ms var(--ease-spring) both;
+}
+@utility animate-pop {
+  animation: pop 600ms var(--ease-bounce) both;
 }
 
 /* Montée de niveau */
-@keyframes levelup-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
 @keyframes levelup-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.18); }
-  70% { transform: scale(0.96); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes levelup-rays {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
-@keyframes levelup-rise {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+.levelup-fade {
+  animation: fade-in 300ms ease-out both;
 }
-.levelup-fade { animation: levelup-fade 300ms ease-out both; }
-.levelup-pop { animation: levelup-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-.levelup-rays { animation: levelup-rays 14s linear infinite; }
-.levelup-rise { animation: levelup-rise 450ms ease-out both; }
+.levelup-pop {
+  animation: levelup-pop 700ms var(--ease-bounce) both;
+}
+.levelup-rays {
+  animation: levelup-rays 40s linear infinite;
+}
+.levelup-rise {
+  animation: rise 500ms var(--ease-spring) both;
+}
+
+/* Mouvement réduit : des fondus à la place des déplacements et des rebonds. */
 @media (prefers-reduced-motion: reduce) {
-  .levelup-fade, .levelup-pop, .levelup-rays, .levelup-rise { animation: none; }
+  .animate-present,
+  .animate-rise,
+  .animate-pop,
+  .levelup-pop,
+  .levelup-rise {
+    animation: fade-in 200ms ease-out both;
+  }
+  .levelup-rays {
+    animation: none;
+  }
+  .tap-scale:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Transparence réduite : matériaux opaques. */
+@media (prefers-reduced-transparency: reduce) {
+  .material {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Contraste augmenté : séparateurs et libellés secondaires plus marqués. */
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgb(60 60 67 / 0.5);
+    --muted: rgb(60 60 67 / 0.85);
+  }
+  .material {
+    background: var(--surface);
+    border-color: var(--line);
+  }
+}
+
+/* Filet entre les lignes d'une liste groupée, décalé à gauche comme sur iOS (0,5 px). */
+@utility rows {
+  & > * + * {
+    background-image: linear-gradient(var(--line), var(--line));
+    background-size: calc(100% - 1rem) 0.5px;
+    background-position: right top;
+    background-repeat: no-repeat;
+  }
 }

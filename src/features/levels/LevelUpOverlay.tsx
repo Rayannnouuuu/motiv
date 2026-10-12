@@ -40,7 +40,7 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
       role="dialog"
       aria-modal="true"
       aria-label={`Niveau ${info.to} atteint`}
-      className="levelup-fade fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8 overflow-hidden bg-bg/95 px-6 text-center backdrop-blur-sm"
+      className="levelup-fade material fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8 overflow-hidden px-6 text-center"
     >
       <div
         aria-hidden
@@ -48,13 +48,13 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
         style={{ background: 'repeating-conic-gradient(var(--accent) 0deg 9deg, transparent 9deg 24deg)', maskImage: 'radial-gradient(circle, black 0%, transparent 60%)' }}
       />
 
-      <p className="relative text-sm font-semibold tracking-wide text-muted uppercase">{LABEL[info.key]}</p>
+      <p className="t-footnote relative font-semibold text-muted uppercase">{LABEL[info.key]}</p>
 
-      <div className={`relative rounded-full bg-surface p-3 shadow-xl ${done ? 'levelup-pop' : ''}`}>
+      <div className={`relative rounded-full bg-surface p-3 shadow-2xl ${done ? 'levelup-pop' : ''}`}>
         <ProgressRing value={fill} max={1} size={224} stroke={18} color={COLOR[info.key]} transitionMs={FILL_MS}>
           <span className="flex flex-col items-center leading-none">
-            <span className="text-sm text-muted">Niveau</span>
-            <span key={done ? 'to' : 'from'} className={`text-7xl font-black tabular-nums ${done ? 'levelup-pop' : ''}`}>
+            <span className="t-footnote text-muted">Niveau</span>
+            <span key={done ? 'to' : 'from'} className={`text-[4.5rem] font-bold tracking-[-0.03em] tabular-nums ${done ? 'levelup-pop' : ''}`}>
               {done ? info.to : info.from}
             </span>
           </span>
@@ -63,11 +63,11 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
 
       {done && (
         <div className="levelup-rise relative flex flex-col items-center gap-2">
-          <p className="text-3xl font-black">Niveau {info.to} !</p>
+          <p className="t-large">Niveau {info.to} !</p>
           {info.also.length > 0 && (
-            <p className="text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>
+            <p className="t-subhead text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>
           )}
-          <button type="button" className="mt-4 rounded-xl bg-accent px-8 py-3 font-semibold text-white" onClick={onClose}>
+          <button type="button" className="tap-scale t-headline mt-4 min-h-[3.125rem] rounded-[0.875rem] bg-accent px-10 py-3 text-white" onClick={onClose}>
             Continuer
           </button>
         </div>

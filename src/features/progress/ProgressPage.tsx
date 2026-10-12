@@ -15,8 +15,11 @@ import {
 } from '../../domain/series'
 import type { AppData, BodyField } from '../../domain/types'
 import { Button } from '../../ui/Button'
-import { Chip } from '../../ui/Chip'
 import { LineChart } from '../../ui/LineChart'
+import { Group, Row } from '../../ui/List'
+import { Screen } from '../../ui/Screen'
+import { Segmented } from '../../ui/Segmented'
+import { Sheet } from '../../ui/Sheet'
 import { BodyMetricForm } from './BodyMetricForm'
 import { BODY_FIELDS } from './bodyFields'
 
@@ -138,84 +141,88 @@ export function ProgressPage() {
   const list = view.list.slice(0, 10)
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Progrès</h1>
-
-      <div role="tablist" aria-label="Métrique" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
-        {METRICS.map((m) => (
-          <button
-            key={m.id}
-            type="button"
-            role="tab"
-            aria-selected={metric === m.id}
-            onClick={() => setMetric(m.id)}
-            className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold whitespace-nowrap ${metric === m.id ? 'bg-ink text-bg' : 'bg-surface-2'}`}
-          >
-            {m.label}
-          </button>
-        ))}
-      </div>
-
-      {options.length > 0 && (
-        <select
-          aria-label={metric === 'measures' ? 'Mesure' : 'Exo'}
-          value={sub}
-          onChange={(e) => setChoice({ ...choice, [metric]: e.target.value })}
-          className="rounded-xl border border-line bg-surface px-3 py-2"
-        >
-          {options.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.label}
-            </option>
+    <Screen title="Progrès">
+      <div className="flex flex-col gap-5">
+        <div role="tablist" aria-label="Métrique" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+          {METRICS.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              role="tab"
+              aria-selected={metric === m.id}
+              onClick={() => setMetric(m.id)}
+              className={`tap-scale t-subhead min-h-9 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
+                metric === m.id ? 'bg-ink text-bg' : 'bg-surface text-ink shadow-card'
+              }`}
+            >
+              {m.label}
+            </button>
           ))}
-        </select>
-      )}
-      {(metric === 'tempo' || metric === 'weights') && options.length === 0 && (
-        <p className="text-muted">{metric === 'tempo' ? 'Logge un tempo sur un exo pour voir sa courbe.' : 'Fais une séance de sport pour voir tes charges.'}</p>
-      )}
+        </div>
 
-      <div className="flex gap-2">
-        {PERIODS.map((p) => (
-          <Chip key={p} selected={period === p} onClick={() => setPeriod(p)} className="px-3 py-1 text-sm">
-            {p} j
-          </Chip>
-        ))}
-      </div>
+        <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Courbe">
+          {options.length > 0 && (
+            <label className="t-subhead flex items-center justify-between gap-3">
+              <span className="text-muted">{metric === 'measures' ? 'Mesure' : 'Exo'}</span>
+              <select
+                aria-label={metric === 'measures' ? 'Mesure' : 'Exo'}
+                value={sub}
+                onChange={(e) => setChoice({ ...choice, [metric]: e.target.value })}
+                className="tap min-w-0 max-w-[65%] appearance-none truncate bg-transparent text-right font-semibold text-accent"
+              >
+                {options.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          {(metric === 'tempo' || metric === 'weights') && options.length === 0 && (
+            <p className="t-subhead text-muted">
+              {metric === 'tempo' ? 'Logge un tempo sur un exo pour voir sa courbe.' : 'Fais une séance de sport pour voir tes charges.'}
+            </p>
+          )}
 
-      <div>
-        <p className="text-4xl font-bold tabular-nums">{win.current === null ? '—' : view.format(win.current)}</p>
-        {win.delta !== null && (
-          <p className="text-sm text-muted" data-testid="delta">
-            {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
-            {view.format(Math.abs(win.delta))} sur {period} j
-          </p>
-        )}
-      </div>
+          <div>
+            <p className="t-large tabular-nums">{win.current === null ? '—' : view.format(win.current)}</p>
+            {win.delta !== null && (
+              <p className={`t-subhead font-semibold ${win.delta > 0 ? 'text-guitar' : 'text-muted'}`} data-testid="delta">
+                {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
+                {view.format(Math.abs(win.delta))} sur {period} j
+              </p>
+            )}
+          </div>
 
-      <LineChart points={win.points} format={view.format} highlights={view.records} />
+          <LineChart points={win.points} format={view.format} highlights={view.records} />
 
-      {(metric === 'body' || metric === 'measures') &&
-        (adding ? (
-          <BodyMetricForm onClose={() => setAdding(false)} />
-        ) : (
+          <Segmented
+            label="Période"
+            options={PERIODS.map((p) => ({ value: String(p), label: `${p} j` }))}
+            value={String(period)}
+            onChange={(v) => setPeriod(Number(v) as Period)}
+          />
+        </section>
+
+        {(metric === 'body' || metric === 'measures') && (
           <Button variant="secondary" onClick={() => setAdding(true)}>
             + mesure
           </Button>
-        ))}
+        )}
+        {adding && (
+          <Sheet label="Nouvelle mesure" onClose={() => setAdding(false)} title={() => <h2 className="t-headline text-center">Nouvelle mesure</h2>}>
+            {(close) => <BodyMetricForm onClose={close} />}
+          </Sheet>
+        )}
 
-      {list.length > 0 && (
-        <section>
-          <h2 className="mb-2 font-semibold">{view.listTitle}</h2>
-          <ul className="flex flex-col gap-1">
+        {list.length > 0 && (
+          <Group header={view.listTitle}>
             {list.map((r) => (
-              <li key={`${r.day}-${r.label}`} className="flex justify-between rounded-xl bg-surface px-3 py-2">
-                <span>{r.label}</span>
-                <span className="text-sm text-muted">{shortDate(r.day)}</span>
-              </li>
+              <Row key={`${r.day}-${r.label}`} title={r.label} detail={shortDate(r.day)} />
             ))}
-          </ul>
-        </section>
-      )}
-    </div>
+          </Group>
+        )}
+      </div>
+    </Screen>
   )
 }

@@ -21,7 +21,7 @@ export function ProgressRing({ value, max, size = 48, stroke = 5, color = 'accen
   return (
     <span className={`relative inline-flex shrink-0 items-center justify-center ${className}`} style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="absolute inset-0 -rotate-90" aria-hidden>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" className="stroke-surface-2" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" className="stroke-fill" strokeWidth={stroke} />
         <circle
           data-ring-fill
           cx={size / 2}
@@ -33,7 +33,7 @@ export function ProgressRing({ value, max, size = 48, stroke = 5, color = 'accen
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - frac)}
-          style={{ transition: `stroke-dashoffset ${transitionMs}ms ease-out` }}
+          style={{ transition: `stroke-dashoffset ${transitionMs}ms var(--ease-spring)` }}
         />
       </svg>
       <span className="relative">{children}</span>

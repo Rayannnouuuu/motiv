@@ -16,17 +16,17 @@ export function PendingBanner() {
   return (
     <>
       {rejected.map((r) => (
-        <div key={r.entry.id} role="alert" className="mb-3 rounded-xl bg-surface-2 px-3 py-2 text-sm">
+        <div key={r.entry.id} role="alert" className="t-subhead mt-3 rounded-[0.75rem] bg-surface px-4 py-3">
           <p>
             {LABEL[r.entry.kind]} du {dayOf(r)} refusé par le serveur : {r.message}
           </p>
-          <button type="button" className="mt-1 font-semibold text-accent" onClick={() => discardRejected(r.entry.id)}>
+          <button type="button" className="tap mt-1 font-semibold text-accent" onClick={() => discardRejected(r.entry.id)}>
             Ignorer
           </button>
         </div>
       ))}
       {pendingCount > 0 && (
-        <p role="status" className="mb-3 rounded-xl bg-surface-2 px-3 py-2 text-center text-sm text-muted">
+        <p role="status" className="t-footnote material fixed bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] left-1/2 z-30 -translate-x-1/2 rounded-full border border-line px-3.5 py-1.5 text-muted shadow-card">
           {pendingCount} {pendingCount > 1 ? 'logs' : 'log'} en attente d'envoi
         </p>
       )}

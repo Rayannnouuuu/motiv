@@ -1,9 +1,12 @@
-/** Barre d'étapes des écrans de log. `current` commence à 0. */
+/** Avancement des écrans de log : des points, l'étape en cours s'allonge. `current` commence à 0. */
 export function StepBar({ count, current }: { count: number; current: number }) {
   return (
-    <div className="flex gap-1.5" role="progressbar" aria-label="Étape" aria-valuenow={current + 1} aria-valuemin={1} aria-valuemax={count}>
+    <div className="flex items-center justify-center gap-1.5" role="progressbar" aria-label="Étape" aria-valuenow={current + 1} aria-valuemin={1} aria-valuemax={count}>
       {Array.from({ length: count }, (_, i) => (
-        <span key={i} className={`h-1.5 flex-1 rounded-full ${i <= current ? 'bg-accent' : 'bg-surface-2'}`} />
+        <span
+          key={i}
+          className={`h-2 rounded-full transition-[width,background-color] duration-500 ease-spring ${i === current ? 'w-6 bg-accent' : i < current ? 'w-2 bg-accent' : 'w-2 bg-fill-strong'}`}
+        />
       ))}
     </div>
   )

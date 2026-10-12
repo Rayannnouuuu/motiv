@@ -34,24 +34,25 @@ export function BodyMetricForm({ onClose }: { onClose: () => void }) {
 
   return (
     <form
-      className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4"
+      className="flex flex-col gap-4 pt-1"
       onSubmit={(e) => {
         e.preventDefault()
         if (!empty) void save()
       }}
     >
-      <label className="flex items-center justify-between gap-2">
+      <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
+      <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
         <span>Date</span>
         <input
           type="date"
           value={day}
           max={today}
           onChange={(e) => setDay(e.target.value || today)}
-          className="rounded-lg border border-line bg-bg px-2 py-1"
+          className="bg-transparent text-right text-accent"
         />
       </label>
       {BODY_FIELDS.map(({ field, label, unit }) => (
-        <label key={field} className="flex items-center justify-between gap-2">
+        <label key={field} className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
           <span>
             {label} ({unit})
           </span>
@@ -60,12 +61,14 @@ export function BodyMetricForm({ onClose }: { onClose: () => void }) {
             inputMode="decimal"
             value={values[field]}
             onChange={(e) => setValues({ ...values, [field]: e.target.value })}
-            className="w-24 rounded-lg border border-line bg-bg px-2 py-1 text-right tabular-nums"
+            placeholder="—"
+            className="w-24 bg-transparent text-right tabular-nums placeholder:text-faint"
           />
         </label>
       ))}
+      </div>
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="t-footnote px-4 text-danger">
           {error}
         </p>
       )}

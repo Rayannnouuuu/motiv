@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
@@ -110,7 +110,7 @@ describe('TodayPage', () => {
     expect(within(sheet).getByText('+340 XP en réserve')).toBeInTheDocument()
     expect(within(sheet).getByText('1200 / 1200 XP')).toBeInTheDocument()
     await userEvent.click(within(sheet).getByRole('button', { name: 'Fermer' }))
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
   })
 
   test('séance de sport en cours : exos, séries faites, exo courant, reprendre', async () => {

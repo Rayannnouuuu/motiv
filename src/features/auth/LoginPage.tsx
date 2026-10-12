@@ -35,36 +35,43 @@ export function LoginPage() {
     } else setState('sent')
   }
 
-  const input = 'rounded-xl border border-line bg-surface px-4 py-3 text-base'
+  const input = 't-body min-w-0 flex-1 bg-transparent py-1.5 text-right outline-none placeholder:text-faint'
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 px-4">
-      <div className="text-center">
-        <div className="text-6xl" aria-hidden>
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-4">
+      <div className="animate-rise flex flex-col items-center gap-3 text-center">
+        <div className="flex h-20 w-20 items-center justify-center rounded-[1.375rem] bg-gradient-to-b from-[#ff8a3d] to-accent text-[2.75rem] shadow-lg" aria-hidden>
           🔥
         </div>
-        <h1 className="mt-2 text-3xl font-bold">Motiv</h1>
-        <p className="text-muted">Guitare + sport, le progrès visible chaque jour.</p>
+        <h1 className="t-large">Motiv</h1>
+        <p className="t-body -mt-2 text-muted">Guitare + sport, le progrès visible chaque jour.</p>
       </div>
       {state === 'sent' ? (
-        <p className="rounded-2xl bg-surface p-4 text-center font-medium">Lien envoyé, ouvre ton email</p>
+        <p className="animate-rise t-headline rounded-[1rem] bg-surface p-4 text-center">Lien envoyé, ouvre ton email</p>
       ) : (
-        <form onSubmit={signIn} className="flex flex-col gap-3">
-          <label htmlFor="email" className="text-sm text-muted">
-            Email
-          </label>
-          <input id="email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={input} />
-          <label htmlFor="password" className="text-sm text-muted">
-            Mot de passe
-          </label>
-          <input
-            id="password"
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={input}
-          />
+        <form onSubmit={signIn} className="animate-rise flex flex-col gap-4" style={{ animationDelay: '80ms' }}>
+          <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
+            <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+              <label htmlFor="email" className="t-body w-28 shrink-0">
+                Email
+              </label>
+              <input id="email" type="email" required autoComplete="email" placeholder="toi@exemple.fr" value={email} onChange={(e) => setEmail(e.target.value)} className={input} />
+            </div>
+            <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+              <label htmlFor="password" className="t-body w-28 shrink-0">
+                Mot de passe
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Requis"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={input}
+              />
+            </div>
+          </div>
           <Button type="submit" disabled={state === 'sending' || !email.trim() || !password}>
             Se connecter
           </Button>
@@ -72,7 +79,7 @@ export function LoginPage() {
             Recevoir un lien par email
           </Button>
           {error && (
-            <p role="alert" className="text-sm text-danger">
+            <p role="alert" className="t-subhead text-center text-danger">
               {error}
             </p>
           )}

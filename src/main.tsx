@@ -9,6 +9,9 @@ import './index.css'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1 } } })
 
+// Sur iPhone, :active (retour visuel à l'appui) ne s'applique que si la page écoute les touchers.
+document.addEventListener('touchstart', () => {}, { passive: true })
+
 // Efface la pastille posée par une notification quand l'appli est ouverte ou revient au premier plan.
 const clearBadge = () => (navigator as Navigator & { clearAppBadge?: () => Promise<void> }).clearAppBadge?.().catch(() => {})
 clearBadge()

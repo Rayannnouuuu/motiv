@@ -7,11 +7,12 @@ import { lastLog, type LastLog } from '../../domain/lastLog'
 import type { GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
+import { ModalBar } from '../../ui/ModalBar'
 import { RatingPicker } from '../../ui/RatingPicker'
 import { WeightInput } from '../../ui/WeightInput'
 import { StepContent, type Entry } from '../log-guitar/StepContent'
 
-const input = 'rounded-lg border border-line bg-surface px-2 py-1 tabular-nums'
+const input = 'rounded-[0.5rem] bg-fill px-2 py-1.5 tabular-nums outline-none'
 const MAX_DURATION = 600
 
 const longDate = (day: string) =>
@@ -31,14 +32,16 @@ function Common({ day, duration, flow, desire, today, onDay, onDuration, onFlow,
 }) {
   return (
     <>
-      <label className="flex items-center justify-between gap-2">
-        <span>Date</span>
-        <input type="date" value={day} max={today} onChange={(e) => onDay(e.target.value || day)} className={input} />
-      </label>
-      <label className="flex items-center justify-between gap-2">
-        <span>Durée (min)</span>
-        <input type="number" inputMode="numeric" min={1} max={MAX_DURATION} value={duration} onChange={(e) => onDuration(e.target.value)} className={`${input} w-24 text-right`} />
-      </label>
+      <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
+        <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
+          <span className="t-body">Date</span>
+          <input type="date" value={day} max={today} onChange={(e) => onDay(e.target.value || day)} className="t-body bg-transparent text-right text-accent outline-none" />
+        </label>
+        <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
+          <span className="t-body">Durée (min)</span>
+          <input type="number" inputMode="numeric" min={1} max={MAX_DURATION} value={duration} onChange={(e) => onDuration(e.target.value)} className={`${input} t-body w-24 text-right`} />
+        </label>
+      </div>
       <RatingPicker label="Temps oublié" value={flow} onChange={onFlow} />
       <RatingPicker label="Envie d'y retourner" value={desire} onChange={onDesire} />
     </>
@@ -95,18 +98,18 @@ function DeleteButton({ onDelete, disabled }: { onDelete: () => void; disabled: 
   const [confirming, setConfirming] = useState(false)
   if (!confirming)
     return (
-      <Button variant="ghost" className="text-danger" disabled={disabled} onClick={() => setConfirming(true)}>
+      <Button variant="ghost" className="!text-danger" disabled={disabled} onClick={() => setConfirming(true)}>
         Supprimer ce log
       </Button>
     )
   return (
-    <div className="flex flex-col gap-2 rounded-xl border border-danger p-3">
-      <p className="text-sm">Supprimer ce log ? Son XP sera retirée.</p>
+    <div className="animate-rise flex flex-col gap-3 rounded-[1rem] bg-surface p-4 shadow-card">
+      <p className="t-subhead text-center">Supprimer ce log ? Son XP sera retirée.</p>
       <div className="flex gap-2">
         <Button variant="ghost" onClick={() => setConfirming(false)}>
           Annuler
         </Button>
-        <Button className="flex-1 bg-danger" disabled={disabled} onClick={onDelete}>
+        <Button className="flex-1 !bg-danger" disabled={disabled} onClick={onDelete}>
           Supprimer
         </Button>
       </div>
@@ -172,7 +175,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         }}
       />
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="t-subhead text-danger">
           {error}
         </p>
       )}
@@ -216,25 +219,26 @@ function EditSport({ session }: { session: SportSession }) {
 
   return (
     <>
-      <p className="text-muted">Séance {program?.name ?? 'inconnue'}</p>
+      <p className="t-subhead -mt-2 text-muted">Séance {program?.name ?? 'inconnue'}</p>
       <Common day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
-      {groups.length === 0 && <p className="text-sm text-muted">Aucune série enregistrée.</p>}
+      {groups.length === 0 && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
       {groups.map((pe) => {
         const name = names.get(pe) ?? 'Exo inconnu'
         return (
-          <section key={pe} className="flex flex-col gap-2">
-            <h2 className="font-semibold">{name}</h2>
+          <section key={pe} className="flex flex-col">
+            <h2 className="t-footnote px-4 pb-1.5 text-muted uppercase">{name}</h2>
+            <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
             {sets.map((s, i) =>
               s.programExerciseId !== pe ? null : (
-                <div key={i} className="flex items-center gap-2">
-                  <span className="w-16 text-sm text-muted">Série {s.setIndex}</span>
+                <div key={i} className="flex min-h-11 items-center gap-2 px-4 py-1.5">
+                  <span className="t-body w-16 text-muted">Série {s.setIndex}</span>
                   <WeightInput
                     aria-label={`Charge · ${name} · série ${s.setIndex}`}
                     value={s.weightKg}
                     onChange={(kg) => update(i, { weightKg: kg })}
-                    className={`${input} w-20 text-right`}
+                    className={`${input} t-body ml-auto w-20 text-right`}
                   />
-                  <span className="text-sm text-muted">kg ×</span>
+                  <span className="t-subhead text-muted">kg ×</span>
                   <input
                     type="number"
                     inputMode="numeric"
@@ -242,24 +246,28 @@ function EditSport({ session }: { session: SportSession }) {
                     aria-label={`Reps · ${name} · série ${s.setIndex}`}
                     value={s.reps}
                     onChange={(e) => update(i, { reps: Number(e.target.value) })}
-                    className={`${input} w-16 text-right`}
+                    className={`${input} t-body w-14 text-right`}
                   />
                   <button
                     type="button"
                     aria-label={`Retirer ${name} série ${s.setIndex}`}
-                    className="px-1 text-muted"
+                    className="tap py-1 pl-1"
                     onClick={() => setSets(renumber(sets.filter((_, j) => j !== i)))}
                   >
-                    ✕
+                    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
+                      <circle cx="11" cy="11" r="10" className="fill-danger" />
+                      <path d="M6.5 11h9" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                    </svg>
                   </button>
                 </div>
               ),
             )}
+            </div>
           </section>
         )
       })}
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="t-subhead text-danger">
           {error}
         </p>
       )}
@@ -302,7 +310,7 @@ export function EditLogPage() {
   const { loading } = useAppData()
   const { id } = useParams()
   // La cible est figée au montage : on attend les données (ouverture directe de l'URL, relance de l'appli).
-  if (loading) return <p className="text-center text-muted">Chargement…</p>
+  if (loading) return <p className="t-subhead pt-16 text-center text-muted">Chargement…</p>
   return <EditLog key={id} id={id} />
 }
 
@@ -322,7 +330,7 @@ function EditLog({ id }: { id: string | undefined }) {
     return (
       <div className="flex flex-1 flex-col justify-center gap-4 text-center">
         <p>Aucun log à corriger.</p>
-        <Link to="/" className="text-accent underline">
+        <Link to="/" className="tap t-body text-accent">
           Retour
         </Link>
       </div>
@@ -337,14 +345,10 @@ function EditLog({ id }: { id: string | undefined }) {
       : '🏋️ Sport'
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-3">
-        <button type="button" aria-label="Fermer" className="text-xl text-muted" onClick={() => navigate(-1)}>
-          ✕
-        </button>
-        <h1 className="text-xl font-bold">{id ? 'Corriger ce log' : 'Corriger le dernier log'}</h1>
-      </div>
-      <p className="text-sm text-muted">
+    <div className="flex flex-col gap-5 pb-4">
+      <ModalBar onCancel={() => navigate(-1)} cancelAria="Fermer" />
+      <h1 className="t-title1 -mt-2">{id ? 'Corriger ce log' : 'Corriger le dernier log'}</h1>
+      <p className="t-subhead -mt-3 text-muted">
         {what} · {longDate(target.session.day)} · {target.session.xp} XP
       </p>
       {target.kind === 'guitar' ? <EditGuitar session={target.session} /> : <EditSport session={target.session} />}

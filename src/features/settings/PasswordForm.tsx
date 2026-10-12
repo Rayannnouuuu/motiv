@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useActions } from '../../data/AppDataContext'
-import { Button } from '../../ui/Button'
 import { useRun } from './useRun'
 
 const MIN_LENGTH = 8
@@ -14,23 +13,32 @@ export function PasswordForm() {
   const valid = password.length >= MIN_LENGTH
 
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor="new-password" className="text-sm text-muted">
-        Mot de passe (pour te reconnecter sans email, {MIN_LENGTH} caractères min.)
-      </label>
-      <input
-        id="new-password"
-        type="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(e) => {
-          setValue(e.target.value)
-          setDone(false)
-        }}
-        className="rounded-xl border border-line bg-surface px-3 py-2"
-      />
-      <Button
+    <>
+      <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+        <label htmlFor="new-password" className="t-body shrink-0">
+          Mot de passe
+        </label>
+        <input
+          id="new-password"
+          type="password"
+          autoComplete="new-password"
+          placeholder={`${MIN_LENGTH} caractères min.`}
+          aria-describedby="password-hint"
+          value={password}
+          onChange={(e) => {
+            setValue(e.target.value)
+            setDone(false)
+          }}
+          className="t-body min-w-0 flex-1 bg-transparent py-1.5 text-right outline-none placeholder:text-faint"
+        />
+        <span id="password-hint" className="sr-only">
+          Pour te reconnecter sans email, {MIN_LENGTH} caractères min.
+        </span>
+      </div>
+      <button
+        type="button"
         disabled={!valid || busy}
+        className="tap-row t-body flex min-h-11 w-full items-center px-4 py-2.5 text-left text-accent disabled:text-faint"
         onClick={() =>
           run(async () => {
             await setPassword(password)
@@ -40,13 +48,12 @@ export function PasswordForm() {
         }
       >
         Enregistrer le mot de passe
-      </Button>
-      {done && <p className="text-sm text-guitar">Mot de passe enregistré ✓</p>}
-      {error && (
-        <p role="alert" className="text-sm text-danger">
-          {error}
+      </button>
+      {(done || error) && (
+        <p role={error ? 'alert' : undefined} className={`t-subhead px-4 py-2.5 ${error ? 'text-danger' : 'text-guitar'}`}>
+          {error ?? 'Mot de passe enregistré ✓'}
         </p>
       )}
-    </div>
+    </>
   )
 }

@@ -7,6 +7,7 @@ import { addDays } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
 import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
+import { ModalBar } from '../../ui/ModalBar'
 import { StepBar } from '../../ui/StepBar'
 import { StepContent, type Entry } from './StepContent'
 import { PRESETS, parseDuration, type DurationChoice } from './duration'
@@ -81,22 +82,15 @@ export function LogGuitarPage() {
   const canNext = step === 0 ? durationMin !== null : true
 
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          aria-label={step === 0 ? 'Fermer' : 'Retour'}
-          className="text-xl text-muted"
-          onClick={() => (step === 0 ? navigate('/') : setStep(step - 1))}
-        >
-          {step === 0 ? '✕' : '←'}
-        </button>
-        <div className="flex-1">
-          <StepBar count={3} current={step} />
-        </div>
-      </div>
+    <div className="flex flex-1 flex-col gap-5">
+      <ModalBar
+        onCancel={() => (step === 0 ? navigate('/') : setStep(step - 1))}
+        cancelLabel={step === 0 ? 'Annuler' : '‹ Retour'}
+        cancelAria={step === 0 ? 'Fermer' : 'Retour'}
+        title={<StepBar count={3} current={step} />}
+      />
 
-      <div className="flex-1">
+      <div key={step} className="animate-rise flex-1">
         {step === 0 && (
           <StepDuration choice={choice} other={other} yesterday={yesterday} onChoice={setChoice} onOther={setOther} onYesterday={setYesterday} />
         )}
@@ -115,7 +109,7 @@ export function LogGuitarPage() {
       </div>
 
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="t-subhead text-danger">
           {error}
         </p>
       )}

@@ -18,7 +18,7 @@ export function TabView({ pattern }: { pattern: TabNote[] }) {
   const pmBeats = [...new Set(pattern.filter((n) => n.technique === 'palmMute').map((n) => n.startBeat))]
 
   return (
-    <div className="overflow-x-auto rounded-xl bg-surface-2 p-2">
+    <div className="overflow-x-auto rounded-[0.75rem] bg-surface p-3">
       <svg viewBox={`0 0 ${width} ${height}`} className="min-w-full" style={{ width: Math.max(width, 0) }} role="img" aria-label="Tablature">
         {STRINGS.map((s, i) => (
           <g key={s}>

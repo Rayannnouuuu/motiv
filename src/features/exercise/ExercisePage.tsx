@@ -15,7 +15,7 @@ function DifficultyMeter({ value }: { value: number }) {
   return (
     <span className="flex gap-0.5" role="img" aria-label={`Difficulté ${value}/10`}>
       {Array.from({ length: 10 }, (_, i) => (
-        <span key={i} className={`h-1.5 w-1.5 rounded-full ${i < value ? 'bg-accent' : 'bg-surface-2'}`} />
+        <span key={i} className={`h-1.5 w-1.5 rounded-full ${i < value ? 'bg-accent' : 'bg-fill-strong'}`} />
       ))}
     </span>
   )
@@ -51,46 +51,49 @@ export function ExercisePage() {
   const challengeBpm = challenge?.target.kind === 'bpm' ? challenge.target.bpm : null
 
   return (
-    <div className="flex flex-col gap-5">
-      <button type="button" className="self-start text-sm text-muted" onClick={() => navigate(-1)}>
-        ← Retour
+    <div className="flex flex-col gap-6 pb-4">
+      <button type="button" className="tap t-body -ml-1.5 flex items-center gap-1 self-start pt-2.5 pb-1 text-accent" onClick={() => navigate(-1)}>
+        <svg width="12" height="20" viewBox="0 0 12 20" aria-hidden>
+          <path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Retour
       </button>
-      <div>
-        <p className="flex items-center gap-2 text-sm text-muted">
+      <div className="flex flex-col gap-2">
+        <p className="t-footnote flex items-center gap-2 font-semibold text-muted uppercase">
           {CATEGORY_LABELS[ex.category]} · niveau {ex.difficulty}/10 <DifficultyMeter value={ex.difficulty} />
         </p>
-        <h1 className="mt-1 text-2xl font-bold">{ex.title}</h1>
-        <p className="mt-2">{ex.description}</p>
+        <h1 className="t-title1">{ex.title}</h1>
+        <p className="t-body text-muted">{ex.description}</p>
       </div>
 
-      <section className="flex flex-col gap-2 rounded-xl bg-surface p-4" aria-labelledby="tempo-title">
+      <section className="flex flex-col gap-3 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-labelledby="tempo-title">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 id="tempo-title" className="font-semibold">
+          <h2 id="tempo-title" className="t-headline">
             Ton meilleur tempo
           </h2>
-          <p className="text-xl font-bold tabular-nums">{best === null ? '—' : `${best} bpm`}</p>
+          <p className="t-title2 tabular-nums">{best === null ? '—' : `${best} bpm`}</p>
         </div>
         <Gauge value={best ?? 0} max={ex.targetBpm} color="guitar" label={`Meilleur tempo ${best ?? 0} sur ${ex.targetBpm} bpm`} className="h-2" />
-        <p className="text-sm tabular-nums">
+        <p className="t-subhead tabular-nums">
           {best !== null && best >= ex.targetBpm ? (
-            <span className="font-medium text-guitar">Tempo cible atteint ✓ ({ex.targetBpm} bpm)</span>
+            <span className="font-semibold text-guitar">Tempo cible atteint ✓ ({ex.targetBpm} bpm)</span>
           ) : (
             <span className="text-muted">Tempo cible : {ex.targetBpm} bpm</span>
           )}
-          {challengeBpm !== null && <span className="text-accent"> · 🎯 défi : {challengeBpm} bpm</span>}
+          {challengeBpm !== null && <span className="font-semibold text-accent"> · 🎯 défi : {challengeBpm} bpm</span>}
         </p>
-        <p className="text-xs text-muted">
+        <p className="t-footnote text-muted">
           C'est le tempo le plus rapide que tu as noté en loggant cet exo (champ « tempo max » du log guitare). Pour le monter, logge un nouveau tempo ; pour
           corriger une erreur, corrige le log concerné ci-dessous.
         </p>
         {history.length > 0 && (
-          <ul className="mt-1 flex flex-col divide-y divide-line" aria-label="Historique des tempos">
+          <ul className="rows -mx-4 -mb-4 border-t border-line" aria-label="Historique des tempos">
             {history.map((h) => (
-              <li key={h.sessionId} className="flex items-center justify-between gap-2 py-1.5 text-sm">
-                <span className="text-muted">{shortDate(h.day)}</span>
-                <span className="flex-1 text-right font-semibold tabular-nums">{h.bpm} bpm</span>
-                <Link to={`/log/corriger/${h.sessionId}`} className="text-xs text-muted underline">
-                  Corriger
+              <li key={h.sessionId}>
+                <Link to={`/log/corriger/${h.sessionId}`} className="tap-row t-body flex min-h-11 items-center gap-3 px-4 py-2" aria-label={`Corriger le log du ${shortDate(h.day)}`}>
+                  <span className="text-muted">{shortDate(h.day)}</span>
+                  <span className="flex-1 text-right font-semibold tabular-nums">{h.bpm} bpm</span>
+                  <span className="t-subhead text-accent">Corriger</span>
                 </Link>
               </li>
             ))}
@@ -99,16 +102,21 @@ export function ExercisePage() {
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="font-semibold">Tablature</h2>
+        <h2 className="t-footnote px-4 text-muted uppercase">Tablature</h2>
         <TabView pattern={ex.pattern} />
-        <p className="text-xs text-muted">Joue la boucle en continu · h = hammer-on · b = bend · PM = palm mute</p>
+        <p className="t-footnote px-4 text-muted">Joue la boucle en continu · h = hammer-on · b = bend · PM = palm mute</p>
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="font-semibold">Conseils</h2>
-        <ul className="flex list-disc flex-col gap-1 pl-5 text-sm">
+        <h2 className="t-footnote px-4 text-muted uppercase">Conseils</h2>
+        <ul className="rows t-body flex flex-col overflow-hidden rounded-[0.75rem] bg-surface">
           {tipsFor(ex.category, ex.difficulty).map((t) => (
-            <li key={t}>{t}</li>
+            <li key={t} className="flex gap-3 px-4 py-3">
+              <span aria-hidden className="text-accent">
+                •
+              </span>
+              <span>{t}</span>
+            </li>
           ))}
         </ul>
       </section>
