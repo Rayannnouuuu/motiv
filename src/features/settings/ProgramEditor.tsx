@@ -115,7 +115,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     inputMode="numeric"
                     value={ex.targetSets || ''}
                     onChange={(e) => setExercise(ex.id, { targetSets: Number(e.target.value.replace(/\D/g, '')) })}
-                    className={`t-subhead ${num}`}
+                    className={`t-callout ${num}`}
                   />
                   <span className="t-footnote text-muted" aria-hidden>
                     ×
@@ -126,7 +126,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     inputMode="numeric"
                     value={ex.targetReps || ''}
                     onChange={(e) => setExercise(ex.id, { targetReps: Number(e.target.value.replace(/\D/g, '')) })}
-                    className={`t-subhead ${num}`}
+                    className={`t-callout ${num}`}
                   />
                   <div className="flex shrink-0 items-center text-muted">
                     <button type="button" aria-label={`Monter ${label}`} disabled={i === 0} className="tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, -1)}>

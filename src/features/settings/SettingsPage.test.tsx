@@ -167,4 +167,13 @@ describe('SettingsPage', () => {
     await click(/Voir les \d+ morceaux/)
     expect(screen.getByRole('button', { name: 'Voir moins' })).toBeInTheDocument()
   })
+
+  test('« Version » : date du build et commit, en dernier', () => {
+    renderWithData(<SettingsPage />, { today })
+    const label = screen.getByText('Version')
+    const row = label.closest('div')!
+    expect(row).toHaveTextContent(/^Version\d{1,2} \S+ · (local|[0-9a-f]{7})$/)
+    const groups = document.querySelectorAll('section')
+    expect(groups[groups.length - 1]).toContainElement(label)
+  })
 })

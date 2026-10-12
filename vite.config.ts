@@ -5,12 +5,20 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   base: '/motiv/',
+  // Affichés dans Réglages › Version. GitHub Actions fournit GITHUB_SHA.
+  define: {
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+    __BUILD_SHA__: JSON.stringify((process.env.GITHUB_SHA ?? 'local').slice(0, 7)),
+  },
   plugins: [
     react(),
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      pwaAssets: { config: true },
+      // Enregistré par src/main.tsx (setupUpdates) pour contrôler le moment du rechargement.
+      injectRegister: false,
+      // Le meta theme-color vient d'index.html (mis à jour selon le thème) : pas de doublon injecté.
+      pwaAssets: { config: true, injectThemeColor: false },
       manifest: {
         name: 'Motiv',
         short_name: 'Motiv',
@@ -19,8 +27,8 @@ export default defineConfig({
         start_url: '/motiv/',
         scope: '/motiv/',
         display: 'standalone',
-        background_color: '#fafaf9',
-        theme_color: '#fafaf9',
+        background_color: '#f2f2f7',
+        theme_color: '#f2f2f7',
       },
       workbox: { navigateFallback: '/motiv/index.html', importScripts: ['push-sw.js'] },
     }),
