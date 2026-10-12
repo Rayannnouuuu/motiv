@@ -91,8 +91,13 @@ Deno.serve(async (req) => {
     let sent = 0
     const now = new Date()
     for (const [userId, userSubs] of byUser) {
-      const messages = dueMessages(userId, await loadUserData(userId), now)
-      for (const m of messages) sent += await send(userSubs, m)
+      // Une erreur sur un utilisateur ne prive pas les suivants de leur rappel.
+      try {
+        const messages = dueMessages(userId, await loadUserData(userId), now)
+        for (const m of messages) sent += await send(userSubs, m)
+      } catch (e) {
+        console.error('user failed', userId, (e as Error).message)
+      }
     }
     return json({ users: byUser.size, sent })
   } catch (e) {

@@ -8,7 +8,7 @@ import { ActionsContext, AppDataContext, type Actions } from './AppDataContext'
 import { toAppData } from './mappers'
 import { mergePending } from './merge'
 import { discardRejected, enqueue, flush, readOutbox, readRejected, removeFromOutbox, whenIdle, type OutboxEntry } from './outbox'
-import { disablePush } from './push'
+import { disablePush, syncPush } from './push'
 import { deleteSessionRemote, fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
 import { supabase } from './supabase'
 
@@ -53,6 +53,10 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     const t = setInterval(() => void flushNow(), RETRY_MS)
     return () => clearInterval(t)
   }, [pending.length, flushNow])
+
+  useEffect(() => {
+    syncPush().catch(() => {})
+  }, [])
 
   // Défis : à chaque nouvelle version des données serveur, réussite / blocage / création.
   const settling = useRef(false)

@@ -1,0 +1,6 @@
+# Seule la partie « fonctions » est utilisée (le projet est hébergé sur supabase.com).
+[functions.notify]
+# Appelée par pg_cron (en-tête x-cron-secret, sans jeton) : la fonction vérifie elle-même l'accès.
+verify_jwt = false
+# Fichier construit par `npm run build:notify` (regroupe la logique de src/).
+entrypoint = "./functions/notify/dist/index.js"

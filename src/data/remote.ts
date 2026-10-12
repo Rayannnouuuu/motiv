@@ -96,7 +96,11 @@ export async function saveProgramRemote(p: Program): Promise<void> {
 
 export async function writeChallengeUpdates(updates: ChallengeUpdate[]): Promise<void> {
   for (const u of updates) {
-    if (u.type === 'create') await upsert('challenges', challengeToRow(u.challenge as Challenge))
+    if (u.type === 'create') {
+      // Un autre appareil vient de créer le défi de ce niveau (index unique) : rien à faire.
+      const res = await supabase.from('challenges').upsert(challengeToRow(u.challenge as Challenge))
+      if (res.error?.code !== '23505') check(res)
+    }
     else {
       const patch =
         u.type === 'markDone' ? { status: 'done', done_on: u.doneOn } : u.type === 'replace' ? { status: 'replaced' } : { blocked_since: u.day }

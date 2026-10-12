@@ -31,6 +31,24 @@ export async function currentSubscription(): Promise<PushSubscription | null> {
   return reg.pushManager.getSubscription()
 }
 
+async function saveSubscription(sub: PushSubscription): Promise<void> {
+  const json = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } }
+  const { error } = await (await client())
+    .from('push_subscriptions')
+    .upsert({ endpoint: json.endpoint, p256dh: json.keys.p256dh, auth: json.keys.auth }, { onConflict: 'endpoint' })
+  if (error) throw new Error(error.message)
+}
+
+/**
+ * À l'ouverture : renvoie l'abonnement de l'appareil au serveur. Le navigateur peut le renouveler,
+ * et le serveur supprime ceux qui expirent ; sans ça les rappels s'arrêteraient sans prévenir.
+ */
+export async function syncPush(): Promise<void> {
+  if (pushSupport() !== 'ok' || Notification.permission !== 'granted') return
+  const sub = await currentSubscription()
+  if (sub) await saveSubscription(sub)
+}
+
 /** Demande l'autorisation, abonne l'appareil et l'enregistre côté serveur. */
 export async function enablePush(): Promise<void> {
   const permission = await Notification.requestPermission()
@@ -39,11 +57,7 @@ export async function enablePush(): Promise<void> {
   const sub =
     (await reg.pushManager.getSubscription()) ??
     (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) }))
-  const json = sub.toJSON() as { endpoint: string; keys: { p256dh: string; auth: string } }
-  const { error } = await (await client())
-    .from('push_subscriptions')
-    .upsert({ endpoint: json.endpoint, p256dh: json.keys.p256dh, auth: json.keys.auth }, { onConflict: 'endpoint' })
-  if (error) throw new Error(error.message)
+  await saveSubscription(sub)
 }
 
 export async function disablePush(): Promise<void> {
