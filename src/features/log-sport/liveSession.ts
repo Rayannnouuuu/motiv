@@ -128,3 +128,12 @@ export function prefillFor(pe: ProgramExercise, history: SportSession[]): Prefil
 }
 
 export const formatWeight = (w: number) => (w === 0 ? 'PDC' : `${kg(w)} kg`)
+
+/** Les `n` dernières séances où l'exo a été fait (la plus récente d'abord), avec toutes leurs séries. */
+export function recentSetsFor(pe: ProgramExercise, history: SportSession[], n = 3): { day: string; sets: SportSet[] }[] {
+  return [...history]
+    .sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt))
+    .map((s) => ({ day: s.day, sets: s.sets.filter((x) => x.programExerciseId === pe.id).sort((a, b) => a.setIndex - b.setIndex) }))
+    .filter((s) => s.sets.length > 0)
+    .slice(0, n)
+}

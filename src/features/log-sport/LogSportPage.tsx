@@ -16,6 +16,7 @@ import {
   liveReducer,
   loadLive,
   prefillFor,
+  recentSetsFor,
   resolveIndex,
   saveLive,
   type LiveAction,
@@ -23,6 +24,8 @@ import {
 } from './liveSession'
 
 const MAX_DURATION = 600
+
+const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 
 export function LogSportPage() {
   const { data } = useAppData()
@@ -85,7 +88,7 @@ export function LogSportPage() {
   if (index >= exercises.length) return <FinishSession live={live} onDone={clear} onBack={exercises.length > 0 ? goBack : undefined} />
 
   const current = exercises[index]
-  const prefill = prefillFor(current, data.sportSessions)
+  const recent = recentSetsFor(current, data.sportSessions)
   const doneSets = live.sets.filter((s) => s.programExerciseId === current.id)
   const next = exercises[index + 1]
   const boxes = Math.max(current.targetSets, doneSets.length + 1)
@@ -103,9 +106,28 @@ export function LogSportPage() {
         <h1 className="text-2xl font-bold">{current.name}</h1>
         <p className="text-muted">
           {current.targetSets}×{current.targetReps} visé
-          {prefill.summary && ` · ${prefill.summary}`}
         </p>
       </div>
+
+      {recent.length > 0 ? (
+        <section className="flex flex-col gap-1.5 rounded-xl bg-surface p-3" aria-label="Tes dernières fois">
+          <p className="text-xs font-semibold tracking-wide text-muted uppercase">Tes dernières fois</p>
+          {recent.map((r) => (
+            <div key={r.day} className="flex items-baseline gap-2 text-sm">
+              <span className="w-14 shrink-0 text-muted">{shortDate(r.day)}</span>
+              <span className="flex flex-wrap gap-1">
+                {r.sets.map((x) => (
+                  <span key={x.setIndex} className="rounded-md bg-surface-2 px-1.5 py-0.5 tabular-nums">
+                    {formatWeight(x.weightKg)} × {x.reps}
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </section>
+      ) : (
+        <p className="text-sm text-muted">Première fois sur cet exo : choisis une charge confortable.</p>
+      )}
 
       <Stepper label="Charge" onMinus={() => dispatch({ type: 'weight', delta: -2.5 })} onPlus={() => dispatch({ type: 'weight', delta: 2.5 })}>
         <input

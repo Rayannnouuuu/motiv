@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
@@ -46,7 +46,9 @@ describe('LogSportPage', () => {
   test('pré-remplissage, séries et reprise après remontage', async () => {
     const { unmount } = renderSport({ data: { programs: [haut], sportSessions: history } })
     await click('Commencer')
-    expect(screen.getByText(/Dernière fois : 4×8 à 62,5 kg/)).toBeInTheDocument()
+    const recent = screen.getByRole('region', { name: 'Tes dernières fois' })
+    expect(within(recent).getByText('8 oct.')).toBeInTheDocument()
+    expect(within(recent).getAllByText('62,5 kg × 8')).toHaveLength(4)
     expect(screen.getByLabelText('Charge (kg)')).toHaveValue(62.5)
     await click('Charge +')
     await click('✓ Série 1 faite')
@@ -62,6 +64,7 @@ describe('LogSportPage', () => {
   test('PDC affiché quand la charge vaut 0', async () => {
     renderSport({ data: { programs: [haut] } })
     await click('Commencer')
+    expect(screen.getByText(/Première fois sur cet exo/)).toBeInTheDocument()
     expect(screen.getByText('PDC')).toBeInTheDocument()
     await click('Charge −')
     expect(screen.getByLabelText('Charge (kg)')).toHaveValue(0)

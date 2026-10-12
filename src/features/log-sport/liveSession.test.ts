@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { pe, set, ss } from '../../test/factories'
-import { isStale, liveReducer, loadLive, prefillFor, resolveIndex, saveLive, type LiveState } from './liveSession'
+import { isStale, liveReducer, loadLive, prefillFor, recentSetsFor, resolveIndex, saveLive, type LiveState } from './liveSession'
 
 const a = pe({ id: 'a', position: 0 })
 const b = pe({ id: 'b', position: 1, name: 'Rowing' })
@@ -91,4 +91,20 @@ test('prefillFor : série la plus lourde de la dernière séance', () => {
   expect(prefillFor(a, history)).toEqual({ weightKg: 62.5, reps: 8, summary: 'Dernière fois : 4×8 à 62,5 kg' })
   expect(prefillFor(a, [])).toEqual({ weightKg: 0, reps: 8, summary: null })
   expect(prefillFor(a, [ss([set(0, 12, 'a')])]).summary).toBe('Dernière fois : 1×12 au PDC')
+})
+
+test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre', () => {
+  const history = [
+    ss([set(60, 8, 'a', 1)], '2026-09-20'),
+    ss([set(62.5, 8, 'a', 2), set(62.5, 8, 'a', 1)], '2026-10-01'),
+    ss([set(40, 10, 'b', 1)], '2026-10-05'),
+    ss([set(65, 6, 'a', 1)], '2026-10-08'),
+    ss([set(57.5, 8, 'a', 1)], '2026-09-10'),
+  ]
+  expect(recentSetsFor(a, history)).toEqual([
+    { day: '2026-10-08', sets: [set(65, 6, 'a', 1)] },
+    { day: '2026-10-01', sets: [set(62.5, 8, 'a', 1), set(62.5, 8, 'a', 2)] },
+    { day: '2026-09-20', sets: [set(60, 8, 'a', 1)] },
+  ])
+  expect(recentSetsFor(a, [])).toEqual([])
 })
