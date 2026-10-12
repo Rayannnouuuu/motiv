@@ -92,13 +92,15 @@ export function SportCard() {
             <p className="t-headline pb-1.5">{next.name}</p>
             <ul className="t-subhead flex flex-col gap-1">
               {activeExercises(next).map((e) => {
-                const p = prefillFor(e, data.sportSessions)
+                // Charge du jour, avec une flèche quand elle progresse.
+                const p = prefillFor(e, data.sportSessions, today)
                 return (
                   <li key={e.id} className="flex justify-between gap-2">
                     <span className="truncate">{e.name}</span>
                     <span className="shrink-0 text-muted tabular-nums">
                       {e.targetSets}×{e.targetReps}
-                      {p.summary && ` · ${formatWeight(p.weightKg)}`}
+                      {p.trend !== 'new' && ` · ${formatWeight(p.weightKg)}`}
+                      {p.trend === 'up' && <span className="pl-1 font-semibold text-guitar">↑</span>}
                     </span>
                   </li>
                 )
@@ -106,7 +108,7 @@ export function SportCard() {
             </ul>
           </div>
           {after && after.id !== next.id && <p className="t-footnote px-1 text-muted">Ensuite : {after.name}</p>}
-          <Button className="mt-1" variant={doneToday ? 'secondary' : 'primary'} onClick={() => navigate('/log/sport')}>
+          <Button className="mt-1" variant="secondary" onClick={() => navigate('/log/sport', { state: { programId: next.id } })}>
             Commencer {next.name}
           </Button>
         </div>

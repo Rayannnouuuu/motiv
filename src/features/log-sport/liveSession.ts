@@ -1,5 +1,5 @@
-import { setsForExercise } from '../../domain/records'
-import type { Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
+import { suggestLoad, type LoadSuggestion } from '../../domain/overload'
+import type { Day, Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
 
 export interface LiveState {
   id: string
@@ -12,13 +12,18 @@ export interface LiveState {
   weightKg: number
   reps: number
   sets: SportSet[]
+  /** Début du repos en cours (horodatage ISO), null sans repos. Optionnel : absent des séances d'avant le minuteur. */
+  restStartedAt?: string | null
+  /** Durée du repos en cours, en secondes. */
+  restSec?: number
 }
 
 export type LiveAction =
   | { type: 'weight'; delta: 2.5 | -2.5 }
   | { type: 'setWeight'; weightKg: number }
   | { type: 'reps'; delta: 1 | -1 }
-  | { type: 'completeSet' }
+  /** `at` : heure de la série, qui lance le repos. */
+  | { type: 'completeSet'; at: string }
   /** Série déjà validée de l'exo en cours (setIndex à partir de 1) : la charge et les reps actuelles la remplacent. */
   | { type: 'updateSet'; setIndex: number }
   | { type: 'deleteSet'; setIndex: number }
@@ -26,9 +31,22 @@ export type LiveAction =
   | { type: 'nextExercise'; prefill: { weightKg: number; reps: number } }
   | { type: 'prevExercise'; prefill: { weightKg: number; reps: number } }
   | { type: 'finish' }
+  | { type: 'restAdd' }
+  | { type: 'restSkip' }
 
 const KEY = 'motiv.liveSport.v1'
 const STALE_MS = 12 * 60 * 60 * 1000
+const REST_ADD_SEC = 30
+
+/** Repos selon les reps visées : lourd (≤ 6) 3 min, hypertrophie (≤ 12) 2 min, au-delà 1 min 30. */
+export const restFor = (r: number) => (r <= 6 ? 180 : r <= 12 ? 120 : 90)
+
+/** Secondes de repos restantes (arrondies au-dessus, au moins 0), null sans repos. Calculé depuis l'horodatage. */
+export function restLeft(s: Pick<LiveState, 'restStartedAt' | 'restSec'>, now: Date): number | null {
+  if (!s.restStartedAt) return null
+  const end = new Date(s.restStartedAt).getTime() + (s.restSec ?? 0) * 1000
+  return Math.max(0, Math.ceil((end - now.getTime()) / 1000))
+}
 
 export function activeExercises(program: Program | undefined): ProgramExercise[] {
   return program ? program.exercises.filter((e) => !e.archived).sort((a, b) => a.position - b.position) : []
@@ -56,7 +74,12 @@ export function liveReducer(s: LiveState, a: LiveAction, exercises: ProgramExerc
     case 'completeSet': {
       if (!current) return s
       const setIndex = s.sets.filter((x) => x.programExerciseId === current.id).length + 1
-      return { ...s, sets: [...s.sets, { programExerciseId: current.id, setIndex, reps: s.reps, weightKg: s.weightKg }] }
+      return {
+        ...s,
+        sets: [...s.sets, { programExerciseId: current.id, setIndex, reps: s.reps, weightKg: s.weightKg }],
+        restStartedAt: a.at,
+        restSec: restFor(current.targetReps),
+      }
     }
     case 'updateSet':
       if (!current) return s
@@ -86,7 +109,11 @@ export function liveReducer(s: LiveState, a: LiveAction, exercises: ProgramExerc
       return { ...s, exerciseIndex: index - 1, exerciseId: prev.id, ...(last ? { weightKg: last.weightKg, reps: last.reps } : a.prefill) }
     }
     case 'finish':
-      return { ...s, exerciseIndex: exercises.length, exerciseId: null }
+      return { ...s, exerciseIndex: exercises.length, exerciseId: null, restStartedAt: null }
+    case 'restAdd':
+      return s.restStartedAt ? { ...s, restSec: (s.restSec ?? 0) + REST_ADD_SEC } : s
+    case 'restSkip':
+      return { ...s, restStartedAt: null }
   }
 }
 
@@ -103,7 +130,13 @@ export function loadLive(): LiveState | null {
       typeof s.weightKg === 'number' &&
       typeof s.reps === 'number' &&
       Array.isArray(s.sets)
-    return ok ? { ...s, exerciseId: s.exerciseId ?? null } : null
+    if (!ok) return null
+    return {
+      ...s,
+      exerciseId: s.exerciseId ?? null,
+      restStartedAt: typeof s.restStartedAt === 'string' ? s.restStartedAt : null,
+      restSec: typeof s.restSec === 'number' ? s.restSec : 0,
+    }
   } catch {
     return null
   }
@@ -128,23 +161,11 @@ export function elapsedMin(s: LiveState, now: Date): number {
 
 const kg = (w: number) => w.toLocaleString('fr-FR')
 
-export interface Prefill {
-  weightKg: number
-  reps: number
-  /** « Dernière fois : 4×8 à 62,5 kg », null sans historique. */
-  summary: string | null
-}
+export type Prefill = LoadSuggestion
 
-/** Pré-remplissage depuis la dernière séance où l'exo a été fait (série la plus lourde). */
-export function prefillFor(pe: ProgramExercise, history: SportSession[]): Prefill {
-  const last = [...history]
-    .sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt))
-    .find((s) => s.sets.some((x) => x.programExerciseId === pe.id))
-  if (!last) return { weightKg: 0, reps: pe.targetReps, summary: null }
-  const sets = setsForExercise([last], pe.id)
-  const top = sets.reduce((a, b) => (b.weightKg > a.weightKg || (b.weightKg === a.weightKg && b.reps > a.reps) ? b : a))
-  const load = top.weightKg === 0 ? 'au PDC' : `à ${kg(top.weightKg)} kg`
-  return { weightKg: top.weightKg, reps: top.reps, summary: `Dernière fois : ${sets.length}×${top.reps} ${load}` }
+/** Pré-remplissage : la charge du jour (surcharge progressive) d'après les dernières séances sur l'exo. */
+export function prefillFor(pe: ProgramExercise, history: SportSession[], today: Day): Prefill {
+  return suggestLoad(pe, history, today)
 }
 
 export const formatWeight = (w: number) => (w === 0 ? 'PDC' : `${kg(w)} kg`)

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { pe, set, ss } from '../../test/factories'
-import { isStale, liveReducer, loadLive, prefillFor, recentSetsFor, resolveIndex, saveLive, type LiveState } from './liveSession'
+import { isStale, liveReducer, loadLive, prefillFor, recentSetsFor, resolveIndex, restFor, restLeft, saveLive, type LiveState } from './liveSession'
 
 const a = pe({ id: 'a', position: 0 })
 const b = pe({ id: 'b', position: 1, name: 'Rowing' })
@@ -18,6 +18,9 @@ const state = (over: Partial<LiveState> = {}): LiveState => ({
   ...over,
 })
 
+const at = '2026-10-15T18:10:00.000Z'
+const done = { type: 'completeSet', at } as const
+
 beforeEach(() => localStorage.clear())
 
 describe('liveReducer', () => {
@@ -31,17 +34,17 @@ describe('liveReducer', () => {
 
   test('completeSet numérote les séries par exo', () => {
     let s = state({ weightKg: 60, reps: 8 })
-    s = liveReducer(s, { type: 'completeSet' }, exercises)
-    s = liveReducer(s, { type: 'completeSet' }, exercises)
+    s = liveReducer(s, done, exercises)
+    s = liveReducer(s, done, exercises)
     s = liveReducer(s, { type: 'nextExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)
-    s = liveReducer(s, { type: 'completeSet' }, exercises)
+    s = liveReducer(s, done, exercises)
     expect(s.sets).toEqual([set(60, 8, 'a', 1), set(60, 8, 'a', 2), set(40, 10, 'b', 1)])
     expect(s).toMatchObject({ exerciseIndex: 1, exerciseId: 'b' })
   })
 
   test('prevExercise : retour à l’exo précédent avec sa dernière série, rien avant le premier', () => {
     let s = state({ weightKg: 60, reps: 8 })
-    s = liveReducer(s, { type: 'completeSet' }, exercises)
+    s = liveReducer(s, done, exercises)
     s = liveReducer(s, { type: 'nextExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)
     s = liveReducer(s, { type: 'prevExercise', prefill: { weightKg: 0, reps: 1 } }, exercises)
     expect(s).toMatchObject({ exerciseIndex: 0, exerciseId: 'a', weightKg: 60, reps: 8 })
@@ -53,7 +56,7 @@ describe('liveReducer', () => {
   test('exo courant archivé : on passe au suivant', () => {
     const s = state({ exerciseIndex: 0, exerciseId: 'a' })
     expect(resolveIndex(s, [b])).toBe(0)
-    expect(liveReducer(s, { type: 'completeSet' }, [b]).sets[0].programExerciseId).toBe('b')
+    expect(liveReducer(s, done, [b]).sets[0].programExerciseId).toBe('b')
   })
 
   test('exo précédent supprimé : on reste sur l’exo courant', () => {
@@ -61,12 +64,56 @@ describe('liveReducer', () => {
   })
 })
 
+describe('repos', () => {
+  test('restFor : selon les reps visées', () => {
+    expect([1, 6, 7, 12, 13, 20].map(restFor)).toEqual([180, 180, 120, 120, 90, 90])
+  })
+
+  test('une série lance le repos de l’exo courant', () => {
+    const heavy = [a, pe({ id: 'b', position: 1, targetReps: 5 })]
+    let s = liveReducer(state({ reps: 8 }), done, heavy)
+    expect(s).toMatchObject({ restStartedAt: at, restSec: 120 })
+    s = liveReducer(s, { type: 'nextExercise', prefill: { weightKg: 40, reps: 5 } }, heavy)
+    s = liveReducer(s, { type: 'completeSet', at: '2026-10-15T18:15:00.000Z' }, heavy)
+    expect(s).toMatchObject({ restStartedAt: '2026-10-15T18:15:00.000Z', restSec: 180 })
+  })
+
+  test('+30 s, passer, et fin de séance', () => {
+    let s = liveReducer(state(), done, exercises)
+    s = liveReducer(s, { type: 'restAdd' }, exercises)
+    expect(s.restSec).toBe(150)
+    expect(liveReducer(s, { type: 'restSkip' }, exercises).restStartedAt).toBeNull()
+    expect(liveReducer(s, { type: 'finish' }, exercises).restStartedAt).toBeNull()
+    // Sans repos en cours, +30 s ne fait rien.
+    const idle = state()
+    expect(liveReducer(idle, { type: 'restAdd' }, exercises)).toBe(idle)
+  })
+
+  test('restLeft : secondes restantes arrondies au-dessus, au moins 0', () => {
+    const s = { restStartedAt: at, restSec: 120 }
+    const t = (ms: number) => new Date(new Date(at).getTime() + ms)
+    expect(restLeft(s, t(0))).toBe(120)
+    expect(restLeft(s, t(17_400))).toBe(103)
+    expect(restLeft(s, t(119_999))).toBe(1)
+    expect(restLeft(s, t(120_000))).toBe(0)
+    expect(restLeft(s, t(300_000))).toBe(0)
+    expect(restLeft({ restStartedAt: null, restSec: 120 }, t(0))).toBeNull()
+    expect(restLeft({}, t(0))).toBeNull()
+  })
+})
+
 describe('persistance', () => {
   test('saveLive puis loadLive', () => {
-    saveLive(state({ sets: [set(60, 8, 'a')] }))
-    expect(loadLive()).toEqual(state({ sets: [set(60, 8, 'a')] }))
+    const s = state({ sets: [set(60, 8, 'a')], restStartedAt: at, restSec: 150 })
+    saveLive(s)
+    expect(loadLive()).toEqual(s)
     saveLive(null)
     expect(loadLive()).toBeNull()
+  })
+
+  test('séance enregistrée avant le minuteur : pas de repos', () => {
+    saveLive(state())
+    expect(loadLive()).toEqual({ ...state(), restStartedAt: null, restSec: 0 })
   })
 
   test('JSON corrompu → null', () => {
@@ -83,14 +130,16 @@ test('isStale après 12 h 01', () => {
   expect(isStale(s, new Date('2026-10-15T18:01:00Z'))).toBe(true)
 })
 
-test('prefillFor : série la plus lourde de la dernière séance', () => {
+test('prefillFor : la charge du jour', () => {
+  const today = '2026-10-15'
   const history = [
-    ss([set(60, 8, 'a'), set(60, 8, 'a')], '2026-10-01'),
-    ss([set(60, 8, 'a'), set(62.5, 8, 'a'), set(62.5, 8, 'a'), set(62.5, 7, 'a')], '2026-10-08'),
+    ss([set(60, 8, 'a', 1), set(60, 8, 'a', 2)], '2026-10-01'),
+    ss([set(60, 8, 'a', 1), set(62.5, 8, 'a', 2), set(62.5, 8, 'a', 3), set(62.5, 7, 'a', 4)], '2026-10-08'),
   ]
-  expect(prefillFor(a, history)).toEqual({ weightKg: 62.5, reps: 8, summary: 'Dernière fois : 4×8 à 62,5 kg' })
-  expect(prefillFor(a, [])).toEqual({ weightKg: 0, reps: 8, summary: null })
-  expect(prefillFor(a, [ss([set(0, 12, 'a')])]).summary).toBe('Dernière fois : 1×12 au PDC')
+  expect(prefillFor(a, history, today)).toEqual({ weightKg: 62.5, reps: 8, trend: 'same', hint: 'Vise 4×8 à 62,5 kg (dernière fois 8·8·7)' })
+  const validated = [ss([1, 2, 3, 4].map((i) => set(62.5, 8, 'a', i)), '2026-10-08')]
+  expect(prefillFor(a, validated, today)).toMatchObject({ weightKg: 65, reps: 8, trend: 'up' })
+  expect(prefillFor(a, [], today)).toEqual({ weightKg: 0, reps: 8, trend: 'new', hint: null })
 })
 
 test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre', () => {

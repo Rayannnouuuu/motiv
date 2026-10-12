@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { todayParis } from '../../domain/date'
 import { nextProgram } from '../../domain/progression'
-import type { Rating } from '../../domain/types'
+import { isSportRecord, setsForExercise } from '../../domain/records'
+import { activeSetChallenge, isNewRecord, meetsChallenge } from '../../domain/setFeedback'
+import type { Day, Program, Rating, SportSession, SportSet } from '../../domain/types'
 import { Button } from '../../ui/Button'
+import { Fireworks } from '../../ui/Fireworks'
 import { RatingPicker } from '../../ui/RatingPicker'
 import { WeightInput } from '../../ui/WeightInput'
 import { ModalBar } from '../../ui/ModalBar'
@@ -24,21 +27,78 @@ import {
   type LiveAction,
   type LiveState,
 } from './liveSession'
+import { primeBeep } from './beep'
+import { RestTimer } from './RestTimer'
 
 const MAX_DURATION = 600
+/** Durée du message « Record ! » / « Défi réussi ! ». */
+const CHEER_MS = 2500
 
 const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+const nowIso = () => new Date().toISOString()
+
+/** Nouvelle séance, sur le premier exo du programme, à la charge du jour. */
+function newLive(program: Program, history: SportSession[], today: Day): LiveState {
+  const first = activeExercises(program)[0]
+  const p = first ? prefillFor(first, history, today) : { weightKg: 0, reps: 1 }
+  return {
+    id: crypto.randomUUID(),
+    programId: program.id,
+    startedAt: nowIso(),
+    exerciseIndex: 0,
+    exerciseId: first?.id ?? null,
+    weightKg: p.weightKg,
+    reps: p.reps,
+    sets: [],
+  }
+}
+
+/** Programme qu'on peut lancer tout de suite : actif, avec au moins un exo. */
+const startable = (programs: Program[], id: string | null) =>
+  programs.find((p) => p.id === id && !p.archived && activeExercises(p).length > 0)
+
+/** Écran d'attente neutre, le temps que les données arrivent. */
+function Waiting({ label }: { label: string }) {
+  const navigate = useNavigate()
+  return (
+    <div className="flex flex-1 flex-col">
+      <ModalBar onCancel={() => navigate('/')} cancelLabel="Fermer" cancelAria="Fermer" />
+      <p role="status" className="t-body m-auto text-muted">
+        {label}
+      </p>
+    </div>
+  )
+}
 
 export function LogSportPage() {
-  const { data } = useAppData()
+  const { data, today, loading } = useAppData()
   const navigate = useNavigate()
-  const [live, setLive] = useState<LiveState | null>(loadLive)
+  const navState = useLocation().state as { programId?: unknown } | null
+  const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
+  // « Commencer X » sur l'accueil : la séance démarre directement sur son premier exo.
+  const [live, setLive] = useState<LiveState | null>(() => {
+    const saved = loadLive()
+    if (saved) return saved
+    const p = startable(data.programs, requestedId)
+    return p ? newLive(p, data.sportSessions, today) : null
+  })
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
   const [editing, setEditing] = useState<{ exerciseId: string; setIndex: number; before: { weightKg: number; reps: number } } | null>(null)
   const [confirmAbandon, setConfirmAbandon] = useState(false)
+  // Record ou défi rempli à l'instant : un message et des feux d'artifice.
+  const [cheer, setCheer] = useState<{ id: number; lines: string[] } | null>(null)
 
   useEffect(() => saveLive(live), [live])
+  // Demande consommée : un retour arrière ou un rechargement ne relance pas de séance.
+  useEffect(() => {
+    if (requestedId !== null) navigate('.', { replace: true })
+  }, [requestedId, navigate])
+  useEffect(() => {
+    if (!cheer) return
+    const id = window.setTimeout(() => setCheer(null), CHEER_MS)
+    return () => window.clearTimeout(id)
+  }, [cheer])
   // Écrit tout de suite : la page peut être démontée avant l'effet (navigation).
   const clear = () => {
     saveLive(null)
@@ -48,8 +108,10 @@ export function LogSportPage() {
   const program = live && data.programs.find((p) => p.id === live.programId)
   const exercises = activeExercises(program ?? undefined)
 
-  if (!live) return <ChooseProgram onStart={setLive} />
+  if (!live) return <ChooseProgram onStart={setLive} preferred={requestedId} />
 
+  // Programmes pas encore chargés : attendre, plutôt qu'une fin de séance vide.
+  if (!program && loading) return <Waiting label="Chargement de ta séance…" />
 
   if (askStale) {
     return (
@@ -92,7 +154,7 @@ export function LogSportPage() {
   }
   const goBack = () => {
     const prev = exercises[Math.min(index, exercises.length) - 1]
-    const p = prev ? prefillFor(prev, data.sportSessions) : { weightKg: 0, reps: 1 }
+    const p = prev ? prefillFor(prev, data.sportSessions, today) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
@@ -109,9 +171,32 @@ export function LogSportPage() {
   const current = exercises[index]
   const recent = recentSetsFor(current, data.sportSessions)
   const doneSets = live.sets.filter((s) => s.programExerciseId === current.id)
+  const done = doneSets.length
   const next = exercises[index + 1]
-  const boxes = Math.max(current.targetSets, doneSets.length + 1)
+  const targetSets = current.targetSets
+  // Objectif de séries atteint : l'action principale devient l'exo suivant.
+  const reached = done >= targetSets
+  const boxes = Math.max(targetSets, done)
   const edited = editing?.exerciseId === current.id ? editing : null
+  // Charge du jour, d'après l'historique seul (la séance en cours n'y est pas encore).
+  const suggestion = prefillFor(current, data.sportSessions, today)
+  const historySets = setsForExercise(data.sportSessions, current.id)
+  const challenge = activeSetChallenge(data.challenges, current.id)
+  const challengeMet = challenge !== null && doneSets.some((s) => meetsChallenge(challenge.target, s))
+  const goNext = () => {
+    const p = next ? prefillFor(next, data.sportSessions, today) : { weightKg: 0, reps: 1 }
+    dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
+  }
+  const completeSet = () => {
+    primeBeep()
+    haptic('success')
+    const set: SportSet = { programExerciseId: current.id, setIndex: done + 1, reps: live.reps, weightKg: live.weightKg }
+    const lines: string[] = []
+    if (isNewRecord(historySets, doneSets, set)) lines.push(`🏆 Record ! ${formatWeight(set.weightKg)} × ${set.reps}`)
+    if (challenge && !challengeMet && meetsChallenge(challenge.target, set)) lines.push('🎯 Défi réussi !')
+    if (lines.length > 0) setCheer((c) => ({ id: (c?.id ?? 0) + 1, lines }))
+    dispatch({ type: 'completeSet', at: nowIso() })
+  }
   const startEditing = (setIndex: number) => {
     const s = doneSets[setIndex - 1]
     const before = edited ? edited.before : { weightKg: live.weightKg, reps: live.reps }
@@ -125,6 +210,13 @@ export function LogSportPage() {
         onCancel={() => navigate('/')}
         cancelLabel="Fermer"
         cancelAria="Fermer"
+        trailing={
+          live.sets.length === 0 ? (
+            <button type="button" onClick={clear} className="tap t-body py-2 text-accent">
+              Changer
+            </button>
+          ) : undefined
+        }
         title={
           <span className="flex flex-col items-center leading-tight">
             <span>{program?.name}</span>
@@ -135,11 +227,23 @@ export function LogSportPage() {
         }
       />
 
-      <div key={current.id} className="animate-rise">
-        <h1 className="t-title1">{current.name}</h1>
-        <p className="t-body text-muted">
-          {current.targetSets}×{current.targetReps} visé
-        </p>
+      <div key={current.id} className="animate-rise flex flex-col gap-1.5">
+        <div>
+          <h1 className="t-title1">{current.name}</h1>
+          <p className="t-body text-muted tabular-nums">
+            {reached ? `${targetSets}/${targetSets} séries ✓` : `Série ${done + 1}/${targetSets} · objectif ${targetSets}×${current.targetReps}`}
+          </p>
+        </div>
+        {suggestion.hint && (
+          <p className={`t-subhead ${suggestion.trend === 'up' ? 'font-semibold text-guitar' : 'text-muted'}`}>{suggestion.hint}</p>
+        )}
+        {challenge && (
+          <p className="t-subhead mt-1 rounded-[0.75rem] bg-accent/12 px-3 py-2 font-semibold text-accent">
+            {challengeMet
+              ? "🎯 Défi réussi ! Validé à l'enregistrement"
+              : `🎯 Défi : ${challenge.target.reps} reps ${challenge.target.weightKg === 0 ? 'au poids du corps' : `à ${formatWeight(challenge.target.weightKg)}`}`}
+          </p>
+        )}
       </div>
 
       {recent.length > 0 ? (
@@ -182,6 +286,8 @@ export function LogSportPage() {
       <ol className="flex flex-wrap gap-2" aria-label="Séries">
         {Array.from({ length: boxes }, (_, i) => {
           const s = doneSets[i]
+          // Record par rapport à l'historique : pastille dorée.
+          const record = s ? isSportRecord(historySets, s) : false
           return (
             <li key={i} className="flex min-w-[3.5rem] flex-1">
               {s ? (
@@ -190,9 +296,12 @@ export function LogSportPage() {
                   aria-label={`Modifier la série ${i + 1}`}
                   aria-pressed={edited?.setIndex === i + 1}
                   onClick={() => startEditing(i + 1)}
-                  className={`tap-scale animate-pop t-subhead flex h-12 flex-1 items-center justify-center rounded-full bg-sport font-semibold text-white tabular-nums ${edited?.setIndex === i + 1 ? 'ring-2 ring-sport ring-offset-2 ring-offset-bg' : ''}`}
+                  className={`tap-scale animate-pop t-subhead flex h-12 flex-1 items-center justify-center gap-1 rounded-full font-semibold tabular-nums ${record ? 'bg-amber-400 text-black' : 'bg-sport text-white'} ${edited?.setIndex === i + 1 ? 'ring-2 ring-sport ring-offset-2 ring-offset-bg' : ''}`}
                 >
-                  {s.reps}×{formatWeight(s.weightKg)}
+                  {record && <span aria-hidden>🏆</span>}
+                  <span>
+                    {s.reps}×{formatWeight(s.weightKg)}
+                  </span>
                 </button>
               ) : (
                 <span className="t-subhead flex h-12 flex-1 items-center justify-center rounded-full border-[1.5px] border-dashed border-faint text-muted tabular-nums">{i + 1}</span>
@@ -202,7 +311,15 @@ export function LogSportPage() {
         })}
       </ol>
 
-      {!edited && doneSets.length > 0 && <p className="t-footnote -mt-3 text-muted">Touche une série faite pour la corriger.</p>}
+      {!edited && done > 0 && <p className="t-footnote -mt-3 text-muted">Touche une série faite pour la corriger.</p>}
+
+      <RestTimer
+        startedAt={live.restStartedAt ?? null}
+        restSec={live.restSec ?? 0}
+        nextSet={done + 1}
+        onAdd={() => dispatch({ type: 'restAdd' })}
+        onSkip={() => dispatch({ type: 'restSkip' })}
+      />
 
       <div className="mt-auto flex flex-col gap-2">
         {edited ? (
@@ -231,15 +348,10 @@ export function LogSportPage() {
               </Button>
             </div>
           </>
+        ) : reached ? (
+          <Button onClick={goNext}>{next ? `Exo suivant : ${next.name} →` : 'Fin de séance →'}</Button>
         ) : (
-          <Button
-            onClick={() => {
-              haptic('success')
-              dispatch({ type: 'completeSet' })
-            }}
-          >
-            ✓ Série {doneSets.length + 1} faite
-          </Button>
+          <Button onClick={completeSet}>✓ Série {done + 1} faite</Button>
         )}
         <div className={`flex gap-2 ${edited ? 'hidden' : ''}`}>
           {index > 0 && (
@@ -247,16 +359,15 @@ export function LogSportPage() {
               ‹ Précédent
             </Button>
           )}
-          <Button
-            variant="secondary"
-            className="flex-1"
-            onClick={() => {
-              const p = next ? prefillFor(next, data.sportSessions) : { weightKg: 0, reps: 1 }
-              dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
-            }}
-          >
-            {next ? 'Exo suivant →' : 'Fin de séance →'}
-          </Button>
+          {reached ? (
+            <Button variant="ghost" className="flex-1" onClick={completeSet}>
+              + Série en plus
+            </Button>
+          ) : (
+            <Button variant="secondary" className="flex-1" onClick={goNext}>
+              {next ? 'Exo suivant →' : 'Fin de séance →'}
+            </Button>
+          )}
         </div>
         {confirmAbandon ? (
           <div className="flex gap-2">
@@ -273,17 +384,36 @@ export function LogSportPage() {
           </button>
         )}
       </div>
+
+      {cheer && (
+        <>
+          <Fireworks key={cheer.id} size="small" />
+          <div className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+3.5rem)] z-40 flex justify-center px-4">
+            <div key={cheer.id} role="status" className="animate-pop material rounded-[1rem] border border-line px-5 py-3 text-center shadow-card">
+              {cheer.lines.map((l) => (
+                <p key={l} className="t-headline">
+                  {l}
+                </p>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
 
-function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
-  const { data } = useAppData()
+function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void; preferred: string | null }) {
+  const { data, today, loading } = useAppData()
   const navigate = useNavigate()
   const programs = data.programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
-  const [programId, setProgramId] = useState(() => nextProgram(data.programs, data.sportSessions)?.id ?? null)
+  const [picked, setPicked] = useState<string | null>(preferred)
+  // Recalculée à chaque rendu : les programmes peuvent arriver après l'ouverture de l'écran.
+  const selected = programs.find((p) => p.id === picked) ?? nextProgram(data.programs, data.sportSessions)
+  const programId = selected?.id ?? null
 
   if (programs.length === 0) {
+    if (loading) return <Waiting label="Chargement…" />
     return (
       <div className="flex flex-1 flex-col justify-center gap-4 text-center">
         <p className="text-[3rem]" aria-hidden>
@@ -295,23 +425,6 @@ function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
         </Link>
       </div>
     )
-  }
-
-  function start() {
-    const program = programs.find((p) => p.id === programId)
-    if (!program) return
-    const first = activeExercises(program)[0]
-    const p = first ? prefillFor(first, data.sportSessions) : { weightKg: 0, reps: 1 }
-    onStart({
-      id: crypto.randomUUID(),
-      programId: program.id,
-      startedAt: new Date().toISOString(),
-      exerciseIndex: 0,
-      exerciseId: first?.id ?? null,
-      weightKg: p.weightKg,
-      reps: p.reps,
-      sets: [],
-    })
   }
 
   return (
@@ -326,7 +439,7 @@ function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
             aria-pressed={p.id === programId}
             aria-label={p.name}
             aria-describedby={`prog-${p.id}`}
-            onClick={() => setProgramId(p.id)}
+            onClick={() => setPicked(p.id)}
             className="tap-row flex min-h-14 w-full items-center gap-3 px-4 py-2.5 text-left"
           >
             <span className="flex min-w-0 flex-1 flex-col">
@@ -350,7 +463,7 @@ function ChooseProgram({ onStart }: { onStart: (s: LiveState) => void }) {
           </button>
         ))}
       </div>
-      <Button className="mt-auto" disabled={!programId} onClick={start}>
+      <Button className="mt-auto" disabled={!selected} onClick={() => selected && onStart(newLive(selected, data.sportSessions, today))}>
         Commencer
       </Button>
     </div>
