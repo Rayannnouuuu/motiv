@@ -128,7 +128,7 @@ describe('LogGuitarPage', () => {
     expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'true')
     rerender(
       <MemoryRouter initialEntries={['/log/guitare']}>
-        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 30)] }, pendingCount: 0, rejected: [], today, loading: false, error: null }}>
+        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 30)] }, pendingCount: 0, rejected: [], today, loading: false, error: null, fresh: true, offline: false }}>
           <ActionsContext.Provider value={fakeActions()}>
             <Routes>
               <Route path="/log/guitare" element={<LogGuitarPage />} />

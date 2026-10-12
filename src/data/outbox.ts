@@ -66,27 +66,31 @@ export async function whenIdle(): Promise<void> {
  * un refus définitif du serveur met l'entrée de côté et passe à la suivante.
  */
 export function flush(send: (e: OutboxEntry) => Promise<void>): Promise<{ sent: number; left: number }> {
-  running ??= (async () => {
-    let sent = 0
+  if (running) return running
+  // Libéré après coup (microtâche) : avec une file vide, la fonction se termine sans attendre, et un
+  // `finally` interne remettrait `running` à null AVANT qu'on l'affecte, le laissant bloqué pour toujours.
+  const current = sendAll(send).finally(() => {
+    if (running === current) running = null
+  })
+  running = current
+  return current
+}
+
+async function sendAll(send: (e: OutboxEntry) => Promise<void>): Promise<{ sent: number; left: number }> {
+  let sent = 0
+  for (const e of readOutbox()) {
     try {
-      for (const e of readOutbox()) {
-        try {
-          await send(e)
-        } catch (err) {
-          if (!isPermanentError(err)) break
-          localStorage.setItem(REJECTED_KEY, JSON.stringify([...readRejected(), { entry: e, message: (err as Error).message }]))
-          write(readOutbox().filter((x) => x.id !== e.id))
-          continue
-        }
-        // Retire seulement la version envoyée : une correction ajoutée pendant l'envoi reste dans la file.
-        const sentJson = JSON.stringify(e)
-        write(readOutbox().filter((x) => x.id !== e.id || JSON.stringify(x) !== sentJson))
-        sent++
-      }
-      return { sent, left: readOutbox().length }
-    } finally {
-      running = null
+      await send(e)
+    } catch (err) {
+      if (!isPermanentError(err)) break
+      localStorage.setItem(REJECTED_KEY, JSON.stringify([...readRejected(), { entry: e, message: (err as Error).message }]))
+      write(readOutbox().filter((x) => x.id !== e.id))
+      continue
     }
-  })()
-  return running
+    // Retire seulement la version envoyée : une correction ajoutée pendant l'envoi reste dans la file.
+    const sentJson = JSON.stringify(e)
+    write(readOutbox().filter((x) => x.id !== e.id || JSON.stringify(x) !== sentJson))
+    sent++
+  }
+  return { sent, left: readOutbox().length }
 }

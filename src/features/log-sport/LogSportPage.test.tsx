@@ -28,7 +28,7 @@ const renderSport = (opts: RenderWithDataOptions = {}) =>
 
 /** Contexte de données maison : les données peuvent arriver après le montage (rerender). */
 function Harness({ data, loading }: { data: Partial<AppData>; loading: boolean }) {
-  const value = { data: { ...EMPTY_DATA, ...data }, pendingCount: 0, rejected: [], today: '2026-10-15', loading, error: null }
+  const value = { data: { ...EMPTY_DATA, ...data }, pendingCount: 0, rejected: [], today: '2026-10-15', loading, error: null, fresh: !loading, offline: false }
   return (
     <MemoryRouter initialEntries={['/log/sport']}>
       <AppDataContext.Provider value={value}>

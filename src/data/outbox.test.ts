@@ -81,3 +81,11 @@ test('un refus définitif du serveur met l’entrée de côté sans bloquer les 
   discardRejected('a')
   expect(readRejected()).toEqual([])
 })
+
+test('après un envoi à vide (ouverture de l’appli), les logs suivants partent bien', async () => {
+  const send = vi.fn(async () => {})
+  expect(await flush(send)).toEqual({ sent: 0, left: 0 })
+  enqueue(entry('a'))
+  expect(await flush(send)).toEqual({ sent: 1, left: 0 })
+  expect(send).toHaveBeenCalledTimes(1)
+})
