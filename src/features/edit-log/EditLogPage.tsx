@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getExercise } from '../../content/exercises'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
-import { lastLog } from '../../domain/lastLog'
+import { lastLog, type LastLog } from '../../domain/lastLog'
 import type { GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
@@ -297,8 +297,15 @@ function EditSport({ session }: { session: SportSession }) {
 export function EditLogPage() {
   const { data } = useAppData()
   const navigate = useNavigate()
+  const { id } = useParams()
   // Figé à l'ouverture : la cible ne change pas pendant qu'on la modifie.
-  const [target] = useState(() => lastLog(data))
+  const [target] = useState<LastLog | null>(() => {
+    if (!id) return lastLog(data)
+    const guitar = data.guitarSessions.find((s) => s.id === id)
+    if (guitar) return { kind: 'guitar', session: guitar }
+    const sport = data.sportSessions.find((s) => s.id === id)
+    return sport ? { kind: 'sport', session: sport } : null
+  })
 
   if (!target)
     return (
@@ -324,7 +331,7 @@ export function EditLogPage() {
         <button type="button" aria-label="Fermer" className="text-xl text-muted" onClick={() => navigate(-1)}>
           ✕
         </button>
-        <h1 className="text-xl font-bold">Corriger le dernier log</h1>
+        <h1 className="text-xl font-bold">{id ? 'Corriger ce log' : 'Corriger le dernier log'}</h1>
       </div>
       <p className="text-sm text-muted">
         {what} · {longDate(target.session.day)} · {target.session.xp} XP

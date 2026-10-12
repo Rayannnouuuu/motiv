@@ -34,6 +34,13 @@ export function TodayPage() {
   const levels = allLevels(data)
   const done = streak.remainingMin === 0
   const active = (domain: Domain) => data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
+  // Défis bloquants en premier.
+  const challenges = (['guitar', 'sport'] as const)
+    .flatMap((d) => {
+      const c = active(d)
+      return c ? [{ c, d }] : []
+    })
+    .sort((a, b) => Number(levels[b.d].blocked) - Number(levels[a.d].blocked))
 
   return (
     <div className="flex flex-col gap-4">
@@ -46,6 +53,17 @@ export function TodayPage() {
           {done ? "Série tenue aujourd'hui ✓" : `Encore ${streak.remainingMin} min de guitare pour tenir la série`}
         </p>
       </section>
+
+      {challenges.length > 0 && (
+        <section className="flex flex-col gap-3" aria-labelledby="challenges-title">
+          <h2 id="challenges-title" className="text-lg font-semibold">
+            🎯 Tes défis
+          </h2>
+          {challenges.map(({ c, d }) => (
+            <ChallengeCard key={c.id} challenge={c} level={levels[d]} />
+          ))}
+        </section>
+      )}
 
       <GuitarCard />
 
@@ -69,10 +87,6 @@ export function TodayPage() {
         </div>
       </Card>
 
-      {(['guitar', 'sport'] as const).map((d) => {
-        const c = active(d)
-        return c ? <ChallengeCard key={c.id} challenge={c} blocked={levels[d].blocked} /> : null
-      })}
     </div>
   )
 }

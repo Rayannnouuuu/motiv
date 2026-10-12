@@ -41,6 +41,7 @@ export function AppRoutes() {
       <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
       <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
       <Route path="/log/corriger" element={<Focus><EditLogPage /></Focus>} />
+      <Route path="/log/corriger/:id" element={<Focus><EditLogPage /></Focus>} />
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/exo/:id" element={<Shell><ExercisePage /></Shell>} />
       <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />

@@ -83,7 +83,7 @@ describe('TodayPage', () => {
     expect(screen.getByText('Défi requis')).toBeInTheDocument()
     expect(screen.getByText('+340 XP en réserve')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Défi plus facile' })).not.toBeInTheDocument()
-    await userEvent.click(screen.getAllByRole('button', { name: 'Relancer' })[0])
+    await userEvent.click(screen.getAllByRole('button', { name: /^Relancer/ })[0])
     expect(actions.rerollChallenge).toHaveBeenCalledWith('cg')
   })
 
@@ -96,6 +96,6 @@ describe('TodayPage', () => {
 
   test('relances épuisées : bouton absent', () => {
     renderToday({ data: { challenges: [challenge({ rerolls: 2 })] } })
-    expect(screen.queryByRole('button', { name: 'Relancer' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Relancer/ })).not.toBeInTheDocument()
   })
 })
