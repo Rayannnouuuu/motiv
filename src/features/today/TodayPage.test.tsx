@@ -5,6 +5,7 @@ import { describe, expect, test } from 'vitest'
 import { addDays } from '../../domain/date'
 import { challenge, g, pe, program, set, ss } from '../../test/factories'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
+import { saveLive } from '../log-sport/liveSession'
 import { TodayPage } from './TodayPage'
 
 const today = '2026-10-15'
@@ -110,5 +111,17 @@ describe('TodayPage', () => {
     expect(within(sheet).getByText('1200 / 1200 XP')).toBeInTheDocument()
     await userEvent.click(within(sheet).getByRole('button', { name: 'Fermer' }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  test('séance de sport en cours : exos, séries faites, exo courant, reprendre', async () => {
+    const a = pe({ id: 'a', programId: 'p', name: 'Squat', targetSets: 3, position: 0 })
+    const b = pe({ id: 'b', programId: 'p', name: 'Fentes', targetSets: 3, position: 1 })
+    saveLive({ id: 'live', programId: 'p', startedAt: new Date().toISOString(), exerciseIndex: 1, exerciseId: 'b', weightKg: 20, reps: 10, sets: [set(80, 8, 'a', 1), set(80, 8, 'a', 2), set(80, 8, 'a', 3), set(20, 10, 'b', 1)] })
+    renderToday({ data: { programs: [program({ id: 'p', name: 'Bas', exercises: [a, b] })] } })
+    const list = screen.getByRole('list', { name: 'Exos de la séance en cours' })
+    expect(within(list).getAllByRole('listitem').map((li) => li.textContent)).toEqual(['✓ Squat3/3 séries', '▸ Fentes1/3 séries'])
+    await userEvent.click(screen.getByRole('button', { name: 'Reprendre la séance' }))
+    expect(screen.getByText(/at \/log\/sport/)).toBeInTheDocument()
+    saveLive(null)
   })
 })

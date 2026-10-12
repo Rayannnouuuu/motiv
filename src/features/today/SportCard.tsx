@@ -5,7 +5,7 @@ import { SPORT_WEEKLY_SESSIONS, sportStreak } from '../../domain/streak'
 import { sportWeek } from '../../domain/sportWeek'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
-import { activeExercises, formatWeight, loadLive, prefillFor } from '../log-sport/liveSession'
+import { activeExercises, formatWeight, loadLive, prefillFor, resolveIndex } from '../log-sport/liveSession'
 
 const DAY_LETTERS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
 
@@ -18,6 +18,8 @@ export function SportCard() {
   const [next, after] = upcomingPrograms(data.programs, data.sportSessions, 2)
   const live = loadLive()
   const liveProgram = live && data.programs.find((p) => p.id === live.programId)
+  const liveExercises = activeExercises(liveProgram ?? undefined)
+  const liveIndex = live ? resolveIndex(live, liveExercises) : -1
   const doneToday = week.days.find((d) => d.day === today)!.sessions.length > 0
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
 
@@ -63,7 +65,30 @@ export function SportCard() {
       </p>
 
       {live && liveProgram ? (
-        <Button onClick={() => navigate('/log/sport')}>Reprendre la séance {liveProgram.name}</Button>
+        <div className="flex flex-col gap-2 rounded-xl border-2 border-sport bg-surface-2 p-3">
+          <p className="text-sm font-semibold text-sport">Séance en cours</p>
+          <p className="text-lg font-semibold">{liveProgram.name}</p>
+          <ul className="flex flex-col gap-1 text-sm" aria-label="Exos de la séance en cours">
+            {liveExercises.map((e, i) => {
+              const done = live.sets.filter((x) => x.programExerciseId === e.id).length
+              const isCurrent = i === liveIndex
+              return (
+                <li key={e.id} className={`flex justify-between gap-2 ${isCurrent ? 'font-semibold' : ''} ${i < liveIndex ? 'text-muted' : ''}`}>
+                  <span>
+                    {isCurrent ? '▸ ' : done >= e.targetSets ? '✓ ' : ''}
+                    {e.name}
+                  </span>
+                  <span className="shrink-0 tabular-nums">
+                    {done}/{e.targetSets} séries
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+          <Button className="mt-1" onClick={() => navigate('/log/sport')}>
+            Reprendre la séance
+          </Button>
+        </div>
       ) : next ? (
         <div className="flex flex-col gap-2 rounded-xl bg-surface-2 p-3">
           <p className="text-sm text-muted">{doneToday ? 'Prochaine séance' : 'Séance du jour'}</p>
