@@ -11,6 +11,9 @@ export interface RenderWithDataOptions {
   today?: Day
   pendingCount?: number
   loading?: boolean
+  /** Données serveur reçues depuis le lancement (défaut : !loading). */
+  fresh?: boolean
+  offline?: boolean
   route?: string | { pathname: string; state?: unknown }
 }
 
@@ -39,6 +42,8 @@ export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {
     rejected: [],
     today: opts.today ?? '2026-10-15',
     loading: opts.loading ?? false,
+    fresh: opts.fresh ?? !opts.loading,
+    offline: opts.offline ?? false,
     error: null,
   }
   const result = render(

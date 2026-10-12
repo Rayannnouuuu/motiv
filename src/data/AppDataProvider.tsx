@@ -10,10 +10,14 @@ import { mergePending } from './merge'
 import { discardRejected, enqueue, flush, readOutbox, readRejected, removeFromOutbox, whenIdle, type OutboxEntry } from './outbox'
 import { disablePush, syncPush } from './push'
 import { deleteSessionRemote, fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
+import { clearSnapshot, readSnapshot, writeSnapshot } from './snapshot'
 import { supabase } from './supabase'
+import { useParisDay } from './useParisDay'
 
 const QUERY_KEY = ['appData']
 const RETRY_MS = 60_000
+const STALE_MS = 5 * 60_000
+const NO_NETWORK = 'pas de connexion pour le moment. Elles arriveront au retour du réseau.'
 const deps: Deps = { rng: Math.random, newId: () => crypto.randomUUID() }
 
 /** Séance antérieure à celle qu'on enregistre : l'XP (records, progression) ne se compare qu'au passé. */
@@ -22,10 +26,33 @@ const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt:
 
 export function AppDataProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient()
-  const query = useQuery({ queryKey: QUERY_KEY, queryFn: async () => toAppData(await fetchAllRows()) })
+  // Instantané lu une seule fois : l'appli s'affiche tout de suite, même sans réseau.
+  const [snap] = useState(readSnapshot)
+  const query = useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: async ({ signal }) => {
+      const server = toAppData(await fetchAllRows())
+      // Seulement les données serveur, jamais la fusion avec la file d'envoi. Requête annulée
+      // (déconnexion pendant le chargement) : rien d'écrit, l'instantané effacé le reste.
+      if (!signal.aborted) writeSnapshot(server)
+      return server
+    },
+    initialData: snap?.data,
+    initialDataUpdatedAt: snap?.savedAt,
+    staleTime: STALE_MS,
+    refetchOnMount: 'always', // une vraie lecture serveur à chaque lancement
+  })
   const [pending, setPending] = useState<OutboxEntry[]>(readOutbox)
   const [rejected, setRejected] = useState(readRejected)
-  const today = todayParis()
+  const today = useParisDay()
+
+  // Le serveur a répondu depuis le lancement. isFetchedAfterMount compte aussi un échec :
+  // la date des données, elle, ne quitte celle de l'instantané qu'à une vraie réponse.
+  const fresh = query.isFetchedAfterMount && query.dataUpdatedAt > (snap?.savedAt ?? 0)
+  const offline = !fresh && (query.fetchStatus === 'paused' || query.error !== null)
+  // Erreur seulement s'il n'y a rien à montrer : avec un instantané, l'appli reste utilisable.
+  const failed = query.data === undefined && (query.error !== null || query.fetchStatus === 'paused')
+  const error = !failed ? null : !navigator.onLine ? NO_NETWORK : (query.error?.message ?? null)
 
   const data = useMemo(() => mergePending(query.data ?? EMPTY_DATA, pending), [query.data, pending])
   const dataRef = useRef(data)
@@ -58,11 +85,35 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     syncPush().catch(() => {})
   }, [])
 
+  // Nouveau jour (minuit, ou appli reprise le lendemain) : relire le serveur et renvoyer la file.
+  const prevToday = useRef(today)
+  useEffect(() => {
+    if (prevToday.current === today) return
+    prevToday.current = today
+    void refresh()
+    void flushNow()
+  }, [today, refresh, flushNow])
+
+  // Jeton renouvelé ou session retrouvée : souvent le retour du réseau après un démarrage hors ligne.
+  // (fresh ne passe à true qu'une fois : un seul réabonnement.)
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== 'TOKEN_REFRESHED' && event !== 'SIGNED_IN') return
+      // Différé : supabase déconseille d'appeler ses fonctions depuis ce rappel (verrou de session).
+      setTimeout(() => {
+        void flushNow()
+        if (!fresh) void refresh()
+      }, 0)
+    })
+    return () => sub.subscription.unsubscribe()
+  }, [fresh, flushNow, refresh])
+
   // Défis : à chaque nouvelle version des données serveur, réussite / blocage / création.
+  // Jamais sur l'instantané seul : on risquerait de recréer un défi qui existe déjà sur le serveur.
   const settling = useRef(false)
   useEffect(() => {
-    if (!query.data || settling.current || !navigator.onLine) return
-    const updates = settleChallenges(dataRef.current, todayParis(), deps)
+    if (!fresh || !query.data || settling.current || !navigator.onLine) return
+    const updates = settleChallenges(dataRef.current, today, deps)
     if (updates.length === 0) return
     settling.current = true
     writeChallengeUpdates(updates)
@@ -71,7 +122,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       .finally(() => {
         settling.current = false
       })
-  }, [query.data, refresh])
+  }, [query.data, fresh, today, refresh])
 
   const actions = useMemo<Actions>(
     () => ({
@@ -166,6 +217,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         // Plus de rappels sur un appareil déconnecté.
         await disablePush().catch(() => {})
         await supabase.auth.signOut()
+        clearSnapshot()
         qc.clear()
       },
     }),
@@ -179,9 +231,11 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       rejected,
       today,
       loading: query.isPending,
-      error: query.error ? query.error.message : null,
+      fresh,
+      offline,
+      error,
     }),
-    [data, pending.length, rejected, today, query.isPending, query.error],
+    [data, pending.length, rejected, today, query.isPending, fresh, offline, error],
   )
 
   return (

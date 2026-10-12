@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { addDays, daysBetween, todayParis, weekStart } from './date'
+import { addDays, daysBetween, msUntilNextParisMidnight, todayParis, weekStart } from './date'
 
 test('00 h 30 à Paris en été = nouveau jour', () => {
   expect(todayParis(new Date('2026-07-14T22:30:00Z'))).toBe('2026-07-15')
@@ -23,4 +23,10 @@ test('weekStart = lundi', () => {
 test('daysBetween', () => {
   expect(daysBetween('2026-10-01', '2026-10-15')).toBe(14)
   expect(daysBetween('2026-10-15', '2026-10-01')).toBe(-14)
+})
+
+test('msUntilNextParisMidnight : heure d’été, heure d’hiver, minuit pile', () => {
+  expect(msUntilNextParisMidnight(new Date('2026-10-12T21:30:00Z'))).toBe(1_800_000) // 23 h 30 à Paris
+  expect(msUntilNextParisMidnight(new Date('2026-12-01T22:45:00Z'))).toBe(900_000) // 23 h 45 à Paris
+  expect(msUntilNextParisMidnight(new Date('2026-10-12T22:00:00Z'))).toBe(86_400_000) // 00 h 00 : un jour entier
 })
