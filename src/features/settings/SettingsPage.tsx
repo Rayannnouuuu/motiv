@@ -3,6 +3,7 @@ import { useActions } from '../../data/AppDataContext'
 import { Chip } from '../../ui/Chip'
 import { getTheme, setTheme, type Theme } from '../../ui/theme'
 import { Button } from '../../ui/Button'
+import { NotificationSettings } from './NotificationSettings'
 import { PasswordForm } from './PasswordForm'
 import { ProgramEditor } from './ProgramEditor'
 import { SongList } from './SongList'
@@ -45,6 +46,7 @@ export function SettingsPage() {
     <div className="flex flex-col gap-8">
       <h1 className="text-xl font-semibold">Réglages</h1>
       <ThemePicker />
+      <NotificationSettings />
       <ProgramEditor />
       <SongList />
       <section className="flex flex-col gap-3">

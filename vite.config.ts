@@ -22,7 +22,7 @@ export default defineConfig({
         background_color: '#fafaf9',
         theme_color: '#fafaf9',
       },
-      workbox: { navigateFallback: '/motiv/index.html' },
+      workbox: { navigateFallback: '/motiv/index.html', importScripts: ['push-sw.js'] },
     }),
   ],
   test: {
