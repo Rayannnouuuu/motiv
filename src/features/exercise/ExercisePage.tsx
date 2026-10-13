@@ -7,6 +7,7 @@ import { bestBpm } from '../../domain/records'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
 import { TabView } from '../../ui/TabView'
+import { loadPractice, practiceReducer, runningPracticeMinutes, savePractice } from '../practice/practiceSession'
 import { Metronome } from './Metronome'
 
 const HISTORY_SIZE = 8
@@ -31,6 +32,8 @@ export function ExercisePage() {
   const ex = getExercise(id)
   // Dernier tempo joué au métronome sur cet exo, transmis au log.
   const [played, setPlayed] = useState<{ exerciseId: string; bpm: number } | null>(null)
+  // Un chrono guitare tourne : l'exo se coche dans le chrono plutôt que d'ouvrir un log à part (temps compté deux fois).
+  const [chrono] = useState(() => runningPracticeMinutes() !== null)
 
   if (!ex)
     return (
@@ -135,9 +138,21 @@ export function ExercisePage() {
         </ul>
       </section>
 
-      <Button onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}>
-        Logger cet exo
-      </Button>
+      {chrono ? (
+        <Button
+          onClick={() => {
+            const s = loadPractice()
+            if (s && !s.exercises.includes(ex.id)) savePractice(practiceReducer(s, { type: 'toggleExercise', id: ex.id }))
+            navigate('/jouer')
+          }}
+        >
+          ✓ Cocher dans le chrono
+        </Button>
+      ) : (
+        <Button onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}>
+          Logger cet exo
+        </Button>
+      )}
     </div>
   )
 }

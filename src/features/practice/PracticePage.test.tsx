@@ -148,9 +148,31 @@ describe('PracticePage', () => {
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
     click('Logger sans durée')
     expect(landedState('/log/guitare')).toEqual({
+      durationMin: null, // « sans durée » : rien de présélectionné dans le log
       entries: [{ kind: 'exercise', exerciseId: 'scales-1', bpm: '' }],
       day: '2026-10-14',
       practiceId: 'old',
     })
+  })
+
+  test('appli reprise par iOS après plus de 12 h sur le chrono : la question revient au lieu d’enregistrer 10 h', () => {
+    renderPractice()
+    expect(screen.getByRole('timer')).toHaveTextContent('0:00')
+    // Téléphone verrouillé : la page reste montée mais ne tique plus ; elle revient 14 h plus tard.
+    act(() => {
+      vi.setSystemTime(new Date(T0.getTime() + 14 * 3_600_000))
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+    expect(screen.getByText("Une séance commencée il y a plus de 12 h n'a pas été terminée.")).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Terminer' })).not.toBeInTheDocument()
+  })
+
+  test('chrono qui passe minuit : l’anneau compte les minutes du jour de départ', () => {
+    // 30 min déjà loggées le 15 ; départ à 23:40 (Paris) ; il est maintenant 00:10 le 16.
+    const start = new Date('2026-10-15T21:40:00Z')
+    savePractice(startPractice(start, 'late'))
+    vi.setSystemTime(new Date('2026-10-15T22:10:00Z'))
+    renderPractice({ today: '2026-10-16', route: '/jouer', data: { guitarSessions: [g('2026-10-15', 30)] } })
+    expect(screen.getByText('Série tenue ✓')).toBeInTheDocument() // 30 + 30 sur le 15
   })
 })

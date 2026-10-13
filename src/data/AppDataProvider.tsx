@@ -95,18 +95,17 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   }, [today, refresh, flushNow])
 
   // Jeton renouvelé ou session retrouvée : souvent le retour du réseau après un démarrage hors ligne.
-  // (fresh ne passe à true qu'une fois : un seul réabonnement.)
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
       if (event !== 'TOKEN_REFRESHED' && event !== 'SIGNED_IN') return
       // Différé : supabase déconseille d'appeler ses fonctions depuis ce rappel (verrou de session).
       setTimeout(() => {
         void flushNow()
-        if (!fresh) void refresh()
+        void refresh()
       }, 0)
     })
     return () => sub.subscription.unsubscribe()
-  }, [fresh, flushNow, refresh])
+  }, [flushNow, refresh])
 
   // Défis : à chaque nouvelle version des données serveur, réussite / blocage / création.
   // Jamais sur l'instantané seul : on risquerait de recréer un défi qui existe déjà sur le serveur.

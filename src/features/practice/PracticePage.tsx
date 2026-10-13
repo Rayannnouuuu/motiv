@@ -64,9 +64,10 @@ export function PracticePage() {
   const [session, setSession] = useState<PracticeState | null>(
     () => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null),
   )
-  // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
-  const [stale] = useState(() => session !== null && isStale(session, new Date()))
   const [now, setNow] = useState(() => new Date())
+  // Recalculé à chaque instant (et au retour de l'appli, voir plus bas) : une séance de plus de 12 h,
+  // même reprise sans rechargement par iOS, demande quoi en faire au lieu d'enregistrer des heures.
+  const stale = session !== null && isStale(session, now)
   const [confirmAbandon, setConfirmAbandon] = useState(false)
   const [celebrate, setCelebrate] = useState(false)
 
@@ -77,6 +78,17 @@ export function PracticePage() {
     if (nav?.autostart) navigate('.', { replace: true })
     // Une seule fois, à l'ouverture.
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Retour au premier plan (même en pause) : l'heure est remise à jour, ce qui réévalue la péremption.
+  useEffect(() => {
+    const wake = () => document.visibilityState === 'visible' && setNow(new Date())
+    document.addEventListener('visibilitychange', wake)
+    window.addEventListener('pageshow', wake)
+    return () => {
+      document.removeEventListener('visibilitychange', wake)
+      window.removeEventListener('pageshow', wake)
+    }
   }, [])
 
   // Tic d'une seconde, seulement quand le chrono tourne et que la page est visible.
@@ -101,7 +113,9 @@ export function PracticePage() {
     }
   }, [running])
 
-  const loggedMin = guitarStreak(data.guitarSessions, today).todayMin
+  // Une séance commencée avant minuit compte pour son jour de départ (c'est là qu'elle sera enregistrée).
+  const sessionDay = session ? todayParis(new Date(session.startedAt)) : today
+  const loggedMin = guitarStreak(data.guitarSessions, sessionDay).todayMin
   const elapsed = session ? elapsedMs(session, now) : 0
   const total = Math.min(GUITAR_DAILY_MIN, loggedMin + Math.floor(elapsed / 60_000))
   // Les 60 min franchies pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
@@ -125,7 +139,7 @@ export function PracticePage() {
     setSession(null)
     navigate('/')
   }
-  const toLog = (s: PracticeState, extra: { durationMin?: number; step?: 2 }) =>
+  const toLog = (s: PracticeState, extra: { durationMin: number | null; step?: 2 }) =>
     navigate('/log/guitare', {
       state: { ...extra, entries: toEntries(s, best, songIds), day: todayParis(new Date(s.startedAt)), practiceId: s.id },
     })
@@ -171,7 +185,7 @@ export function PracticePage() {
             ⏱️
           </p>
           <p className="t-title3 pb-3">Une séance commencée il y a plus de 12 h n'a pas été terminée.</p>
-          <Button onClick={() => toLog(session, {})}>Logger sans durée</Button>
+          <Button onClick={() => toLog(session, { durationMin: null })}>Logger sans durée</Button>
           <Button variant="ghost" className="!text-danger" onClick={abandon}>
             Abandonner
           </Button>
@@ -200,7 +214,7 @@ export function PracticePage() {
               <span className="t-footnote font-semibold text-guitar">Série tenue ✓</span>
             ) : (
               <span className="t-footnote text-muted tabular-nums">
-                {total}/{GUITAR_DAILY_MIN} min aujourd'hui
+                {total}/{GUITAR_DAILY_MIN} min {sessionDay === today ? "aujourd'hui" : 'hier'}
               </span>
             )}
           </span>

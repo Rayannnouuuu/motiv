@@ -116,3 +116,30 @@ test('PendingBanner hors ligne', () => {
   renderWithData(<PendingBanner />, { pendingCount: 2, offline: true })
   expect(screen.getByRole('status')).toHaveTextContent("Hors ligne · 2 logs en attente d'envoi")
 })
+
+test('hors ligne avec une session gardée : entre après un court délai sans attendre le renouvellement', async () => {
+  vi.useFakeTimers()
+  try {
+    localStorage.setItem('sb-proj-auth-token', '{}')
+    auth.getSession.mockReturnValue(new Promise(() => {})) // renouvellement qui réessaie longtemps
+    render(<AuthGate>appli</AuthGate>)
+    expect(screen.queryByText('appli')).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTime(1600))
+    expect(screen.getByText('appli')).toBeInTheDocument()
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+test('rien de gardé sur le téléphone : on continue d’attendre la réponse', async () => {
+  vi.useFakeTimers()
+  try {
+    auth.getSession.mockReturnValue(new Promise(() => {}))
+    render(<AuthGate>appli</AuthGate>)
+    await act(async () => vi.advanceTimersByTime(5000))
+    expect(screen.queryByText('appli')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Chargement')).toBeInTheDocument()
+  } finally {
+    vi.useRealTimers()
+  }
+})

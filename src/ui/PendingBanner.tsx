@@ -26,7 +26,7 @@ export function PendingBanner() {
         </div>
       ))}
       {(pendingCount > 0 || offline) && (
-        <p role="status" className="t-footnote material fixed bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 text-muted shadow-card">
+        <p role="status" className="t-footnote material fixed bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 font-medium text-ink shadow-card">
           {offline && 'Hors ligne · '}
           {pendingCount > 0
             ? `${pendingCount} ${pendingCount > 1 ? 'logs' : 'log'} en attente d'envoi`

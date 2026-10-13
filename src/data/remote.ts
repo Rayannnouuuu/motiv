@@ -15,6 +15,18 @@ import { supabase } from './supabase'
 
 const PAGE = 1000 // limite par requête de PostgREST
 
+export const NO_SESSION = 'Session à renouveler : elle reprendra au retour du réseau'
+
+/**
+ * Sans vraie session (jeton expiré, pas de réseau pour le renouveler), supabase-js enverrait la clé anonyme :
+ * les lectures reviendraient vides (et écraseraient l'instantané) et les écritures seraient refusées.
+ * Erreur sans code : la file d'envoi garde l'entrée et réessaiera.
+ */
+async function requireSession(): Promise<void> {
+  const { data } = await supabase.auth.getSession()
+  if (!data.session) throw new Error(NO_SESSION)
+}
+
 function check<T>(res: { data: T; error: { message: string; code?: string } | null }): T {
   if (res.error) throw Object.assign(new Error(res.error.message), { code: res.error.code })
   return res.data
@@ -30,6 +42,7 @@ async function fetchTable<K extends keyof Rows>(table: K): Promise<Rows[K]> {
 }
 
 export async function fetchAllRows(): Promise<Rows> {
+  await requireSession()
   const results = await Promise.all(TABLES.map((t) => fetchTable(t)))
   return Object.fromEntries(TABLES.map((t, i) => [t, results[i]])) as unknown as Rows
 }
@@ -47,12 +60,14 @@ async function deleteOrphans(table: 'guitar_session_items' | 'sport_sets', sessi
 }
 
 export async function deleteSessionRemote(kind: 'guitar' | 'sport', id: string): Promise<void> {
+  await requireSession()
   // Les items / séries partent avec la session (on delete cascade).
   check(await supabase.from(kind === 'guitar' ? 'guitar_sessions' : 'sport_sessions').delete().eq('id', id))
 }
 
 /** Envoi idempotent d'une entrée de la file hors-ligne (upserts par id). */
 export async function sendEntry(e: OutboxEntry): Promise<void> {
+  await requireSession()
   if (e.kind === 'guitarSession') {
     const { session, newSongs, masteredSongIds } = e.payload
     await upsert(
@@ -85,16 +100,19 @@ export async function sendEntry(e: OutboxEntry): Promise<void> {
 }
 
 export async function saveSongRemote(s: Song): Promise<void> {
+  await requireSession()
   await upsert('songs', songToRow(s))
 }
 
 export async function saveProgramRemote(p: Program): Promise<void> {
+  await requireSession()
   const rows = programToRows(p)
   await upsert('sport_programs', rows.program)
   await upsert('program_exercises', rows.exercises)
 }
 
 export async function writeChallengeUpdates(updates: ChallengeUpdate[]): Promise<void> {
+  await requireSession()
   for (const u of updates) {
     if (u.type === 'create') {
       // Un autre appareil vient de créer le défi de ce niveau (index unique) : rien à faire.

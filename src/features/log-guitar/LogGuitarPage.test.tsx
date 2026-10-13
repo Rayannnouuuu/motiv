@@ -266,4 +266,16 @@ describe('LogGuitarPage', () => {
     await userEvent.type(screen.getByLabelText('Tempo max · Legato sur une corde 6'), '96')
     expect(screen.getByText('🎯 Défi réussi : 96 bpm atteint ✓')).toBeInTheDocument()
   })
+
+  test('« Logger sans durée » (durationMin: null) : aucune durée présélectionnée', () => {
+    renderLog({ route: { pathname: '/log/guitare', state: { durationMin: null, entries: [], practiceId: 'old' } } })
+    for (const p of ['15', '30', '45', '60']) expect(screen.getByRole('button', { name: p })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('button', { name: 'Suivant' })).toBeDisabled()
+  })
+
+  test('chrono en cours et log ouvert ailleurs (fiche exo) : pas de minutes du jour présélectionnées', () => {
+    savePractice(startPractice(new Date(), 'chrono'))
+    renderLog({ route: { pathname: '/log/guitare', state: { exerciseId: 'legato-4' } } })
+    expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'false')
+  })
 })

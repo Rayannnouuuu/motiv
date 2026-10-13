@@ -10,7 +10,7 @@ import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
 import { StepBar } from '../../ui/StepBar'
-import { loadPractice, savePractice } from '../practice/practiceSession'
+import { loadPractice, runningPracticeMinutes, savePractice } from '../practice/practiceSession'
 import { StepContent, type Entry } from './StepContent'
 import { PRESETS, parseDuration, type DurationChoice } from './duration'
 import { StepDuration } from './StepDuration'
@@ -27,9 +27,12 @@ interface NavState {
   practiceId?: unknown
 }
 
-/** Durée reçue, sinon les minutes qui manquent aujourd'hui (rappel push, ouvert sans état). */
+/**
+ * Durée reçue ; sans indication (rappel push, ouvert sans état) les minutes qui manquent aujourd'hui.
+ * `null` explicite (« Logger sans durée ») ou chrono en cours : rien de présélectionné, à choisir à la main.
+ */
 function initialDuration(min: unknown, remainingMin: number): { choice: DurationChoice; other: string } {
-  const n = typeof min === 'number' && min > 0 ? min : remainingMin
+  const n = typeof min === 'number' && min > 0 ? min : min === undefined ? remainingMin : 0
   if (n <= 0) return { choice: null, other: '' }
   return (PRESETS as readonly number[]).includes(n) ? { choice: n as DurationChoice, other: '' } : { choice: 'other', other: String(n) }
 }
@@ -63,7 +66,10 @@ export function LogGuitarPage() {
   const actions = useActions()
   const navigate = useNavigate()
   const nav = useLocation().state as NavState | null
-  const remainingMin = guitarStreak(data.guitarSessions, today).remainingMin
+  // Un chrono tourne et ce log n'en vient pas (ex. « Logger cet exo ») : pas de minutes du jour présélectionnées,
+  // elles seront comptées par le chrono.
+  const [chronoElsewhere] = useState(() => typeof nav?.practiceId !== 'string' && runningPracticeMinutes() !== null)
+  const remainingMin = chronoElsewhere ? 0 : guitarStreak(data.guitarSessions, today).remainingMin
   const [init] = useState(() => initialDuration(nav?.durationMin, remainingMin))
 
   const [choice, setChoice] = useState<DurationChoice>(init.choice)

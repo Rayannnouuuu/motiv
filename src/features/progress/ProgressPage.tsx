@@ -226,7 +226,7 @@ export function ProgressPage() {
 
           <div>
             <p className="t-large tabular-nums">{win.current === null ? '—' : view.format(win.current)}</p>
-            {win.delta !== null && (
+            {win.delta !== null && win.points.length > 1 && (
               <p className={`t-subhead font-semibold ${win.delta > 0 ? 'text-guitar' : 'text-muted'}`} data-testid="delta">
                 {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
                 {formatDelta(Math.abs(win.delta))} sur {period} j
