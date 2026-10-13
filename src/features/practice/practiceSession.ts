@@ -15,6 +15,8 @@ export interface PracticeState {
   songs: string[]
   /** Les feux d'artifice des 60 min ont déjà été tirés pour cette séance. */
   goalCelebrated: boolean
+  /** Tempo joué au métronome (fiche exo) pendant la séance, par exo : prioritaire sur le record. */
+  bpms?: Record<string, number>
 }
 
 export type PracticeAction =
@@ -23,6 +25,8 @@ export type PracticeAction =
   | { type: 'toggleExercise'; id: string }
   | { type: 'toggleSong'; id: string }
   | { type: 'celebrated' }
+  /** Exo coché depuis sa fiche, avec le tempo joué au métronome s'il y en a un. */
+  | { type: 'checkExercise'; id: string; bpm: number | null }
 
 const KEY = 'motiv.practice.v1'
 const STALE_MS = 12 * 60 * 60 * 1000
@@ -48,6 +52,12 @@ export function practiceReducer(s: PracticeState, a: PracticeAction): PracticeSt
       return { ...s, songs: toggle(s.songs, a.id) }
     case 'celebrated':
       return s.goalCelebrated ? s : { ...s, goalCelebrated: true }
+    case 'checkExercise':
+      return {
+        ...s,
+        exercises: s.exercises.includes(a.id) ? s.exercises : [...s.exercises, a.id],
+        bpms: a.bpm === null ? s.bpms : { ...s.bpms, [a.id]: a.bpm },
+      }
   }
 }
 
@@ -99,9 +109,12 @@ export function loadPractice(): PracticeState | null {
       isStringArray(s.exercises) &&
       isStringArray(s.songs) &&
       typeof s.goalCelebrated === 'boolean'
-    return ok
-      ? { id: s.id, startedAt: s.startedAt, pausedAt: s.pausedAt, pausedMs: s.pausedMs, exercises: s.exercises, songs: s.songs, goalCelebrated: s.goalCelebrated }
-      : null
+    if (!ok) return null
+    const bpms =
+      s.bpms && typeof s.bpms === 'object'
+        ? Object.fromEntries(Object.entries(s.bpms).filter(([, b]) => typeof b === 'number' && Number.isFinite(b) && b > 0))
+        : undefined
+    return { id: s.id, startedAt: s.startedAt, pausedAt: s.pausedAt, pausedMs: s.pausedMs, exercises: s.exercises, songs: s.songs, goalCelebrated: s.goalCelebrated, ...(bpms ? { bpms } : {}) }
   } catch {
     return null
   }

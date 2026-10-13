@@ -30,7 +30,9 @@ export default defineConfig({
         background_color: '#f2f2f7',
         theme_color: '#f2f2f7',
       },
-      workbox: { navigateFallback: '/motiv/index.html', importScripts: ['push-sw.js'] },
+      // injectRegister: false désactive l'activation automatique du plugin : on la remet, sinon une nouvelle
+      // version attendrait que toutes les fenêtres soient fermées et le rechargement ne viendrait jamais.
+      workbox: { navigateFallback: '/motiv/index.html', importScripts: ['push-sw.js'], skipWaiting: true, clientsClaim: true },
     }),
   ],
   test: {

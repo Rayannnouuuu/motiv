@@ -89,6 +89,8 @@ export function LogGuitarPage() {
   const [step, setStep] = useState(() => (nav?.step === 2 && parseDuration(init.choice, init.other) !== null ? 2 : 0))
   // Séance commencée avant minuit : datée de la veille.
   const [yesterday, setYesterday] = useState(() => nav?.day === addDays(today, -1))
+  // Jour de référence figé à l'ouverture : un log ouvert à 23:59 et enregistré à 00:01 reste sur le bon jour.
+  const [openedOn] = useState(today)
   const [entries, setEntries] = useState<Entry[]>(() => {
     if (Array.isArray(nav?.entries)) return validEntries(nav.entries, data.songs)
     // Ouvert depuis la fiche d'un exo : il est déjà dans la liste, au tempo du métronome s'il est donné.
@@ -118,9 +120,10 @@ export function LogGuitarPage() {
       const usedSongs = new Set(entries.flatMap((e) => (e.kind === 'song' ? [e.songId] : [])))
       // Depuis le chrono, l'id de la séance : renvoyer le même log ne le duplique pas.
       const id = typeof nav?.practiceId === 'string' && nav.practiceId !== '' ? nav.practiceId : crypto.randomUUID()
+      const day = yesterday ? addDays(openedOn, -1) : openedOn
       const result = await actions.saveGuitarSession({
         id,
-        day: yesterday ? addDays(today, -1) : today,
+        day,
         durationMin,
         items: entries.map(toItem),
         newSongs: newSongs.filter((s) => usedSongs.has(s.id)),
@@ -129,7 +132,10 @@ export function LogGuitarPage() {
       })
       // Le chrono de cette séance est terminé.
       if (loadPractice()?.id === id) savePractice(null)
-      navigate('/xp', { replace: true, state: { result, domain: 'guitar', logId: id } })
+      navigate('/xp', {
+        replace: true,
+        state: { result, domain: 'guitar', logId: id, ...(typeof nav?.practiceId === 'string' ? { momentDay: day } : {}) },
+      })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
       setSaving(false)

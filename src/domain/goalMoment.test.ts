@@ -79,14 +79,14 @@ describe('sportMoment', () => {
   test('3e séance de la semaine : semaine validée', () => {
     const log = ss([], today)
     const sessions = [...lastWeek, ss([], '2026-10-12'), ss([], '2026-10-13'), log]
-    expect(sportMoment(sessions, log.id, today)).toEqual({ kind: 'weekDone', weeks: 2, milestone: false })
+    expect(sportMoment(sessions, log.id, today)).toEqual({ kind: 'weekDone', weeks: 2, milestone: false, firstEver: false })
   })
 
   test('4e semaine d’affilée : palier', () => {
     const weeks = [0, 7, 14].flatMap((back) => [0, 1, 2].map((d) => ss([], addDays('2026-10-05', d - back))))
     const log = ss([], today)
     const sessions = [...weeks, ss([], '2026-10-12'), ss([], '2026-10-13'), log]
-    expect(sportMoment(sessions, log.id, today)).toEqual({ kind: 'weekDone', weeks: 4, milestone: true })
+    expect(sportMoment(sessions, log.id, today)).toEqual({ kind: 'weekDone', weeks: 4, milestone: true, firstEver: false })
   })
 
   test('2e séance : encore une', () => {
@@ -108,4 +108,13 @@ describe('sportMoment', () => {
   test('log absent : rien', () => {
     expect(sportMoment([ss([], today)], 'inconnu', today)).toBeNull()
   })
+})
+
+test('semaine validée après une coupure : pas « première »', () => {
+  // 3 séances il y a un mois, rien la semaine dernière, puis 3 cette semaine.
+  const old = ['2026-09-14', '2026-09-15', '2026-09-16'].map((d) => ss([], d, 'p'))
+  const week = ['2026-10-12', '2026-10-13'].map((d) => ss([], d, 'p'))
+  const log = ss([], '2026-10-15', 'p')
+  expect(sportMoment([...old, ...week, log], log.id, '2026-10-15')).toMatchObject({ kind: 'weekDone', weeks: 1, firstEver: false })
+  expect(sportMoment([...week, log], log.id, '2026-10-15')).toMatchObject({ kind: 'weekDone', weeks: 1, firstEver: true })
 })

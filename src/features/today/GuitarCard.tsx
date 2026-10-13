@@ -9,6 +9,7 @@ import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { WeekStrip } from '../../ui/WeekStrip'
+import { loadLive } from '../log-sport/liveSession'
 import { runningPracticeMinutes } from '../practice/practiceSession'
 
 function Chevron() {
@@ -37,6 +38,9 @@ export function GuitarCard() {
   )
   const goalMet = streak.remainingMin === 0
   const practiceRunning = runningPracticeMinutes() !== null
+  // Le bouton du haut de l'accueil propose déjà la guitare sauf si une séance sport est en cours ou que
+  // l'objectif est atteint : dans ces cas, le chrono doit rester accessible ici.
+  const heroIsGuitar = loadLive() === null && (practiceRunning || !goalMet)
 
   async function addSuggestion(title: string) {
     setAdding(true)
@@ -131,14 +135,15 @@ export function GuitarCard() {
       </div>
 
       <div className="flex flex-col gap-1">
-        {goalMet && !practiceRunning && (
-          <Button variant="secondary" onClick={() => navigate('/jouer', { state: { autostart: true } })}>
-            ▶︎ Rejouer avec le chrono
+        {!heroIsGuitar && (
+          <Button variant="secondary" onClick={() => navigate('/jouer', practiceRunning ? undefined : { state: { autostart: true } })}>
+            {practiceRunning ? '⏱ Reprendre le chrono' : goalMet ? '▶︎ Rejouer avec le chrono' : '▶︎ Jouer avec le chrono'}
           </Button>
         )}
         <Button
           variant="ghost"
-          onClick={() => navigate('/log/guitare', streak.remainingMin > 0 ? { state: { durationMin: streak.remainingMin } } : undefined)}
+          // Chrono en cours : ses minutes seront comptées à sa fin, rien à présélectionner ici.
+          onClick={() => navigate('/log/guitare', streak.remainingMin > 0 && !practiceRunning ? { state: { durationMin: streak.remainingMin } } : undefined)}
         >
           Logger sans chrono
         </Button>

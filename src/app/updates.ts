@@ -18,12 +18,13 @@ const RETRY_EVERY = 2_000
 const CHECK_ON_RETURN_GAP = 30 * 60_000
 const CHECK_EVERY = 60 * 60_000
 
-// Saisies non sauvegardées (log guitare, correction) et écran XP qu'on vient d'ouvrir : on attend.
-const BUSY_PATHS = ['/motiv/log/guitare', '/motiv/log/corriger', '/motiv/xp']
+// Saisies non sauvegardées (log guitare, correction, fin de séance sport), écran XP qu'on vient d'ouvrir,
+// fiche exo (métronome en marche, tempo joué en mémoire) : on attend que Rayan en sorte.
+const BUSY_PATHS = ['/motiv/log/guitare', '/motiv/log/corriger', '/motiv/log/sport', '/motiv/xp', '/motiv/exo']
 
 /**
- * Peut-on recharger maintenant ? `pathname` est celui de `window.location` (avec /motiv). La séance sport
- * et le chrono survivent au rechargement (localStorage) : seules les saisies en mémoire bloquent.
+ * Peut-on recharger maintenant ? `pathname` est celui de `window.location` (avec /motiv). Le chrono survit
+ * au rechargement (localStorage) : seuls les écrans qui gardent quelque chose en mémoire bloquent.
  */
 export function shouldReloadNow({ pathname, dialogOpen }: { pathname: string; dialogOpen: boolean }): boolean {
   if (dialogOpen) return false

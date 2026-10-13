@@ -54,9 +54,12 @@ export function tempoSeries(sessions: GuitarSession[], exerciseId: string): Poin
   )
 }
 
-/** Force estimée (1RM, formule d'Epley) : charge × (1 + reps / 30), reps plafonnées à 12, arrondie au 0,5 kg. */
+/**
+ * Force estimée (1RM, formule d'Epley) : charge × (1 + reps / 30), au 0,1 kg près. Sans plafond de reps :
+ * le coach de séance demande des reps en plus sur les exos légers, et chacune doit faire monter la courbe.
+ */
 export function e1rm(weightKg: number, reps: number): number {
-  return Math.round(weightKg * (1 + Math.min(reps, 12) / 30) * 2) / 2
+  return Math.round(weightKg * (1 + reps / 30) * 10) / 10
 }
 
 export interface StrengthSeries {

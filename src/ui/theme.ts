@@ -50,3 +50,14 @@ export function setTheme(t: Theme): void {
     // stockage indisponible : le thème vaut pour la session
   }
 }
+
+/** En « Auto », la barre d'état suit le téléphone quand il passe en clair / sombre pendant que l'appli est ouverte. */
+export function followSystemTheme(): void {
+  try {
+    window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (getTheme() === 'auto') applyThemeColor('auto')
+    })
+  } catch {
+    // matchMedia indisponible
+  }
+}

@@ -349,7 +349,7 @@ describe('LogSportPage', () => {
       flowRating: 4,
       desireRating: 5,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'sport', logId: vi.mocked(actions.saveSportSession).mock.calls[0][0].id })}`)).toBeInTheDocument()
+    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'sport', logId: vi.mocked(actions.saveSportSession).mock.calls[0][0].id, momentDay: vi.mocked(actions.saveSportSession).mock.calls[0][0].day })}`)).toBeInTheDocument()
     expect(loadLive()).toBeNull()
   })
 

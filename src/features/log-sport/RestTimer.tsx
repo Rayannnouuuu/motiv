@@ -16,11 +16,11 @@ const clock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2,
  * Minuteur de repos entre deux séries. Tout se calcule depuis l'horodatage de la série :
  * le temps reste juste après un passage dans une autre appli ou un rechargement.
  */
-export function RestTimer({ startedAt, restSec, nextSet, onAdd, onSkip }: {
+export function RestTimer({ startedAt, restSec, nextLabel, onAdd, onSkip }: {
   startedAt: string | null
   restSec: number
-  /** Numéro de la série qui suit le repos. */
-  nextSet: number
+  /** Ce qui suit le repos : « série 3 », le nom de l'exo suivant, ou la fin de séance. */
+  nextLabel: string
   onAdd: () => void
   onSkip: () => void
 }) {
@@ -65,7 +65,7 @@ export function RestTimer({ startedAt, restSec, nextSet, onAdd, onSkip }: {
         <span className={`t-subhead font-semibold tabular-nums ${over ? 'text-guitar' : ''}`}>{over ? '✓' : clock(left)}</span>
       </ProgressRing>
       {over ? (
-        <p className="t-headline font-semibold text-guitar">C'est reparti : série {nextSet}</p>
+        <p className="t-headline font-semibold text-guitar">C'est reparti : {nextLabel}</p>
       ) : (
         <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
           <p className="t-headline">Repos</p>

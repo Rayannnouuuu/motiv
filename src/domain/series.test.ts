@@ -33,18 +33,20 @@ test('tempo : meilleur cumulé par jour loggé', () => {
   expect(tempoSeries(s, 'legato-4')).toEqual([p('2026-10-01', 80), p('2026-10-03', 80), p('2026-10-05', 84)])
 })
 
-test('e1rm : Epley arrondi au 0,5 kg, reps plafonnées à 12', () => {
-  expect(e1rm(65, 8)).toBe(82.5)
-  expect(e1rm(62.5, 8)).toBe(79)
-  expect(e1rm(62.5, 10)).toBe(83.5)
-  expect(e1rm(60, 20)).toBe(e1rm(60, 12))
+test('e1rm : Epley au 0,1 kg, sans plafond de reps', () => {
+  expect(e1rm(65, 8)).toBe(82.3)
+  expect(e1rm(62.5, 8)).toBe(79.2)
+  expect(e1rm(62.5, 10)).toBe(83.3)
+  // Chaque rep en plus compte, même au-delà de 12 (curl à 10 kg : 12 → 13 → 14 reps).
+  expect(e1rm(10, 13)).toBeGreaterThan(e1rm(10, 12))
+  expect(e1rm(10, 14)).toBeGreaterThan(e1rm(10, 13))
 })
 
 test('force : plus de reps à la même charge fait monter la courbe', () => {
   const s = [ss([set(62.5, 8, 'a')], '2026-10-01'), ss([set(62.5, 10, 'a')], '2026-10-04')]
   const r = strengthSeries(s, 'a')
   expect(r.unit).toBe('kg')
-  expect(r.points).toEqual([p('2026-10-01', 79), p('2026-10-04', 83.5)])
+  expect(r.points).toEqual([p('2026-10-01', 79.2), p('2026-10-04', 83.3)])
   expect(r.best.get('2026-10-04')).toEqual(set(62.5, 10, 'a'))
 })
 
@@ -52,7 +54,7 @@ test('force : max courant, la meilleure série du jour et celle qui tient le rec
   const best = set(65, 8, 'a')
   const s = [ss([set(60, 8, 'a'), best, set(70, 1, 'b')], '2026-10-01'), ss([set(60, 8, 'a')], '2026-10-04')]
   const r = strengthSeries(s, 'a')
-  expect(r.points).toEqual([p('2026-10-01', 82.5), p('2026-10-04', 82.5)])
+  expect(r.points).toEqual([p('2026-10-01', 82.3), p('2026-10-04', 82.3)])
   expect(r.best.get('2026-10-01')).toBe(best)
   expect(r.best.get('2026-10-04')).toBe(best)
 })

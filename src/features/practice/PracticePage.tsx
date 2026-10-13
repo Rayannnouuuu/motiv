@@ -48,7 +48,8 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
   const exercises: Entry[] = s.exercises
     .filter((id) => getExercise(id))
     .map((id) => {
-      const b = best(id)
+      // Tempo joué au métronome pendant la séance, sinon le record.
+      const b = s.bpms?.[id] ?? best(id)
       return { kind: 'exercise', exerciseId: id, bpm: b === null ? '' : String(b) }
     })
   const songs: Entry[] = s.songs.filter((id) => songIds.has(id)).map((id) => ({ kind: 'song', songId: id, mastered: false }))

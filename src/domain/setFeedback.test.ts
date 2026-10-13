@@ -35,9 +35,11 @@ describe('isNewRecord', () => {
     expect(isNewRecord(history, [], set(62.5, 8, 'a', 1))).toBe(false)
   })
 
-  test('une seule fête par exo et par séance', () => {
-    expect(isNewRecord(history, [set(65, 8, 'a', 1)], set(67.5, 8, 'a', 2))).toBe(false)
+  test('pas deux fêtes pour la même série record ; un échauffement record n’éclipse pas la vraie série', () => {
+    expect(isNewRecord(history, [set(65, 8, 'a', 1)], set(65, 8, 'a', 2))).toBe(false) // même série refaite
+    expect(isNewRecord(history, [set(65, 8, 'a', 1)], set(62.5, 8, 'a', 2))).toBe(false) // moins bien
     expect(isNewRecord(history, [set(60, 8, 'a', 1)], set(65, 8, 'a', 2))).toBe(true)
+    expect(isNewRecord(history, [set(40, 30, 'a', 1)], set(65, 8, 'a', 2))).toBe(true) // échauffement léger mais long
   })
 
   test('premier passage sur l’exo : pas de record', () => {

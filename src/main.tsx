@@ -9,6 +9,7 @@ import { setupUpdates } from './app/updates'
 import { AppDataProvider } from './data/AppDataProvider'
 import { AuthGate } from './features/auth/AuthGate'
 import './index.css'
+import { followSystemTheme } from './ui/theme'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1 } } })
 
@@ -19,6 +20,8 @@ document.addEventListener('touchstart', () => {}, { passive: true })
 const clearBadge = () => (navigator as Navigator & { clearAppBadge?: () => Promise<void> }).clearAppBadge?.().catch(() => {})
 clearBadge()
 document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && clearBadge())
+
+followSystemTheme()
 
 // Nouvelle version : vérifiée au retour dans l'appli et toutes les heures, rechargée quand rien n'est en cours.
 setupUpdates(registerSW)

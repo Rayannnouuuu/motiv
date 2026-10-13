@@ -22,12 +22,12 @@ describe('shouldReloadNow', () => {
     expect(at('/motiv/reglages', true)).toBe(false)
   })
 
-  test('ailleurs, y compris en séance sport (sauvegardée dans localStorage) : on recharge', () => {
+  test('ailleurs : on recharge ; séance sport et fiche exo (état en mémoire) : on attend', () => {
     expect(at('/motiv/')).toBe(true)
     expect(at('/motiv/progres')).toBe(true)
     expect(at('/motiv/reglages')).toBe(true)
-    expect(at('/motiv/log/sport')).toBe(true)
-    expect(at('/motiv/exo/abc')).toBe(true)
+    expect(at('/motiv/log/sport')).toBe(false) // formulaire de fin de séance en mémoire
+    expect(at('/motiv/exo/abc')).toBe(false) // métronome en marche
     expect(at('/motiv/xperience')).toBe(true)
   })
 })

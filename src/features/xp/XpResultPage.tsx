@@ -75,7 +75,11 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
           </p>
           <p className="t-title2 mt-2">Semaine validée ✓</p>
           <p className="t-headline text-sport">
-            {moment.weeks === 1 ? 'Première semaine validée' : `${moment.weeks} semaines d'affilée${moment.milestone ? ' 🎉' : ''}`}
+            {moment.weeks === 1
+              ? moment.firstEver
+                ? 'Première semaine validée'
+                : "C'est reparti · 1 semaine d'affilée"
+              : `${moment.weeks} semaines d'affilée${moment.milestone ? ' 🎉' : ''}`}
           </p>
         </div>
       )
@@ -101,16 +105,18 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
 }
 
 export function XpResultPage() {
-  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean } | null
+  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean; momentDay?: string } | null
   const { data, today } = useAppData()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
   // Figé aussi : la série ou la semaine que ce log vient de faire avancer. Une correction ne refête rien.
+  // momentDay : jour de départ d'un chrono ou d'une séance commencés avant minuit. Le moment se juge sur ce
+  // jour-là (série tenue, semaine validée), pas sur le lendemain où l'on a appuyé sur « Terminer ».
   const [moment] = useState(() =>
     !state?.edited && state?.logId
       ? state.domain === 'guitar'
-        ? guitarMoment(data.guitarSessions, state.logId, today)
-        : sportMoment(data.sportSessions, state.logId, today)
+        ? guitarMoment(data.guitarSessions, state.logId, state.momentDay ?? today)
+        : sportMoment(data.sportSessions, state.logId, state.momentDay ?? today)
       : null,
   )
   if (!state?.result) return <Navigate to="/" replace />

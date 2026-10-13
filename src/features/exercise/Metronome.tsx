@@ -87,7 +87,9 @@ class Engine {
         return false
       }
     }
-    if (this.ctx.state !== 'running') this.ctx.resume().catch(() => {})
+    // Toujours : après un « Arrêter » tout juste tapé, state peut encore valoir 'running' alors que la mise en
+    // veille est en cours ; le resume passe derrière elle. Sur un contexte qui tourne, il ne fait rien.
+    this.ctx.resume().catch(() => {})
     this.cursor = { nextTime: this.ctx.currentTime + START_DELAY, index: 0 }
     this.tick()
     this.timer = setInterval(() => this.tick(), TICK_MS)

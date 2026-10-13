@@ -12,7 +12,7 @@ export type GoalMoment =
   | { kind: 'streakRepaired'; days: number; milestone: boolean }
   | { kind: 'guitarRemaining'; beforeMin: number; todayMin: number; remainingMin: number; days: number }
   | { kind: 'guitarBonus'; days: number }
-  | { kind: 'weekDone'; weeks: number; milestone: boolean }
+  | { kind: 'weekDone'; weeks: number; milestone: boolean; firstEver: boolean }
   | { kind: 'weekProgress'; done: number; remaining: number }
   | { kind: 'weekBonus'; done: number }
 
@@ -54,7 +54,11 @@ export function sportMoment(sessions: SportSession[], logId: string, today: Day)
   const done = sessions.filter(inWeek).length
   if (doneBefore < SPORT_WEEKLY_SESSIONS && done >= SPORT_WEEKLY_SESSIONS) {
     const weeks = sportStreak(sessions, today).weeks
-    return { kind: 'weekDone', weeks, milestone: WEEK_MILESTONES.includes(weeks) }
+    // « Première » seulement si aucune semaine d'avant n'avait atteint l'objectif (sinon c'est une reprise).
+    const perWeek = new Map<Day, number>()
+    for (const s of sessions) if (weekStart(s.day) < week) perWeek.set(weekStart(s.day), (perWeek.get(weekStart(s.day)) ?? 0) + 1)
+    const firstEver = ![...perWeek.values()].some((n) => n >= SPORT_WEEKLY_SESSIONS)
+    return { kind: 'weekDone', weeks, milestone: WEEK_MILESTONES.includes(weeks), firstEver }
   }
   if (done < SPORT_WEEKLY_SESSIONS) return { kind: 'weekProgress', done, remaining: SPORT_WEEKLY_SESSIONS - done }
   return { kind: 'weekBonus', done }

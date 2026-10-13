@@ -142,7 +142,7 @@ export function ExercisePage() {
         <Button
           onClick={() => {
             const s = loadPractice()
-            if (s && !s.exercises.includes(ex.id)) savePractice(practiceReducer(s, { type: 'toggleExercise', id: ex.id }))
+            if (s) savePractice(practiceReducer(s, { type: 'checkExercise', id: ex.id, bpm: playedBpm }))
             navigate('/jouer')
           }}
         >

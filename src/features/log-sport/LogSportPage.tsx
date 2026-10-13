@@ -207,7 +207,12 @@ export function LogSportPage() {
   return (
     <div className="flex flex-1 flex-col gap-5">
       <ModalBar
-        onCancel={() => navigate('/')}
+        onCancel={() => {
+          // Aucune série faite : rien à garder (ouverte par erreur ou juste pour regarder). Sinon elle
+          // occuperait le bouton principal de l'accueil.
+          if (live.sets.length === 0) clear()
+          navigate('/')
+        }}
         cancelLabel="Fermer"
         cancelAria="Fermer"
         trailing={
@@ -316,7 +321,8 @@ export function LogSportPage() {
       <RestTimer
         startedAt={live.restStartedAt ?? null}
         restSec={live.restSec ?? 0}
-        nextSet={done + 1}
+        // Séries visées faites : le bouton principal mène à l'exo suivant, le minuteur aussi.
+        nextLabel={!reached ? `série ${done + 1}` : next ? next.name : 'fin de séance'}
         onAdd={() => dispatch({ type: 'restAdd' })}
         onSkip={() => dispatch({ type: 'restSkip' })}
       />
@@ -503,7 +509,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
         desireRating: desire,
       })
       onDone()
-      navigate('/xp', { replace: true, state: { result, domain: 'sport', logId: live.id } })
+      navigate('/xp', { replace: true, state: { result, domain: 'sport', logId: live.id, momentDay: todayParis(new Date(live.startedAt)) } })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
       setSaving(false)

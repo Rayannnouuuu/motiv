@@ -18,9 +18,13 @@ export function meetsChallenge(target: SetTarget, set: Pick<SportSet, 'weightKg'
 }
 
 /**
- * Record à fêter tout de suite : la série bat l'historique, et aucune série précédente de la séance
- * sur cet exo n'en était déjà un. Une seule fête par exo et par séance, comme le bonus d'XP.
+ * Record à fêter tout de suite : la série bat l'historique, et aucune série record déjà faite dans la séance
+ * ne la vaut (charge ≥ et reps ≥). Un échauffement léger compté comme record n'empêche donc pas de fêter la
+ * vraie série lourde ; refaire la même série record ne refête pas.
  */
 export function isNewRecord(historySets: SportSet[], sessionSetsOfExo: SportSet[], set: SportSet): boolean {
-  return isSportRecord(historySets, set) && !sessionSetsOfExo.some((s) => isSportRecord(historySets, s))
+  return (
+    isSportRecord(historySets, set) &&
+    !sessionSetsOfExo.some((s) => isSportRecord(historySets, s) && s.weightKg >= set.weightKg && s.reps >= set.reps)
+  )
 }
