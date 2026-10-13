@@ -101,13 +101,14 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
             {visible.map((ex, i) => {
               const label = ex.name || `exo ${i + 1}`
               return (
-                <div key={ex.id} className="flex min-h-11 items-center gap-2 px-4 py-2">
+                // Nom sur sa propre ligne : en entier même sur un petit écran (« Développé couché » / « incliné »).
+                <div key={ex.id} className="flex min-h-11 flex-wrap items-center gap-x-2 gap-y-1 px-4 py-2">
                   <input
                     aria-label={`Nom · exo ${i + 1}`}
                     placeholder="Nom de l'exo"
                     value={ex.name}
                     onChange={(e) => setExercise(ex.id, { name: e.target.value })}
-                    className={`${field} t-body flex-1 py-1`}
+                    className={`${field} t-body basis-full py-1`}
                   />
                   <input
                     aria-label={`Séries · ${label}`}
@@ -128,7 +129,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     onChange={(e) => setExercise(ex.id, { targetReps: Number(e.target.value.replace(/\D/g, '')) })}
                     className={`t-callout ${num}`}
                   />
-                  <div className="flex shrink-0 items-center text-muted">
+                  <div className="ml-auto flex shrink-0 items-center text-muted">
                     <button type="button" aria-label={`Monter ${label}`} disabled={i === 0} className="tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, -1)}>
                       <Arrow up />
                     </button>
@@ -230,8 +231,8 @@ export function ProgramEditor() {
           <span className="t-body text-accent">+ Nouvelle séance</span>
         </Row>
         {programs.length > 1 && (
-          <div className="flex items-center gap-2 px-4 py-2" aria-label="Ordre des séances">
-            <span className="t-footnote flex-1 text-muted">Ordre</span>
+          <div className="flex flex-wrap items-center gap-2 px-4 py-2" aria-label="Ordre des séances">
+            <span className="t-footnote w-full text-muted">Ordre</span>
             {programs.map((p, i) => (
               <span key={p.id} className="t-footnote flex items-center rounded-full bg-fill pl-2.5">
                 {p.name}

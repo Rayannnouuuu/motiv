@@ -37,6 +37,7 @@ export type LiveAction =
 const KEY = 'motiv.liveSport.v1'
 const STALE_MS = 12 * 60 * 60 * 1000
 const REST_ADD_SEC = 30
+const IDLE_START_MS = 30 * 60 * 1000
 
 /** Repos selon les reps visées : lourd (≤ 6) 3 min, hypertrophie (≤ 12) 2 min, au-delà 1 min 30. */
 export const restFor = (r: number) => (r <= 6 ? 180 : r <= 12 ? 120 : 90)
@@ -74,8 +75,12 @@ export function liveReducer(s: LiveState, a: LiveAction, exercises: ProgramExerc
     case 'completeSet': {
       if (!current) return s
       const setIndex = s.sets.filter((x) => x.programExerciseId === current.id).length + 1
+      // Écran ouvert puis laissé de côté (« Commencer » touché la veille, appli fermée) : la séance commence
+      // vraiment à la première série. Au-delà de 30 min d'écart, son jour et sa durée partent de là.
+      const idle = s.sets.length === 0 && new Date(a.at).getTime() - new Date(s.startedAt).getTime() > IDLE_START_MS
       return {
         ...s,
+        ...(idle ? { startedAt: a.at } : {}),
         sets: [...s.sets, { programExerciseId: current.id, setIndex, reps: s.reps, weightKg: s.weightKg }],
         restStartedAt: a.at,
         restSec: restFor(current.targetReps),

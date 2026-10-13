@@ -42,6 +42,16 @@ describe('liveReducer', () => {
     expect(s).toMatchObject({ exerciseIndex: 1, exerciseId: 'b' })
   })
 
+  test('séance ouverte puis laissée de côté : elle commence à la première série (jour et durée)', () => {
+    // Ouverte dimanche 21 h 30 (Paris), première série lundi 7 h 30.
+    let s = liveReducer(state({ startedAt: '2026-10-11T19:30:00.000Z' }), { type: 'completeSet', at: '2026-10-12T05:30:00.000Z' }, exercises)
+    expect(s.startedAt).toBe('2026-10-12T05:30:00.000Z')
+    s = liveReducer(s, { type: 'completeSet', at: '2026-10-12T07:00:00.000Z' }, exercises)
+    expect(s.startedAt).toBe('2026-10-12T05:30:00.000Z')
+    // Échauffement de 10 min avant la première série : le début ne bouge pas.
+    expect(liveReducer(state(), done, exercises).startedAt).toBe('2026-10-15T18:00:00Z')
+  })
+
   test('prevExercise : retour à l’exo précédent avec sa dernière série, rien avant le premier', () => {
     let s = state({ weightKg: 60, reps: 8 })
     s = liveReducer(s, done, exercises)

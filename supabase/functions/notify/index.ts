@@ -49,12 +49,19 @@ async function send(subs: Sub[], msg: Pick<PushMessage, 'title' | 'body' | 'url'
   return sent
 }
 
+const PAGE = 1000 // limite par requête de PostgREST : au-delà, les lignes manquantes disparaîtraient sans erreur
+
 async function loadUserData(userId: string) {
   const entries = await Promise.all(
     TABLES.map(async (t) => {
-      const { data, error } = await db.from(t).select('*').eq('user_id', userId)
-      if (error) throw new Error(error.message)
-      return [t, data ?? []] as const
+      const all: unknown[] = []
+      for (let from = 0; ; from += PAGE) {
+        const { data, error } = await db.from(t).select('*').eq('user_id', userId).order('id').range(from, from + PAGE - 1)
+        if (error) throw new Error(error.message)
+        all.push(...(data ?? []))
+        if ((data ?? []).length < PAGE) break
+      }
+      return [t, all] as const
     }),
   )
   return toAppData(Object.fromEntries(entries) as unknown as Rows)

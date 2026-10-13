@@ -7,7 +7,19 @@ import { guitarSessionXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, type Actions } from './AppDataContext'
 import { toAppData } from './mappers'
 import { mergePending } from './merge'
-import { discardRejected, enqueue, flush, readOutbox, readRejected, removeFromOutbox, whenIdle, type OutboxEntry } from './outbox'
+import {
+  clearSent,
+  confirmSent,
+  discardRejected,
+  enqueue,
+  flush,
+  readOutbox,
+  readRejected,
+  readSent,
+  removeFromOutbox,
+  whenIdle,
+  type OutboxEntry,
+} from './outbox'
 import { disablePush, syncPush } from './push'
 import { deleteSessionRemote, fetchAllRows, saveProgramRemote, saveSongRemote, sendEntry, writeChallengeUpdates } from './remote'
 import { clearSnapshot, readSnapshot, writeSnapshot } from './snapshot'
@@ -31,10 +43,14 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   const query = useQuery({
     queryKey: QUERY_KEY,
     queryFn: async ({ signal }) => {
+      const readStartedAt = Date.now()
       const server = toAppData(await fetchAllRows())
       // Seulement les données serveur, jamais la fusion avec la file d'envoi. Requête annulée
       // (déconnexion pendant le chargement) : rien d'écrit, l'instantané effacé le reste.
-      if (!signal.aborted) writeSnapshot(server)
+      if (!signal.aborted) {
+        writeSnapshot(server)
+        confirmSent(readStartedAt)
+      }
       return server
     },
     initialData: snap?.data,
@@ -43,6 +59,8 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     refetchOnMount: 'always', // une vraie lecture serveur à chaque lancement
   })
   const [pending, setPending] = useState<OutboxEntry[]>(readOutbox)
+  // Envoyés mais pas encore relus du serveur : affichés comme la file, sans compter « en attente ».
+  const [sent, setSent] = useState<OutboxEntry[]>(readSent)
   const [rejected, setRejected] = useState(readRejected)
   const today = useParisDay()
 
@@ -54,17 +72,22 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   const failed = query.data === undefined && (query.error !== null || query.fetchStatus === 'paused')
   const error = !failed ? null : !navigator.onLine ? NO_NETWORK : (query.error?.message ?? null)
 
-  const data = useMemo(() => mergePending(query.data ?? EMPTY_DATA, pending), [query.data, pending])
+  const data = useMemo(() => mergePending(query.data ?? EMPTY_DATA, [...sent, ...pending]), [query.data, sent, pending])
   const dataRef = useRef(data)
   dataRef.current = data
 
-  const refresh = useCallback(() => qc.invalidateQueries({ queryKey: QUERY_KEY }), [qc])
+  // Chaque lecture réussie confirme les envois qui l'ont précédée (queryFn) : on relit leur liste après.
+  const refresh = useCallback(async () => {
+    await qc.invalidateQueries({ queryKey: QUERY_KEY })
+    setSent(readSent())
+  }, [qc])
 
   const flushNow = useCallback(async () => {
     const r = await flush(sendEntry)
     // Recharger le serveur avant de retirer les entrées de l'affichage, pour éviter un clignotement.
     if (r.sent > 0) await refresh()
     setPending(readOutbox())
+    setSent(readSent())
     setRejected(readRejected())
   }, [refresh])
 
@@ -148,7 +171,12 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
           items: d.items,
         }
         const masteredSongIds = d.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : []))
-        enqueue({ id: d.id, kind: 'guitarSession', payload: { session, newSongs: d.newSongs, masteredSongIds } })
+        // Correction d'un log pas encore envoyé : les morceaux qu'il créait sont toujours à créer (l'écran
+        // de correction ne connaît que les siens), sinon les lignes du log pointeraient vers un morceau absent.
+        const queued = readOutbox().find((e) => e.id === d.id)
+        const carried = queued?.kind === 'guitarSession' ? queued.payload.newSongs.filter((s) => !d.newSongs.some((n) => n.id === s.id)) : []
+        const newSongs = [...carried, ...d.newSongs]
+        enqueue({ id: d.id, kind: 'guitarSession', payload: { session, newSongs, masteredSongIds } })
         setPending(readOutbox())
         void flushNow()
         return xp
@@ -190,17 +218,19 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       async deleteLog(kind, id) {
         if (!navigator.onLine) {
           const server = qc.getQueryData<AppData>(QUERY_KEY)
-          const onServer = (kind === 'guitar' ? server?.guitarSessions : server?.sportSessions)?.some((s) => s.id === id)
+          const onServer = (kind === 'guitar' ? server?.guitarSessions : server?.sportSessions)?.some((s) => s.id === id) || readSent().some((e) => e.id === id)
           // Vérifié avant de toucher la file : une correction en attente n'est pas perdue si la suppression échoue.
           if (onServer) throw new Error('Connexion nécessaire pour supprimer ce log')
           removeFromOutbox(id)
           setPending(readOutbox())
+          setSent(readSent())
           return
         }
         // Un envoi en cours de ce log arriverait après la suppression et le ferait réapparaître : on l'attend.
         await whenIdle()
         removeFromOutbox(id)
         setPending(readOutbox())
+        setSent(readSent())
         await deleteSessionRemote(kind, id) // sans effet s'il n'a jamais atteint le serveur
         await refresh()
       },
@@ -217,6 +247,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         await disablePush().catch(() => {})
         await supabase.auth.signOut()
         clearSnapshot()
+        clearSent()
         qc.clear()
       },
     }),

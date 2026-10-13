@@ -18,6 +18,14 @@ const at = (sec: number) => new Date(t0.getTime() + sec * 1000)
 beforeEach(() => localStorage.clear())
 
 describe('practiceReducer', () => {
+  test('checkExercise garde le tempo le plus rapide des passages sur la fiche', () => {
+    let s = practiceReducer(startPractice(t0, 'p'), { type: 'checkExercise', id: 'legato-4', bpm: 96 })
+    s = practiceReducer(s, { type: 'checkExercise', id: 'legato-4', bpm: 80 })
+    s = practiceReducer(s, { type: 'checkExercise', id: 'legato-4', bpm: null })
+    expect(s.bpms).toEqual({ 'legato-4': 96 })
+    expect(s.exercises).toEqual(['legato-4'])
+  })
+
   test('les pauses ne comptent pas ; une double pause ne change rien', () => {
     let s = startPractice(t0, 'p')
     expect(elapsedMs(s, at(90))).toBe(90_000)

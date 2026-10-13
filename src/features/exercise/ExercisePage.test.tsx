@@ -90,3 +90,15 @@ test('« Logger cet exo » après lecture : le dernier tempo joué est transmis'
   await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
   expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":82}')).toBeInTheDocument()
 })
+
+test('« Logger cet exo » : le tempo le plus rapide joué est transmis, même après être redescendu', async () => {
+  vi.stubGlobal('AudioContext', FakeAudioContext)
+  renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
+  await userEvent.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo −' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
+  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":84}')).toBeInTheDocument()
+})

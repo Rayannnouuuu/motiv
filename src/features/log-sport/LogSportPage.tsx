@@ -294,18 +294,20 @@ export function LogSportPage() {
           // Record par rapport à l'historique : pastille dorée.
           const record = s ? isSportRecord(historySets, s) : false
           return (
-            <li key={i} className="flex min-w-[3.5rem] flex-1">
+            // Largeur de base, et jamais moins que le texte : trop de séries pour une ligne → la suite passe dessous.
+            <li key={i} className="flex grow basis-[4.75rem]">
               {s ? (
                 <button
                   type="button"
                   aria-label={`Modifier la série ${i + 1}`}
                   aria-pressed={edited?.setIndex === i + 1}
                   onClick={() => startEditing(i + 1)}
-                  className={`tap-scale animate-pop t-subhead flex h-12 flex-1 items-center justify-center gap-1 rounded-full font-semibold tabular-nums ${record ? 'bg-amber-400 text-black' : 'bg-sport text-white'} ${edited?.setIndex === i + 1 ? 'ring-2 ring-sport ring-offset-2 ring-offset-bg' : ''}`}
+                  className={`tap-scale animate-pop t-subhead flex h-12 flex-1 items-center justify-center gap-1 rounded-full px-3 font-semibold whitespace-nowrap tabular-nums ${record ? 'bg-amber-400 text-black' : 'bg-sport text-white'} ${edited?.setIndex === i + 1 ? 'ring-2 ring-sport ring-offset-2 ring-offset-bg' : ''}`}
                 >
                   {record && <span aria-hidden>🏆</span>}
+                  {/* Charge puis reps, comme dans l'historique et les records (« 4×8 » reste séries × reps). */}
                   <span>
-                    {s.reps}×{formatWeight(s.weightKg)}
+                    {formatWeight(s.weightKg)} × {s.reps}
                   </span>
                 </button>
               ) : (
@@ -518,7 +520,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      {onBack ? <ModalBar onCancel={onBack} cancelLabel="‹ Revenir au dernier exo" /> : <div className="h-11" />}
+      {onBack ? <ModalBar onCancel={onBack} cancelLabel="‹ Dernier exo" cancelAria="Revenir au dernier exo" /> : <div className="h-11" />}
       <div className="animate-rise">
         <h1 className="t-title1">Séance terminée 💪</h1>
         <p className="t-body text-muted">

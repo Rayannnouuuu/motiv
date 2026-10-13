@@ -5,6 +5,7 @@ import {
   generateGuitarTarget,
   generateSportTarget,
   isChallengeMet,
+  sameTarget,
 } from './challenges'
 import { domainLevel, totalXp } from './levels'
 import type { AppData, Challenge, ChallengeTarget, Day, Domain, Program, SportSession } from './types'
@@ -104,7 +105,7 @@ export function rerollChallenge(data: AppData, id: string, today: Day, deps: Dep
   if (!ch || !canReroll(ch)) return []
   const exclude = data.challenges.filter((c) => c.domain === ch.domain && c.level === ch.level).map((c) => c.target)
   const target = generate(ch.domain, data, today, deps.rng, exclude)
-  if (exclude.some((t) => JSON.stringify(t) === JSON.stringify(target))) return []
+  if (exclude.some((t) => sameTarget(t, target))) return []
   return replaceWith(ch, target, { rerolls: ch.rerolls + 1 }, today, deps)
 }
 

@@ -167,6 +167,30 @@ describe('PracticePage', () => {
     expect(screen.queryByRole('button', { name: 'Terminer' })).not.toBeInTheDocument()
   })
 
+  test('séance restée en pause plus de 12 h : ses minutes mesurées sont gardées', () => {
+    // 30 min jouées de 8 h à 8 h 30 (Paris), puis pause ; retour à 20 h 30.
+    const start = new Date('2026-10-15T06:00:00Z')
+    const paused = { ...startPractice(start, 'p'), pausedAt: new Date(start.getTime() + 30 * 60_000).toISOString() }
+    savePractice(paused)
+    vi.setSystemTime(new Date('2026-10-15T18:30:00Z'))
+    renderPractice({ route: '/jouer' })
+    expect(screen.getByText("Une séance restée en pause n'a pas été enregistrée : 30 min jouées.")).toBeInTheDocument()
+    click('Logger 30 min')
+    expect(landedState('/log/guitare')).toMatchObject({ durationMin: 30, day: '2026-10-15', practiceId: 'p' })
+  })
+
+  test('en pause depuis la veille : pas de Reprendre (le jeu du jour irait sur hier), seulement Terminer', () => {
+    // 15 min de 23 h 30 à 23 h 45 (Paris) le 15, puis pause ; il est 7 h 30 le 16 (moins de 12 h).
+    const start = new Date('2026-10-15T21:30:00Z')
+    savePractice({ ...startPractice(start, 'y'), pausedAt: new Date(start.getTime() + 15 * 60_000).toISOString() })
+    vi.setSystemTime(new Date('2026-10-16T05:30:00Z'))
+    renderPractice({ today: '2026-10-16', route: '/jouer' })
+    expect(screen.queryByRole('button', { name: 'Reprendre' })).not.toBeInTheDocument()
+    expect(screen.getByText(/Commencée hier/)).toBeInTheDocument()
+    click('Terminer')
+    expect(landedState('/log/guitare')).toMatchObject({ durationMin: 15, day: '2026-10-15', practiceId: 'y', step: 2 })
+  })
+
   test('chrono qui passe minuit : l’anneau compte les minutes du jour de départ', () => {
     // 30 min déjà loggées le 15 ; départ à 23:40 (Paris) ; il est maintenant 00:10 le 16.
     const start = new Date('2026-10-15T21:40:00Z')

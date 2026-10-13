@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest'
 import { g } from '../test/factories'
-import { discardRejected, enqueue, flush, readOutbox, readRejected, type OutboxEntry } from './outbox'
+import { confirmSent, discardRejected, enqueue, flush, readOutbox, readRejected, readSent, removeFromOutbox, type OutboxEntry } from './outbox'
 
 const entry = (id: string): OutboxEntry => ({ id, kind: 'guitarSession', payload: { session: { ...g('2026-10-11', 30), id }, newSongs: [], masteredSongIds: [] } })
 
@@ -43,6 +43,35 @@ test('enqueue remplace une entrée de même id', () => {
   enqueue(entry('a'))
   enqueue(entry('a'))
   expect(readOutbox()).toHaveLength(1)
+})
+
+test('une correction garde la place de l’entrée qu’elle remplace', () => {
+  enqueue(entry('a'))
+  enqueue(entry('b'))
+  const a = entry('a')
+  if (a.kind === 'guitarSession') enqueue({ ...a, payload: { ...a.payload, masteredSongIds: ['s1'] } })
+  expect(readOutbox().map((e) => e.id)).toEqual(['a', 'b'])
+  expect(readOutbox()[0]).toMatchObject({ payload: { masteredSongIds: ['s1'] } })
+})
+
+test('entrée envoyée : gardée à part jusqu’à une lecture du serveur commencée après', async () => {
+  vi.useFakeTimers({ now: 1_000 })
+  enqueue(entry('a'))
+  await flush(async () => {})
+  expect(readOutbox()).toEqual([])
+  expect(readSent().map((e) => e.id)).toEqual(['a'])
+  confirmSent(500) // lecture commencée avant l'envoi : elle peut ne pas l'avoir
+  expect(readSent().map((e) => e.id)).toEqual(['a'])
+  confirmSent(1_001)
+  expect(readSent()).toEqual([])
+  vi.useRealTimers()
+})
+
+test('removeFromOutbox oublie aussi l’entrée envoyée pas encore relue', async () => {
+  enqueue(entry('a'))
+  await flush(async () => {})
+  removeFromOutbox('a')
+  expect(readSent()).toEqual([])
 })
 
 test('localStorage corrompu → file vide, pas d’exception', () => {

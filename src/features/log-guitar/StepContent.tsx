@@ -81,7 +81,8 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
             setQuery('')
           },
         }))
-  const results = [...challengeResults, ...plannedResults, ...recentResults, ...songResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
+  // Morceaux en cours avant les anciens exos : sinon, après quelques jours de logs, ils ne tiennent plus dans la liste.
+  const results = [...challengeResults, ...plannedResults, ...songResults, ...recentResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
   const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q) && !SONG_CATALOG.some((c) => norm(c.title) === q)
 
   const removeButton = (title: string, i: number) => (

@@ -15,7 +15,7 @@ export interface PracticeState {
   songs: string[]
   /** Les feux d'artifice des 60 min ont déjà été tirés pour cette séance. */
   goalCelebrated: boolean
-  /** Tempo joué au métronome (fiche exo) pendant la séance, par exo : prioritaire sur le record. */
+  /** Tempo le plus rapide joué au métronome (fiche exo) pendant la séance, par exo : prioritaire sur le record. */
   bpms?: Record<string, number>
 }
 
@@ -56,7 +56,8 @@ export function practiceReducer(s: PracticeState, a: PracticeAction): PracticeSt
       return {
         ...s,
         exercises: s.exercises.includes(a.id) ? s.exercises : [...s.exercises, a.id],
-        bpms: a.bpm === null ? s.bpms : { ...s.bpms, [a.id]: a.bpm },
+        // Le plus rapide des passages sur la fiche : une deuxième visite plus lente n'efface pas le record.
+        bpms: a.bpm === null ? s.bpms : { ...s.bpms, [a.id]: Math.max(a.bpm, s.bpms?.[a.id] ?? 0) },
       }
   }
 }

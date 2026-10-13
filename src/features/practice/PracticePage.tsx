@@ -177,7 +177,9 @@ export function PracticePage() {
       </div>
     )
 
-  if (stale)
+  if (stale) {
+    // En pause, le temps est figé : ses minutes sont exactes et se gardent. Sinon on ne sait pas quand il s'est arrêté.
+    const pausedMin = session.pausedAt !== null ? logMinutes(session, now) : null
     return (
       <div className="flex flex-1 flex-col">
         {bar}
@@ -185,16 +187,23 @@ export function PracticePage() {
           <p className="text-[3rem]" aria-hidden>
             ⏱️
           </p>
-          <p className="t-title3 pb-3">Une séance commencée il y a plus de 12 h n'a pas été terminée.</p>
-          <Button onClick={() => toLog(session, { durationMin: null })}>Logger sans durée</Button>
+          <p className="t-title3 pb-3">
+            {pausedMin !== null
+              ? `Une séance restée en pause n'a pas été enregistrée : ${pausedMin} min jouées.`
+              : "Une séance commencée il y a plus de 12 h n'a pas été terminée."}
+          </p>
+          <Button onClick={() => toLog(session, { durationMin: pausedMin })}>{pausedMin !== null ? `Logger ${pausedMin} min` : 'Logger sans durée'}</Button>
           <Button variant="ghost" className="!text-danger" onClick={abandon}>
             Abandonner
           </Button>
         </div>
       </div>
     )
+  }
 
   const paused = session.pausedAt !== null
+  // En pause depuis la veille : reprendre compterait le jeu d'aujourd'hui pour hier (la séance garde son jour de départ).
+  const fromYesterday = paused && sessionDay !== today
   const plan = dailyPlan(data, today)
 
   return (
@@ -286,18 +295,23 @@ export function PracticePage() {
       </section>
 
       <div className="mt-auto flex flex-col gap-2">
+        {fromYesterday && (
+          <p className="t-footnote px-4 text-center text-muted">Commencée hier : termine-la pour l'enregistrer sur hier, puis relance un chrono pour aujourd'hui.</p>
+        )}
         <div className="flex gap-2.5">
-          <Button
-            variant="secondary"
-            className="flex-1"
-            onClick={() => {
-              const at = new Date()
-              setNow(at)
-              dispatch({ type: paused ? 'resume' : 'pause', at })
-            }}
-          >
-            {paused ? 'Reprendre' : 'Pause'}
-          </Button>
+          {!fromYesterday && (
+            <Button
+              variant="secondary"
+              className="flex-1"
+              onClick={() => {
+                const at = new Date()
+                setNow(at)
+                dispatch({ type: paused ? 'resume' : 'pause', at })
+              }}
+            >
+              {paused ? 'Reprendre' : 'Pause'}
+            </Button>
+          )}
           <Button className="flex-1" onClick={finish}>
             Terminer
           </Button>

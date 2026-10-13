@@ -30,7 +30,7 @@ export function ExercisePage() {
   const { data } = useAppData()
   const navigate = useNavigate()
   const ex = getExercise(id)
-  // Dernier tempo joué au métronome sur cet exo, transmis au log.
+  // Tempo le plus rapide joué au métronome sur cet exo (pas le dernier : on redescend souvent pour nettoyer), transmis au log.
   const [played, setPlayed] = useState<{ exerciseId: string; bpm: number } | null>(null)
   // Un chrono guitare tourne : l'exo se coche dans le chrono plutôt que d'ouvrir un log à part (temps compté deux fois).
   const [chrono] = useState(() => runningPracticeMinutes() !== null)
@@ -115,7 +115,7 @@ export function ExercisePage() {
         best={best}
         targetBpm={ex.targetBpm}
         challengeBpm={challengeBpm}
-        onPlayed={(bpm) => setPlayed({ exerciseId: ex.id, bpm })}
+        onPlayed={(bpm) => setPlayed((p) => (p?.exerciseId === ex.id && p.bpm >= bpm ? p : { exerciseId: ex.id, bpm }))}
       />
 
       <section className="flex flex-col gap-2">

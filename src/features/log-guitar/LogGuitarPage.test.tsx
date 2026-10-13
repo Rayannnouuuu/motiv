@@ -207,6 +207,14 @@ describe('LogGuitarPage', () => {
     expect(screen.queryByText(/ghost/)).not.toBeInTheDocument()
   })
 
+  test('morceau en cours toujours proposé, même avec beaucoup d’exos déjà loggés', async () => {
+    const many = ['legato-1', 'legato-2', 'legato-3', 'scales-1', 'scales-2', 'scales-3', 'picking-1', 'picking-2'].map((id) => ex(id, 80))
+    renderLog({ data: { guitarSessions: [g('2026-10-14', 30, many)], songs: [mkSong({ id: 's1', title: 'Smells Like Teen Spirit' })] } })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    expect(screen.getByRole('button', { name: /^\+ Smells Like Teen Spirit/ })).toBeInTheDocument()
+  })
+
   test('ouvert depuis la fiche d’un exo : déjà ajouté avec le record', async () => {
     renderLog({
       route: { pathname: '/log/guitare', state: { exerciseId: 'legato-4' } },

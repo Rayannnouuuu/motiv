@@ -18,7 +18,10 @@ export function roundEven(x: number): number {
   return Math.round(x / 2) * 2
 }
 
-const sameTarget = (a: ChallengeTarget, b: ChallengeTarget) => JSON.stringify(a) === JSON.stringify(b)
+/** Clés triées : un objectif relu du serveur (jsonb réordonne les clés) reste égal à celui qu'on vient de générer. */
+const canon = (t: ChallengeTarget) => JSON.stringify(Object.entries(t).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
+
+export const sameTarget = (a: ChallengeTarget, b: ChallengeTarget) => canon(a) === canon(b)
 
 /** Premier groupe non vide après exclusion, un candidat tiré au hasard ; sinon le repli. */
 function pick(groups: ChallengeTarget[][], exclude: ChallengeTarget[], rng: () => number, fallback: ChallengeTarget) {

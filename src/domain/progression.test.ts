@@ -9,7 +9,7 @@ import {
   settleChallenges,
   type ChallengeUpdate,
 } from './progression'
-import type { Challenge } from './types'
+import type { Challenge, ChallengeTarget } from './types'
 
 const today = '2026-10-15'
 let n = 0
@@ -76,6 +76,13 @@ describe('relance et version plus facile', () => {
 
   test('rerollChallenge sans autre cible possible : refusé', () => {
     const c = challenge({ id: 'c1', target: { kind: 'bpm', exerciseId: 'scales-3', bpm: 78, baseline: null } }) // compte vide → seule cible possible
+    expect(rerollChallenge(data({ challenges: [c] }), 'c1', today, deps)).toEqual([])
+  })
+
+  test('rerollChallenge : un défi relu du serveur (clés réordonnées par jsonb) n’est pas reproposé à l’identique', () => {
+    // Postgres range les clés jsonb par longueur : { bpm, kind, baseline, exerciseId }.
+    const target = { bpm: 78, kind: 'bpm', baseline: null, exerciseId: 'scales-3' } as ChallengeTarget
+    const c = challenge({ id: 'c1', target })
     expect(rerollChallenge(data({ challenges: [c] }), 'c1', today, deps)).toEqual([])
   })
 

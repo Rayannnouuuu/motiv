@@ -5,9 +5,10 @@ import type { ReactNode } from 'react'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { EMPTY_DATA, type AppData } from '../domain/types'
 import { mkSong } from '../test/factories'
-import { useActions, useAppData, type AppDataValue } from './AppDataContext'
+import { useActions, useAppData, type AppDataValue, type GuitarDraft } from './AppDataContext'
 import { AppDataProvider } from './AppDataProvider'
 import { TABLES, type Rows } from './mappers'
+import { readOutbox, readSent } from './outbox'
 import { readSnapshot, writeSnapshot } from './snapshot'
 
 type AuthCallback = (event: AuthChangeEvent, session: Session | null) => void
@@ -182,6 +183,61 @@ test('changement de jour : today mis à jour et serveur relu', async () => {
   expect(result.current.today).toBe('2026-10-13')
   await waitFor(() => expect(remote.fetchAllRows.mock.calls.length).toBeGreaterThan(fetches))
   await waitFor(() => expect(result.current.pendingCount).toBe(1))
+})
+
+const draft = (over: Partial<GuitarDraft> = {}): GuitarDraft => ({
+  id: 'g1',
+  day: '2026-10-12',
+  durationMin: 30,
+  items: [],
+  newSongs: [],
+  flowRating: 3,
+  desireRating: 3,
+  ...over,
+})
+
+test('envoi réussi mais relecture ratée : le log reste affiché, sans compter comme en attente', async () => {
+  remote.fetchAllRows.mockResolvedValueOnce(serverRows()).mockRejectedValue(new TypeError('Failed to fetch'))
+  const { result } = renderProvider()
+  await waitFor(() => expect(result.current.fresh).toBe(true))
+  await act(async () => void (await result.current.actions.saveGuitarSession(draft())))
+  await waitFor(() => expect(remote.sendEntry).toHaveBeenCalled())
+  await waitFor(() => expect(remote.fetchAllRows.mock.calls.length).toBeGreaterThan(1))
+  await act(() => new Promise((r) => setTimeout(r, 20)))
+  expect(result.current.pendingCount).toBe(0)
+  expect(result.current.data.guitarSessions.map((s) => s.id)).toEqual(['g1'])
+  // Gardé sur le téléphone : un relancement hors ligne le montre encore.
+  expect(readSent().map((e) => e.id)).toEqual(['g1'])
+})
+
+test('lecture réussie après l’envoi : le log vient du serveur, la liste des envois est vidée', async () => {
+  const rows = serverRows()
+  remote.fetchAllRows.mockResolvedValue(rows)
+  remote.sendEntry.mockImplementation(async () => {
+    rows.guitar_sessions = [
+      { id: 'g1', day: '2026-10-12', duration_min: 30, flow_rating: 3, desire_rating: 3, xp: 30, created_at: '2026-10-12T10:00:00Z' },
+    ] as Rows['guitar_sessions']
+  })
+  const { result } = renderProvider()
+  await waitFor(() => expect(result.current.fresh).toBe(true))
+  await act(async () => void (await result.current.actions.saveGuitarSession(draft())))
+  await waitFor(() => expect(readSent()).toEqual([]))
+  expect(result.current.data.guitarSessions.map((s) => s.id)).toEqual(['g1'])
+})
+
+test('correction d’un log pas encore envoyé : le morceau qu’il créait n’est pas perdu', async () => {
+  remote.fetchAllRows.mockResolvedValue(serverRows())
+  remote.sendEntry.mockRejectedValue(new TypeError('Failed to fetch'))
+  const { result } = renderProvider()
+  await waitFor(() => expect(result.current.fresh).toBe(true))
+  const song = mkSong({ id: 's-new', title: 'Wonderwall' })
+  const items = [{ kind: 'song' as const, songId: 's-new', markedMastered: false }]
+  await act(async () => void (await result.current.actions.saveGuitarSession(draft({ items, newSongs: [song] }))))
+  // L'écran de correction ne renvoie que les morceaux créés chez lui : aucun ici.
+  await act(async () => void (await result.current.actions.saveGuitarSession(draft({ items, durationMin: 45 }))))
+  expect(result.current.data.songs.map((s) => s.id)).toContain('s-new')
+  expect(readOutbox()).toHaveLength(1)
+  expect(readOutbox()[0]).toMatchObject({ kind: 'guitarSession', payload: { newSongs: [song], session: { durationMin: 45 } } })
 })
 
 test('déconnexion : instantané effacé', async () => {

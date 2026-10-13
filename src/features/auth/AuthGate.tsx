@@ -1,5 +1,6 @@
 import { isAuthRetryableFetchError, type Session } from '@supabase/supabase-js'
 import { useEffect, useState, type ReactNode } from 'react'
+import { clearSent } from '../../data/outbox'
 import { clearSnapshot } from '../../data/snapshot'
 import { supabase } from '../../data/supabase'
 import { LoginPage } from './LoginPage'
@@ -38,7 +39,10 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   // Écran de connexion : les données de la session précédente ne doivent plus s'afficher.
   useEffect(() => {
-    if (session === null) clearSnapshot()
+    if (session === null) {
+      clearSnapshot()
+      clearSent()
+    }
   }, [session])
 
   if (session === undefined) return <div className="grid min-h-dvh place-items-center text-4xl" aria-label="Chargement">🔥</div>

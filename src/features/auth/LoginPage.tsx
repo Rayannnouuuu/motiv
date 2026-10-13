@@ -4,6 +4,13 @@ import { Button } from '../../ui/Button'
 
 const APP_URL = `${location.origin}/motiv/`
 
+/**
+ * Appli lancée depuis l'écran d'accueil : le lien de l'email s'ouvrirait dans Safari, qui n'a pas la clé
+ * de connexion gardée par l'appli (flux PKCE) ; la connexion échouerait. Seul le mot de passe marche ici.
+ */
+const standalone = () =>
+  window.matchMedia?.('(display-mode: standalone)').matches === true || (navigator as Navigator & { standalone?: boolean }).standalone === true
+
 const message = (m: string) => (/invalid login credentials/i.test(m) ? 'Email ou mot de passe incorrect' : m)
 
 export function LoginPage() {
@@ -75,9 +82,15 @@ export function LoginPage() {
           <Button type="submit" disabled={state === 'sending' || !email.trim() || !password}>
             Se connecter
           </Button>
-          <Button variant="ghost" disabled={state === 'sending' || !email.trim()} onClick={sendLink}>
-            Recevoir un lien par email
-          </Button>
+          {standalone() ? (
+            <p className="t-footnote px-4 text-center text-muted">
+              Mot de passe oublié ? Ouvre Motiv dans Safari pour recevoir un lien de connexion, puis choisis un mot de passe dans Réglages.
+            </p>
+          ) : (
+            <Button variant="ghost" disabled={state === 'sending' || !email.trim()} onClick={sendLink}>
+              Recevoir un lien par email
+            </Button>
+          )}
           {error && (
             <p role="alert" className="t-subhead text-center text-danger">
               {error}

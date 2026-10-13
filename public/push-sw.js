@@ -30,7 +30,12 @@ self.addEventListener('notificationclick', (event) => {
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((wins) => {
       const open = wins.find((w) => w.url.startsWith(self.location.origin + '/motiv/'))
-      if (open) return open.focus().then((w) => w && 'navigate' in w ? w.navigate(url) : w)
+      // Appli déjà ouverte : on la ramène devant sans la recharger (un log en cours de saisie serait perdu).
+      // Elle va d'elle-même à l'écran du rappel si rien n'est en cours (NotificationLinks).
+      if (open) {
+        open.postMessage({ type: 'motiv:open', url })
+        return open.focus()
+      }
       return self.clients.openWindow(url)
     }),
   )

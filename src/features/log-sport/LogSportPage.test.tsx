@@ -93,7 +93,7 @@ describe('LogSportPage', () => {
     renderSport({ data: { programs: [haut], sportSessions: history } })
     expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '✓ Série 2 faite' })).toBeInTheDocument()
-    expect(screen.getByText('8×67,5 kg')).toBeInTheDocument()
+    expect(screen.getByText('67,5 kg × 8')).toBeInTheDocument()
     expect(loadLive()?.sets).toEqual([set(67.5, 8, 'bench', 1)])
   })
 
@@ -362,7 +362,7 @@ describe('LogSportPage', () => {
     expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
     await click('Exo suivant →')
     await click('Fin de séance →')
-    await click('‹ Revenir au dernier exo')
+    await click('Revenir au dernier exo')
     expect(screen.getByRole('heading', { name: 'Rowing' })).toBeInTheDocument()
   })
 

@@ -7,6 +7,7 @@ export type OutboxEntry =
 
 const KEY = 'motiv.outbox.v1'
 const REJECTED_KEY = 'motiv.outbox.rejected.v1'
+const SENT_KEY = 'motiv.outbox.sent.v1'
 
 /** Entrée refusée définitivement par le serveur (donnée invalide) : sortie de la file pour ne pas la bloquer. */
 export interface RejectedEntry {
@@ -46,12 +47,57 @@ export function isPermanentError(e: unknown): boolean {
   return typeof code === 'string' && /^(22|23|42)/.test(code)
 }
 
+/** Une correction garde la place de l'entrée qu'elle remplace : un log suivant peut dépendre d'elle (morceau créé). */
 export function enqueue(e: OutboxEntry): void {
-  write([...readOutbox().filter((x) => x.id !== e.id), e])
+  const list = readOutbox()
+  const i = list.findIndex((x) => x.id === e.id)
+  if (i >= 0) list[i] = e
+  else list.push(e)
+  write(list)
 }
 
+/** Oublie tout ce qui reste sur le téléphone pour ce log : en attente d'envoi ou envoyé pas encore relu. */
 export function removeFromOutbox(id: string): void {
   write(readOutbox().filter((x) => x.id !== id))
+  writeSent(readSentRaw().filter((x) => x.entry.id !== id))
+}
+
+/**
+ * Entrées envoyées que le serveur n'a pas encore renvoyées en lecture. Réseau capricieux : l'envoi passe,
+ * la relecture qui suit échoue ; sans cette liste, le log disparaîtrait de l'écran jusqu'à la prochaine lecture.
+ */
+interface SentEntry {
+  entry: OutboxEntry
+  sentAt: number
+}
+
+function readSentRaw(): SentEntry[] {
+  try {
+    const parsed: unknown = JSON.parse(localStorage.getItem(SENT_KEY) ?? '[]')
+    return Array.isArray(parsed) ? (parsed as SentEntry[]) : []
+  } catch {
+    return []
+  }
+}
+
+function writeSent(list: SentEntry[]) {
+  if (list.length === 0) localStorage.removeItem(SENT_KEY)
+  else localStorage.setItem(SENT_KEY, JSON.stringify(list))
+}
+
+export function readSent(): OutboxEntry[] {
+  return readSentRaw().map((x) => x.entry)
+}
+
+/** Lecture serveur réussie, commencée à `readStartedAt` : tout ce qui a été envoyé avant y figure. */
+export function confirmSent(readStartedAt: number): void {
+  const list = readSentRaw()
+  const left = list.filter((x) => x.sentAt >= readStartedAt)
+  if (left.length !== list.length) writeSent(left)
+}
+
+export function clearSent(): void {
+  localStorage.removeItem(SENT_KEY)
 }
 
 let running: Promise<{ sent: number; left: number }> | null = null
@@ -87,6 +133,8 @@ async function sendAll(send: (e: OutboxEntry) => Promise<void>): Promise<{ sent:
       write(readOutbox().filter((x) => x.id !== e.id))
       continue
     }
+    // Gardé pour l'affichage jusqu'à ce qu'une lecture du serveur le contienne.
+    writeSent([...readSentRaw().filter((x) => x.entry.id !== e.id), { entry: e, sentAt: Date.now() }])
     // Retire seulement la version envoyée : une correction ajoutée pendant l'envoi reste dans la file.
     const sentJson = JSON.stringify(e)
     write(readOutbox().filter((x) => x.id !== e.id || JSON.stringify(x) !== sentJson))
