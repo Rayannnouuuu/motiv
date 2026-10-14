@@ -24,7 +24,7 @@ const renderCard = (opts: RenderWithDataOptions = {}) =>
     { today, ...opts },
   )
 
-test('3 exos sur deux lignes sans description, lien vers la fiche ; morceaux en cours par leur nom', () => {
+test('3 exos sur deux lignes sans description, lien vers la fiche', () => {
   renderCard({
     data: { songs: [mkSong({ title: 'Paranoid' }), mkSong({ title: 'Iron Man', status: 'mastered', masteredOn: '2026-10-01' })] },
   })
@@ -36,7 +36,6 @@ test('3 exos sur deux lignes sans description, lien vers la fiche ; morceaux en 
   expect(within(links[0]).queryByText(scales.description)).not.toBeInTheDocument()
   expect(within(links[0]).getByText(`niv. ${scales.difficulty}`)).toBeInTheDocument()
   expect(within(links[0]).getByText(`Cible ${scales.targetBpm} bpm`)).toBeInTheDocument()
-  expect(within(screen.getByRole('list', { name: 'Morceaux en cours' })).getByText('🎵 Paranoid')).toBeInTheDocument()
   expect(screen.queryByText(/Iron Man/)).not.toBeInTheDocument()
   // Plus de jauge ni de « x/60 min » : c'est dans le héros de l'accueil.
   expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
@@ -47,12 +46,10 @@ test('exo déjà loggé aujourd’hui : coché, record affiché', () => {
   expect(screen.getAllByRole('link').some((l) => l.textContent?.includes('✓') && l.textContent.includes('ton record 70 bpm'))).toBe(true)
 })
 
-test('morceau proposé : pastille qui mène à l’onglet Morceaux, rien à ajouter', async () => {
-  const { actions } = renderCard()
-  const chip = within(screen.getByRole('list', { name: 'Morceaux en cours' })).getByRole('link', { name: /^💡 À essayer : / })
-  await userEvent.click(chip)
-  expect(screen.getByText(/^at \/morceaux/)).toBeInTheDocument()
-  expect(actions.saveSong).not.toHaveBeenCalled()
+test('plus de morceaux sur l’accueil (ils sont dans l’onglet Morceaux)', () => {
+  renderCard({ data: { songs: [mkSong({ title: 'Paranoid' })] } })
+  expect(screen.queryByText(/Paranoid/)).not.toBeInTheDocument()
+  expect(screen.queryByText(/À essayer/)).not.toBeInTheDocument()
 })
 
 test('« Logger sans chrono » : avec les minutes qui manquent', async () => {

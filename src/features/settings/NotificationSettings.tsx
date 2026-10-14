@@ -5,7 +5,7 @@ import { Switch } from '../../ui/Switch'
 import { useRun } from './useRun'
 
 const FOOTER =
-  "Des rappels à des heures différentes chaque jour, seulement quand c'est utile : plan du jour (matin), séances de sport en retard, défi bloquant, série guitare à tenir (soir)."
+  "Des rappels à des heures différentes chaque jour, seulement quand c'est utile : plan du jour (matin), séances de sport en retard, défi bloquant, série guitare à tenir (soir), et le résumé de ta semaine le dimanche soir."
 
 /** Activer / tester / couper les rappels push sur cet appareil. */
 export function NotificationSettings() {

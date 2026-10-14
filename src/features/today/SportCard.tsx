@@ -93,15 +93,14 @@ export function SportCard() {
             <p className="t-headline pb-1.5">{next.name}</p>
             <ul className="t-subhead flex flex-col gap-1">
               {activeExercises(next).map((e) => {
-                // Charge du jour, avec une flèche quand elle progresse.
-                const p = prefillFor(e, data.sportSessions, today)
+                // Charge de la dernière fois.
+                const p = prefillFor(e, data.sportSessions)
                 return (
                   <li key={e.id} className="flex justify-between gap-2">
                     <span className="truncate">{e.name}</span>
                     <span className="shrink-0 text-muted tabular-nums">
                       {e.targetSets}×{e.targetReps}
-                      {p.trend !== 'new' && ` · ${formatWeight(p.weightKg)}`}
-                      {p.trend === 'up' && <span className="pl-1 font-semibold text-guitar">↑</span>}
+                      {p.known && ` · ${formatWeight(p.weightKg)}`}
                     </span>
                   </li>
                 )

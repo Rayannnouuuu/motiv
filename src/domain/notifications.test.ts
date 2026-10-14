@@ -36,6 +36,21 @@ describe('messages', () => {
     expect(buildMessage('streak', data({ guitarSessions: [g('2026-10-14', 40), g(today, 30)] }), today)).toMatchObject({ body: 'Encore 30 min de guitare 🎸' })
   })
 
+  test('résumé de la semaine : le dimanche seulement', () => {
+    const sunday = '2026-10-18'
+    const d = data({
+      guitarSessions: [g('2026-10-12', 60), g('2026-10-13', 40), g('2026-10-14', 20), g('2026-10-18', 75)],
+      sportSessions: [ss([], '2026-10-12'), ss([], '2026-10-15')],
+    })
+    expect(buildMessage('week', d, sunday)).toEqual({
+      kind: 'week',
+      title: '📊 Ta semaine',
+      body: '🎸 3 jours de guitare (3 h 15) · série de 1 jour\n🏋️ 2/3 séances de sport',
+      url: '/motiv/progres',
+    })
+    expect(buildMessage('week', d, today)).toBeNull()
+  })
+
   test('plan : 3 exos du jour et la séance si la semaine n’est pas faite', () => {
     const p = program({ id: 'p', name: 'Push' })
     const msg = buildMessage('plan', data({ programs: [p] }), today)!

@@ -3,7 +3,6 @@ import { useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { bestBpm } from '../../domain/records'
-import { catalogNotAdded } from '../../domain/songSuggestion'
 import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
@@ -27,9 +26,6 @@ export function GuitarCard() {
   const week = guitarWeek(data.guitarSessions, today)
   const streak = guitarStreak(data.guitarSessions, today)
   const plan = dailyPlan(data, today)
-  // Le plus facile pas encore joué : le même que l'onglet Morceaux et le log proposent en premier.
-  const suggestion = catalogNotAdded(data.songs).at(0)
-  const songs = data.songs.filter((s) => s.status === 'learning').sort((a, b) => a.title.localeCompare(b.title, 'fr'))
   const doneToday = new Set(
     data.guitarSessions.filter((s) => s.day === today).flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))),
   )
@@ -90,27 +86,6 @@ export function GuitarCard() {
             )
           })}
         </ul>
-
-        {(songs.length > 0 || suggestion) && (
-          <ul className="flex flex-wrap gap-1.5 pt-1" aria-label="Morceaux en cours">
-            {songs.map((s) => (
-              <li key={s.id} className="t-footnote rounded-full bg-fill px-3 py-1.5">
-                🎵 {s.title}
-              </li>
-            ))}
-            {/* Proposé, rien à ajouter : il suffit de le choisir dans le log quand on l'a joué. */}
-            {suggestion && (
-              <li>
-                <Link
-                  to="/morceaux"
-                  className="tap-scale t-footnote block rounded-full border border-dashed border-faint px-3 py-[0.3125rem] text-accent"
-                >
-                  💡 À essayer : {suggestion.title}
-                </Link>
-              </li>
-            )}
-          </ul>
-        )}
       </div>
 
       <div className="flex flex-col gap-1">

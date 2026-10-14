@@ -5,7 +5,7 @@ import { shortDate, todayParis } from '../../domain/date'
 import { nextProgram } from '../../domain/progression'
 import { isSportRecord, setsForExercise } from '../../domain/records'
 import { activeSetChallenge, isNewRecord, meetsChallenge } from '../../domain/setFeedback'
-import type { Day, Program, Rating, SportSession, SportSet } from '../../domain/types'
+import type { Program, Rating, SportSession, SportSet } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
 import { RatingPicker } from '../../ui/RatingPicker'
@@ -36,10 +36,10 @@ const CHEER_MS = 2500
 
 const nowIso = () => new Date().toISOString()
 
-/** Nouvelle séance, sur le premier exo du programme, à la charge du jour. */
-function newLive(program: Program, history: SportSession[], today: Day): LiveState {
+/** Nouvelle séance, sur le premier exo du programme, à la charge de la dernière fois. */
+function newLive(program: Program, history: SportSession[]): LiveState {
   const first = activeExercises(program)[0]
-  const p = first ? prefillFor(first, history, today) : { weightKg: 0, reps: 1 }
+  const p = first ? prefillFor(first, history) : { weightKg: 0, reps: 1 }
   return {
     id: crypto.randomUUID(),
     programId: program.id,
@@ -70,7 +70,7 @@ function Waiting({ label }: { label: string }) {
 }
 
 export function LogSportPage() {
-  const { data, today, loading } = useAppData()
+  const { data, loading } = useAppData()
   const navigate = useNavigate()
   const navState = useLocation().state as { programId?: unknown } | null
   const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
@@ -79,7 +79,7 @@ export function LogSportPage() {
     const saved = loadLive()
     if (saved) return saved
     const p = startable(data.programs, requestedId)
-    return p ? newLive(p, data.sportSessions, today) : null
+    return p ? newLive(p, data.sportSessions) : null
   })
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
@@ -153,7 +153,7 @@ export function LogSportPage() {
   }
   const goBack = () => {
     const prev = exercises[Math.min(index, exercises.length) - 1]
-    const p = prev ? prefillFor(prev, data.sportSessions, today) : { weightKg: 0, reps: 1 }
+    const p = prev ? prefillFor(prev, data.sportSessions) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
@@ -177,13 +177,11 @@ export function LogSportPage() {
   const reached = done >= targetSets
   const boxes = Math.max(targetSets, done)
   const edited = editing?.exerciseId === current.id ? editing : null
-  // Charge du jour, d'après l'historique seul (la séance en cours n'y est pas encore).
-  const suggestion = prefillFor(current, data.sportSessions, today)
   const historySets = setsForExercise(data.sportSessions, current.id)
   const challenge = activeSetChallenge(data.challenges, current.id)
   const challengeMet = challenge !== null && doneSets.some((s) => meetsChallenge(challenge.target, s))
   const goNext = () => {
-    const p = next ? prefillFor(next, data.sportSessions, today) : { weightKg: 0, reps: 1 }
+    const p = next ? prefillFor(next, data.sportSessions) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
   const completeSet = () => {
@@ -238,9 +236,6 @@ export function LogSportPage() {
             {reached ? `${targetSets}/${targetSets} séries ✓` : `Série ${done + 1}/${targetSets} · objectif ${targetSets}×${current.targetReps}`}
           </p>
         </div>
-        {suggestion.hint && (
-          <p className={`t-subhead ${suggestion.trend === 'up' ? 'font-semibold text-guitar' : 'text-muted'}`}>{suggestion.hint}</p>
-        )}
         {challenge && (
           <p className="t-subhead mt-1 rounded-[0.75rem] bg-accent/12 px-3 py-2 font-semibold text-accent">
             {challengeMet
@@ -411,7 +406,7 @@ export function LogSportPage() {
 }
 
 function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void; preferred: string | null }) {
-  const { data, today, loading } = useAppData()
+  const { data, loading } = useAppData()
   const navigate = useNavigate()
   const programs = data.programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
   const [picked, setPicked] = useState<string | null>(preferred)
@@ -470,7 +465,7 @@ function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void
           </button>
         ))}
       </div>
-      <Button className="mt-auto" disabled={!selected} onClick={() => selected && onStart(newLive(selected, data.sportSessions, today))}>
+      <Button className="mt-auto" disabled={!selected} onClick={() => selected && onStart(newLive(selected, data.sportSessions))}>
         Commencer
       </Button>
     </div>

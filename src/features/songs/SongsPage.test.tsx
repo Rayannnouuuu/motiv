@@ -14,7 +14,6 @@ test('en cours, proposés sans bouton d’ajout, maîtrisés classés du plus du
   const { actions } = renderWithData(<SongsPage />, { today, data: { songs: [learning, easy, hard] } })
 
   expect(screen.getByText('Proposés')).toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: /^Ajouter/ })).not.toBeInTheDocument()
   // Déjà joués : pas reproposés.
   expect(screen.queryAllByText('Paranoid')).toHaveLength(1)
   expect(screen.getByText('Maîtrisés · 2')).toBeInTheDocument()
@@ -25,6 +24,12 @@ test('en cours, proposés sans bouton d’ajout, maîtrisés classés du plus du
   expect(actions.saveSong).toHaveBeenCalledWith({ ...learning, status: 'mastered', masteredOn: today })
   await userEvent.click(screen.getByLabelText('Maîtrisé · Smoke on the Water'))
   expect(actions.saveSong).toHaveBeenCalledWith({ ...easy, status: 'learning', masteredOn: null })
+})
+
+test('toucher un morceau proposé le passe en cours', async () => {
+  const { actions } = renderWithData(<SongsPage />, { today })
+  await userEvent.click(screen.getByRole('button', { name: 'Travailler Seven Nation Army' }))
+  expect(actions.saveSong).toHaveBeenCalledWith({ id: expect.any(String), title: 'Seven Nation Army', status: 'learning', masteredOn: null })
 })
 
 test('« Voir les N morceaux » déplie la liste des proposés', async () => {

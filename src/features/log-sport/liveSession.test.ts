@@ -140,16 +140,13 @@ test('isStale après 12 h 01', () => {
   expect(isStale(s, new Date('2026-10-15T18:01:00Z'))).toBe(true)
 })
 
-test('prefillFor : la charge du jour', () => {
-  const today = '2026-10-15'
+test('prefillFor : comme la dernière fois (série la plus lourde), échauffement ignoré', () => {
   const history = [
     ss([set(60, 8, 'a', 1), set(60, 8, 'a', 2)], '2026-10-01'),
-    ss([set(60, 8, 'a', 1), set(62.5, 8, 'a', 2), set(62.5, 8, 'a', 3), set(62.5, 7, 'a', 4)], '2026-10-08'),
+    ss([set(20, 12, 'a', 1), set(62.5, 8, 'a', 2), set(62.5, 7, 'a', 3)], '2026-10-08'),
   ]
-  expect(prefillFor(a, history, today)).toEqual({ weightKg: 62.5, reps: 8, trend: 'same', hint: 'Vise 4×8 à 62,5 kg (dernière fois 8·8·7)' })
-  const validated = [ss([1, 2, 3, 4].map((i) => set(62.5, 8, 'a', i)), '2026-10-08')]
-  expect(prefillFor(a, validated, today)).toMatchObject({ weightKg: 65, reps: 8, trend: 'up' })
-  expect(prefillFor(a, [], today)).toEqual({ weightKg: 0, reps: 8, trend: 'new', hint: null })
+  expect(prefillFor(a, history)).toEqual({ weightKg: 62.5, reps: 8, known: true })
+  expect(prefillFor(a, [])).toEqual({ weightKg: 0, reps: 8, known: false })
 })
 
 test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre', () => {

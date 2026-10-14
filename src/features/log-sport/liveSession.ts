@@ -1,5 +1,4 @@
-import { suggestLoad, type LoadSuggestion } from '../../domain/overload'
-import type { Day, Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
+import type { Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
 
 export interface LiveState {
   id: string
@@ -166,11 +165,22 @@ export function elapsedMin(s: LiveState, now: Date): number {
 
 const kg = (w: number) => w.toLocaleString('fr-FR')
 
-export type Prefill = LoadSuggestion
+/** Charge et reps de départ d'un exo : `known` faux quand il n'a jamais été fait. */
+export interface Prefill {
+  weightKg: number
+  reps: number
+  known: boolean
+}
 
-/** Pré-remplissage : la charge du jour (surcharge progressive) d'après les dernières séances sur l'exo. */
-export function prefillFor(pe: ProgramExercise, history: SportSession[], today: Day): Prefill {
-  return suggestLoad(pe, history, today)
+/**
+ * Comme la dernière fois : la série la plus lourde de la dernière séance sur l'exo (un échauffement plus
+ * léger est ignoré). Jamais fait : 0 kg et les reps visées.
+ */
+export function prefillFor(pe: ProgramExercise, history: SportSession[]): Prefill {
+  const [last] = recentSetsFor(pe, history, 1)
+  if (!last) return { weightKg: 0, reps: pe.targetReps, known: false }
+  const top = last.sets.reduce((best, s) => (s.weightKg > best.weightKg ? s : best))
+  return { weightKg: top.weightKg, reps: top.reps, known: true }
 }
 
 export const formatWeight = (w: number) => (w === 0 ? 'PDC' : `${kg(w)} kg`)

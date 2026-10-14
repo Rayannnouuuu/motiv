@@ -33,8 +33,8 @@ function Check({ checked, label, onChange }: { checked: boolean; label: string; 
 }
 
 /**
- * Morceaux : ceux qu'on travaille (choisis dans un log guitare), les propositions du catalogue (rien à
- * ajouter : on joue, puis on le choisit dans le log) et le classement des morceaux maîtrisés.
+ * Morceaux : ceux qu'on travaille, les propositions du catalogue (un toucher, ou le choisir dans un log,
+ * le passe en cours) et le classement des morceaux maîtrisés.
  */
 export function SongsPage() {
   const { data, today } = useAppData()
@@ -72,9 +72,16 @@ export function SongsPage() {
         )}
 
         {proposed.length > 0 && (
-          <Group header="Proposés" footer="Du plus facile au plus dur. Joue-en un, puis choisis-le dans ton log guitare : il passe en cours tout seul.">
+          <Group header="Proposés" footer="Du plus facile au plus dur. Touche celui que tu travailles (ou choisis-le dans ton log guitare) : il passe en cours.">
             {(showAll ? proposed : proposed.slice(0, SHOWN)).map((c) => (
-              <Row key={c.title} title={c.title} subtitle={`${c.artist} · niv. ${c.difficulty}${c.tuning !== 'Standard' ? ` · ${c.tuning}` : ''}`} />
+              <Row
+                key={c.title}
+                aria-label={`Travailler ${c.title}`}
+                title={c.title}
+                subtitle={`${c.artist} · niv. ${c.difficulty}${c.tuning !== 'Standard' ? ` · ${c.tuning}` : ''}`}
+                detail={<span className="t-subhead text-accent">En cours ›</span>}
+                onClick={() => void run(() => saveSong({ id: crypto.randomUUID(), title: c.title, status: 'learning', masteredOn: null }))}
+              />
             ))}
             {proposed.length > SHOWN && (
               <Row onClick={() => setShowAll(!showAll)} chevron={false}>

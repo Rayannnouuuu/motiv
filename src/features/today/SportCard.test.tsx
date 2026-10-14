@@ -37,13 +37,12 @@ describe('SportCard', () => {
     expect(dot('L : Haut')).toHaveClass('bg-sport')
   })
 
-  test('charge du jour : ↑ après une séance validée, rien sans historique', () => {
+  test('charge de la dernière fois, rien sans historique', () => {
     const validated = [1, 2, 3, 4].map((i) => set(62.5, 8, 'bench', i))
     renderCard({ data: { programs: [haut], sportSessions: [ss(validated, '2026-10-08', 'autre')] } })
     const benchItem = screen.getByText('Développé couché').closest('li')!
     const rowItem = screen.getByText('Rowing').closest('li')!
-    expect(benchItem).toHaveTextContent('4×8 · 65 kg↑')
-    expect(within(benchItem).getByText('↑')).toHaveClass('text-guitar')
+    expect(benchItem).toHaveTextContent('4×8 · 62,5 kg')
     expect(rowItem.textContent).toBe('Rowing3×10')
   })
 

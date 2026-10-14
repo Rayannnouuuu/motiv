@@ -1,14 +1,15 @@
 import { describeTarget } from './challenges'
 import { challengeProgress } from './challengeProgress'
 import { dailyPlan } from './dailyPlan'
+import { guitarWeek } from './guitarWeek'
 import { addDays, daysBetween, todayParis, weekStart } from './date'
 import { allLevels } from './levels'
 import { upcomingPrograms } from './progression'
 import { sportWeek } from './sportWeek'
-import { guitarStreak } from './streak'
+import { GUITAR_SHORT_MIN, SPORT_WEEKLY_SESSIONS, guitarStreak } from './streak'
 import type { AppData, Day } from './types'
 
-export type NotificationKind = 'plan' | 'sport' | 'challenge' | 'streak'
+export type NotificationKind = 'plan' | 'sport' | 'challenge' | 'streak' | 'week'
 
 export interface PushMessage {
   kind: NotificationKind
@@ -23,6 +24,8 @@ export const WINDOWS: Record<NotificationKind, [number, number]> = {
   sport: [12 * 60, 20 * 60],
   challenge: [10 * 60, 21 * 60],
   streak: [17 * 60, 21 * 60],
+  // Résumé de la semaine, le dimanche soir seulement.
+  week: [19 * 60, 21 * 60],
 }
 const SLOT_STEP = 5 // minutes
 /** Rappel de défi bloquant : un jour sur trois. */
@@ -49,6 +52,7 @@ export function parisMinutes(now: Date): number {
 }
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
+const duration = (min: number) => (min < 60 ? `${min} min` : `${Math.floor(min / 60)} h${min % 60 ? ` ${String(min % 60).padStart(2, '0')}` : ''}`)
 
 /**
  * iOS affiche toujours « from Motiv » sous le titre d'une notification d'appli web :
@@ -91,6 +95,19 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
         return msg(kind, `🎯 Défi requis pour le niveau ${ch.level + 1}`, `${describeTarget(ch.target, data)}${progress}`, '/motiv/')
       }
       return null
+    }
+    case 'week': {
+      if (daysBetween(weekStart(today), today) !== 6) return null
+      const days = guitarWeek(data.guitarSessions, today).days
+      const played = days.filter((d) => d.minutes >= GUITAR_SHORT_MIN).length
+      const total = days.reduce((n, d) => n + d.minutes, 0)
+      const series = streak.days > 0 ? ` · série de ${plural(streak.days, 'jour', 'jours')}` : ''
+      return msg(
+        kind,
+        '📊 Ta semaine',
+        `🎸 ${plural(played, 'jour', 'jours')} de guitare (${duration(total)})${series}\n🏋️ ${week.done}/${SPORT_WEEKLY_SESSIONS} séances de sport`,
+        '/motiv/progres',
+      )
     }
   }
 }

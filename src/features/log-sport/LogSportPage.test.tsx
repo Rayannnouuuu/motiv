@@ -77,15 +77,15 @@ describe('LogSportPage', () => {
     expect(screen.getByRole('heading', { name: 'Squat' })).toBeInTheDocument()
   })
 
-  test('charge du jour pré-remplie, séries et reprise après remontage', async () => {
+  test('charge de la dernière fois pré-remplie, séries et reprise après remontage', async () => {
     const { unmount } = renderSport({ data: { programs: [haut], sportSessions: history } })
     await click('Commencer')
     const recent = screen.getByRole('region', { name: 'Tes dernières fois' })
     expect(within(recent).getByText('8 oct.')).toBeInTheDocument()
     expect(within(recent).getAllByText('62,5 kg × 8')).toHaveLength(4)
     expect(screen.getByText('Série 1/4 · objectif 4×8')).toBeInTheDocument()
-    expect(screen.getByLabelText('Charge (kg)')).toHaveValue('65')
-    expect(screen.getByText("↑ 65 kg aujourd'hui : tu as validé 4×8 à 62,5 kg")).toHaveClass('text-guitar')
+    expect(screen.getByLabelText('Charge (kg)')).toHaveValue('62,5')
+    expect(screen.getByLabelText('Reps')).toHaveTextContent('8')
     await click('Charge +')
     await click('✓ Série 1 faite')
     unmount()
@@ -93,8 +93,8 @@ describe('LogSportPage', () => {
     renderSport({ data: { programs: [haut], sportSessions: history } })
     expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '✓ Série 2 faite' })).toBeInTheDocument()
-    expect(screen.getByText('67,5 kg × 8')).toBeInTheDocument()
-    expect(loadLive()?.sets).toEqual([set(67.5, 8, 'bench', 1)])
+    expect(screen.getByText('65 kg × 8')).toBeInTheDocument()
+    expect(loadLive()?.sets).toEqual([set(65, 8, 'bench', 1)])
   })
 
   test('PDC affiché quand la charge vaut 0', async () => {
@@ -199,6 +199,7 @@ describe('LogSportPage', () => {
   test('record : pastille 🏆 et « Record ! », une seule fête par exo', async () => {
     renderSport({ data: { programs: [haut], sportSessions: history } })
     await click('Commencer')
+    await click('Charge +')
     await click('✓ Série 1 faite')
     expect(screen.getByRole('status')).toHaveTextContent('🏆 Record ! 65 kg × 8')
     const pill = screen.getByRole('button', { name: 'Modifier la série 1' })
@@ -222,6 +223,7 @@ describe('LogSportPage', () => {
     renderSport({ data: { programs: [haut], sportSessions: history, challenges: [ch] } })
     await click('Commencer')
     expect(screen.getByText('🎯 Défi : 8 reps à 67,5 kg')).toBeInTheDocument()
+    await click('Charge +')
     await click('Charge +')
     await click('✓ Série 1 faite')
     const toast = screen.getByRole('status')
