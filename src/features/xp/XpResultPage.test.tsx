@@ -59,8 +59,8 @@ describe('objectif : série guitare et semaine de sport', () => {
   })
 
   test('série tenue : « Série tenue ! » et petits feux', () => {
-    const log = g(today, 25)
-    show('guitar', log.id, { guitarSessions: [...fullDays(12), g(today, 35), log] })
+    const log = g(today, 15)
+    show('guitar', log.id, { guitarSessions: [...fullDays(12), g(today, 20), log] })
     const goal = screen.getByRole('region', { name: 'Objectif' })
     expect(within(goal).getByText('13 jours')).toBeInTheDocument()
     expect(within(goal).getByText('Série tenue !')).toBeInTheDocument()
@@ -74,18 +74,19 @@ describe('objectif : série guitare et semaine de sport', () => {
     expect(fireworks()).toHaveAttribute('data-fireworks', 'big')
   })
 
-  test('log de 30 min : minutes restantes, pas de feux', () => {
-    const log = g(today, 30)
+  test('log de 20 min : minutes restantes, pas de feux', () => {
+    const log = g(today, 20)
     show('guitar', log.id, { guitarSessions: [log] })
-    expect(screen.getByText("30/60 min aujourd'hui")).toBeInTheDocument()
-    expect(screen.getByText('Encore 30 min pour lancer ta série')).toBeInTheDocument()
-    expect(screen.getByRole('progressbar', { name: 'Objectif du jour : 30 / 60 min' })).toBeInTheDocument()
+    expect(screen.getByText("20/30 min aujourd'hui")).toBeInTheDocument()
+    expect(screen.getByText('Encore 10 min pour lancer ta série')).toBeInTheDocument()
+    expect(screen.getByRole('progressbar', { name: 'Objectif du jour : 20 / 30 min' })).toBeInTheDocument()
     expect(fireworks()).toBeNull()
   })
 
-  test('minutes restantes avec une série en cours', () => {
+  test('minutes restantes avec une série en cours, hier court : objectif 60', () => {
     const log = g(today, 20)
-    show('guitar', log.id, { guitarSessions: [...fullDays(4), log] })
+    show('guitar', log.id, { guitarSessions: [2, 3, 4].map((n) => g(addDays(today, -n), 60)).concat(g(addDays(today, -1), 40), log) })
+    expect(screen.getByText("20/60 min aujourd'hui")).toBeInTheDocument()
     expect(screen.getByText('Encore 40 min pour garder ta série de 4 jours')).toBeInTheDocument()
   })
 

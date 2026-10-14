@@ -5,7 +5,7 @@ import { dailyPlan } from '../../domain/dailyPlan'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { bestBpm } from '../../domain/records'
 import { songOfTheDay } from '../../domain/songSuggestion'
-import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
+import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { WeekStrip } from '../../ui/WeekStrip'
@@ -71,7 +71,8 @@ export function GuitarCard() {
         today={today}
         days={week.days.map((d) => ({
           day: d.day,
-          fill: d.minutes >= GUITAR_DAILY_MIN ? 1 : d.minutes > 0 ? 0.5 : 0,
+          // Plein à 60 min, à moitié pour un jour court (30 à 59 min, il compte), vide en dessous.
+          fill: d.minutes >= GUITAR_DAILY_MIN ? 1 : d.minutes >= GUITAR_SHORT_MIN ? 0.5 : 0,
           content: d.minutes >= GUITAR_DAILY_MIN ? '✓' : d.minutes > 0 ? d.minutes : '',
           label: `${d.minutes} min`,
         }))}

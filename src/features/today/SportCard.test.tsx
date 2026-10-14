@@ -25,6 +25,18 @@ const row = pe({ id: 'row', programId: 'haut', name: 'Rowing', targetSets: 3, ta
 const haut = program({ id: 'haut', name: 'Haut', exercises: [bench, row] })
 
 describe('SportCard', () => {
+  test('jours passés sans sport : couleur à part ; aujourd’hui et la suite restent neutres', () => {
+    // Jeudi 15 : séance lundi 12 ; mardi et mercredi sans sport.
+    renderCard({ data: { programs: [haut], sportSessions: [ss([], '2026-10-12', 'haut')] } })
+    const strip = screen.getByRole('list', { name: 'Séances de la semaine' })
+    const dot = (label: string) => within(strip).getByLabelText(label).lastElementChild!
+    const missed = within(strip).getAllByLabelText('M : pas de sport')
+    expect(missed).toHaveLength(2)
+    for (const d of missed) expect(d.lastElementChild).toHaveClass('bg-danger/15')
+    expect(dot('J')).toHaveClass('bg-fill')
+    expect(dot('L : Haut')).toHaveClass('bg-sport')
+  })
+
   test('charge du jour : ↑ après une séance validée, rien sans historique', () => {
     const validated = [1, 2, 3, 4].map((i) => set(62.5, 8, 'bench', i))
     renderCard({ data: { programs: [haut], sportSessions: [ss(validated, '2026-10-08', 'autre')] } })

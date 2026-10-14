@@ -9,9 +9,9 @@ const today = '2026-10-15' // jeudi, semaine du lundi 12
 const fullDays = (n: number, from = addDays(today, -1)) => Array.from({ length: n }, (_, i) => g(addDays(from, -i), 60))
 
 describe('guitarMoment', () => {
-  test('35 min puis 25 : série tenue, 13 jours', () => {
-    const log = g(today, 25)
-    const sessions = [...fullDays(12), g(today, 35), log]
+  test('20 min puis 15 : série tenue (30 min suffisent après un jour à 60), 13 jours', () => {
+    const log = g(today, 15)
+    const sessions = [...fullDays(12), g(today, 20), log]
     expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'streakKept', days: 13, milestone: false })
   })
 
@@ -20,15 +20,21 @@ describe('guitarMoment', () => {
     expect(guitarMoment([...fullDays(6), log], log.id, today)).toEqual({ kind: 'streakKept', days: 7, milestone: true })
   })
 
-  test('un seul log de 30 : 30 min restantes, série à lancer', () => {
-    const log = g(today, 30)
-    expect(guitarMoment([log], log.id, today)).toEqual({ kind: 'guitarRemaining', beforeMin: 0, todayMin: 30, remainingMin: 30, days: 0 })
+  test('un seul log de 20 : 10 min restantes, série à lancer', () => {
+    const log = g(today, 20)
+    expect(guitarMoment([log], log.id, today)).toEqual({ kind: 'guitarRemaining', beforeMin: 0, todayMin: 20, remainingMin: 10, targetMin: 30, days: 0 })
+  })
+
+  test('après un jour court, 45 min ne suffisent pas : il en faut 60', () => {
+    const log = g(today, 45)
+    const sessions = [g(addDays(today, -2), 60), g(addDays(today, -1), 40), log]
+    expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'guitarRemaining', beforeMin: 0, todayMin: 45, remainingMin: 15, targetMin: 60, days: 2 })
   })
 
   test('minutes restantes : la série comptée est celle qui s’arrête hier', () => {
-    const log = g(today, 20)
+    const log = g(today, 10)
     const sessions = [...fullDays(4), g(today, 15), log]
-    expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'guitarRemaining', beforeMin: 15, todayMin: 35, remainingMin: 25, days: 4 })
+    expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'guitarRemaining', beforeMin: 15, todayMin: 25, remainingMin: 5, targetMin: 30, days: 4 })
   })
 
   test('60 puis 20 : bonus, série déjà tenue', () => {
@@ -43,9 +49,9 @@ describe('guitarMoment', () => {
     expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'streakRepaired', days: 3, milestone: false })
   })
 
-  test('« Hier » qui complète la veille : 40 + 20 min', () => {
-    const log = g(addDays(today, -1), 20)
-    const sessions = [...fullDays(5, addDays(today, -2)), g(addDays(today, -1), 40), log]
+  test('« Hier » qui complète la veille : 20 + 15 min', () => {
+    const log = g(addDays(today, -1), 15)
+    const sessions = [...fullDays(5, addDays(today, -2)), g(addDays(today, -1), 20), log]
     expect(guitarMoment(sessions, log.id, today)).toEqual({ kind: 'streakRepaired', days: 6, milestone: false })
   })
 
@@ -58,7 +64,7 @@ describe('guitarMoment', () => {
   test('« Hier » déjà validé ou encore incomplet : rien', () => {
     const extra = g(addDays(today, -1), 20)
     expect(guitarMoment([...fullDays(3), extra], extra.id, today)).toBeNull()
-    const short = g(addDays(today, -1), 30)
+    const short = g(addDays(today, -1), 20)
     expect(guitarMoment([short], short.id, today)).toBeNull()
   })
 

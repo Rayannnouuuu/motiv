@@ -25,7 +25,7 @@ describe('nextAction', () => {
   })
 
   test('objectif guitare pas atteint : jouer les minutes restantes', () => {
-    expect(run(base({ guitarSessions: [g(today, 35)] }))).toEqual({
+    expect(run(base({ guitarSessions: [g(today, 5)] }))).toEqual({
       kind: 'playGuitar',
       label: '▶︎ Jouer · encore 25 min',
       to: '/jouer',

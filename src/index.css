@@ -277,6 +277,25 @@ body {
   animation: symbol-bounce 450ms ease-out;
 }
 
+/* Ouverture : la flamme reconstituée s'allume. */
+@keyframes splash-flame {
+  0% {
+    transform: scale(0.97);
+    filter: drop-shadow(0 0 0 rgb(255 140 0 / 0));
+  }
+  45% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 28px rgb(255 140 0 / 0.75));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 14px rgb(255 140 0 / 0.45));
+  }
+}
+.splash-flame {
+  animation: splash-flame 500ms ease-out both;
+}
+
 /* Montée de niveau */
 @keyframes levelup-pop {
   0% {

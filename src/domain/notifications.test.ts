@@ -28,10 +28,12 @@ describe('messages', () => {
     const past = [g('2026-10-13', 60), g('2026-10-14', 60)]
     expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 20)] }), today)).toMatchObject({
       title: '🔥 Série de 2 jours en jeu',
-      body: 'Encore 40 min de guitare 🎸',
+      body: 'Encore 10 min de guitare 🎸',
     })
-    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 60)] }), today)).toBeNull()
-    expect(buildMessage('streak', data(), today)).toMatchObject({ title: '🔥 Lance ta série aujourd’hui', body: 'Encore 60 min de guitare 🎸' })
+    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 30)] }), today)).toBeNull()
+    expect(buildMessage('streak', data(), today)).toMatchObject({ title: '🔥 Lance ta série aujourd’hui', body: 'Encore 30 min de guitare 🎸' })
+    // Hier court (40 min) : il faut une heure aujourd'hui.
+    expect(buildMessage('streak', data({ guitarSessions: [g('2026-10-14', 40), g(today, 30)] }), today)).toMatchObject({ body: 'Encore 30 min de guitare 🎸' })
   })
 
   test('plan : 3 exos du jour et la séance si la semaine n’est pas faite', () => {

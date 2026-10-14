@@ -13,7 +13,7 @@ export interface PracticeState {
   exercises: string[]
   /** Morceaux cochés pendant la séance. */
   songs: string[]
-  /** Les feux d'artifice des 60 min ont déjà été tirés pour cette séance. */
+  /** Les feux d'artifice de l'objectif du jour ont déjà été tirés pour cette séance. */
   goalCelebrated: boolean
   /** Tempo le plus rapide joué au métronome (fiche exo) pendant la séance, par exo : prioritaire sur le record. */
   bpms?: Record<string, number>

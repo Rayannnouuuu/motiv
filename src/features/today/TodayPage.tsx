@@ -4,7 +4,7 @@ import { useAppData } from '../../data/AppDataContext'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels } from '../../domain/levels'
 import { nextAction } from '../../domain/nextAction'
-import { GUITAR_DAILY_MIN, bestGuitarStreak, guitarStreak } from '../../domain/streak'
+import { bestGuitarStreak, guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
@@ -87,7 +87,7 @@ export function TodayPage() {
               <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>{subtitle}</p>
             </div>
           </div>
-          <Gauge value={streak.todayMin} max={GUITAR_DAILY_MIN} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
+          <Gauge value={streak.todayMin} max={streak.targetMin} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
           {!loading &&
             (to ? (
               <Button className="w-full" onClick={() => navigate(to, { state: action.state })}>

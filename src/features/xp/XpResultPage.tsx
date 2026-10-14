@@ -4,7 +4,7 @@ import { useAppData } from '../../data/AppDataContext'
 import { describeTarget, isChallengeMet } from '../../domain/challenges'
 import { guitarMoment, sportMoment, type GoalMoment } from '../../domain/goalMoment'
 import { allLevels } from '../../domain/levels'
-import { GUITAR_DAILY_MIN, SPORT_WEEKLY_SESSIONS } from '../../domain/streak'
+import { SPORT_WEEKLY_SESSIONS } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Fireworks, type FireworksSize } from '../../ui/Fireworks'
@@ -26,7 +26,7 @@ function fireworksFor(moment: GoalMoment | null, challengeMet: boolean): Firewor
   }
 }
 
-/** Où en sont les deux vrais objectifs après ce log : la série guitare (60 min par jour) et la semaine de sport (3 séances). */
+/** Où en sont les deux vrais objectifs après ce log : la série guitare et la semaine de sport (3 séances). */
 function GoalBlock({ moment }: { moment: GoalMoment }) {
   switch (moment.kind) {
     case 'streakKept':
@@ -48,14 +48,14 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
       return (
         <div className="rounded-[1rem] bg-surface p-4 shadow-card">
           <p className="t-subhead font-semibold tabular-nums">
-            {moment.todayMin}/{GUITAR_DAILY_MIN} min aujourd'hui
+            {moment.todayMin}/{moment.targetMin} min aujourd'hui
           </p>
           <Gauge
             from={moment.beforeMin}
             value={moment.todayMin}
-            max={GUITAR_DAILY_MIN}
+            max={moment.targetMin}
             color="guitar"
-            label={`Objectif du jour : ${moment.todayMin} / ${GUITAR_DAILY_MIN} min`}
+            label={`Objectif du jour : ${moment.todayMin} / ${moment.targetMin} min`}
             className="mt-2.5 h-2.5"
           />
           <p className="t-subhead mt-2 text-muted">

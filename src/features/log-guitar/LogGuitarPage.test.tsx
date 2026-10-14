@@ -99,7 +99,7 @@ describe('LogGuitarPage', () => {
   test('durée « autre » invalide : Suivant désactivé', async () => {
     renderLog()
     // Sans état (rappel push) : les minutes qui manquent aujourd'hui sont présélectionnées.
-    expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Suivant' })).toBeEnabled()
     await userEvent.click(screen.getByRole('button', { name: 'autre' }))
     const input = screen.getByLabelText('Durée en minutes')
@@ -115,7 +115,7 @@ describe('LogGuitarPage', () => {
   })
 
   test('sans état : les minutes restantes du jour sont présélectionnées ; rien quand l’objectif est atteint', () => {
-    const { unmount } = renderLog({ data: { guitarSessions: [g(today, 35)] } })
+    const { unmount } = renderLog({ data: { guitarSessions: [g(today, 5)] } })
     expect(screen.getByRole('button', { name: 'autre' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByLabelText('Durée en minutes')).toHaveValue(25)
     unmount()
@@ -125,10 +125,10 @@ describe('LogGuitarPage', () => {
 
   test('ouvert pendant le chargement : présélection refaite avec les minutes du jour', () => {
     const { rerender } = renderLog({ loading: true })
-    expect(screen.getByRole('button', { name: '60' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true')
     rerender(
       <MemoryRouter initialEntries={['/log/guitare']}>
-        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 30)] }, pendingCount: 0, rejected: [], today, loading: false, error: null, fresh: true, offline: false }}>
+        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 15)] }, pendingCount: 0, rejected: [], today, loading: false, error: null, fresh: true, offline: false }}>
           <ActionsContext.Provider value={fakeActions()}>
             <Routes>
               <Route path="/log/guitare" element={<LogGuitarPage />} />
@@ -137,7 +137,7 @@ describe('LogGuitarPage', () => {
         </AppDataContext.Provider>
       </MemoryRouter>,
     )
-    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: '15' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   test('depuis le chrono : notes directement, contenu pré-rempli, id de la séance, chrono effacé', async () => {

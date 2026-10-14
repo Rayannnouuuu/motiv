@@ -57,10 +57,10 @@ test('morceau suggéré : pastille dans la rangée des morceaux, ajout en un ges
 })
 
 test('« Logger sans chrono » : avec les minutes qui manquent', async () => {
-  renderCard({ data: { guitarSessions: [g(today, 35)] } })
+  renderCard({ data: { guitarSessions: [g(today, 20)] } })
   expect(screen.queryByRole('button', { name: '▶︎ Rejouer avec le chrono' })).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Logger sans chrono' }))
-  expect(screen.getByText('at /log/guitare {"durationMin":25}')).toBeInTheDocument()
+  expect(screen.getByText('at /log/guitare {"durationMin":10}')).toBeInTheDocument()
 })
 
 test('objectif atteint : « Logger sans chrono » sans durée, et rejouer avec le chrono', async () => {

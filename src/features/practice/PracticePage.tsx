@@ -5,7 +5,7 @@ import { useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { todayParis } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
-import { GUITAR_DAILY_MIN, guitarStreak } from '../../domain/streak'
+import { guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
 import { ModalBar } from '../../ui/ModalBar'
@@ -116,11 +116,12 @@ export function PracticePage() {
 
   // Une séance commencée avant minuit compte pour son jour de départ (c'est là qu'elle sera enregistrée).
   const sessionDay = session ? todayParis(new Date(session.startedAt)) : today
-  const loggedMin = guitarStreak(data.guitarSessions, sessionDay).todayMin
+  // Objectif du jour de la séance : 60 min si la veille était un jour court, sinon 30.
+  const { todayMin: loggedMin, targetMin } = guitarStreak(data.guitarSessions, sessionDay)
   const elapsed = session ? elapsedMs(session, now) : 0
-  const total = Math.min(GUITAR_DAILY_MIN, loggedMin + Math.floor(elapsed / 60_000))
-  // Les 60 min franchies pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
-  const crossed = session !== null && !stale && !loading && loggedMin < GUITAR_DAILY_MIN && total >= GUITAR_DAILY_MIN
+  const total = Math.min(targetMin, loggedMin + Math.floor(elapsed / 60_000))
+  // L'objectif franchi pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
+  const crossed = session !== null && !stale && !loading && loggedMin < targetMin && total >= targetMin
   const alreadyCelebrated = session?.goalCelebrated ?? true
   useEffect(() => {
     if (!crossed || alreadyCelebrated) return
@@ -161,7 +162,7 @@ export function PracticePage() {
         {bar}
         <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
           <p className="t-body text-muted">
-            {loggedMin >= GUITAR_DAILY_MIN ? "Objectif du jour atteint. Encore un peu ?" : `${GUITAR_DAILY_MIN - loggedMin} min aujourd'hui pour tenir la série`}
+            {loggedMin >= targetMin ? "Objectif du jour atteint. Encore un peu ?" : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
           </p>
           <button
             type="button"
@@ -211,7 +212,7 @@ export function PracticePage() {
       {bar}
 
       <div className="flex flex-col items-center">
-        <ProgressRing value={total} max={GUITAR_DAILY_MIN} size={220} stroke={14} color="guitar">
+        <ProgressRing value={total} max={targetMin} size={220} stroke={14} color="guitar">
           <span className="flex flex-col items-center gap-0.5">
             <span
               role="timer"
@@ -220,11 +221,11 @@ export function PracticePage() {
             >
               {formatClock(elapsed)}
             </span>
-            {total >= GUITAR_DAILY_MIN ? (
+            {total >= targetMin ? (
               <span className="t-footnote font-semibold text-guitar">Série tenue ✓</span>
             ) : (
               <span className="t-footnote text-muted tabular-nums">
-                {total}/{GUITAR_DAILY_MIN} min {sessionDay === today ? "aujourd'hui" : 'hier'}
+                {total}/{targetMin} min {sessionDay === today ? "aujourd'hui" : 'hier'}
               </span>
             )}
           </span>

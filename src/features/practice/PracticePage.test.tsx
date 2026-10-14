@@ -129,8 +129,8 @@ describe('PracticePage', () => {
     expect(screen.getByText(/^at \/ /)).toBeInTheDocument()
   })
 
-  test('50 min déjà loggées + 10 min de chrono : série tenue, fête mémorisée', () => {
-    renderPractice({ data: { guitarSessions: [g(today, 50)] } })
+  test('hier court, 50 min déjà loggées + 10 min de chrono : série tenue à 60, fête mémorisée', () => {
+    renderPractice({ data: { guitarSessions: [g('2026-10-14', 40), g(today, 50)] } })
     expect(screen.getByText("50/60 min aujourd'hui")).toBeInTheDocument()
     tick(9 * 60_000)
     expect(screen.getByText("59/60 min aujourd'hui")).toBeInTheDocument()

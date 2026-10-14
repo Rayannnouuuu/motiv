@@ -40,7 +40,8 @@ export function SportCard() {
           day: d.day,
           fill: d.sessions.length > 0 ? 1 : 0,
           content: d.sessions.length > 0 ? '✓' : '',
-          label: d.sessions.map((s) => names.get(s.programId) ?? 'Séance').join(', '),
+          label: d.sessions.map((s) => names.get(s.programId) ?? 'Séance').join(', ') || (d.day < today ? 'pas de sport' : ''),
+          missed: d.sessions.length === 0 && d.day < today,
         }))}
       />
 

@@ -34,7 +34,7 @@ describe('TodayPage', () => {
   test('compte neuf', async () => {
     renderToday({ data: { challenges: lvl1 } })
     expect(screen.getByText('Nouvelle série')).toBeInTheDocument()
-    expect(screen.getByText("60 min aujourd'hui pour lancer ta série")).toBeInTheDocument()
+    expect(screen.getByText("30 min aujourd'hui pour lancer ta série")).toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: "Minutes de guitare aujourd'hui" })).toHaveAttribute('aria-valuenow', '0')
     expect(screen.getByRole('button', { name: 'Niveau 1, voir la progression' })).toBeInTheDocument()
     expect(screen.getByText('Gamme majeure 1 à 66 bpm')).toBeInTheDocument()
@@ -45,12 +45,12 @@ describe('TodayPage', () => {
 
   test('compte neuf : « Jouer » lance le chrono', async () => {
     renderToday({})
-    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 60 min' }))
+    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 30 min' }))
     expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
   })
 
-  test('35 min aujourd’hui et série de 12 : « Jouer · encore 25 min »', async () => {
-    const past = Array.from({ length: 12 }, (_, i) => g(addDays(today, -(i + 1)), 60))
+  test('hier court (40 min), 35 min aujourd’hui, série de 12 : « Jouer · encore 25 min » (il faut 60)', async () => {
+    const past = Array.from({ length: 12 }, (_, i) => g(addDays(today, -(i + 1)), i === 0 ? 40 : 60))
     renderToday({ data: { guitarSessions: [...past, g(today, 35)] } })
     expect(screen.getByText('12 jours')).toBeInTheDocument()
     expect(screen.getByText('Encore 25 min pour tenir la série')).toBeInTheDocument()
@@ -63,7 +63,7 @@ describe('TodayPage', () => {
     const past = Array.from({ length: 5 }, (_, i) => g(addDays('2026-10-10', -i), 60))
     renderToday({ data: { guitarSessions: past } })
     expect(screen.getByText('Nouvelle série')).toBeInTheDocument()
-    expect(screen.getByText("Record : 5 jours · 60 min aujourd'hui pour repartir")).toBeInTheDocument()
+    expect(screen.getByText("Record : 5 jours · 30 min aujourd'hui pour repartir")).toBeInTheDocument()
   })
 
   test('60 min aujourd’hui, sans programme : série tenue, journée bouclée', () => {
@@ -99,7 +99,7 @@ describe('TodayPage', () => {
   test('chrono guitare oublié depuis plus de 12 h : pas proposé', () => {
     savePractice(startPractice(new Date(Date.now() - 13 * 3_600_000), 'p'))
     renderToday({})
-    expect(screen.getByRole('button', { name: '▶︎ Jouer · encore 60 min' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '▶︎ Jouer · encore 30 min' })).toBeInTheDocument()
   })
 
   test('pendant le chargement : pas de bouton d’action', () => {
