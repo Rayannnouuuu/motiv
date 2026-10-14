@@ -6,6 +6,18 @@
       "sourceType": "github",
       "skillPath": "skills/.experimental/apple-design/SKILL.md",
       "computedHash": "276c6ede37fad5739976f0d91e8cdbc69007d99e2644c9bed27535fc5ccb64da"
+    },
+    "ponytail": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail/SKILL.md",
+      "computedHash": "99f0589e5646b46da07b9419a5daa178004b3dd8930fec528918a51ab07f5efc"
+    },
+    "ponytail-audit": {
+      "source": "DietrichGebert/ponytail",
+      "sourceType": "github",
+      "skillPath": "skills/ponytail-audit/SKILL.md",
+      "computedHash": "1d718f893dabc01caad0dacef86444b5b4b3e1e59409527d66e8b5dd0cd85ae0"
     }
   }
 }
