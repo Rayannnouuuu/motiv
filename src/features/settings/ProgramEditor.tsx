@@ -82,7 +82,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
         </div>
       )}
     >
-      {() => (
+      {(close) => (
         <div className="flex flex-col gap-6 pt-2">
           <Group>
             <label className="flex min-h-11 items-center gap-3 px-4 py-1.5">
@@ -158,7 +158,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                   <button type="button" className="tap-row t-body flex-1 py-3 text-accent" onClick={() => setConfirmDelete(false)}>
                     Non
                   </button>
-                  <button type="button" className="tap-row t-headline flex-1 py-3 text-danger" onClick={() => void onDelete().then((ok) => ok && onClose())}>
+                  <button type="button" className="tap-row t-headline flex-1 py-3 text-danger" onClick={() => void onDelete().then((ok) => ok && close())}>
                     Supprimer
                   </button>
                 </div>
@@ -287,7 +287,7 @@ export function ProgramEditor() {
             </button>
           </div>
         )}>
-          {() => <PresetPicker />}
+          {(close) => <PresetPicker onDone={close} />}
         </Sheet>
       )}
     </>

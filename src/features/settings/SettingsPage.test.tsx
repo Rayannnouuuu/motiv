@@ -146,6 +146,8 @@ describe('SettingsPage', () => {
       ['Pull', 2],
       ['Legs', 3],
     ])
+    // Programme appliqué : la feuille se ferme d'elle-même.
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Programmes tout faits' })).not.toBeInTheDocument())
   })
 
   test('thème : clair par défaut, choix appliqué et mémorisé', async () => {

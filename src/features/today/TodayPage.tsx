@@ -77,7 +77,7 @@ export function TodayPage() {
         <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Série">
           <div className="flex items-center gap-4">
             <span
-              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-accent/25 to-accent/5 text-[2.25rem] leading-none"
+              className="animate-pop flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-accent/25 to-accent/5 text-[2.25rem] leading-none [animation-delay:250ms]"
               aria-hidden
             >
               🔥

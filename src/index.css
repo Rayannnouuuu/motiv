@@ -203,7 +203,7 @@ body {
 @utility tap-scale {
   transition: transform 350ms var(--ease-spring), opacity 250ms ease, filter 250ms ease;
   &:active:not(:disabled) {
-    transform: scale(0.97);
+    transform: scale(0.96);
     filter: brightness(0.92);
     transition-duration: 80ms;
   }
@@ -253,6 +253,30 @@ body {
   animation: pop 600ms var(--ease-bounce) both;
 }
 
+/* Ouverture d'un onglet (et de l'appli) : le titre puis le contenu montent en se matérialisant. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@utility animate-page {
+  animation: page-in 600ms var(--ease-spring) both;
+}
+
+/* Icône d'onglet choisie : petit rebond, comme les symboles de la barre d'onglets iOS. */
+@keyframes symbol-bounce {
+  35% {
+    transform: scale(0.8);
+  }
+  70% {
+    transform: scale(1.12);
+  }
+}
+@utility animate-symbol {
+  animation: symbol-bounce 450ms ease-out;
+}
+
 /* Montée de niveau */
 @keyframes levelup-pop {
   0% {
@@ -288,11 +312,13 @@ body {
   .animate-present,
   .animate-rise,
   .animate-pop,
+  .animate-page,
   .levelup-pop,
   .levelup-rise {
     animation: fade-in 200ms ease-out both;
   }
-  .levelup-rays {
+  .levelup-rays,
+  .animate-symbol {
     animation: none;
   }
   .tap-scale:active:not(:disabled) {

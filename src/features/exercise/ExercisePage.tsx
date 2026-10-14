@@ -59,7 +59,7 @@ export function ExercisePage() {
   const playedBpm = played?.exerciseId === ex.id ? played.bpm : null
 
   return (
-    <div className="flex flex-col gap-6 pb-4">
+    <div className="animate-page flex flex-col gap-6 pb-4">
       <button type="button" className="tap t-body -ml-1.5 flex items-center gap-1 self-start pt-2.5 pb-1 text-accent" onClick={() => navigate(-1)}>
         <svg width="12" height="20" viewBox="0 0 12 20" aria-hidden>
           <path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />

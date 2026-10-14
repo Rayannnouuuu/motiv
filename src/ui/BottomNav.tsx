@@ -50,7 +50,10 @@ export function BottomNav() {
             >
               {({ isActive }) => (
                 <>
-                  {t.icon(isActive)}
+                  {/* Remonté à la sélection : le rebond rejoue à chaque fois qu'on choisit l'onglet. */}
+                  <span key={String(isActive)} className={`flex ${isActive ? 'animate-symbol' : ''}`}>
+                    {t.icon(isActive)}
+                  </span>
                   {t.label}
                 </>
               )}

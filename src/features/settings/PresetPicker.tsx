@@ -6,7 +6,8 @@ import { Card } from '../../ui/Card'
 import { useRun } from './useRun'
 
 /** Programmes tout faits : les appliquer remplace (archive) les séances actuelles. */
-export function PresetPicker() {
+/** `onDone` : appelé une fois le programme appliqué (la feuille qui le présente se ferme). */
+export function PresetPicker({ onDone }: { onDone?: () => void }) {
   const { data } = useAppData()
   const { saveProgram } = useActions()
   const { busy, error, run } = useRun()
@@ -20,7 +21,7 @@ export function PresetPicker() {
       for (const p of active) await saveProgram({ ...p, archived: true })
       for (const p of presetToPrograms(preset, start, () => crypto.randomUUID())) await saveProgram(p)
       setConfirming(null)
-    })
+    }).then((ok) => ok && onDone?.())
 
   return (
     <div className="flex flex-col gap-3">
