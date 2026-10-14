@@ -34,7 +34,7 @@ export function Screen({ title, trailing, children }: { title: string; trailing?
       <h1 ref={heading} className="t-large animate-page pt-[2.875rem] pb-3">
         {title}
       </h1>
-      <div className="animate-page [animation-delay:80ms]">{children}</div>
+      <div className="animate-page [animation-delay:120ms]">{children}</div>
     </>
   )
 }

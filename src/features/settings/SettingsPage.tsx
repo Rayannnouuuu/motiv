@@ -7,7 +7,6 @@ import { getTheme, setTheme, type Theme } from '../../ui/theme'
 import { NotificationSettings } from './NotificationSettings'
 import { PasswordForm } from './PasswordForm'
 import { ProgramEditor } from './ProgramEditor'
-import { SongList } from './SongList'
 import { useRun } from './useRun'
 
 // Version installée (date du build + commit) : on voit d'un coup d'œil si la dernière est arrivée.
@@ -47,7 +46,6 @@ export function SettingsPage() {
         <ThemePicker />
         <NotificationSettings />
         <ProgramEditor />
-        <SongList />
         <Group header="Compte" footer="Le mot de passe sert à te reconnecter sans lien par e-mail.">
           <PasswordForm />
         </Group>

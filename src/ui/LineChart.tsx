@@ -1,11 +1,10 @@
 import { useState, type PointerEvent } from 'react'
-import { daysBetween } from '../domain/date'
+import { daysBetween, shortDate } from '../domain/date'
 import type { Point } from '../domain/series'
 
 const W = 320
 const PAD = { top: 12, right: 8, bottom: 22, left: 8 }
 
-const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 
 /**
  * Courbe d'une seule série, en SVG. Axe des x en jours réels, y entre min et max.

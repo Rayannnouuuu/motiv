@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useActions, useAppData } from '../../data/AppDataContext'
+import { useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { bestBpm } from '../../domain/records'
-import { songOfTheDay } from '../../domain/songSuggestion'
+import { catalogNotAdded } from '../../domain/songSuggestion'
 import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
@@ -23,15 +22,13 @@ function Chevron() {
 /** Guitare sur l'accueil : la semaine, la séance du jour (exos, morceaux), le log sans chrono. */
 export function GuitarCard() {
   const { data, today } = useAppData()
-  const { saveSong } = useActions()
   const navigate = useNavigate()
-  const [adding, setAdding] = useState(false)
-  const [addError, setAddError] = useState<string | null>(null)
 
   const week = guitarWeek(data.guitarSessions, today)
   const streak = guitarStreak(data.guitarSessions, today)
   const plan = dailyPlan(data, today)
-  const suggestion = songOfTheDay(data.songs, today)
+  // Le plus facile pas encore joué : le même que l'onglet Morceaux et le log proposent en premier.
+  const suggestion = catalogNotAdded(data.songs).at(0)
   const songs = data.songs.filter((s) => s.status === 'learning').sort((a, b) => a.title.localeCompare(b.title, 'fr'))
   const doneToday = new Set(
     data.guitarSessions.filter((s) => s.day === today).flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))),
@@ -41,18 +38,6 @@ export function GuitarCard() {
   // Le bouton du haut de l'accueil propose déjà la guitare sauf si une séance sport est en cours ou que
   // l'objectif est atteint : dans ces cas, le chrono doit rester accessible ici.
   const heroIsGuitar = loadLive() === null && (practiceRunning || !goalMet)
-
-  async function addSuggestion(title: string) {
-    setAdding(true)
-    setAddError(null)
-    try {
-      await saveSong({ id: crypto.randomUUID(), title, status: 'learning', masteredOn: null })
-    } catch (e) {
-      setAddError(e instanceof Error ? e.message : 'Ajout impossible')
-    } finally {
-      setAdding(false)
-    }
-  }
 
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="guitar-title">
@@ -113,25 +98,18 @@ export function GuitarCard() {
                 🎵 {s.title}
               </li>
             ))}
+            {/* Proposé, rien à ajouter : il suffit de le choisir dans le log quand on l'a joué. */}
             {suggestion && (
               <li>
-                <button
-                  type="button"
-                  disabled={adding}
-                  aria-label={`Ajouter ${suggestion.title}`}
-                  className="tap-scale t-footnote rounded-full border border-dashed border-faint px-3 py-[0.3125rem] text-accent disabled:opacity-35"
-                  onClick={() => addSuggestion(suggestion.title)}
+                <Link
+                  to="/morceaux"
+                  className="tap-scale t-footnote block rounded-full border border-dashed border-faint px-3 py-[0.3125rem] text-accent"
                 >
-                  + {suggestion.title}
-                </button>
+                  💡 À essayer : {suggestion.title}
+                </Link>
               </li>
             )}
           </ul>
-        )}
-        {addError && (
-          <p role="alert" className="t-footnote text-danger">
-            {addError}
-          </p>
         )}
       </div>
 

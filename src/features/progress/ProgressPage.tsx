@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAppData } from '../../data/AppDataContext'
 import { getExercise } from '../../content/exercises'
-import { addDays } from '../../domain/date'
+import { addDays, shortDate } from '../../domain/date'
 import {
   bodySeries,
   guitarHoursSeries,
@@ -40,7 +40,6 @@ const HOURS_MILESTONE = 10
 const num = (v: number, digits = 1) => v.toLocaleString('fr-FR', { maximumFractionDigits: digits })
 const reps = (v: number) => `${v} rep${v > 1 ? 's' : ''}`
 const kg = (v: number) => `${num(v, 2)} kg`
-const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 
 interface Option {
   id: string

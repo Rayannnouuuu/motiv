@@ -28,7 +28,7 @@ test('3 exos sur deux lignes sans description, lien vers la fiche ; morceaux en 
   renderCard({
     data: { songs: [mkSong({ title: 'Paranoid' }), mkSong({ title: 'Iron Man', status: 'mastered', masteredOn: '2026-10-01' })] },
   })
-  const links = screen.getAllByRole('link')
+  const links = screen.getAllByRole('link').filter((l) => l.getAttribute('href')?.startsWith('/exo/'))
   expect(links).toHaveLength(3)
   expect(screen.getByRole('list', { name: 'Minutes de guitare de la semaine' })).toBeInTheDocument()
   const scales = getExercise('scales-1')!
@@ -47,13 +47,12 @@ test('exo déjà loggé aujourd’hui : coché, record affiché', () => {
   expect(screen.getAllByRole('link').some((l) => l.textContent?.includes('✓') && l.textContent.includes('ton record 70 bpm'))).toBe(true)
 })
 
-test('morceau suggéré : pastille dans la rangée des morceaux, ajout en un geste', async () => {
+test('morceau proposé : pastille qui mène à l’onglet Morceaux, rien à ajouter', async () => {
   const { actions } = renderCard()
-  const add = within(screen.getByRole('list', { name: 'Morceaux en cours' })).getByRole('button', { name: /^Ajouter / })
-  const title = add.getAttribute('aria-label')!.replace('Ajouter ', '')
-  expect(add).toHaveTextContent(`+ ${title}`)
-  await userEvent.click(add)
-  expect(actions.saveSong).toHaveBeenCalledWith({ id: expect.any(String), title, status: 'learning', masteredOn: null })
+  const chip = within(screen.getByRole('list', { name: 'Morceaux en cours' })).getByRole('link', { name: /^💡 À essayer : / })
+  await userEvent.click(chip)
+  expect(screen.getByText(/^at \/morceaux/)).toBeInTheDocument()
+  expect(actions.saveSong).not.toHaveBeenCalled()
 })
 
 test('« Logger sans chrono » : avec les minutes qui manquent', async () => {

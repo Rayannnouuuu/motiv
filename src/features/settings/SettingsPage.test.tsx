@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test, vi } from 'vitest'
-import { mkSong, pe, program } from '../../test/factories'
+import { pe, program } from '../../test/factories'
 import { renderWithData } from '../../test/renderWithData'
 import { SettingsPage } from './SettingsPage'
 
@@ -90,23 +90,6 @@ describe('SettingsPage', () => {
     expect(vi.mocked(actions.saveProgram).mock.calls[1][0]).toMatchObject({ id: 'a', archived: true })
   })
 
-  test('morceaux : renommer et basculer le statut', async () => {
-    const s = mkSong({ id: 's1', title: 'Paranoid' })
-    const m = mkSong({ id: 's2', title: 'Iron Man', status: 'mastered', masteredOn: '2026-09-01' })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { songs: [s, m] } })
-
-    const title = screen.getByLabelText('Titre · Paranoid')
-    await userEvent.clear(title)
-    await userEvent.type(title, 'War Pigs')
-    await userEvent.tab()
-    expect(actions.saveSong).toHaveBeenCalledWith({ ...s, title: 'War Pigs' })
-
-    await userEvent.click(screen.getByLabelText('Maîtrisé · Paranoid'))
-    expect(actions.saveSong).toHaveBeenCalledWith({ ...s, status: 'mastered', masteredOn: today })
-    await userEvent.click(screen.getByLabelText('Maîtrisé · Iron Man'))
-    expect(actions.saveSong).toHaveBeenCalledWith({ ...m, status: 'learning', masteredOn: null })
-  })
-
   test('« Se déconnecter » appelle signOut', async () => {
     const { actions } = renderWithData(<SettingsPage />, { today })
     await click('Se déconnecter')
@@ -158,16 +141,6 @@ describe('SettingsPage', () => {
     expect(document.documentElement.dataset.theme).toBe('dark')
     expect(localStorage.getItem('motiv.theme.v1')).toBe('dark')
     expect(screen.getByRole('button', { name: 'Sombre' })).toHaveAttribute('aria-pressed', 'true')
-  })
-
-  test('morceaux à essayer : du plus facile, ajout en un geste, déjà ajoutés exclus', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { songs: [mkSong({ title: 'Seven Nation Army' })] } })
-    expect(screen.getByText('Morceaux à essayer')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Ajouter Seven Nation Army' })).not.toBeInTheDocument()
-    await click('Ajouter Smoke on the Water')
-    expect(actions.saveSong).toHaveBeenCalledWith({ id: expect.any(String), title: 'Smoke on the Water', status: 'learning', masteredOn: null })
-    await click(/Voir les \d+ morceaux/)
-    expect(screen.getByRole('button', { name: 'Voir moins' })).toBeInTheDocument()
   })
 
   test('« Version » : date du build et commit, en dernier', () => {

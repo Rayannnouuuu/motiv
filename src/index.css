@@ -201,7 +201,7 @@ body {
   }
 }
 @utility tap-scale {
-  transition: transform 350ms var(--ease-spring), opacity 250ms ease, filter 250ms ease;
+  transition: transform 500ms var(--ease-spring), opacity 300ms ease, filter 300ms ease;
   &:active:not(:disabled) {
     transform: scale(0.96);
     filter: brightness(0.92);
@@ -241,16 +241,16 @@ body {
   }
 }
 @utility animate-present {
-  animation: present 500ms var(--ease-spring) both;
+  animation: present 700ms var(--ease-spring) both;
 }
 @utility animate-fade {
-  animation: fade-in 250ms ease-out both;
+  animation: fade-in 350ms ease-out both;
 }
 @utility animate-rise {
-  animation: rise 500ms var(--ease-spring) both;
+  animation: rise 650ms var(--ease-spring) both;
 }
 @utility animate-pop {
-  animation: pop 600ms var(--ease-bounce) both;
+  animation: pop 750ms var(--ease-bounce) both;
 }
 
 /* Ouverture d'un onglet (et de l'appli) : le titre puis le contenu montent en se matérialisant. */
@@ -261,7 +261,7 @@ body {
   }
 }
 @utility animate-page {
-  animation: page-in 600ms var(--ease-spring) both;
+  animation: page-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Icône d'onglet choisie : petit rebond, comme les symboles de la barre d'onglets iOS. */
@@ -274,7 +274,7 @@ body {
   }
 }
 @utility animate-symbol {
-  animation: symbol-bounce 450ms ease-out;
+  animation: symbol-bounce 600ms ease-out;
 }
 
 /* Ouverture : la flamme reconstituée s'allume. */
@@ -293,7 +293,7 @@ body {
   }
 }
 .splash-flame {
-  animation: splash-flame 500ms ease-out both;
+  animation: splash-flame 700ms ease-out both;
 }
 
 /* Montée de niveau */

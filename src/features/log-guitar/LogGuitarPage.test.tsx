@@ -200,10 +200,11 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     const results = screen.getAllByRole('button', { name: /^\+ / }).map((b) => b.textContent)
-    // Plan : suite de la dernière catégorie (sweep 4), puis 2 autres ; ensuite les récents.
+    // Plan : suite de la dernière catégorie (sweep 4), puis 2 autres ; deux morceaux proposés ; ensuite les récents.
     expect(results[0]).toMatch(/^\+ Sweep.*4du jour$/)
     expect(results.filter((r) => r?.endsWith('du jour'))).toHaveLength(3)
-    expect(results[3]).toBe('+ Sweep picking ascendant 3')
+    expect(results[3]).toBe('+ Seven Nation Army · The White Stripes')
+    expect(results[5]).toBe('+ Sweep picking ascendant 3')
     expect(screen.queryByText(/ghost/)).not.toBeInTheDocument()
   })
 

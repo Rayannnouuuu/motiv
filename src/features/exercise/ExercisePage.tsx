@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CATEGORY_LABELS, getExercise } from '../../content/exercises'
 import { tipsFor } from '../../content/tips'
 import { useAppData } from '../../data/AppDataContext'
+import { shortDate } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
@@ -12,7 +13,6 @@ import { Metronome } from './Metronome'
 
 const HISTORY_SIZE = 8
 
-const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 
 function DifficultyMeter({ value }: { value: number }) {
   return (

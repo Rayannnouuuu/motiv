@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { EXERCISES, getExercise } from '../../content/exercises'
 import { SONG_CATALOG, normTitle } from '../../content/songCatalog'
 import { bestBpm } from '../../domain/records'
+import { catalogNotAdded } from '../../domain/songSuggestion'
 import type { Challenge, GuitarSession, Song } from '../../domain/types'
 
 export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string } | { kind: 'song'; songId: string; mastered: boolean }
@@ -70,10 +71,10 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
     q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && !challengeBpm.has(e.id) && matches(e.title)).map((e) => exResult(e.id))
   // Morceaux du catalogue pas encore dans ta liste : les choisir les ajoute automatiquement.
   const mine = new Set(songs.map((s) => normTitle(s.title)))
-  const catalogResults: Result[] =
-    q === ''
-      ? []
-      : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist))).map((c) => ({
+  // Sans recherche : les deux plus faciles du catalogue, pour pouvoir logger un morceau proposé sans l'ajouter avant.
+  const catalogResults: Result[] = (
+    q === '' ? catalogNotAdded(songs).slice(0, 2) : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist)))
+  ).map((c) => ({
           key: `cat:${c.title}`,
           label: `${c.title} · ${c.artist}`,
           add: () => {
@@ -82,7 +83,7 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
           },
         }))
   // Morceaux en cours avant les anciens exos : sinon, après quelques jours de logs, ils ne tiennent plus dans la liste.
-  const results = [...challengeResults, ...plannedResults, ...songResults, ...recentResults, ...catalogResults, ...otherResults].slice(0, MAX_RESULTS)
+  const results = [...challengeResults, ...plannedResults, ...songResults, ...catalogResults, ...recentResults, ...otherResults].slice(0, MAX_RESULTS)
   const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q) && !SONG_CATALOG.some((c) => norm(c.title) === q)
 
   const removeButton = (title: string, i: number) => (

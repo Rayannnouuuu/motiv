@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 
 const SIZE = 132 // taille de la flamme, en px
 const STEP = 3 // un grain tous les 3 px de la flamme
-const GATHER = 1150 // les grains se rassemblent (ms)
-const HOLD = 500 // la flamme brille
-const FADE = 400 // l'écran s'efface sur l'appli
+const GATHER = 1700 // les grains se rassemblent (ms)
+const HOLD = 700 // la flamme brille
+const FADE = 600 // l'écran s'efface sur l'appli
 
 const FONT = `${SIZE}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`
 
@@ -42,7 +42,7 @@ function grains(w: number, h: number): Grain[] | null {
         sy: (Math.random() * 1.4 - 0.2) * h,
         tx: w / 2 - SIZE / 2 + x,
         ty: h / 2 - SIZE / 2 + y,
-        delay: Math.random() * 300,
+        delay: Math.random() * 450,
         swirl: (Math.random() - 0.5) * 160,
         color: `rgb(${px[i]},${px[i + 1]},${px[i + 2]})`,
       })
@@ -77,7 +77,7 @@ export function Splash() {
       const t = now - start
       ctx.clearRect(0, 0, w, h)
       for (const g of list) {
-        const p = easeOut(Math.min(1, Math.max(0, (t - g.delay) / (GATHER - 300))))
+        const p = easeOut(Math.min(1, Math.max(0, (t - g.delay) / (GATHER - 450))))
         // Trajet légèrement courbe : un écart perpendiculaire qui s'annule à l'arrivée.
         const bend = Math.sin(p * Math.PI) * g.swirl
         ctx.globalAlpha = 0.25 + 0.75 * p

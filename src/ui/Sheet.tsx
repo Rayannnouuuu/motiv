@@ -21,7 +21,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
   const close = useCallback(() => {
     if (closing.current || !spring.current) return
     closing.current = true
-    spring.current.to(height(), { damping: 1, response: 0.35 }, onClose)
+    spring.current.to(height(), { damping: 1, response: 0.45 }, onClose)
   }, [onClose])
 
   // Entrée : part d'en bas, se pose sans rebond.
@@ -29,7 +29,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
     const s = new SpringValue(height(), apply)
     spring.current = s
     apply(s.value)
-    s.to(0, { damping: 1, response: 0.4 })
+    s.to(0, { damping: 1, response: 0.5 })
     return () => s.stop()
   }, [apply])
 

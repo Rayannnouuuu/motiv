@@ -26,6 +26,17 @@ const TABS = [
     ),
   },
   {
+    to: '/morceaux',
+    label: 'Morceaux',
+    icon: icon(
+      <>
+        <path d="M9 18V5.5l11-2.5v12.5" />
+        <circle cx="6.5" cy="18" r="2.8" />
+        <circle cx="17.5" cy="15.5" r="2.8" />
+      </>,
+    ),
+  },
+  {
     to: '/reglages',
     label: 'Réglages',
     icon: icon(

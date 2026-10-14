@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
-import { todayParis } from '../../domain/date'
+import { shortDate, todayParis } from '../../domain/date'
 import { nextProgram } from '../../domain/progression'
 import { isSportRecord, setsForExercise } from '../../domain/records'
 import { activeSetChallenge, isNewRecord, meetsChallenge } from '../../domain/setFeedback'
@@ -34,7 +34,6 @@ const MAX_DURATION = 600
 /** Durée du message « Record ! » / « Défi réussi ! ». */
 const CHEER_MS = 2500
 
-const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 const nowIso = () => new Date().toISOString()
 
 /** Nouvelle séance, sur le premier exo du programme, à la charge du jour. */

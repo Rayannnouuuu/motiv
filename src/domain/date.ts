@@ -54,3 +54,6 @@ export function weekStart(day: Day): Day {
 export function daysBetween(from: Day, to: Day): number {
   return Math.round((toUtc(to) - toUtc(from)) / DAY_MS)
 }
+
+/** « 12 oct. » */
+export const shortDate = (day: Day) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
