@@ -46,10 +46,14 @@ test('exo déjà loggé aujourd’hui : coché, record affiché', () => {
   expect(screen.getAllByRole('link').some((l) => l.textContent?.includes('✓') && l.textContent.includes('ton record 70 bpm'))).toBe(true)
 })
 
-test('plus de morceaux sur l’accueil (ils sont dans l’onglet Morceaux)', () => {
-  renderCard({ data: { songs: [mkSong({ title: 'Paranoid' })] } })
-  expect(screen.queryByText(/Paranoid/)).not.toBeInTheDocument()
-  expect(screen.queryByText(/À essayer/)).not.toBeInTheDocument()
+test('morceaux du jour : un en cours (déjà joué) et un nouveau ; le toucher ouvre le log avec le morceau', async () => {
+  const played = g('2026-10-10', 30, [{ kind: 'song', songId: 's1', markedMastered: false }])
+  renderCard({ data: { guitarSessions: [played], songs: [mkSong({ id: 's1', title: 'Paranoid' }), mkSong({ id: 's2', title: 'Iron Man' })] } })
+  const list = within(screen.getByRole('list', { name: "Morceaux à jouer aujourd'hui" })).getAllByRole('button')
+  expect(list).toHaveLength(2)
+  expect(list[0]).toHaveTextContent('🎵 Paranoid')
+  await userEvent.click(list[0])
+  expect(screen.getByText('at /log/guitare {"songTitle":"Paranoid"}')).toBeInTheDocument()
 })
 
 test('« Logger sans chrono » : avec les minutes qui manquent', async () => {

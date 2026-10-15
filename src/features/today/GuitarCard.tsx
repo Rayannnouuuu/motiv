@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
+import { songsOfTheDay } from '../../domain/songSuggestion'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { bestBpm } from '../../domain/records'
 import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
@@ -26,6 +27,8 @@ export function GuitarCard() {
   const week = guitarWeek(data.guitarSessions, today)
   const streak = guitarStreak(data.guitarSessions, today)
   const plan = dailyPlan(data, today)
+  // Deux morceaux par jour : un en cours, un nouveau. Les toucher ouvre le log avec le morceau.
+  const songs = songsOfTheDay(data.songs, data.guitarSessions, today)
   const doneToday = new Set(
     data.guitarSessions.filter((s) => s.day === today).flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))),
   )
@@ -86,6 +89,21 @@ export function GuitarCard() {
             )
           })}
         </ul>
+        {songs.length > 0 && (
+          <ul className="flex flex-wrap gap-1.5 pt-1" aria-label="Morceaux à jouer aujourd'hui">
+            {songs.map((title) => (
+              <li key={title}>
+                <button
+                  type="button"
+                  className="tap-scale t-footnote rounded-full bg-guitar/12 px-3 py-1.5 font-medium text-guitar"
+                  onClick={() => navigate('/log/guitare', { state: { songTitle: title } })}
+                >
+                  🎵 {title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">

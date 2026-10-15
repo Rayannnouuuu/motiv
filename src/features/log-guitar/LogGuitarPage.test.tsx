@@ -210,10 +210,33 @@ describe('LogGuitarPage', () => {
 
   test('morceau en cours toujours proposé, même avec beaucoup d’exos déjà loggés', async () => {
     const many = ['legato-1', 'legato-2', 'legato-3', 'scales-1', 'scales-2', 'scales-3', 'picking-1', 'picking-2'].map((id) => ex(id, 80))
-    renderLog({ data: { guitarSessions: [g('2026-10-14', 30, many)], songs: [mkSong({ id: 's1', title: 'Smells Like Teen Spirit' })] } })
+    const played = g('2026-10-10', 30, [{ kind: 'song', songId: 's1', markedMastered: false }])
+    renderLog({ data: { guitarSessions: [played, g('2026-10-14', 30, many)], songs: [mkSong({ id: 's1', title: 'Smells Like Teen Spirit' })] } })
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     expect(screen.getByRole('button', { name: /^\+ Smells Like Teen Spirit/ })).toBeInTheDocument()
+  })
+
+  test('morceau ajouté mais jamais joué : pas dans la liste « en cours », proposé du catalogue sans doublon', async () => {
+    const { actions } = renderLog({ data: { songs: [mkSong({ id: 'sna', title: 'Seven Nation Army' })] } })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    // Le plus facile du catalogue : il est déjà dans la liste (jamais joué), on reprend ce morceau.
+    await userEvent.click(screen.getByRole('button', { name: '+ Seven Nation Army · The White Stripes' }))
+    await next()
+    await finish()
+    expect(actions.saveGuitarSession).toHaveBeenCalledWith(expect.objectContaining({ newSongs: [], items: [{ kind: 'song', songId: 'sna', markedMastered: false }] }))
+  })
+
+  test('ouvert depuis un morceau proposé : il est déjà dans le log, créé s’il n’existe pas', async () => {
+    const { actions } = renderLog({ route: { pathname: '/log/guitare', state: { songTitle: 'Iron Man' } } })
+    await userEvent.click(screen.getByRole('button', { name: '30' }))
+    await next()
+    await next()
+    await finish()
+    const d = vi.mocked(actions.saveGuitarSession).mock.calls[0][0]
+    expect(d.newSongs).toEqual([{ id: expect.any(String), title: 'Iron Man', status: 'learning', masteredOn: null }])
+    expect(d.items).toEqual([{ kind: 'song', songId: d.newSongs[0].id, markedMastered: false }])
   })
 
   test('ouvert depuis la fiche d’un exo : déjà ajouté avec le record', async () => {

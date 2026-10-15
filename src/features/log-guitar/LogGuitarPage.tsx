@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getExercise } from '../../content/exercises'
+import { normTitle } from '../../content/songCatalog'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { addDays } from '../../domain/date'
@@ -20,6 +21,8 @@ import { StepRatings } from './StepRatings'
 interface NavState {
   durationMin?: unknown
   exerciseId?: unknown
+  /** Morceau à jouer (onglet Morceaux, accueil) : ajouté au log, créé s'il n'est pas encore dans ta liste. */
+  songTitle?: unknown
   bpm?: unknown
   entries?: unknown
   step?: unknown
@@ -91,14 +94,20 @@ export function LogGuitarPage() {
   const [yesterday, setYesterday] = useState(() => nav?.day === addDays(today, -1))
   // Jour de référence figé à l'ouverture : un log ouvert à 23:59 et enregistré à 00:01 reste sur le bon jour.
   const [openedOn] = useState(today)
+  const [preSong] = useState<Song | null>(() => {
+    if (typeof nav?.songTitle !== 'string' || nav.songTitle === '') return null
+    const t = normTitle(nav.songTitle)
+    return data.songs.find((s) => normTitle(s.title) === t) ?? { id: crypto.randomUUID(), title: nav.songTitle, status: 'learning', masteredOn: null }
+  })
   const [entries, setEntries] = useState<Entry[]>(() => {
     if (Array.isArray(nav?.entries)) return validEntries(nav.entries, data.songs)
+    if (preSong) return [{ kind: 'song', songId: preSong.id, mastered: false }]
     // Ouvert depuis la fiche d'un exo : il est déjà dans la liste, au tempo du métronome s'il est donné.
     if (typeof nav?.exerciseId !== 'string' || !getExercise(nav.exerciseId)) return []
     const bpm = typeof nav.bpm === 'number' && Number.isFinite(nav.bpm) && nav.bpm > 0 ? Math.round(nav.bpm) : bestBpm(data.guitarSessions, nav.exerciseId)
     return [{ kind: 'exercise', exerciseId: nav.exerciseId, bpm: bpm === null ? '' : String(bpm) }]
   })
-  const [newSongs, setNewSongs] = useState<Song[]>([])
+  const [newSongs, setNewSongs] = useState<Song[]>(() => (preSong && !data.songs.includes(preSong) ? [preSong] : []))
   const [flow, setFlow] = useState<Rating | null>(null)
   const [desire, setDesire] = useState<Rating | null>(null)
   const [saving, setSaving] = useState(false)

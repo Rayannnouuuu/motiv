@@ -45,7 +45,13 @@ export function AuthGate({ children }: { children: ReactNode }) {
     }
   }, [session])
 
-  if (session === undefined) return <div className="grid min-h-dvh place-items-center text-4xl" aria-label="Chargement">🔥</div>
+  // Même fond que l'écran d'ouverture : pas d'éclair blanc entre les deux.
+  if (session === undefined)
+    return (
+      <div className="grid min-h-dvh place-items-center bg-[#7e9a67]" aria-label="Chargement">
+        <img src={`${import.meta.env.BASE_URL}logo-512.png`} alt="" width={220} height={220} />
+      </div>
+    )
   if (session === null) return <LoginPage />
   return <>{children}</>
 }

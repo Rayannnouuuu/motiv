@@ -47,9 +47,7 @@ export function LoginPage() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-4">
       <div className="animate-rise flex flex-col items-center gap-3 text-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-[1.375rem] bg-gradient-to-b from-[#ff8a3d] to-accent text-[2.75rem] shadow-lg" aria-hidden>
-          🔥
-        </div>
+        <img src={`${import.meta.env.BASE_URL}logo-512.png`} alt="" width={96} height={96} className="h-24 w-24 rounded-[1.375rem] shadow-lg" />
         <h1 className="t-large">Motiv</h1>
         <p className="t-body -mt-2 text-muted">Guitare + sport, le progrès visible chaque jour.</p>
       </div>

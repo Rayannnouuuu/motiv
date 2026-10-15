@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { EXERCISES, getExercise } from '../../content/exercises'
 import { SONG_CATALOG, normTitle } from '../../content/songCatalog'
 import { bestBpm } from '../../domain/records'
-import { catalogNotAdded } from '../../domain/songSuggestion'
+import { activeSongs, catalogNotAdded } from '../../domain/songSuggestion'
 import type { Challenge, GuitarSession, Song } from '../../domain/types'
 
 export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string } | { kind: 'song'; songId: string; mastered: boolean }
@@ -64,21 +64,27 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
   const recentResults = recent
     .filter((id) => !usedEx.has(id) && !planned.includes(id) && !challengeBpm.has(id) && matches(getExercise(id)!.title))
     .map(exResult)
+  // Sans recherche : seulement tes morceaux en cours (déjà joués), pas ceux juste ajoutés.
+  const active = activeSongs(songs, sessions)
+  const activeIds = new Set(active.map((s) => s.id))
   const songResults: Result[] = songs
-    .filter((s) => !usedSongs.has(s.id) && (q === '' ? s.status === 'learning' : matches(s.title)))
+    .filter((s) => !usedSongs.has(s.id) && (q === '' ? s.status === 'learning' && activeIds.has(s.id) : matches(s.title)))
     .map((s) => ({ key: `song:${s.id}`, label: s.title, add: () => add({ kind: 'song', songId: s.id, mastered: false }) }))
   const otherResults =
     q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && !challengeBpm.has(e.id) && matches(e.title)).map((e) => exResult(e.id))
   // Morceaux du catalogue pas encore dans ta liste : les choisir les ajoute automatiquement.
-  const mine = new Set(songs.map((s) => normTitle(s.title)))
+  const mine = new Set(active.map((s) => normTitle(s.title)))
   // Sans recherche : les deux plus faciles du catalogue, pour pouvoir logger un morceau proposé sans l'ajouter avant.
   const catalogResults: Result[] = (
-    q === '' ? catalogNotAdded(songs).slice(0, 2) : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist)))
+    q === '' ? catalogNotAdded(active).slice(0, 2) : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist)))
   ).map((c) => ({
           key: `cat:${c.title}`,
           label: `${c.title} · ${c.artist}`,
           add: () => {
-            onCreateSong(c.title)
+            // Déjà dans ta liste sans avoir été joué : on reprend ce morceau plutôt que d'en créer un double.
+            const existing = songs.find((s) => normTitle(s.title) === normTitle(c.title))
+            if (existing) add({ kind: 'song', songId: existing.id, mastered: false })
+            else onCreateSong(c.title)
             setQuery('')
           },
         }))

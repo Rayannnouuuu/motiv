@@ -26,9 +26,10 @@
   --ink: #000000;
   --muted: rgb(60 60 67 / 0.6);
   --faint: rgb(60 60 67 / 0.3);
-  --accent: #e8590c;
-  --guitar: #248a3d;
-  --sport: #007aff;
+  /* Couleurs du logo : orange de la tenue, violet de la guitare, vert du fond. */
+  --accent: #e07800;
+  --guitar: #9a1be0;
+  --sport: #5b7a45;
   --danger: #ff3b30;
   --material: rgb(249 249 249 / 0.78);
   --material-edge: rgb(0 0 0 / 0.12);
@@ -47,9 +48,9 @@
   --ink: #ffffff;
   --muted: rgb(235 235 245 / 0.6);
   --faint: rgb(235 235 245 / 0.3);
-  --accent: #ff7a1a;
-  --guitar: #30d158;
-  --sport: #0a84ff;
+  --accent: #ff9f0a;
+  --guitar: #c061ff;
+  --sport: #9cbf84;
   --danger: #ff453a;
   --material: rgb(30 30 30 / 0.75);
   --material-edge: rgb(255 255 255 / 0.1);
@@ -69,9 +70,9 @@
     --ink: #ffffff;
     --muted: rgb(235 235 245 / 0.6);
     --faint: rgb(235 235 245 / 0.3);
-    --accent: #ff7a1a;
-    --guitar: #30d158;
-    --sport: #0a84ff;
+    --accent: #ff9f0a;
+    --guitar: #c061ff;
+    --sport: #9cbf84;
     --danger: #ff453a;
     --material: rgb(30 30 30 / 0.75);
     --material-edge: rgb(255 255 255 / 0.1);
@@ -277,23 +278,17 @@ body {
   animation: symbol-bounce 600ms ease-out;
 }
 
-/* Ouverture : la flamme reconstituée s'allume. */
-@keyframes splash-flame {
+/* Ouverture : le logo reconstitué se pose avec un léger rebond. */
+@keyframes splash-logo {
   0% {
     transform: scale(0.97);
-    filter: drop-shadow(0 0 0 rgb(255 140 0 / 0));
   }
   45% {
-    transform: scale(1.08);
-    filter: drop-shadow(0 0 28px rgb(255 140 0 / 0.75));
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 14px rgb(255 140 0 / 0.45));
+    transform: scale(1.06);
   }
 }
-.splash-flame {
-  animation: splash-flame 700ms ease-out both;
+.splash-logo {
+  animation: splash-logo 700ms ease-out both;
 }
 
 /* Montée de niveau */

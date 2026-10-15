@@ -10,8 +10,9 @@ test('animations réduites : pas d’écran d’ouverture', () => {
   expect(container).toBeEmptyDOMElement()
 })
 
-test('sans canvas (vieux navigateur) : l’appli s’affiche tout de suite', () => {
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
-  const { container } = render(<Splash />)
-  expect(container).toBeEmptyDOMElement()
+test('une seule fois par ouverture : un rechargement ne la rejoue pas', () => {
+  const first = render(<Splash />)
+  expect(first.container).not.toBeEmptyDOMElement()
+  first.unmount()
+  expect(render(<Splash />).container).toBeEmptyDOMElement()
 })
