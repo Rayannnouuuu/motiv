@@ -3,8 +3,12 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
 
+// Version d'essai de la refonte : MOTIV_BASE=/motiv/essai/ (voir .github/workflows/deploy.yml).
+const BASE = process.env.MOTIV_BASE ?? '/motiv/'
+const ESSAI = BASE !== '/motiv/'
+
 export default defineConfig({
-  base: '/motiv/',
+  base: BASE,
   // Affichés dans Réglages › Version. GitHub Actions fournit GITHUB_SHA.
   define: {
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
@@ -20,19 +24,26 @@ export default defineConfig({
       // Le meta theme-color vient d'index.html (mis à jour selon le thème) : pas de doublon injecté.
       pwaAssets: { config: true, injectThemeColor: false },
       manifest: {
-        name: 'Motiv',
-        short_name: 'Motiv',
+        name: ESSAI ? 'Motiv essai' : 'Motiv',
+        short_name: ESSAI ? 'Motiv essai' : 'Motiv',
         description: 'Guitare + sport : le progrès visible chaque jour.',
         lang: 'fr',
-        start_url: '/motiv/',
-        scope: '/motiv/',
+        start_url: BASE,
+        scope: BASE,
         display: 'standalone',
         background_color: '#f2f2f7',
         theme_color: '#f2f2f7',
       },
       // injectRegister: false désactive l'activation automatique du plugin : on la remet, sinon une nouvelle
       // version attendrait que toutes les fenêtres soient fermées et le rechargement ne viendrait jamais.
-      workbox: { navigateFallback: '/motiv/index.html', importScripts: ['push-sw.js'], skipWaiting: true, clientsClaim: true },
+      // La version d'essai vit sous /motiv/essai/ : l'appli principale ne doit pas répondre à sa place.
+      workbox: {
+        navigateFallback: `${BASE}index.html`,
+        navigateFallbackDenylist: ESSAI ? [] : [/^\/motiv\/essai\//],
+        importScripts: ['push-sw.js'],
+        skipWaiting: true,
+        clientsClaim: true,
+      },
     }),
   ],
   test: {

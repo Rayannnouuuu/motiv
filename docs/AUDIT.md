@@ -14,7 +14,7 @@ Rien n'a été modifié dans l'appli pour cet audit. Les questions sont à la fi
 | PWA | vite-plugin-pwa (generateSW, mise à jour immédiate), icônes générées depuis `public/logo.png` |
 | Rappels | Push Web : fonction `notify` (Supabase Edge, v7) appelée toutes les 15 min par pg_cron ; `public/push-sw.js` côté appareil |
 | Tests | Vitest + Testing Library : **58 fichiers, 453 tests, tous verts** (66 s, jsdom recréé 58 fois) |
-| Qualité | oxlint : 3 avertissements (1 dans `AppDataProvider`, 2 dans `Sheet`). Pas de Prettier |
+| Qualité | oxlint : 5 avertissements (2 dans `AppDataProvider`, 2 dans `Sheet`, 1 dans `WeightInput`). Pas de Prettier |
 | Déploiement | GitHub Actions sur `main` : `npm ci`, tests, build, GitHub Pages |
 | Poids | 1 seul paquet JS de 326 Ko (92 Ko gzip), CSS 8 Ko gzip |
 
@@ -104,7 +104,7 @@ Bugs encore ouverts (ceux des revues précédentes sont corrigés et testés) :
 2. **Deux seuils sur la même carte guitare.** La série compte un jour à partir de 30 min, mais la frise de la semaine affiche « 0/7 jours à 60 min » (capture 01).
 3. **Doublons dans la base d'exos guitare.** Arpèges, picking, rythme et gammes ont 2 exos aux niveaux 1 à 5 (`-11` à `-15`). Par exemple « Gamme majeure 11 » refait « Gamme majeure 1 ». Le plan du jour n'en propose qu'un.
 4. **45 morceaux jamais joués en base.** L'appli les traite comme des propositions, mais ce sont des données parasites.
-5. **3 avertissements oxlint** (setState dans un effet, ref lue pendant le rendu).
+5. **5 avertissements oxlint** (setState dans un effet, refs lues pendant le rendu, export mixte).
 
 Code dupliqué et composants à mettre en commun :
 - `GuitarCard` et `SportCard` montrent la même chose (frise de la semaine, séance du jour) avec deux composants. Même chose pour `guitarWeek`/`sportWeek`, `guitarSessionXp`/`sportSessionXp` et `saveGuitarSession`/`saveSportSession`.

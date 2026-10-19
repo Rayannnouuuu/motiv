@@ -4,6 +4,7 @@ import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
 import { getTheme, setTheme, type Theme } from '../../ui/theme'
+import { BackupSection } from './BackupSection'
 import { NotificationSettings } from './NotificationSettings'
 import { PasswordForm } from './PasswordForm'
 import { ProgramEditor } from './ProgramEditor'
@@ -46,6 +47,7 @@ export function SettingsPage() {
         <ThemePicker />
         <NotificationSettings />
         <ProgramEditor />
+        <BackupSection />
         <Group header="Compte" footer="Le mot de passe sert à te reconnecter sans lien par e-mail.">
           <PasswordForm />
         </Group>

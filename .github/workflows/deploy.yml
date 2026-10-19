@@ -29,6 +29,17 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      # Version d'essai de la refonte (dernière branche refonte/lot-N) sous /motiv/essai/, avec ses
+      # propres données. Un échec ici ne bloque pas l'appli principale.
+      - name: Version d'essai
+        continue-on-error: true
+        run: |
+          BRANCH=$(git ls-remote --heads origin 'refonte/lot-*' | sed 's#.*refs/heads/##' | sort -V | tail -1)
+          [ -z "$BRANCH" ] && exit 0
+          git fetch --depth 1 origin "$BRANCH"
+          git worktree add /tmp/essai FETCH_HEAD
+          cd /tmp/essai && npm ci && npm test && MOTIV_BASE=/motiv/essai/ npm run build
+          cp -r /tmp/essai/dist "$GITHUB_WORKSPACE/dist/essai"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
