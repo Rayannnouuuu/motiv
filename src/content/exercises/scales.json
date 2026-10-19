@@ -5,8 +5,10 @@
     "category": "scales",
     "difficulty": 1,
     "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -64,8 +66,10 @@
     "category": "scales",
     "difficulty": 2,
     "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -123,8 +127,10 @@
     "category": "scales",
     "difficulty": 3,
     "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -170,8 +176,10 @@
     "category": "scales",
     "difficulty": 4,
     "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -217,8 +225,10 @@
     "category": "scales",
     "difficulty": 5,
     "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -276,8 +286,10 @@
     "category": "scales",
     "difficulty": 6,
     "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "metric": "bpm",
+    "startBpm": 68,
     "targetBpm": 96,
-    "xpReward": 60,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -335,8 +347,10 @@
     "category": "scales",
     "difficulty": 7,
     "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "metric": "bpm",
+    "startBpm": 72,
     "targetBpm": 102,
-    "xpReward": 70,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -394,8 +408,10 @@
     "category": "scales",
     "difficulty": 8,
     "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "metric": "bpm",
+    "startBpm": 76,
     "targetBpm": 108,
-    "xpReward": 80,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -441,8 +457,10 @@
     "category": "scales",
     "difficulty": 9,
     "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "metric": "bpm",
+    "startBpm": 80,
     "targetBpm": 114,
-    "xpReward": 90,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -488,8 +506,10 @@
     "category": "scales",
     "difficulty": 10,
     "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "metric": "bpm",
+    "startBpm": 84,
     "targetBpm": 120,
-    "xpReward": 100,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -543,12 +563,14 @@
   },
   {
     "id": "scales-11",
-    "title": "Gamme majeure 11",
+    "title": "Gamme majeure 1, variante",
     "category": "scales",
     "difficulty": 1,
-    "description": "Gamme majeure classique : joue les 8 notes en montant puis en descendant.",
+    "description": "Variante de « Gamme majeure 1 » : la même gamme sur la corde de la, en do. Joue les 8 notes en montant puis en descendant.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -602,12 +624,14 @@
   },
   {
     "id": "scales-12",
-    "title": "Gamme mineure naturelle 12",
+    "title": "Gamme mineure naturelle 2, variante",
     "category": "scales",
     "difficulty": 2,
-    "description": "Gamme mineure naturelle : même principe que la majeure, intervalles différents.",
+    "description": "Variante de « Gamme mineure naturelle 2 » : la même gamme sur la corde de ré, en fa dièse. Même principe que la majeure, intervalles différents.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -661,12 +685,14 @@
   },
   {
     "id": "scales-13",
-    "title": "Pentatonique mineure 13",
+    "title": "Pentatonique mineure 3, variante",
     "category": "scales",
     "difficulty": 3,
-    "description": "La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "description": "Variante de « Pentatonique mineure 3 » : la même gamme sur la corde de mi grave, en la. La gamme la plus utilisée en rock/metal pour improviser des solos.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -708,12 +734,14 @@
   },
   {
     "id": "scales-14",
-    "title": "Pentatonique majeure 14",
+    "title": "Pentatonique majeure 4, variante",
     "category": "scales",
     "difficulty": 4,
-    "description": "Version \"majeure\" de la pentatonique, plus lumineuse, utile pour varier.",
+    "description": "Variante de « Pentatonique majeure 4 » : la même gamme sur la corde de la, en mi bémol. Plus lumineuse que la mineure, utile pour varier.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -755,12 +783,14 @@
   },
   {
     "id": "scales-15",
-    "title": "Gamme par positions (majeure) 15",
+    "title": "Gamme par positions (majeure) 5, variante",
     "category": "scales",
     "difficulty": 5,
-    "description": "La même gamme majeure jouée plus haut sur le manche, pour apprendre une nouvelle position.",
+    "description": "Variante de « Gamme par positions (majeure) 5 » : la même gamme sur la corde de ré, en ré, en partant de la corde à vide.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,

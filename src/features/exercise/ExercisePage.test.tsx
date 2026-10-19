@@ -74,6 +74,15 @@ test('la carte Métronome démarre au tempo du record, juste au-dessus de la tab
   expect(card.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Tablature' }))
 })
 
+test('sans record, la carte Métronome démarre au tempo de départ de l’exo', () => {
+  renderPage('legato-4')
+  const card = screen.getByRole('region', { name: 'Métronome' })
+  // Même tempo qu'avant la normalisation : 70 % de la cible (84), arrondi pair.
+  expect(getExercise('legato-4')!.startBpm).toBe(58)
+  expect(within(card).getByText('bpm').previousElementSibling).toHaveTextContent('58')
+  expect(within(card).queryByRole('button', { name: /Record/ })).not.toBeInTheDocument()
+})
+
 test('« Logger cet exo » sans lecture du métronome : pas de tempo transmis', async () => {
   renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
   await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))

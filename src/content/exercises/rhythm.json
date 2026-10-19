@@ -5,8 +5,10 @@
     "category": "rhythm",
     "difficulty": 1,
     "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -88,8 +90,10 @@
     "category": "rhythm",
     "difficulty": 2,
     "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -171,8 +175,10 @@
     "category": "rhythm",
     "difficulty": 3,
     "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -254,8 +260,10 @@
     "category": "rhythm",
     "difficulty": 4,
     "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -337,8 +345,10 @@
     "category": "rhythm",
     "difficulty": 5,
     "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -420,8 +430,10 @@
     "category": "rhythm",
     "difficulty": 6,
     "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "metric": "bpm",
+    "startBpm": 68,
     "targetBpm": 96,
-    "xpReward": 60,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -503,8 +515,10 @@
     "category": "rhythm",
     "difficulty": 7,
     "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "metric": "bpm",
+    "startBpm": 72,
     "targetBpm": 102,
-    "xpReward": 70,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -586,8 +600,10 @@
     "category": "rhythm",
     "difficulty": 8,
     "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "metric": "bpm",
+    "startBpm": 76,
     "targetBpm": 108,
-    "xpReward": 80,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -669,8 +685,10 @@
     "category": "rhythm",
     "difficulty": 9,
     "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "metric": "bpm",
+    "startBpm": 80,
     "targetBpm": 114,
-    "xpReward": 90,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -752,8 +770,10 @@
     "category": "rhythm",
     "difficulty": 10,
     "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "metric": "bpm",
+    "startBpm": 84,
     "targetBpm": 120,
-    "xpReward": 100,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -831,12 +851,14 @@
   },
   {
     "id": "rhythm-11",
-    "title": "Power chords alternés 11",
+    "title": "Power chords alternés 1, haut du manche",
     "category": "rhythm",
     "difficulty": 1,
     "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -914,12 +936,14 @@
   },
   {
     "id": "rhythm-12",
-    "title": "Rythmique metal 12",
+    "title": "Rythmique metal 2, haut du manche",
     "category": "rhythm",
     "difficulty": 2,
     "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -997,12 +1021,14 @@
   },
   {
     "id": "rhythm-13",
-    "title": "Riff rythmique 13",
+    "title": "Riff rythmique 3, haut du manche",
     "category": "rhythm",
     "difficulty": 3,
     "description": "Riff rythmique à deux notes, typique des rythmiques metal.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -1080,12 +1106,14 @@
   },
   {
     "id": "rhythm-14",
-    "title": "Power chords alternés 14",
+    "title": "Power chords alternés 4, haut du manche",
     "category": "rhythm",
     "difficulty": 4,
     "description": "Reste synchronisé avec le métronome : la régularité prime sur la vitesse.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -1163,12 +1191,14 @@
   },
   {
     "id": "rhythm-15",
-    "title": "Rythmique metal 15",
+    "title": "Rythmique metal 5, haut du manche",
     "category": "rhythm",
     "difficulty": 5,
     "description": "Riff en croches avec accents : appuie plus fort sur les temps forts.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,

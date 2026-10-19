@@ -113,6 +113,7 @@ export function ExercisePage() {
         key={ex.id}
         pattern={ex.pattern}
         best={best}
+        startBpm={ex.startBpm}
         targetBpm={ex.targetBpm}
         challengeBpm={challengeBpm}
         onPlayed={(bpm) => setPlayed((p) => (p?.exerciseId === ex.id && p.bpm >= bpm ? p : { exerciseId: ex.id, bpm }))}

@@ -27,28 +27,26 @@ export interface TabNote {
 }
 
 export interface Exercise {
+  /** Stable : l'historique des séances le référence. */
   id: string
   title: string
   category: ExerciseCategory
   difficulty: number
   description: string
+  /** Ce qu'on mesure pour progresser : le tempo. */
+  metric: 'bpm'
+  /** Tempo conseillé tant que tu n'as pas de record sur l'exo. */
+  startBpm: number
   targetBpm: number
+  /** Reprise de l'ancien site. */
+  source: 'legacy'
   pattern: TabNote[]
 }
 
 const suffix = (id: string) => Number(id.slice(id.lastIndexOf('-') + 1))
 
-export const EXERCISES: Exercise[] = [arpeggios, bends, legato, palmMuting, picking, rhythm, scales, sweep]
-  .flat()
-  .map(({ id, title, category, difficulty, description, targetBpm, pattern }) => ({
-    id,
-    title,
-    category: category as ExerciseCategory,
-    difficulty,
-    description,
-    targetBpm,
-    pattern: pattern as TabNote[],
-  }))
+/** Les JSON sont vérifiés par exercises.test.ts (champs, tempos, tablature). */
+export const EXERCISES = [arpeggios, bends, legato, palmMuting, picking, rhythm, scales, sweep].flat() as Exercise[]
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]))
 

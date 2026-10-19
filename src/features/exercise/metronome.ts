@@ -1,5 +1,4 @@
 import type { TabNote } from '../../content/exercises'
-import { roundEven } from '../../domain/challenges'
 
 /** Logique pure du métronome (sans audio) : tempo de départ, subdivision, programmation des clics. */
 
@@ -37,9 +36,9 @@ export function clampBpm(n: number): number {
   return Math.min(MAX_BPM, Math.max(MIN_BPM, Math.round(n)))
 }
 
-/** Tempo de départ : ton record, sinon 70 % du tempo cible (arrondi pair). */
-export function startBpm(best: number | null, targetBpm: number): number {
-  return clampBpm(best ?? roundEven(targetBpm * 0.7))
+/** Tempo à l'ouverture : ton record, sinon le tempo de départ conseillé de l'exo. */
+export function initialBpm(best: number | null, startBpm: number): number {
+  return clampBpm(best ?? startBpm)
 }
 
 /** Premier temps de la mesure, autre temps, ou subdivision. */

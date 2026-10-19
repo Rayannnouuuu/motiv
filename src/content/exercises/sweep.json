@@ -5,8 +5,10 @@
     "category": "sweep",
     "difficulty": 1,
     "description": "Un seul mouvement de médiator continu à travers les cordes, une note par corde.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -40,8 +42,10 @@
     "category": "sweep",
     "difficulty": 2,
     "description": "Synchronise la main gauche avec le médiator : chaque doigt se lève juste avant la corde suivante.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -75,8 +79,10 @@
     "category": "sweep",
     "difficulty": 3,
     "description": "Sweep descendant : même geste que la montée, mais dans le sens inverse.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -110,8 +116,10 @@
     "category": "sweep",
     "difficulty": 4,
     "description": "Un seul mouvement de médiator continu à travers les cordes, une note par corde.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -145,8 +153,10 @@
     "category": "sweep",
     "difficulty": 5,
     "description": "Synchronise la main gauche avec le médiator : chaque doigt se lève juste avant la corde suivante.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -180,8 +190,10 @@
     "category": "sweep",
     "difficulty": 6,
     "description": "Sweep descendant : même geste que la montée, mais dans le sens inverse.",
+    "metric": "bpm",
+    "startBpm": 68,
     "targetBpm": 96,
-    "xpReward": 60,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -215,8 +227,10 @@
     "category": "sweep",
     "difficulty": 7,
     "description": "Un seul mouvement de médiator continu à travers les cordes, une note par corde.",
+    "metric": "bpm",
+    "startBpm": 72,
     "targetBpm": 102,
-    "xpReward": 70,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -250,8 +264,10 @@
     "category": "sweep",
     "difficulty": 8,
     "description": "Synchronise la main gauche avec le médiator : chaque doigt se lève juste avant la corde suivante.",
+    "metric": "bpm",
+    "startBpm": 76,
     "targetBpm": 108,
-    "xpReward": 80,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -285,8 +301,10 @@
     "category": "sweep",
     "difficulty": 9,
     "description": "Sweep descendant : même geste que la montée, mais dans le sens inverse.",
+    "metric": "bpm",
+    "startBpm": 80,
     "targetBpm": 114,
-    "xpReward": 90,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -320,8 +338,10 @@
     "category": "sweep",
     "difficulty": 10,
     "description": "Un seul mouvement de médiator continu à travers les cordes, une note par corde.",
+    "metric": "bpm",
+    "startBpm": 84,
     "targetBpm": 120,
-    "xpReward": 100,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
