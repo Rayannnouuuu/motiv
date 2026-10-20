@@ -56,7 +56,12 @@ describe('SettingsPage', () => {
   })
 
   test('↑ / ↓ : ordre des séances et des exos', async () => {
-    const a = program({ id: 'a', name: 'Haut', position: 0, exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', position: 0 }), pe({ id: 'y', programId: 'a', name: 'Rowing', position: 1 })] })
+    const a = program({
+      id: 'a',
+      name: 'Haut',
+      position: 0,
+      exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', position: 0 }), pe({ id: 'y', programId: 'a', name: 'Rowing', position: 1 })],
+    })
     const b = program({ id: 'b', name: 'Bas', position: 1 })
     const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [a, b] } })
 

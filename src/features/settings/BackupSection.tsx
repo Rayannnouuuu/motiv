@@ -47,7 +47,11 @@ export function BackupSection() {
         <Row title="Importer une sauvegarde" onClick={() => input.current?.click()} aria-label="Importer une sauvegarde" />
         {undoable > 0 && (
           <Row
-            onClick={busy ? undefined : () => (undoAsked ? void run(() => undoLastImport(db, new Date().toISOString())).then(() => setUndoAsked(false)) : setUndoAsked(true))}
+            onClick={
+              busy
+                ? undefined
+                : () => (undoAsked ? void run(() => undoLastImport(db, new Date().toISOString())).then(() => setUndoAsked(false)) : setUndoAsked(true))
+            }
             chevron={false}
             aria-label="Annuler le dernier import"
           >

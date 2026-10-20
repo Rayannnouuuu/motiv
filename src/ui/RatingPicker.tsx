@@ -5,7 +5,19 @@ import { haptic } from './spring'
 const VALUES: Rating[] = [1, 2, 3, 4, 5]
 
 /** Note de 1 à 5 : cinq grandes pastilles, la choisie et celles d'avant se remplissent. */
-export function RatingPicker({ label, hint, value, onChange, tone }: { label: string; hint?: string; value: Rating | null; onChange: (r: Rating) => void; tone: Tone }) {
+export function RatingPicker({
+  label,
+  hint,
+  value,
+  onChange,
+  tone,
+}: {
+  label: string
+  hint?: string
+  value: Rating | null
+  onChange: (r: Rating) => void
+  tone: Tone
+}) {
   return (
     <fieldset className="flex flex-col gap-2.5">
       <legend className="t-headline pb-0.5">{label}</legend>

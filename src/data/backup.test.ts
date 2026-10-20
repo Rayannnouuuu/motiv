@@ -100,7 +100,17 @@ describe('import', () => {
     ['autre appli', '{"app":"autre"}', "Ce fichier n'est pas une sauvegarde MOTIV."],
     ['version future', '{"app":"motiv","schemaVersion":9}', "Ce fichier vient d'une version plus récente de MOTIV : mets l'appli à jour, puis réessaie."],
   ])('refuse : %s', (_, text, error) => {
-    expect(prepareImport(text, { exercises: [], songs: [], sessions: [], templates: [], measurements: [], challenges: [], profile: { key: 'profile', migratedFrom: null, levelsAtMigration: null } })).toEqual({ ok: false, error })
+    expect(
+      prepareImport(text, {
+        exercises: [],
+        songs: [],
+        sessions: [],
+        templates: [],
+        measurements: [],
+        challenges: [],
+        profile: { key: 'profile', migratedFrom: null, levelsAtMigration: null },
+      }),
+    ).toEqual({ ok: false, error })
   })
 
   test('fichier format 1 tronqué : refusé', async () => {

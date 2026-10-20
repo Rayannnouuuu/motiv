@@ -83,7 +83,15 @@ export async function loadAll(db: MotivDb): Promise<{ data: V1.DataV1; meta: Dev
       db.meta.get('device'),
     ])
     return {
-      data: { exercises, songs, sessions, templates, measurements, challenges, profile: profile ?? { key: 'profile', migratedFrom: null, levelsAtMigration: null } },
+      data: {
+        exercises,
+        songs,
+        sessions,
+        templates,
+        measurements,
+        challenges,
+        profile: profile ?? { key: 'profile', migratedFrom: null, levelsAtMigration: null },
+      },
       meta: meta ?? NEW_META,
     }
   })

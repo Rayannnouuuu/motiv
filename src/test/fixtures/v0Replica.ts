@@ -8,9 +8,39 @@ import { SONG_CATALOG } from '../../content/songCatalog'
 import type { AppData, Program } from '../../domain/types'
 
 const PPL: [string, [string, number, number][]][] = [
-  ['Push', [['Développé couché', 4, 8], ['Développé incliné', 3, 10], ['Développé militaire', 3, 10], ['Extension triceps poulie', 3, 12], ['Dips', 3, 10], ['Élévations latérales', 3, 15]]],
-  ['Pull', [['Tractions', 4, 8], ['Rowing barre', 4, 8], ['Tirage horizontal', 3, 10], ['Face pull', 3, 15], ['Curl biceps', 3, 12], ['Curl marteau', 3, 12]]],
-  ['Legs', [['Squat', 4, 8], ['Soulevé de terre roumain', 3, 10], ['Presse à cuisses', 3, 12], ['Leg curl', 3, 12], ['Leg extension', 3, 12], ['Mollets debout', 4, 15]]],
+  [
+    'Push',
+    [
+      ['Développé couché', 4, 8],
+      ['Développé incliné', 3, 10],
+      ['Développé militaire', 3, 10],
+      ['Extension triceps poulie', 3, 12],
+      ['Dips', 3, 10],
+      ['Élévations latérales', 3, 15],
+    ],
+  ],
+  [
+    'Pull',
+    [
+      ['Tractions', 4, 8],
+      ['Rowing barre', 4, 8],
+      ['Tirage horizontal', 3, 10],
+      ['Face pull', 3, 15],
+      ['Curl biceps', 3, 12],
+      ['Curl marteau', 3, 12],
+    ],
+  ],
+  [
+    'Legs',
+    [
+      ['Squat', 4, 8],
+      ['Soulevé de terre roumain', 3, 10],
+      ['Presse à cuisses', 3, 12],
+      ['Leg curl', 3, 12],
+      ['Leg extension', 3, 12],
+      ['Mollets debout', 4, 15],
+    ],
+  ],
 ]
 
 function programs(): Program[] {
@@ -37,7 +67,17 @@ function programs(): Program[] {
   )
 }
 
-const g = (id: string, day: string, createdAt: string, durationMin: number, xp: number, exerciseId: string, maxBpm: number | null, flow: 1 | 2 | 3, desire: 1 | 2 | 3 | 4) => ({
+const g = (
+  id: string,
+  day: string,
+  createdAt: string,
+  durationMin: number,
+  xp: number,
+  exerciseId: string,
+  maxBpm: number | null,
+  flow: 1 | 2 | 3,
+  desire: 1 | 2 | 3 | 4,
+) => ({
   id,
   day,
   durationMin,
@@ -51,12 +91,25 @@ const g = (id: string, day: string, createdAt: string, durationMin: number, xp: 
 export function v0Replica(): BackupV0 {
   const push = 'prog-b0'
   const sets: [number, number, number][] = [
-    [0, 8, 60], [0, 8, 80], [0, 8, 80], [0, 8, 80],
-    [1, 10, 40], [1, 10, 40], [1, 10, 40],
-    [2, 9, 18], [2, 7, 18], [2, 7, 18],
-    [3, 15, 18], [3, 12, 18], [3, 10, 18],
-    [4, 10, 41], [4, 9, 41], [4, 7, 41],
-    [5, 14, 5], [5, 12, 5], [5, 12, 5],
+    [0, 8, 60],
+    [0, 8, 80],
+    [0, 8, 80],
+    [0, 8, 80],
+    [1, 10, 40],
+    [1, 10, 40],
+    [1, 10, 40],
+    [2, 9, 18],
+    [2, 7, 18],
+    [2, 7, 18],
+    [3, 15, 18],
+    [3, 12, 18],
+    [3, 10, 18],
+    [4, 10, 41],
+    [4, 9, 41],
+    [4, 7, 41],
+    [5, 14, 5],
+    [5, 12, 5],
+    [5, 12, 5],
   ]
   const index = new Map<number, number>()
   const data: AppData = {
@@ -89,10 +142,54 @@ export function v0Replica(): BackupV0 {
     programs: programs(),
     bodyMetrics: [{ id: 'm-1', day: '2026-10-13', weightKg: 108.9, waistCm: 183, chestCm: null, armCm: null, thighCm: null }],
     challenges: [
-      { id: 'c-1', domain: 'guitar', level: 1, target: { kind: 'bpm', exerciseId: 'scales-1', bpm: 66, baseline: null }, easier: false, status: 'replaced', createdOn: '2026-10-12', blockedSince: null, doneOn: null, rerolls: 0 },
-      { id: 'c-2', domain: 'guitar', level: 1, target: { kind: 'bpm', exerciseId: 'scales-3', bpm: 78, baseline: null }, easier: false, status: 'active', createdOn: '2026-10-12', blockedSince: null, doneOn: null, rerolls: 0 },
-      { id: 'c-3', domain: 'sport', level: 1, target: { kind: 'sessionsInWeek', count: 4 }, easier: false, status: 'active', createdOn: '2026-10-12', blockedSince: null, doneOn: null, rerolls: 0 },
-      { id: 'c-4', domain: 'sport', level: 1, target: { kind: 'weight', programExerciseId: `${push}-pe0`, reps: 8, weightKg: 82.5, baseline: 80 }, easier: false, status: 'replaced', createdOn: '2026-10-12', blockedSince: null, doneOn: null, rerolls: 1 },
+      {
+        id: 'c-1',
+        domain: 'guitar',
+        level: 1,
+        target: { kind: 'bpm', exerciseId: 'scales-1', bpm: 66, baseline: null },
+        easier: false,
+        status: 'replaced',
+        createdOn: '2026-10-12',
+        blockedSince: null,
+        doneOn: null,
+        rerolls: 0,
+      },
+      {
+        id: 'c-2',
+        domain: 'guitar',
+        level: 1,
+        target: { kind: 'bpm', exerciseId: 'scales-3', bpm: 78, baseline: null },
+        easier: false,
+        status: 'active',
+        createdOn: '2026-10-12',
+        blockedSince: null,
+        doneOn: null,
+        rerolls: 0,
+      },
+      {
+        id: 'c-3',
+        domain: 'sport',
+        level: 1,
+        target: { kind: 'sessionsInWeek', count: 4 },
+        easier: false,
+        status: 'active',
+        createdOn: '2026-10-12',
+        blockedSince: null,
+        doneOn: null,
+        rerolls: 0,
+      },
+      {
+        id: 'c-4',
+        domain: 'sport',
+        level: 1,
+        target: { kind: 'weight', programExerciseId: `${push}-pe0`, reps: 8, weightKg: 82.5, baseline: 80 },
+        easier: false,
+        status: 'replaced',
+        createdOn: '2026-10-12',
+        blockedSince: null,
+        doneOn: null,
+        rerolls: 1,
+      },
     ],
   }
   return { app: 'motiv', schemaVersion: 0, exportedAt: '2026-10-19T19:00:00.000Z', data }

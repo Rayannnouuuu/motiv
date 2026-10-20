@@ -11,7 +11,13 @@ const PAD = { top: 12, right: 8, bottom: 22, left: 8 }
  * `highlights` : points mis en avant (records). Survol / toucher : repère + bulle.
  * `tone` : couleur de la discipline mesurée.
  */
-export function LineChart({ points, height = 200, format = (v: number) => String(v), highlights = [], tone = 'accent' }: {
+export function LineChart({
+  points,
+  height = 200,
+  format = (v: number) => String(v),
+  highlights = [],
+  tone = 'accent',
+}: {
   points: Point[]
   height?: number
   format?: (v: number) => string

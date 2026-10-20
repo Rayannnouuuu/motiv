@@ -8,7 +8,17 @@ import { rubberband, SpringValue, VelocityTracker } from './spring'
  * On peut la rattraper pendant qu'elle bouge.
  * Rendue dans <body> : posée dans un écran animé (transform), elle se calerait sur lui et non sur l'écran.
  */
-export function Sheet({ label, title, onClose, children }: { label: string; title?: (close: () => void) => ReactNode; onClose: () => void; children: (close: () => void) => ReactNode }) {
+export function Sheet({
+  label,
+  title,
+  onClose,
+  children,
+}: {
+  label: string
+  title?: (close: () => void) => ReactNode
+  onClose: () => void
+  children: (close: () => void) => ReactNode
+}) {
   const panel = useRef<HTMLDivElement>(null)
   const scrim = useRef<HTMLDivElement>(null)
   const spring = useRef<SpringValue | null>(null)

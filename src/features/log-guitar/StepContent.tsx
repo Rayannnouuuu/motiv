@@ -10,20 +10,32 @@ export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string } | { ki
 
 const MAX_RESULTS = 8
 
-const norm = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim()
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .trim()
 
 /** Ids d'exos connus, du plus récent au plus ancien. */
 function recentExerciseIds(sessions: GuitarSession[]): string[] {
   const ids: string[] = []
   for (const s of [...sessions].sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt)))
-    for (const it of s.items)
-      if (it.kind === 'exercise' && !ids.includes(it.exerciseId) && getExercise(it.exerciseId)) ids.push(it.exerciseId)
+    for (const it of s.items) if (it.kind === 'exercise' && !ids.includes(it.exerciseId) && getExercise(it.exerciseId)) ids.push(it.exerciseId)
   return ids
 }
 
 type Result = { key: string; label: string; add: () => void; tag?: 'défi' | 'du jour' }
 
-export function StepContent({ entries, songs, sessions, planned, challenges = [], onEntries, onCreateSong }: {
+export function StepContent({
+  entries,
+  songs,
+  sessions,
+  planned,
+  challenges = [],
+  onEntries,
+  onCreateSong,
+}: {
   entries: Entry[]
   songs: Song[]
   sessions: GuitarSession[]
@@ -72,23 +84,27 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
     .filter((s) => !usedSongs.has(s.id) && (q === '' ? s.status === 'learning' && activeIds.has(s.id) : matches(s.title)))
     .map((s) => ({ key: `song:${s.id}`, label: s.title, add: () => add({ kind: 'song', songId: s.id, mastered: false }) }))
   const otherResults =
-    q === '' ? [] : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && !challengeBpm.has(e.id) && matches(e.title)).map((e) => exResult(e.id))
+    q === ''
+      ? []
+      : EXERCISES.filter((e) => !usedEx.has(e.id) && !recent.includes(e.id) && !planned.includes(e.id) && !challengeBpm.has(e.id) && matches(e.title)).map(
+          (e) => exResult(e.id),
+        )
   // Morceaux du catalogue pas encore dans ta liste : les choisir les ajoute automatiquement.
   const mine = new Set(active.map((s) => normTitle(s.title)))
   // Sans recherche : les deux plus faciles du catalogue, pour pouvoir logger un morceau proposé sans l'ajouter avant.
   const catalogResults: Result[] = (
     q === '' ? catalogNotAdded(active).slice(0, 2) : SONG_CATALOG.filter((c) => !mine.has(normTitle(c.title)) && (matches(c.title) || matches(c.artist)))
   ).map((c) => ({
-          key: `cat:${c.title}`,
-          label: `${c.title} · ${c.artist}`,
-          add: () => {
-            // Déjà dans ta liste sans avoir été joué : on reprend ce morceau plutôt que d'en créer un double.
-            const existing = songs.find((s) => normTitle(s.title) === normTitle(c.title))
-            if (existing) add({ kind: 'song', songId: existing.id, mastered: false })
-            else onCreateSong(c.title)
-            setQuery('')
-          },
-        }))
+    key: `cat:${c.title}`,
+    label: `${c.title} · ${c.artist}`,
+    add: () => {
+      // Déjà dans ta liste sans avoir été joué : on reprend ce morceau plutôt que d'en créer un double.
+      const existing = songs.find((s) => normTitle(s.title) === normTitle(c.title))
+      if (existing) add({ kind: 'song', songId: existing.id, mastered: false })
+      else onCreateSong(c.title)
+      setQuery('')
+    },
+  }))
   // Morceaux en cours avant les anciens exos : sinon, après quelques jours de logs, ils ne tiennent plus dans la liste.
   const results = [...challengeResults, ...plannedResults, ...songResults, ...catalogResults, ...recentResults, ...otherResults].slice(0, MAX_RESULTS)
   const canCreate = q !== '' && !songs.some((s) => norm(s.title) === q) && !SONG_CATALOG.some((c) => norm(c.title) === q)
@@ -189,7 +205,13 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
         {(results.length > 0 || canCreate) && (
           <div className="rows overflow-hidden rounded-md bg-surface">
             {results.map((r) => (
-              <button key={r.key} type="button" aria-label={`Ajouter ${r.label}`} onClick={r.add} className="tap-row flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left">
+              <button
+                key={r.key}
+                type="button"
+                aria-label={`Ajouter ${r.label}`}
+                onClick={r.add}
+                className="tap-row flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left"
+              >
                 <span className="t-body flex min-w-0 flex-1 items-center gap-1.5">
                   <Icon name="plus" className="text-guitar" />
                   {r.label}

@@ -15,7 +15,13 @@ const routes = (
 )
 
 test('affiche le total, le détail et la jauge du domaine', () => {
-  const result = { total: 68, lines: [{ label: '45 min jouées', xp: 45 }, { label: 'Record de tempo · Legato 4', xp: 10 }] }
+  const result = {
+    total: 68,
+    lines: [
+      { label: '45 min jouées', xp: 45 },
+      { label: 'Record de tempo · Legato 4', xp: 10 },
+    ],
+  }
   renderWithData(routes, { route: { pathname: '/xp', state: { result, domain: 'guitar' } } })
   expect(screen.getByText('+68 XP')).toBeInTheDocument()
   expect(screen.getByText('45 min jouées')).toBeInTheDocument()

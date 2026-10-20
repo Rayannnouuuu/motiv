@@ -22,8 +22,7 @@ export function useImport(onDone?: () => void) {
     prepared,
     error,
     prepare,
-    pickFile: (file: File) =>
-      file.text().then(prepare, () => setError('Fichier illisible : il est peut-être incomplet.')),
+    pickFile: (file: File) => file.text().then(prepare, () => setError('Fichier illisible : il est peut-être incomplet.')),
     cancel: () => setPrepared(null),
     async confirm() {
       if (!prepared) return

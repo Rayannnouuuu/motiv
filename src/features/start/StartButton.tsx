@@ -40,7 +40,12 @@ export function StartButton() {
               </Group>
               <Group header="Sport">
                 {next && (
-                  <Row icon={<Icon name="sport" className="text-sport" />} title={`Séance ${next.name}`} subtitle="La prochaine de ton programme" onClick={() => go(close, '/log/sport', { programId: next.id })} />
+                  <Row
+                    icon={<Icon name="sport" className="text-sport" />}
+                    title={`Séance ${next.name}`}
+                    subtitle="La prochaine de ton programme"
+                    onClick={() => go(close, '/log/sport', { programId: next.id })}
+                  />
                 )}
                 <Row icon={<Icon name="sport" className="text-sport" />} title="Choisir une séance" onClick={() => go(close, '/log/sport')} />
               </Group>

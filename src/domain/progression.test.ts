@@ -1,14 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { challenge, data, ex, g, program, ss } from '../test/factories'
-import {
-  acceptEasier,
-  applyChallengeUpdates,
-  nextProgram,
-  planChallengeUpdates,
-  rerollChallenge,
-  settleChallenges,
-  type ChallengeUpdate,
-} from './progression'
+import { acceptEasier, applyChallengeUpdates, nextProgram, planChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate } from './progression'
 import type { Challenge, ChallengeTarget } from './types'
 
 const today = '2026-10-15'
@@ -44,7 +36,9 @@ describe('planChallengeUpdates', () => {
   })
 
   test('un seul défi actif par domaine et niveau', () => {
-    const d = data({ challenges: [challenge({ target: { kind: 'song', songId: 's1' } }), challenge({ domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })] })
+    const d = data({
+      challenges: [challenge({ target: { kind: 'song', songId: 's1' } }), challenge({ domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })],
+    })
     expect(planChallengeUpdates(d, today, deps)).toEqual([])
   })
 
@@ -61,7 +55,12 @@ describe('relance et version plus facile', () => {
   const twoExos = data({ guitarSessions: [g('2026-10-14', 30, [ex('legato-10', 100), ex('picking-10', 100)])] })
 
   test('rerollChallenge : replace + nouveau défi même niveau, rerolls + 1, cible différente', () => {
-    const c: Challenge = challenge({ id: 'c1', createdOn: '2026-10-10', blockedSince: '2026-10-12', target: { kind: 'bpm', exerciseId: 'legato-10', bpm: 120, baseline: 100 } })
+    const c: Challenge = challenge({
+      id: 'c1',
+      createdOn: '2026-10-10',
+      blockedSince: '2026-10-12',
+      target: { kind: 'bpm', exerciseId: 'legato-10', bpm: 120, baseline: 100 },
+    })
     const u = rerollChallenge({ ...twoExos, challenges: [c] }, 'c1', today, deps)
     expect(u[0]).toEqual({ type: 'replace', id: 'c1' })
     const next = creates(u)[0]

@@ -1,16 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { getExercise } from '../content/exercises'
 import { challenge, data, ex, g, mkSong, pe, program, set, ss } from '../test/factories'
-import {
-  canOfferEasier,
-  canReroll,
-  describeTarget,
-  easierTarget,
-  generateGuitarTarget,
-  generateSportTarget,
-  isChallengeMet,
-  roundEven,
-} from './challenges'
+import { canOfferEasier, canReroll, describeTarget, easierTarget, generateGuitarTarget, generateSportTarget, isChallengeMet, roundEven } from './challenges'
 import type { ChallengeTarget } from './types'
 
 const today = '2026-10-15'
@@ -48,7 +39,12 @@ describe('génération guitare (plus dur que les exos du jour)', () => {
   })
 
   test('aucun historique → gammes niveau 3 à leur tempo cible', () => {
-    expect(generateGuitarTarget(data(), today, first, [])).toEqual({ kind: 'bpm', exerciseId: 'scales-3', bpm: getExercise('scales-3')!.targetBpm, baseline: null })
+    expect(generateGuitarTarget(data(), today, first, [])).toEqual({
+      kind: 'bpm',
+      exerciseId: 'scales-3',
+      bpm: getExercise('scales-3')!.targetBpm,
+      baseline: null,
+    })
   })
 
   test('exos inconnus ignorés ; sans exo récent, une catégorie déjà travaillée', () => {
@@ -120,7 +116,11 @@ describe('réussite', () => {
   })
 
   test('charge et reps atteintes sur une même série', () => {
-    const c = challenge({ domain: 'sport', createdOn: '2026-10-10', target: { kind: 'weight', programExerciseId: 'pe1', reps: 8, weightKg: 62.5, baseline: 60 } })
+    const c = challenge({
+      domain: 'sport',
+      createdOn: '2026-10-10',
+      target: { kind: 'weight', programExerciseId: 'pe1', reps: 8, weightKg: 62.5, baseline: 60 },
+    })
     expect(isChallengeMet(c, data({ sportSessions: [ss([set(62.5, 7, 'pe1')], today)] }))).toBe(false)
     expect(isChallengeMet(c, data({ sportSessions: [ss([set(65, 8, 'pe1')], today)] }))).toBe(true)
   })
@@ -136,7 +136,12 @@ describe('réussite', () => {
 
 describe('version plus facile et relances', () => {
   test("easierTarget réduit l'écart de moitié", () => {
-    expect(easierTarget({ kind: 'bpm', exerciseId: 'legato-10', bpm: 110, baseline: 100 })).toEqual({ kind: 'bpm', exerciseId: 'legato-10', bpm: 106, baseline: 100 })
+    expect(easierTarget({ kind: 'bpm', exerciseId: 'legato-10', bpm: 110, baseline: 100 })).toEqual({
+      kind: 'bpm',
+      exerciseId: 'legato-10',
+      bpm: 106,
+      baseline: 100,
+    })
     expect(easierTarget({ kind: 'bpm', exerciseId: 'x', bpm: 120, baseline: null })).toEqual({ kind: 'bpm', exerciseId: 'x', bpm: 108, baseline: null })
     expect(easierTarget({ kind: 'weight', programExerciseId: 'p', reps: 8, weightKg: 65, baseline: 60 })).toMatchObject({ weightKg: 62.5 })
     expect(easierTarget({ kind: 'weight', programExerciseId: 'p', reps: 8, weightKg: 62.5, baseline: 60 })).toMatchObject({ weightKg: 61.25 })

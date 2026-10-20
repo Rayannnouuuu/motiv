@@ -56,7 +56,12 @@ export function readLegacyLocal(): { backup: BackupV0; pending: number } | null 
   const sent = list('motiv.outbox.sent.v1').map((x: { entry: OutboxEntry }) => x.entry)
   const pending = list('motiv.outbox.v1') as OutboxEntry[]
   return {
-    backup: { app: 'motiv', schemaVersion: 0, exportedAt: new Date(snap.savedAt).toISOString(), data: mergePending(snap.data as unknown as AppData, [...sent, ...pending]) },
+    backup: {
+      app: 'motiv',
+      schemaVersion: 0,
+      exportedAt: new Date(snap.savedAt).toISOString(),
+      data: mergePending(snap.data as unknown as AppData, [...sent, ...pending]),
+    },
     pending: pending.length,
   }
 }

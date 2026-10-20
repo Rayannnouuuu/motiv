@@ -60,7 +60,11 @@ describe('liveReducer', () => {
     expect(s).toMatchObject({ exerciseIndex: 0, exerciseId: 'a', weightKg: 60, reps: 8 })
     expect(liveReducer(s, { type: 'prevExercise', prefill: { weightKg: 0, reps: 1 } }, exercises)).toBe(s)
     const finished = liveReducer(s, { type: 'finish' }, exercises)
-    expect(liveReducer(finished, { type: 'prevExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)).toMatchObject({ exerciseId: 'b', weightKg: 40, reps: 10 })
+    expect(liveReducer(finished, { type: 'prevExercise', prefill: { weightKg: 40, reps: 10 } }, exercises)).toMatchObject({
+      exerciseId: 'b',
+      weightKg: 40,
+      reps: 10,
+    })
   })
 
   test('exo courant archivé : on passe au suivant', () => {

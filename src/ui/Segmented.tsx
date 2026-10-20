@@ -3,13 +3,21 @@
  * Chaque segment reste un bouton à bascule (aria-pressed). En sombre, la pastille (--thumb) prend le gris
  * d'iOS, plus clair que la piste même posée sur une carte.
  */
-export function Segmented<T extends string>({ options, value, onChange, label }: {
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
   options: { value: T; label: string }[]
   value: T
   onChange: (v: T) => void
   label: string
 }) {
-  const i = Math.max(0, options.findIndex((o) => o.value === value))
+  const i = Math.max(
+    0,
+    options.findIndex((o) => o.value === value),
+  )
   return (
     <div role="group" aria-label={label} className="relative flex rounded-sm bg-fill p-0.5">
       <span

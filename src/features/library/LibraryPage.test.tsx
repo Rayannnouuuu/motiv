@@ -31,5 +31,7 @@ test('modifier un mouvement : nom, partie du corps, fourchette', async () => {
   await userEvent.clear(screen.getByLabelText('Reps maximum'))
   await userEvent.type(screen.getByLabelText('Reps maximum'), '8')
   await userEvent.click(screen.getByRole('button', { name: 'Enregistrer' }))
-  expect(vi.mocked(actions.saveMovement)).toHaveBeenCalledWith(expect.objectContaining({ id: 'squat', name: 'Squat barre haute', body: 'lower', repRange: [6, 8] }))
+  expect(vi.mocked(actions.saveMovement)).toHaveBeenCalledWith(
+    expect.objectContaining({ id: 'squat', name: 'Squat barre haute', body: 'lower', repRange: [6, 8] }),
+  )
 })

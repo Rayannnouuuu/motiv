@@ -37,23 +37,100 @@ function Focus({ children }: { children: ReactNode }) {
 export function AppRoutes() {
   return (
     <>
-    <Routes>
-      <Route path="/log/guitare" element={<Focus><LogGuitarPage /></Focus>} />
-      <Route path="/log/sport" element={<Focus><LogSportPage /></Focus>} />
-      <Route path="/jouer" element={<Focus><PracticePage /></Focus>} />
-      <Route path="/log/corriger" element={<Focus><EditLogPage /></Focus>} />
-      <Route path="/log/corriger/:id" element={<Focus><EditLogPage /></Focus>} />
-      <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
-      <Route path="/exo/:id" element={<Shell><ExercisePage /></Shell>} />
-      <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />
-      <Route path="/bibliotheque" element={<Shell><LibraryPage /></Shell>} />
-      <Route path="/moi" element={<Shell><SettingsPage /></Shell>} />
-      {/* Anciennes adresses (favoris, anciens rappels). */}
-      <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
-      <Route path="/reglages" element={<Navigate to="/moi" replace />} />
-      <Route path="*" element={<Shell><TodayPage /></Shell>} />
-    </Routes>
-    <LevelUpWatcher />
+      <Routes>
+        <Route
+          path="/log/guitare"
+          element={
+            <Focus>
+              <LogGuitarPage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/log/sport"
+          element={
+            <Focus>
+              <LogSportPage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/jouer"
+          element={
+            <Focus>
+              <PracticePage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/log/corriger"
+          element={
+            <Focus>
+              <EditLogPage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/log/corriger/:id"
+          element={
+            <Focus>
+              <EditLogPage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/xp"
+          element={
+            <Focus>
+              <XpResultPage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/exo/:id"
+          element={
+            <Shell>
+              <ExercisePage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/progres"
+          element={
+            <Shell>
+              <ProgressPage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/bibliotheque"
+          element={
+            <Shell>
+              <LibraryPage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/moi"
+          element={
+            <Shell>
+              <SettingsPage />
+            </Shell>
+          }
+        />
+        {/* Anciennes adresses (favoris, anciens rappels). */}
+        <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
+        <Route path="/reglages" element={<Navigate to="/moi" replace />} />
+        <Route
+          path="*"
+          element={
+            <Shell>
+              <TodayPage />
+            </Shell>
+          }
+        />
+      </Routes>
+      <LevelUpWatcher />
     </>
   )
 }

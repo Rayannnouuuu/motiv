@@ -7,15 +7,7 @@ import rhythm from './exercises/rhythm.json'
 import scales from './exercises/scales.json'
 import sweep from './exercises/sweep.json'
 
-export type ExerciseCategory =
-  | 'arpeggios'
-  | 'bends'
-  | 'legato'
-  | 'palmMuting'
-  | 'picking'
-  | 'rhythm'
-  | 'scales'
-  | 'sweep'
+export type ExerciseCategory = 'arpeggios' | 'bends' | 'legato' | 'palmMuting' | 'picking' | 'rhythm' | 'scales' | 'sweep'
 
 export interface TabNote {
   /** 1 = mi aigu, 6 = mi grave. */
@@ -55,9 +47,7 @@ export function getExercise(id: string): Exercise | undefined {
 }
 
 export function nextInCategory(ex: Exercise): Exercise | undefined {
-  return EXERCISES.filter((e) => e.category === ex.category && e.difficulty === ex.difficulty + 1).sort(
-    (a, b) => suffix(a.id) - suffix(b.id),
-  )[0]
+  return EXERCISES.filter((e) => e.category === ex.category && e.difficulty === ex.difficulty + 1).sort((a, b) => suffix(a.id) - suffix(b.id))[0]
 }
 
 export const CATEGORY_LABELS: Record<ExerciseCategory, string> = {

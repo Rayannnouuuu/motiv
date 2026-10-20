@@ -17,7 +17,13 @@ const clock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2,
  * Minuteur de repos entre deux séries. Tout se calcule depuis l'horodatage de la série :
  * le temps reste juste après un passage dans une autre appli ou un rechargement.
  */
-export function RestTimer({ startedAt, restSec, nextLabel, onAdd, onSkip }: {
+export function RestTimer({
+  startedAt,
+  restSec,
+  nextLabel,
+  onAdd,
+  onSkip,
+}: {
   startedAt: string | null
   restSec: number
   /** Ce qui suit le repos : « série 3 », le nom de l'exo suivant, ou la fin de séance. */

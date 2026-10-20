@@ -95,7 +95,7 @@ export function runningPracticeMinutes(now: Date = new Date()): number | null {
   return s && !isStale(s, now) ? logMinutes(s, now) : null
 }
 
-const isStringArray =(v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string')
+const isStringArray = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string')
 const isDate = (v: unknown): v is string => typeof v === 'string' && !Number.isNaN(new Date(v).getTime())
 
 export function loadPractice(): PracticeState | null {
@@ -117,7 +117,16 @@ export function loadPractice(): PracticeState | null {
       s.bpms && typeof s.bpms === 'object'
         ? Object.fromEntries(Object.entries(s.bpms).filter(([, b]) => typeof b === 'number' && Number.isFinite(b) && b > 0))
         : undefined
-    return { id: s.id, startedAt: s.startedAt, pausedAt: s.pausedAt, pausedMs: s.pausedMs, exercises: s.exercises, songs: s.songs, goalCelebrated: s.goalCelebrated, ...(bpms ? { bpms } : {}) }
+    return {
+      id: s.id,
+      startedAt: s.startedAt,
+      pausedAt: s.pausedAt,
+      pausedMs: s.pausedMs,
+      exercises: s.exercises,
+      songs: s.songs,
+      goalCelebrated: s.goalCelebrated,
+      ...(bpms ? { bpms } : {}),
+    }
   } catch {
     return null
   }

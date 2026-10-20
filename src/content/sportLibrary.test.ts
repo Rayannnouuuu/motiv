@@ -55,9 +55,28 @@ test('chaque exo des programmes tout faits est reconnu, avec ses répétitions d
 
 test('les grands classiques sont là', () => {
   const ids = [
-    'squat', 'souleve-de-terre', 'developpe-couche', 'developpe-militaire', 'tractions', 'rowing-barre', 'dips', 'fentes',
-    'hip-thrust', 'presse-a-cuisses', 'leg-curl', 'leg-extension', 'mollets-debout', 'elevations-laterales', 'face-pull',
-    'curl-biceps', 'extension-triceps-poulie', 'gainage', 'crunchs', 'rameur', 'course', 'velo',
+    'squat',
+    'souleve-de-terre',
+    'developpe-couche',
+    'developpe-militaire',
+    'tractions',
+    'rowing-barre',
+    'dips',
+    'fentes',
+    'hip-thrust',
+    'presse-a-cuisses',
+    'leg-curl',
+    'leg-extension',
+    'mollets-debout',
+    'elevations-laterales',
+    'face-pull',
+    'curl-biceps',
+    'extension-triceps-poulie',
+    'gainage',
+    'crunchs',
+    'rameur',
+    'course',
+    'velo',
   ]
   expect(ids.filter((id) => !SPORT_MOVEMENTS.some((m) => m.id === id))).toEqual([])
 })

@@ -36,7 +36,8 @@ export function StorageNotices() {
       {install && (
         <section aria-label="Installer MOTIV" className="flex flex-col gap-2 rounded-2xl bg-surface p-4 shadow-card">
           <p className="t-subhead">
-            Ajoute MOTIV à l’écran d’accueil (Partager › Sur l’écran d’accueil) : dans Safari, tes données peuvent être effacées après quelques jours sans visite.
+            Ajoute MOTIV à l’écran d’accueil (Partager › Sur l’écran d’accueil) : dans Safari, tes données peuvent être effacées après quelques jours sans
+            visite.
           </p>
           <Button variant="ghost" className="self-end" onClick={() => setInstallHidden(true)}>
             Compris
@@ -46,8 +47,8 @@ export function StorageNotices() {
       {due && (
         <section aria-label="Sauvegarde" className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card">
           <p className="t-subhead">
-            {due.lastBackupAt ? `Ta dernière sauvegarde date du ${onDay(due.lastBackupAt)}.` : 'Tu n’as pas encore de sauvegarde au nouveau format.'} Un tap pour la
-            mettre à jour, à garder dans Fichiers.
+            {due.lastBackupAt ? `Ta dernière sauvegarde date du ${onDay(due.lastBackupAt)}.` : 'Tu n’as pas encore de sauvegarde au nouveau format.'} Un tap
+            pour la mettre à jour, à garder dans Fichiers.
           </p>
           <div className="flex gap-2">
             <Button

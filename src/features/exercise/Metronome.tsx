@@ -128,17 +128,28 @@ class Engine {
       if (click.kind === 'sub') continue
       // Le point s'allume quand le clic sonne, pas quand il est programmé.
       const beat = Math.floor((click.index % (this.sub * BEATS)) / this.sub)
-      const id = setTimeout(() => {
-        this.visuals.delete(id)
-        this.onBeat(beat)
-      }, Math.max(0, (click.time - ctx.currentTime) * 1000))
+      const id = setTimeout(
+        () => {
+          this.visuals.delete(id)
+          this.onBeat(beat)
+        },
+        Math.max(0, (click.time - ctx.currentTime) * 1000),
+      )
       this.visuals.add(id)
     }
   }
 }
 
 /** Métronome de la fiche exo : réglé sur ton record (sinon le tempo de départ de l'exo), il remonte au log le tempo réellement joué. */
-export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, onPlayed, createContext = defaultContext }: {
+export function Metronome({
+  pattern,
+  best,
+  startBpm,
+  targetBpm,
+  challengeBpm,
+  onPlayed,
+  createContext = defaultContext,
+}: {
   pattern: TabNote[]
   best: number | null
   startBpm: number

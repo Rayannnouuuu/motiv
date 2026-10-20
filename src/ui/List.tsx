@@ -7,10 +7,26 @@ import { TONE, type Tone } from '../design/tone'
  * Liste groupée façon Réglages iOS : un en-tête discret, des lignes dans une carte arrondie séparées
  * par un filet qui commence après l'icône, un pied de texte explicatif.
  */
-export function Group({ header, footer, children, className = '', labelledBy }: { header?: ReactNode; footer?: ReactNode; children: ReactNode; className?: string; labelledBy?: string }) {
+export function Group({
+  header,
+  footer,
+  children,
+  className = '',
+  labelledBy,
+}: {
+  header?: ReactNode
+  footer?: ReactNode
+  children: ReactNode
+  className?: string
+  labelledBy?: string
+}) {
   return (
     <section className={`flex flex-col ${className}`} aria-labelledby={labelledBy}>
-      {header && <h2 id={labelledBy} className="t-footnote px-4 pb-1.5 text-muted uppercase">{header}</h2>}
+      {header && (
+        <h2 id={labelledBy} className="t-footnote px-4 pb-1.5 text-muted uppercase">
+          {header}
+        </h2>
+      )}
       <div className="rows overflow-hidden rounded-md bg-surface">{children}</div>
       {footer && <p className="t-footnote px-4 pt-1.5 text-muted">{footer}</p>}
     </section>
@@ -25,7 +41,19 @@ export function RowChevron({ className = '' }: { className?: string }) {
 }
 
 /** Ligne : libellé (+ sous-titre), valeur à droite ; lien ou bouton selon `to` / `onClick`. */
-export function Row({ title, subtitle, detail, accessory, icon, to, onClick, chevron, children, className = '', ...aria }: {
+export function Row({
+  title,
+  subtitle,
+  detail,
+  accessory,
+  icon,
+  to,
+  onClick,
+  chevron,
+  children,
+  className = '',
+  ...aria
+}: {
   title?: ReactNode
   subtitle?: ReactNode
   detail?: ReactNode

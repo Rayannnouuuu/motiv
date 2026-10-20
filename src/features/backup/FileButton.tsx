@@ -4,7 +4,15 @@ import { Button } from '../../ui/Button'
 /**
  * Choisir un fichier dans Fichiers. Pas de filtre de type : iOS grise parfois les .json.
  */
-export function FileButton({ onFile, children, variant = 'secondary' }: { onFile: (f: File) => void; children: string; variant?: 'primary' | 'secondary' | 'ghost' }) {
+export function FileButton({
+  onFile,
+  children,
+  variant = 'secondary',
+}: {
+  onFile: (f: File) => void
+  children: string
+  variant?: 'primary' | 'secondary' | 'ghost'
+}) {
   const input = useRef<HTMLInputElement>(null)
   return (
     <>

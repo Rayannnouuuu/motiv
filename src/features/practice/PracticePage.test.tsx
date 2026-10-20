@@ -13,7 +13,11 @@ const T0 = new Date('2026-10-15T16:00:00Z') // 18 h à Paris
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 /** État de navigation de l'écran du chrono lui-même. */

@@ -46,7 +46,10 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
       <div
         aria-hidden
         className="levelup-rays pointer-events-none absolute top-1/2 left-1/2 -mt-[60vmax] -ml-[60vmax] h-[120vmax] w-[120vmax] opacity-25"
-        style={{ background: `repeating-conic-gradient(var(--${COLOR[info.key]}) 0deg 9deg, transparent 9deg 24deg)`, maskImage: 'radial-gradient(circle, black 0%, transparent 60%)' }}
+        style={{
+          background: `repeating-conic-gradient(var(--${COLOR[info.key]}) 0deg 9deg, transparent 9deg 24deg)`,
+          maskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+        }}
       />
 
       <p className="t-footnote relative font-semibold text-muted uppercase">{LABEL[info.key]}</p>
@@ -65,9 +68,7 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
       {done && (
         <div className="levelup-rise relative flex flex-col items-center gap-2">
           <p className="t-large">Niveau {info.to} !</p>
-          {info.also.length > 0 && (
-            <p className="t-subhead text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>
-          )}
+          {info.also.length > 0 && <p className="t-subhead text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>}
           <button type="button" className={`tap-scale t-headline mt-4 min-h-12.5 rounded-lg px-10 py-3 ${TONE.solid[COLOR[info.key]]}`} onClick={onClose}>
             Continuer
           </button>

@@ -106,16 +106,16 @@ export function TodayPage() {
           </div>
           <Gauge value={streak.todayMin} max={streak.targetMin} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
           {to && look ? (
-              <Button tone={look.tone} className="w-full" onClick={() => navigate(to, { state: action.state })}>
-                <Icon name={look.icon} />
-                {action.label}
-              </Button>
-            ) : (
-              <p className="t-subhead flex items-center justify-center gap-1 font-semibold text-accent">
-                <Icon name="check" />
-                {action.label} · à demain
-              </p>
-            )}
+            <Button tone={look.tone} className="w-full" onClick={() => navigate(to, { state: action.state })}>
+              <Icon name={look.icon} />
+              {action.label}
+            </Button>
+          ) : (
+            <p className="t-subhead flex items-center justify-center gap-1 font-semibold text-accent">
+              <Icon name="check" />
+              {action.label} · à demain
+            </p>
+          )}
         </section>
 
         {challenges.length > 0 && (

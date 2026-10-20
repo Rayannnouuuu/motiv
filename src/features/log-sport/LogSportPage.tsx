@@ -55,8 +55,7 @@ function newLive(program: Program, history: SportSession[]): LiveState {
 }
 
 /** Programme qu'on peut lancer tout de suite : actif, avec au moins un exo. */
-const startable = (programs: Program[], id: string | null) =>
-  programs.find((p) => p.id === id && !p.archived && activeExercises(p).length > 0)
+const startable = (programs: Program[], id: string | null) => programs.find((p) => p.id === id && !p.archived && activeExercises(p).length > 0)
 
 export function LogSportPage() {
   const { data } = useAppData()
@@ -143,15 +142,7 @@ export function LogSportPage() {
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
-  if (index >= exercises.length)
-    return (
-      <FinishSession
-        live={live}
-        onDone={clear}
-        onBack={exercises.length > 0 ? goBack : undefined}
-        onAbandon={abandon}
-      />
-    )
+  if (index >= exercises.length) return <FinishSession live={live} onDone={clear} onBack={exercises.length > 0 ? goBack : undefined} onAbandon={abandon} />
 
   const current = exercises[index]
   const recent = recentSetsFor(current, data.sportSessions)
@@ -260,20 +251,20 @@ export function LogSportPage() {
       )}
 
       <div className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card">
-      <Stepper tone="sport" label="Charge" onMinus={() => dispatch({ type: 'weight', delta: -2.5 })} onPlus={() => dispatch({ type: 'weight', delta: 2.5 })}>
-        <WeightInput
-          aria-label="Charge (kg)"
-          value={live.weightKg}
-          onChange={(kg) => dispatch({ type: 'setWeight', weightKg: kg })}
-          className="t-large min-h-11 w-full bg-transparent text-center tabular-nums outline-none"
-        />
-        <p className="t-footnote text-muted">{live.weightKg === 0 ? 'PDC' : 'kg'}</p>
-      </Stepper>
-      <Stepper tone="sport" label="Reps" onMinus={() => dispatch({ type: 'reps', delta: -1 })} onPlus={() => dispatch({ type: 'reps', delta: 1 })}>
-        <p className="t-large tabular-nums" aria-label="Reps">
-          {live.reps}
-        </p>
-      </Stepper>
+        <Stepper tone="sport" label="Charge" onMinus={() => dispatch({ type: 'weight', delta: -2.5 })} onPlus={() => dispatch({ type: 'weight', delta: 2.5 })}>
+          <WeightInput
+            aria-label="Charge (kg)"
+            value={live.weightKg}
+            onChange={(kg) => dispatch({ type: 'setWeight', weightKg: kg })}
+            className="t-large min-h-11 w-full bg-transparent text-center tabular-nums outline-none"
+          />
+          <p className="t-footnote text-muted">{live.weightKg === 0 ? 'PDC' : 'kg'}</p>
+        </Stepper>
+        <Stepper tone="sport" label="Reps" onMinus={() => dispatch({ type: 'reps', delta: -1 })} onPlus={() => dispatch({ type: 'reps', delta: 1 })}>
+          <p className="t-large tabular-nums" aria-label="Reps">
+            {live.reps}
+          </p>
+        </Stepper>
       </div>
 
       <ol className="flex flex-wrap gap-2" aria-label="Séries">
@@ -299,7 +290,9 @@ export function LogSportPage() {
                   </span>
                 </button>
               ) : (
-                <span className="t-subhead flex h-12 flex-1 items-center justify-center rounded-full border-[1.5px] border-dashed border-faint text-muted tabular-nums">{i + 1}</span>
+                <span className="t-subhead flex h-12 flex-1 items-center justify-center rounded-full border-[1.5px] border-dashed border-faint text-muted tabular-nums">
+                  {i + 1}
+                </span>
               )}
             </li>
           )

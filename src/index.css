@@ -26,7 +26,9 @@ body {
  * `tap` : les boutons texte et les lignes s'assombrissent ; `tap-scale` : les boutons pleins s'enfoncent.
  */
 @utility tap {
-  transition: opacity var(--duration-base) ease, background-color var(--duration-base) ease;
+  transition:
+    opacity var(--duration-base) ease,
+    background-color var(--duration-base) ease;
   &:active:not(:disabled) {
     opacity: 0.45;
     transition-duration: 0ms;
@@ -40,7 +42,10 @@ body {
   }
 }
 @utility tap-scale {
-  transition: transform var(--duration-move) var(--ease-spring), opacity var(--duration-base) ease, filter var(--duration-base) ease;
+  transition:
+    transform var(--duration-move) var(--ease-spring),
+    opacity var(--duration-base) ease,
+    filter var(--duration-base) ease;
   &:active:not(:disabled) {
     transform: scale(0.96);
     filter: brightness(0.92);

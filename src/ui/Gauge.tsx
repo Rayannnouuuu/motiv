@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react'
 import { TONE, type Tone } from '../design/tone'
 
 /** Barre de progression. `from` permet d'animer la montée depuis une valeur précédente. */
-export function Gauge({ value, max, color = 'accent', label, from, className = 'h-2' }: {
+export function Gauge({
+  value,
+  max,
+  color = 'accent',
+  label,
+  from,
+  className = 'h-2',
+}: {
   value: number
   max: number
   color?: Tone

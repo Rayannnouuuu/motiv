@@ -26,7 +26,10 @@ test('commencer sans données : la bibliothèque de base, et l’appli démarre'
 })
 
 test('données de l’ancienne version sur ce téléphone : reprises après l’aperçu', async () => {
-  localStorage.setItem('motiv.snapshot.v1', JSON.stringify({ savedAt: Date.UTC(2026, 9, 19), data: data({ guitarSessions: [g('2026-10-18', 30), g('2026-10-19', 45)] }) }))
+  localStorage.setItem(
+    'motiv.snapshot.v1',
+    JSON.stringify({ savedAt: Date.UTC(2026, 9, 19), data: data({ guitarSessions: [g('2026-10-18', 30), g('2026-10-19', 45)] }) }),
+  )
   const db = mount()
   await userEvent.click(screen.getByRole('button', { name: 'Reprendre mes données (2 séances)' }))
   expect(await screen.findByRole('heading', { name: 'Avant d’importer' })).toBeInTheDocument()

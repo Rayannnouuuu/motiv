@@ -47,7 +47,12 @@ test('données importées : les écrans les reçoivent dans l’ancienne forme',
   const { data } = seen.value!
   expect(data.guitarSessions).toHaveLength(6)
   expect(data.sportSessions[0].sets).toHaveLength(19)
-  expect(data.programs.filter((p) => !p.archived).map((p) => p.name).sort()).toEqual(['Legs', 'Pull', 'Push'])
+  expect(
+    data.programs
+      .filter((p) => !p.archived)
+      .map((p) => p.name)
+      .sort(),
+  ).toEqual(['Legs', 'Pull', 'Push'])
 })
 
 test('log guitare : séance écrite avec son XP, morceau joué « en cours », morceau coché « maîtrisé »', async () => {

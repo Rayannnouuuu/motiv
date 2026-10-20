@@ -9,7 +9,11 @@ import { ExercisePage } from './ExercisePage'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderPage = (id: string, data = {}) =>

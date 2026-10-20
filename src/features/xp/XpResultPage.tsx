@@ -73,7 +73,11 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
           <Icon name={moment.milestone ? 'trophy' : 'sport'} size="3.25em" className="text-sport" />
           <p className="t-title2 mt-2">Semaine validée</p>
           <p className="t-headline text-sport">
-            {moment.weeks === 1 ? (moment.firstEver ? 'Première semaine validée' : "C'est reparti · 1 semaine d'affilée") : `${moment.weeks} semaines d'affilée`}
+            {moment.weeks === 1
+              ? moment.firstEver
+                ? 'Première semaine validée'
+                : "C'est reparti · 1 semaine d'affilée"
+              : `${moment.weeks} semaines d'affilée`}
           </p>
         </div>
       )

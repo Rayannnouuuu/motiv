@@ -5,7 +5,14 @@ import { TONE, type Tone } from '../design/tone'
  * Barre d'un écran présenté par-dessus (saisie) : « Annuler » à gauche comme partout sur iPhone,
  * titre au centre, action éventuelle à droite.
  */
-export function ModalBar({ title, onCancel, cancelLabel = 'Annuler', cancelAria, trailing, tone = 'accent' }: {
+export function ModalBar({
+  title,
+  onCancel,
+  cancelLabel = 'Annuler',
+  cancelAria,
+  trailing,
+  tone = 'accent',
+}: {
   title?: ReactNode
   onCancel: () => void
   cancelLabel?: string
@@ -18,7 +25,12 @@ export function ModalBar({ title, onCancel, cancelLabel = 'Annuler', cancelAria,
   // et un toucher sur le haut de l'écran ne tombe pas par erreur sur « Annuler ».
   return (
     <div className="sticky top-0 z-10 -mx-4 -mt-[env(safe-area-inset-top)] mb-2 box-content grid h-11 grid-cols-[1fr_auto_1fr] items-center bg-bg px-4 pt-[env(safe-area-inset-top)]">
-      <button type="button" aria-label={cancelAria} onClick={onCancel} className={`hit tap t-body justify-self-start py-2 whitespace-nowrap ${TONE.text[tone]}`}>
+      <button
+        type="button"
+        aria-label={cancelAria}
+        onClick={onCancel}
+        className={`hit tap t-body justify-self-start py-2 whitespace-nowrap ${TONE.text[tone]}`}
+      >
         {cancelLabel}
       </button>
       <div className="t-headline truncate text-center">{title}</div>

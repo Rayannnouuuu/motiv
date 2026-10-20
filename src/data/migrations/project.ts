@@ -59,15 +59,17 @@ const program = (t: V1.Template): Program => ({
   name: t.name,
   position: t.position,
   archived: t.archived,
-  exercises: t.blocks.flatMap((b) => b.entries).map((e) => ({
-    id: e.id,
-    programId: t.id,
-    name: e.name,
-    targetSets: e.targetSets,
-    targetReps: e.targetReps,
-    position: e.position,
-    archived: e.archived,
-  })),
+  exercises: t.blocks
+    .flatMap((b) => b.entries)
+    .map((e) => ({
+      id: e.id,
+      programId: t.id,
+      name: e.name,
+      targetSets: e.targetSets,
+      targetReps: e.targetReps,
+      position: e.position,
+      archived: e.archived,
+    })),
 })
 
 function challenge(c: V1.Challenge): Challenge {

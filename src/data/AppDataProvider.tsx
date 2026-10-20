@@ -16,8 +16,7 @@ import { useParisDay } from './useParisDay'
 const deps: Deps = { rng: Math.random, newId: () => crypto.randomUUID() }
 
 /** Séance antérieure à celle qu'on enregistre : l'XP (records, progression) ne se compare qu'au passé. */
-const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt: string) =>
-  s.day < day || (s.day === day && s.createdAt < createdAt)
+const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt: string) => s.day < day || (s.day === day && s.createdAt < createdAt)
 
 type Loaded = { ok: true; data: V1.DataV1; meta: DeviceMeta } | { ok: false; error: string }
 
@@ -102,8 +101,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const newIds = new Set(d.newSongs.map((s) => s.id))
         await write(db, now(), async () => {
           await db.sessions.put(guitarSessionToV1(session))
-          for (const s of d.newSongs)
-            await db.songs.put(songToV1(mastered.has(s.id) ? { ...s, status: 'mastered', masteredOn: d.day } : s, true))
+          for (const s of d.newSongs) await db.songs.put(songToV1(mastered.has(s.id) ? { ...s, status: 'mastered', masteredOn: d.day } : s, true))
           // Comme le serveur : un morceau coché passe « maîtrisé » ce jour-là s'il ne l'était pas déjà.
           for (const s of v1.songs) {
             if (newIds.has(s.id)) continue
@@ -139,7 +137,11 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       async saveSong(s) {
         const { v1, data } = state()
         const played = data.guitarSessions.some((g) => g.items.some((it) => it.kind === 'song' && it.songId === s.id))
-        const row = songToV1(s, played, v1.songs.find((x) => x.id === s.id))
+        const row = songToV1(
+          s,
+          played,
+          v1.songs.find((x) => x.id === s.id),
+        )
         await write(db, now(), async () => {
           await db.songs.put(row)
         })
@@ -147,7 +149,12 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       async saveProgram(p) {
         const { v1 } = state()
         const movements = v1.exercises.map((m) => ({ ...m }))
-        const before = new Map(v1.templates.find((t) => t.id === p.id)?.blocks.flatMap((b) => b.entries).map((e) => [e.id, e] as const))
+        const before = new Map(
+          v1.templates
+            .find((t) => t.id === p.id)
+            ?.blocks.flatMap((b) => b.entries)
+            .map((e) => [e.id, e] as const),
+        )
         // Un exo renommé (autre nom que son mouvement) retrouve son mouvement ; sinon il garde le sien.
         const exerciseOf = (peId: string) => {
           const pe = p.exercises.find((e) => e.id === peId)!
@@ -201,7 +208,9 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
     return (
       <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-3 px-6 text-center">
         <h1 className="t-title">Lecture impossible</h1>
-        <p className="t-body text-muted">Tes données sont sur ce téléphone mais n'ont pas pu être lues ({loaded.error}). Rien n'est effacé : relance l'appli.</p>
+        <p className="t-body text-muted">
+          Tes données sont sur ce téléphone mais n'ont pas pu être lues ({loaded.error}). Rien n'est effacé : relance l'appli.
+        </p>
       </main>
     )
   return (

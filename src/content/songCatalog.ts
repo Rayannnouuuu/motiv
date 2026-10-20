@@ -58,7 +58,12 @@ export const SONG_CATALOG: CatalogSong[] = [
   s('Holy Wars... The Punishment Due', 'Megadeth', 9),
 ]
 
-export const normTitle = (t: string) => t.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().replace(/[^a-z0-9]/g, '')
+export const normTitle = (t: string) =>
+  t
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
 
 const byTitle = new Map(SONG_CATALOG.map((c) => [normTitle(c.title), c]))
 

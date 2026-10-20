@@ -13,7 +13,11 @@ const today = '2026-10-15'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderCard = (opts: RenderWithDataOptions = {}) =>

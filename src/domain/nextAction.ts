@@ -15,7 +15,12 @@ export interface NextAction {
  * une séance en cours (sport, puis chrono guitare), la guitare du jour, la séance de sport due, sinon rien.
  * Le libellé est du texte seul : l'écran choisit l'icône et la couleur selon `kind`.
  */
-export function nextAction({ data, today, guitarLiveMin, sportLiveProgram }: {
+export function nextAction({
+  data,
+  today,
+  guitarLiveMin,
+  sportLiveProgram,
+}: {
   data: Pick<AppData, 'guitarSessions' | 'sportSessions' | 'programs'>
   today: Day
   /** Minutes du chrono guitare en cours, null sans chrono. */
@@ -32,8 +37,7 @@ export function nextAction({ data, today, guitarLiveMin, sportLiveProgram }: {
   const [next] = upcomingPrograms(data.programs, data.sportSessions, 1)
   const week = sportWeek(data.sportSessions, today)
   const sportToday = data.sportSessions.some((s) => s.day === today)
-  if (next && week.remaining > 0 && !sportToday)
-    return { kind: 'startSport', label: `Commencer ${next.name}`, to: '/log/sport', state: { programId: next.id } }
+  if (next && week.remaining > 0 && !sportToday) return { kind: 'startSport', label: `Commencer ${next.name}`, to: '/log/sport', state: { programId: next.id } }
 
   return { kind: 'done', label: 'Journée bouclée' }
 }

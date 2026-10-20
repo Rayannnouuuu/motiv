@@ -55,57 +55,62 @@ export function SongsList() {
 
   return (
     <div className="flex flex-col gap-8 pb-4">
-        {error && (
-          <p role="alert" className="t-footnote px-4 text-danger">
-            {error}
-          </p>
-        )}
+      {error && (
+        <p role="alert" className="t-footnote px-4 text-danger">
+          {error}
+        </p>
+      )}
 
-        {learning.length > 0 && (
-          <Group header="En cours" footer="Coche un morceau quand tu le maîtrises.">
-            {learning.map((s) => (
-              <Row key={s.id} title={s.title} subtitle={level(s.title)} accessory={<Check label={`Maîtrisé · ${s.title}`} checked={false} onChange={() => void toggle(s)} />} />
-            ))}
-          </Group>
-        )}
+      {learning.length > 0 && (
+        <Group header="En cours" footer="Coche un morceau quand tu le maîtrises.">
+          {learning.map((s) => (
+            <Row
+              key={s.id}
+              title={s.title}
+              subtitle={level(s.title)}
+              accessory={<Check label={`Maîtrisé · ${s.title}`} checked={false} onChange={() => void toggle(s)} />}
+            />
+          ))}
+        </Group>
+      )}
 
-        {proposed.length > 0 && (
-          <Group header="Proposés" footer="Du plus facile au plus dur. Touche un morceau pour le logger : une fois joué, il passe en cours.">
-            {(showAll ? proposed : proposed.slice(0, SHOWN)).map((c) => (
-              <Row
-                key={c.title}
-                aria-label={`Jouer ${c.title}`}
-                title={c.title}
-                subtitle={`${c.artist} · niv. ${c.difficulty}${c.tuning !== 'Standard' ? ` · ${c.tuning}` : ''}`}
-                detail={
-                  <span className="t-subhead flex items-center gap-0.5 text-guitar">
-                    <Icon name="play" />
-                    Jouer
-                  </span>
-                }
-                onClick={() => navigate('/log/guitare', { state: { songTitle: c.title } })}
-              />
-            ))}
-            {proposed.length > SHOWN && (
-              <Row onClick={() => setShowAll(!showAll)} chevron={false}>
-                <span className="t-body text-guitar">{showAll ? 'Voir moins' : `Voir les ${proposed.length} morceaux`}</span>
-              </Row>
-            )}
-          </Group>
-        )}
+      {proposed.length > 0 && (
+        <Group header="Proposés" footer="Du plus facile au plus dur. Touche un morceau pour le logger : une fois joué, il passe en cours.">
+          {(showAll ? proposed : proposed.slice(0, SHOWN)).map((c) => (
+            <Row
+              key={c.title}
+              aria-label={`Jouer ${c.title}`}
+              title={c.title}
+              subtitle={`${c.artist} · niv. ${c.difficulty}${c.tuning !== 'Standard' ? ` · ${c.tuning}` : ''}`}
+              detail={
+                <span className="t-subhead flex items-center gap-0.5 text-guitar">
+                  <Icon name="play" />
+                  Jouer
+                </span>
+              }
+              onClick={() => navigate('/log/guitare', { state: { songTitle: c.title } })}
+            />
+          ))}
+          {proposed.length > SHOWN && (
+            <Row onClick={() => setShowAll(!showAll)} chevron={false}>
+              <span className="t-body text-guitar">{showAll ? 'Voir moins' : `Voir les ${proposed.length} morceaux`}</span>
+            </Row>
+          )}
+        </Group>
+      )}
 
-        {mastered.length > 0 && (
-          <Group header={`Maîtrisés · ${mastered.length}`} footer="Classés du plus dur au plus facile.">
-            {mastered.map((s, i) => (
-              <Row
-                key={s.id}
-                title={`${i + 1}. ${s.title}`}
-                subtitle={[level(s.title), s.masteredOn && `le ${shortDate(s.masteredOn)}`].filter(Boolean).join(' · ')}
-                accessory={<Check label={`Maîtrisé · ${s.title}`} checked onChange={() => void toggle(s)} />}
-              />
-            ))}
-          </Group>
-        )}
+      {mastered.length > 0 && (
+        <Group header={`Maîtrisés · ${mastered.length}`} footer="Classés du plus dur au plus facile.">
+          {mastered.map((s, i) => (
+            <Row
+              key={s.id}
+              title={`${i + 1}. ${s.title}`}
+              subtitle={[level(s.title), s.masteredOn && `le ${shortDate(s.masteredOn)}`].filter(Boolean).join(' · ')}
+              accessory={<Check label={`Maîtrisé · ${s.title}`} checked onChange={() => void toggle(s)} />}
+            />
+          ))}
+        </Group>
+      )}
     </div>
   )
 }

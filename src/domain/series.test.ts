@@ -1,16 +1,6 @@
 import { expect, test } from 'vitest'
 import { ex, g, mkSong, set, ss } from '../test/factories'
-import {
-  bodySeries,
-  e1rm,
-  guitarHoursSeries,
-  masteredSongsSeries,
-  recordsOf,
-  strengthSeries,
-  tempoSeries,
-  windowPoints,
-  type Point,
-} from './series'
+import { bodySeries, e1rm, guitarHoursSeries, masteredSongsSeries, recordsOf, strengthSeries, tempoSeries, windowPoints, type Point } from './series'
 
 const p = (day: string, value: number): Point => ({ day, value })
 
@@ -29,7 +19,11 @@ test('morceaux maîtrisés cumulés', () => {
 })
 
 test('tempo : meilleur cumulé par jour loggé', () => {
-  const s = [g('2026-10-01', 30, [ex('legato-4', 80)]), g('2026-10-03', 30, [ex('legato-4', 76)]), g('2026-10-05', 30, [ex('legato-4', 84), ex('picking-1', 60)])]
+  const s = [
+    g('2026-10-01', 30, [ex('legato-4', 80)]),
+    g('2026-10-03', 30, [ex('legato-4', 76)]),
+    g('2026-10-05', 30, [ex('legato-4', 84), ex('picking-1', 60)]),
+  ]
   expect(tempoSeries(s, 'legato-4')).toEqual([p('2026-10-01', 80), p('2026-10-03', 80), p('2026-10-05', 84)])
 })
 

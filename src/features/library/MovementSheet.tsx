@@ -29,16 +29,33 @@ export function MovementSheet({ movement: m, onClose }: { movement: Movement; on
     <Sheet label={`Modifier ${m.name}`} onClose={onClose} title={() => <h2 className="t-headline text-center">Mouvement</h2>}>
       {(close) => (
         <div className="flex flex-col gap-5">
-          <input aria-label="Nom du mouvement" value={name} onChange={(e) => setName(e.target.value)} className="t-body min-h-11 rounded-sm bg-fill px-3 outline-none" />
+          <input
+            aria-label="Nom du mouvement"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="t-body min-h-11 rounded-sm bg-fill px-3 outline-none"
+          />
           <Segmented label="Partie du corps" options={[...BODY]} value={body ?? 'upper'} onChange={setBody} />
           {counted && (
             <label className="flex items-center gap-2">
               <span className="t-body flex-1">Fourchette de répétitions</span>
-              <input aria-label="Reps minimum" inputMode="numeric" value={min || ''} onChange={(e) => setMin(Number(e.target.value.replace(/\D/g, '')))} className={`t-callout ${num}`} />
+              <input
+                aria-label="Reps minimum"
+                inputMode="numeric"
+                value={min || ''}
+                onChange={(e) => setMin(Number(e.target.value.replace(/\D/g, '')))}
+                className={`t-callout ${num}`}
+              />
               <span className="t-footnote text-muted" aria-hidden>
                 à
               </span>
-              <input aria-label="Reps maximum" inputMode="numeric" value={max || ''} onChange={(e) => setMax(Number(e.target.value.replace(/\D/g, '')))} className={`t-callout ${num}`} />
+              <input
+                aria-label="Reps maximum"
+                inputMode="numeric"
+                value={max || ''}
+                onChange={(e) => setMax(Number(e.target.value.replace(/\D/g, '')))}
+                className={`t-callout ${num}`}
+              />
             </label>
           )}
           <Button

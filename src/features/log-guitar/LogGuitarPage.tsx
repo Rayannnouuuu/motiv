@@ -153,9 +153,7 @@ export function LogGuitarPage() {
       />
 
       <div key={step} className="animate-rise flex-1">
-        {step === 0 && (
-          <StepDuration choice={choice} other={other} yesterday={yesterday} onChoice={setChoice} onOther={setOther} onYesterday={setYesterday} />
-        )}
+        {step === 0 && <StepDuration choice={choice} other={other} yesterday={yesterday} onChoice={setChoice} onOther={setOther} onYesterday={setYesterday} />}
         {step === 1 && (
           <StepContent
             entries={entries}

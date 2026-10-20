@@ -41,7 +41,10 @@ test('ancienne version sur le téléphone : instantané + file d’envoi relus e
   const server = g('2026-10-11', 30)
   const queued = g('2026-10-12', 45)
   localStorage.setItem('motiv.snapshot.v1', JSON.stringify({ savedAt: Date.UTC(2026, 9, 12, 8), data: data({ guitarSessions: [server] }) }))
-  localStorage.setItem('motiv.outbox.v1', JSON.stringify([{ id: queued.id, kind: 'guitarSession', payload: { session: queued, newSongs: [], masteredSongIds: [] } }]))
+  localStorage.setItem(
+    'motiv.outbox.v1',
+    JSON.stringify([{ id: queued.id, kind: 'guitarSession', payload: { session: queued, newSongs: [], masteredSongIds: [] } }]),
+  )
   const found = readLegacyLocal()
   expect(found?.pending).toBe(1)
   expect(found?.backup).toMatchObject({ app: 'motiv', schemaVersion: 0, exportedAt: '2026-10-12T08:00:00.000Z' })

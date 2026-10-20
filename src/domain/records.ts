@@ -5,8 +5,7 @@ export function bestBpm(sessions: GuitarSession[], exerciseId: string): number |
   let best: number | null = null
   for (const s of sessions)
     for (const it of s.items)
-      if (it.kind === 'exercise' && it.exerciseId === exerciseId && it.maxBpm !== null)
-        best = best === null ? it.maxBpm : Math.max(best, it.maxBpm)
+      if (it.kind === 'exercise' && it.exerciseId === exerciseId && it.maxBpm !== null) best = best === null ? it.maxBpm : Math.max(best, it.maxBpm)
   return best
 }
 

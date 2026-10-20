@@ -49,7 +49,9 @@ export function ExercisePage() {
   const history = data.guitarSessions
     .flatMap((sess) =>
       sess.items.flatMap((it) =>
-        it.kind === 'exercise' && it.exerciseId === ex.id && it.maxBpm !== null ? [{ sessionId: sess.id, day: sess.day, createdAt: sess.createdAt, bpm: it.maxBpm }] : [],
+        it.kind === 'exercise' && it.exerciseId === ex.id && it.maxBpm !== null
+          ? [{ sessionId: sess.id, day: sess.day, createdAt: sess.createdAt, bpm: it.maxBpm }]
+          : [],
       ),
     )
     .sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt))
@@ -103,7 +105,11 @@ export function ExercisePage() {
           <ul className="rows -mx-4 -mb-4 border-t border-line" aria-label="Historique des tempos">
             {history.map((h) => (
               <li key={h.sessionId}>
-                <Link to={`/log/corriger/${h.sessionId}`} className="tap-row t-body flex min-h-11 items-center gap-3 px-4 py-2" aria-label={`Corriger le log du ${shortDate(h.day)}`}>
+                <Link
+                  to={`/log/corriger/${h.sessionId}`}
+                  className="tap-row t-body flex min-h-11 items-center gap-3 px-4 py-2"
+                  aria-label={`Corriger le log du ${shortDate(h.day)}`}
+                >
                   <span className="text-muted">{shortDate(h.day)}</span>
                   <span className="flex-1 text-right font-semibold tabular-nums">{h.bpm} bpm</span>
                   <span className="t-subhead text-guitar">Corriger</span>
@@ -157,7 +163,10 @@ export function ExercisePage() {
           Cocher dans le chrono
         </Button>
       ) : (
-        <Button tone="guitar" onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}>
+        <Button
+          tone="guitar"
+          onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}
+        >
           Logger cet exo
         </Button>
       )}

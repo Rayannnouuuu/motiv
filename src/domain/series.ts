@@ -74,9 +74,7 @@ export interface StrengthSeries {
  * les séries à 0 kg (échauffements) sont ignorées. Sinon (poids du corps) : max de reps en une série.
  */
 export function strengthSeries(sessions: SportSession[], programExerciseId: string): StrengthSeries {
-  const sets = [...sessions]
-    .sort(byDay)
-    .flatMap((s) => s.sets.filter((x) => x.programExerciseId === programExerciseId).map((set) => ({ day: s.day, set })))
+  const sets = [...sessions].sort(byDay).flatMap((s) => s.sets.filter((x) => x.programExerciseId === programExerciseId).map((set) => ({ day: s.day, set })))
   const unit = sets.some((x) => x.set.weightKg > 0) ? 'kg' : 'reps'
   const valueOf = (set: SportSet) => (unit === 'kg' ? e1rm(set.weightKg, set.reps) : set.reps)
   const points: Point[] = []

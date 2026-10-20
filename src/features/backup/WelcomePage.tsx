@@ -61,10 +61,15 @@ export function WelcomePage() {
               {imp.error}
             </p>
           )}
-          {legacy && <p className="t-footnote text-center text-muted">Trouvées sur ce téléphone, laissées par l’ancienne version de MOTIV. Elles ne sont pas effacées.</p>}
+          {legacy && (
+            <p className="t-footnote text-center text-muted">
+              Trouvées sur ce téléphone, laissées par l’ancienne version de MOTIV. Elles ne sont pas effacées.
+            </p>
+          )}
           {!isStandalone() && (
             <p className="t-footnote text-center text-muted">
-              Conseil : ajoute d’abord MOTIV à l’écran d’accueil (Partager › Sur l’écran d’accueil), puis importe depuis l’appli installée. Elle garde ses propres données, à l’abri du ménage de Safari.
+              Conseil : ajoute d’abord MOTIV à l’écran d’accueil (Partager › Sur l’écran d’accueil), puis importe depuis l’appli installée. Elle garde ses
+              propres données, à l’abri du ménage de Safari.
             </p>
           )}
         </>

@@ -9,7 +9,11 @@ const isSetChallenge = (c: Challenge): c is SetChallenge => c.target.kind === 'w
 
 /** Défi sport actif de type charge ou reps sur cet exo, ou null. */
 export function activeSetChallenge(challenges: Challenge[], programExerciseId: string): SetChallenge | null {
-  return challenges.find((c): c is SetChallenge => c.domain === 'sport' && c.status === 'active' && isSetChallenge(c) && c.target.programExerciseId === programExerciseId) ?? null
+  return (
+    challenges.find(
+      (c): c is SetChallenge => c.domain === 'sport' && c.status === 'active' && isSetChallenge(c) && c.target.programExerciseId === programExerciseId,
+    ) ?? null
+  )
 }
 
 /** Même règle qu'`isChallengeMet` : charge ≥ et reps ≥ la cible. */
@@ -23,8 +27,5 @@ export function meetsChallenge(target: SetTarget, set: Pick<SportSet, 'weightKg'
  * vraie série lourde ; refaire la même série record ne refête pas.
  */
 export function isNewRecord(historySets: SportSet[], sessionSetsOfExo: SportSet[], set: SportSet): boolean {
-  return (
-    isSportRecord(historySets, set) &&
-    !sessionSetsOfExo.some((s) => isSportRecord(historySets, s) && s.weightKg >= set.weightKg && s.reps >= set.reps)
-  )
+  return isSportRecord(historySets, set) && !sessionSetsOfExo.some((s) => isSportRecord(historySets, s) && s.weightKg >= set.weightKg && s.reps >= set.reps)
 }

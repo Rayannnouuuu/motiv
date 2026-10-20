@@ -60,7 +60,10 @@ export function ImportPreview({ prepared: p, onConfirm, onCancel }: { prepared: 
 
       {p.report && (
         <Group header="Conversion" footer="Les mouvements réunis partagent désormais leur historique et leurs records.">
-          <Row title={`${plural(p.report.songs.toLearn, 'morceau', 'morceaux')} « à apprendre »`} subtitle="Jamais joués : ils restent proposés, pas « en cours »." />
+          <Row
+            title={`${plural(p.report.songs.toLearn, 'morceau', 'morceaux')} « à apprendre »`}
+            subtitle="Jamais joués : ils restent proposés, pas « en cours »."
+          />
           {p.report.merges.map((m) => (
             <Row key={m.exerciseName} title={m.exerciseName} subtitle={`Réunit ${m.names.map((n) => `« ${n} »`).join(' et ')}`} />
           ))}
@@ -84,11 +87,7 @@ export function ImportPreview({ prepared: p, onConfirm, onCancel }: { prepared: 
       {losing > 0 && (
         <Group header="Ce qui disparaîtra de ce téléphone" footer="Exporte d’abord tes données si tu veux les garder.">
           {p.removedSessions.map((s) => (
-            <Row
-              key={s.id}
-              title={`${s.discipline === 'guitar' ? 'Guitare' : 'Sport'} · ${shortDate(s.day)}`}
-              detail={`${s.durationMin} min`}
-            />
+            <Row key={s.id} title={`${s.discipline === 'guitar' ? 'Guitare' : 'Sport'} · ${shortDate(s.day)}`} detail={`${s.durationMin} min`} />
           ))}
         </Group>
       )}

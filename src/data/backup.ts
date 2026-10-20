@@ -36,7 +36,15 @@ export function makeBackup(data: V1.DataV1, exportedAt: string, build: string): 
 /** « motiv-sauvegarde-2026-10-20-1832.json » (heure de Paris : deux sauvegardes du jour ne s'écrasent pas). */
 export function backupFileName(exportedAt: string): string {
   const p = Object.fromEntries(
-    new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+    new Intl.DateTimeFormat('fr-FR', {
+      timeZone: 'Europe/Paris',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    })
       .formatToParts(new Date(exportedAt))
       .map((x) => [x.type, x.value]),
   )
@@ -46,9 +54,7 @@ export function backupFileName(exportedAt: string): string {
 /** JSON aux clés triées : deux contenus égaux donnent le même texte, quel que soit l'ordre des champs. */
 export function canonical(v: unknown): string {
   return JSON.stringify(v, (_, x: unknown) =>
-    x && typeof x === 'object' && !Array.isArray(x)
-      ? Object.fromEntries(Object.entries(x as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : 1)))
-      : x,
+    x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : 1))) : x,
   )
 }
 
@@ -171,7 +177,8 @@ export function prepareImport(text: string, current: V1.DataV1): { ok: true; pre
     warnings = check.warnings
   } else {
     const d = file.data
-    if (!d || DATA_TABLES.some((t) => t !== 'profile' && !Array.isArray(d[t])) || !d.profile) return fail('Sauvegarde incomplète : une partie des données manque.')
+    if (!d || DATA_TABLES.some((t) => t !== 'profile' && !Array.isArray(d[t])) || !d.profile)
+      return fail('Sauvegarde incomplète : une partie des données manque.')
     if (!file.counts || DATA_TABLES.some((t) => t !== 'profile' && file.counts![t] !== d[t as Exclude<DataTable, 'profile'>].length))
       return fail('Sauvegarde tronquée : le nombre de lignes ne correspond pas. Utilise un autre fichier.')
     incoming = withLibrary(sorted(d))
@@ -249,7 +256,7 @@ export async function commitImport(db: MotivDb, p: Prepared, at: string): Promis
 export async function undoLastImport(db: MotivDb, at: string): Promise<void> {
   await db.transaction('rw', [...DATA_TABLES, 'meta', 'snapshots'], async () => {
     const last = await db.snapshots.orderBy('seq').last()
-    if (!last) throw new Error("Aucun import à annuler.")
+    if (!last) throw new Error('Aucun import à annuler.')
     await replaceAll(db, JSON.parse(last.text) as V1.DataV1)
     await db.snapshots.delete(last.seq!)
     await markWritten(db, at)

@@ -14,7 +14,11 @@ const today = '2026-10-15'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderToday = (opts: RenderWithDataOptions) =>
@@ -170,7 +174,16 @@ describe('TodayPage', () => {
   test('séance de sport en cours : exos, séries faites, exo courant, reprendre', async () => {
     const a = pe({ id: 'a', programId: 'p', name: 'Squat', targetSets: 3, position: 0 })
     const b = pe({ id: 'b', programId: 'p', name: 'Fentes', targetSets: 3, position: 1 })
-    saveLive({ id: 'live', programId: 'p', startedAt: new Date().toISOString(), exerciseIndex: 1, exerciseId: 'b', weightKg: 20, reps: 10, sets: [set(80, 8, 'a', 1), set(80, 8, 'a', 2), set(80, 8, 'a', 3), set(20, 10, 'b', 1)] })
+    saveLive({
+      id: 'live',
+      programId: 'p',
+      startedAt: new Date().toISOString(),
+      exerciseIndex: 1,
+      exerciseId: 'b',
+      weightKg: 20,
+      reps: 10,
+      sets: [set(80, 8, 'a', 1), set(80, 8, 'a', 2), set(80, 8, 'a', 3), set(20, 10, 'b', 1)],
+    })
     renderToday({ data: { programs: [program({ id: 'p', name: 'Bas', exercises: [a, b] })] } })
     const list = screen.getByRole('list', { name: 'Exos de la séance en cours' })
     const items = within(list).getAllByRole('listitem')

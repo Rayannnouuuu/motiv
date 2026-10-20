@@ -13,7 +13,11 @@ const today = '2026-10-15'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderLog = (opts: RenderWithDataOptions = {}) =>
@@ -69,7 +73,9 @@ describe('LogGuitarPage', () => {
       flowRating: 4,
       desireRating: 5,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: vi.mocked(actions.saveGuitarSession).mock.calls[0][0].id })}`)).toBeInTheDocument()
+    expect(
+      await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: vi.mocked(actions.saveGuitarSession).mock.calls[0][0].id })}`),
+    ).toBeInTheDocument()
   })
 
   async function finish() {
@@ -207,7 +213,9 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Ajouter Seven Nation Army · The White Stripes' }))
     await next()
     await finish()
-    expect(actions.saveGuitarSession).toHaveBeenCalledWith(expect.objectContaining({ newSongs: [], items: [{ kind: 'song', songId: 'sna', markedMastered: false }] }))
+    expect(actions.saveGuitarSession).toHaveBeenCalledWith(
+      expect.objectContaining({ newSongs: [], items: [{ kind: 'song', songId: 'sna', markedMastered: false }] }),
+    )
   })
 
   test('ouvert depuis un morceau proposé : il est déjà dans le log, créé s’il n’existe pas', async () => {

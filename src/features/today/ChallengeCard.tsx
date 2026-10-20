@@ -37,8 +37,7 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
   const blocked = level.blocked
   const blockedDays = challenge.blockedSince ? daysBetween(challenge.blockedSince, today) : 0
   const p = challengeProgress(challenge, data, today)
-  const progressText =
-    p.unit === 'morceau' ? (p.current >= 1 ? 'Maîtrisé' : 'Pas encore maîtrisé') : `${num(p.current)} / ${num(p.target)} ${p.unit}`
+  const progressText = p.unit === 'morceau' ? (p.current >= 1 ? 'Maîtrisé' : 'Pas encore maîtrisé') : `${num(p.current)} / ${num(p.target)} ${p.unit}`
   const xpLeft = level.perLevel - level.xpInLevel
   const d = challenge.domain
 
@@ -87,12 +86,22 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
           </Link>
           <div className="flex flex-wrap gap-x-5 gap-y-1">
             {canReroll(challenge) && (
-              <button type="button" disabled={busy} className={`hit tap py-1 disabled:opacity-35 ${TONE.text[d]}`} onClick={() => run(() => actions.rerollChallenge(challenge.id))}>
+              <button
+                type="button"
+                disabled={busy}
+                className={`hit tap py-1 disabled:opacity-35 ${TONE.text[d]}`}
+                onClick={() => run(() => actions.rerollChallenge(challenge.id))}
+              >
                 Relancer ({MAX_REROLLS - challenge.rerolls} restante{MAX_REROLLS - challenge.rerolls > 1 ? 's' : ''})
               </button>
             )}
             {canOfferEasier(challenge, today) && (
-              <button type="button" disabled={busy} className={`hit tap py-1 font-semibold disabled:opacity-35 ${TONE.text[d]}`} onClick={() => run(() => actions.acceptEasier(challenge.id))}>
+              <button
+                type="button"
+                disabled={busy}
+                className={`hit tap py-1 font-semibold disabled:opacity-35 ${TONE.text[d]}`}
+                onClick={() => run(() => actions.acceptEasier(challenge.id))}
+              >
                 Défi plus facile
               </button>
             )}

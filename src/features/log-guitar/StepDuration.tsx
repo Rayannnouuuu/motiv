@@ -6,7 +6,14 @@ const tile = (selected: boolean) =>
     selected ? 'bg-guitar text-on-guitar shadow-glow shadow-guitar/35' : 'bg-surface text-ink shadow-card'
   }`
 
-export function StepDuration({ choice, other, yesterday, onChoice, onOther, onYesterday }: {
+export function StepDuration({
+  choice,
+  other,
+  yesterday,
+  onChoice,
+  onOther,
+  onYesterday,
+}: {
   choice: DurationChoice
   other: string
   yesterday: boolean

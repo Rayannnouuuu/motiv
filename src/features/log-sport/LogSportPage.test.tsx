@@ -15,7 +15,11 @@ vi.mock('./beep')
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderSport = (opts: RenderWithDataOptions = {}) =>
@@ -314,7 +318,7 @@ describe('LogSportPage', () => {
     const { unmount } = renderSport({ data: { programs: [haut] } })
     await click('Abandonner')
     expect(loadLive()).toBeNull()
-    expect(screen.getByText("at / null")).toBeInTheDocument()
+    expect(screen.getByText('at / null')).toBeInTheDocument()
     unmount()
 
     saveLive(old)
@@ -344,7 +348,11 @@ describe('LogSportPage', () => {
       flowRating: 4,
       desireRating: 5,
     })
-    expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'sport', logId: vi.mocked(actions.saveSportSession).mock.calls[0][0].id, momentDay: vi.mocked(actions.saveSportSession).mock.calls[0][0].day })}`)).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        `at /xp ${JSON.stringify({ result, domain: 'sport', logId: vi.mocked(actions.saveSportSession).mock.calls[0][0].id, momentDay: vi.mocked(actions.saveSportSession).mock.calls[0][0].day })}`,
+      ),
+    ).toBeInTheDocument()
     expect(loadLive()).toBeNull()
   })
 

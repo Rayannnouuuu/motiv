@@ -2,7 +2,16 @@ import type { ReactNode } from 'react'
 import { TONE, type Tone } from '../design/tone'
 
 /** Cercle qui se remplit (0 → max), contenu libre au centre. */
-export function ProgressRing({ value, max, size = 48, stroke = 5, color = 'accent', children, className = '', transitionMs = 700 }: {
+export function ProgressRing({
+  value,
+  max,
+  size = 48,
+  stroke = 5,
+  color = 'accent',
+  children,
+  className = '',
+  transitionMs = 700,
+}: {
   value: number
   max: number
   size?: number

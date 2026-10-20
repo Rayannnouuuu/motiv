@@ -50,7 +50,7 @@ export class SpringValue {
       onRest?.()
       return
     }
-    const stiffness = (2 * Math.PI / response) ** 2
+    const stiffness = ((2 * Math.PI) / response) ** 2
     const friction = (4 * Math.PI * damping) / response
     let last = performance.now()
     const step = (now: number) => {

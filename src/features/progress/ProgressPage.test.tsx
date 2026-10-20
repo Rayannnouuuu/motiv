@@ -42,7 +42,11 @@ describe('ProgressPage', () => {
   })
 
   test('Tempo : seulement les exos loggés, records datés', async () => {
-    const sessions = [g('2026-10-01', 30, [ex('legato-4', 90)]), g('2026-10-05', 30, [ex('legato-4', 96), ex('ghost-1', 200)]), g('2026-10-08', 30, [ex('scales-1', null)])]
+    const sessions = [
+      g('2026-10-01', 30, [ex('legato-4', 90)]),
+      g('2026-10-05', 30, [ex('legato-4', 96), ex('ghost-1', 200)]),
+      g('2026-10-08', 30, [ex('scales-1', null)]),
+    ]
     renderWithData(<ProgressPage />, { today, data: { guitarSessions: sessions } })
     await tab('Tempo')
     const options = screen.getAllByRole('option').map((o) => o.textContent)

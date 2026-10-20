@@ -48,9 +48,7 @@ export function PracticePage() {
   const navigate = useNavigate()
   const nav = useLocation().state as { autostart?: unknown } | null
   // En StrictMode l'initialiseur peut tourner deux fois : seul l'état retenu est sauvegardé (effet ci-dessous).
-  const [session, setSession] = useState<PracticeState | null>(
-    () => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null),
-  )
+  const [session, setSession] = useState<PracticeState | null>(() => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null))
   const [now, setNow] = useState(() => new Date())
   // Recalculé à chaque instant (et au retour de l'appli, voir plus bas) : une séance de plus de 12 h,
   // même reprise sans rechargement par iOS, demande quoi en faire au lieu d'enregistrer des heures.
@@ -161,7 +159,7 @@ export function PracticePage() {
         {bar}
         <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
           <p className="t-body text-muted">
-            {loggedMin >= targetMin ? "Objectif du jour atteint. Encore un peu ?" : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
+            {loggedMin >= targetMin ? 'Objectif du jour atteint. Encore un peu ?' : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
           </p>
           <button
             type="button"
@@ -266,7 +264,11 @@ export function PracticePage() {
                     Cible {ex.targetBpm} bpm{record !== null && ` · record ${record}`}
                   </span>
                 </span>
-                <Link to={`/exo/${ex.id}`} aria-label={`Tablature : ${ex.title}`} className="tap -my-2.5 -mr-3.5 flex min-w-11 items-center justify-center self-stretch px-4">
+                <Link
+                  to={`/exo/${ex.id}`}
+                  aria-label={`Tablature : ${ex.title}`}
+                  className="tap -my-2.5 -mr-3.5 flex min-w-11 items-center justify-center self-stretch px-4"
+                >
                   <RowChevron />
                 </Link>
               </li>
@@ -301,7 +303,9 @@ export function PracticePage() {
 
       <div className="mt-auto flex flex-col gap-2">
         {fromYesterday && (
-          <p className="t-footnote px-4 text-center text-muted">Commencée hier : termine-la pour l'enregistrer sur hier, puis relance un chrono pour aujourd'hui.</p>
+          <p className="t-footnote px-4 text-center text-muted">
+            Commencée hier : termine-la pour l'enregistrer sur hier, puis relance un chrono pour aujourd'hui.
+          </p>
         )}
         <div className="flex gap-2.5">
           {!fromYesterday && (

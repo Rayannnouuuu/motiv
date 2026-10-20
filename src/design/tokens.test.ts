@@ -88,7 +88,13 @@ const PAIRS: [string, string][] = [
   ...DISCIPLINES.map((d) => [`on-${d}`, d] as [string, string]),
   ['on-record', 'record'],
   // Boutons secondaires et étiquettes : accent sur sa teinte à 12 %, posée sur la page ou sur une carte
-  ...DISCIPLINES.flatMap((d) => [[d, `${d}/12 sur bg`], [d, `${d}/12 sur surface`]] as [string, string][]),
+  ...DISCIPLINES.flatMap(
+    (d) =>
+      [
+        [d, `${d}/12 sur bg`],
+        [d, `${d}/12 sur surface`],
+      ] as [string, string][],
+  ),
   // Jour à moitié fait dans la frise de la semaine
   ['ink', 'guitar/20 sur surface'],
   ['ink', 'sport/20 sur surface'],

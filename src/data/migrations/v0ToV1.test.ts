@@ -61,7 +61,13 @@ describe('migration format 0 → 1', () => {
   })
 
   test('nom inconnu : un mouvement à moi, le même pour deux programmes', () => {
-    const p = (id: string) => ({ id, name: 'Haut', position: 0, archived: false, exercises: [{ id: `${id}-1`, programId: id, name: 'Pull-over machine Nautilus', targetSets: 3, targetReps: 10, position: 0, archived: false }] })
+    const p = (id: string) => ({
+      id,
+      name: 'Haut',
+      position: 0,
+      archived: false,
+      exercises: [{ id: `${id}-1`, programId: id, name: 'Pull-over machine Nautilus', targetSets: 3, targetReps: 10, position: 0, archived: false }],
+    })
     const { data, report } = migrateV0toV1(backup({ programs: [p('a'), p('b')] }))
     const own = data.exercises.filter((m) => m.source === 'user')
     expect(own).toEqual([expect.objectContaining({ id: 'user-pull-over-machine-nautilu', name: 'Pull-over machine Nautilus', body: null, category: null })])
@@ -84,7 +90,10 @@ describe('migration format 0 → 1', () => {
     const { data } = migrateV0toV1(src)
     const guitar = data.sessions.find((s) => s.discipline === 'guitar')!
     expect(guitar.blocks.map((b) => b.type)).toEqual(['technique', 'repertoire', 'technique'])
-    expect(guitar.blocks[0].entries).toEqual([{ exerciseId: 'scales-1', sets: [] }, { exerciseId: 'scales-1', sets: [{ bpm: 70 }] }])
+    expect(guitar.blocks[0].entries).toEqual([
+      { exerciseId: 'scales-1', sets: [] },
+      { exerciseId: 'scales-1', sets: [{ bpm: 70 }] },
+    ])
     expect(guitar.blocks[1].entries).toEqual([{ songId: 'x', markedMastered: true, sets: [] }])
     const sport = data.sessions.find((s) => s.discipline === 'sport')!
     expect(sport.blocks[0].entries.map((e) => e.sets.length)).toEqual([1, 1, 1])
@@ -124,7 +133,11 @@ describe('validateV0', () => {
     ['version inconnue', { ...v0Replica(), schemaVersion: 7 }, 'Version de sauvegarde inattendue.'],
     ['tableau manquant', { ...v0Replica(), data: { ...v0Replica().data, songs: undefined } }, 'Sauvegarde incomplète : une partie des données manque.'],
     ['jour illisible', backup({ guitarSessions: [{ ...g('2026-10-01', 20), day: '01/10/2026' }] }), 'Une séance du fichier est illisible.'],
-    ['ids en double', backup({ guitarSessions: [{ ...g('2026-10-01', 20), id: 'x' }], sportSessions: [{ ...ss([]), id: 'x' }] }), 'Deux séances ont le même identifiant.'],
+    [
+      'ids en double',
+      backup({ guitarSessions: [{ ...g('2026-10-01', 20), id: 'x' }], sportSessions: [{ ...ss([]), id: 'x' }] }),
+      'Deux séances ont le même identifiant.',
+    ],
   ])('refuse : %s', (_, raw, error) => {
     expect(validateV0(raw)).toEqual({ ok: false, error })
   })

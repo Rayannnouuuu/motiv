@@ -3,7 +3,19 @@ import { Icon } from '../design/icons'
 import { TONE, type Tone } from '../design/tone'
 
 /** Valeur centrale avec de grands boutons − / + (utilisables en salle, d'une main). */
-export function Stepper({ label, onMinus, onPlus, tone, children }: { label: string; onMinus: () => void; onPlus: () => void; tone: Tone; children: ReactNode }) {
+export function Stepper({
+  label,
+  onMinus,
+  onPlus,
+  tone,
+  children,
+}: {
+  label: string
+  onMinus: () => void
+  onPlus: () => void
+  tone: Tone
+  children: ReactNode
+}) {
   const btn = `tap-scale flex size-14 shrink-0 items-center justify-center rounded-full bg-fill ${TONE.text[tone]}`
   return (
     <div className="flex items-center gap-3">

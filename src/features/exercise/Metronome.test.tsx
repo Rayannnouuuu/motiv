@@ -191,7 +191,10 @@ test('les points de temps s’allument quand le clic sonne', async () => {
   const audio = fakeAudio()
   const user = setup()
   const { container } = render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
-  const dots = () => [...container.querySelectorAll('[aria-hidden] > span')].map((d) => d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G')
+  const dots = () =>
+    [...container.querySelectorAll('[aria-hidden] > span')].map((d) =>
+      d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G',
+    )
   expect(dots()).toEqual(['·', '·', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await audio.play(100)

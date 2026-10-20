@@ -41,31 +41,25 @@ export function BodyMetricForm({ onClose }: { onClose: () => void }) {
       }}
     >
       <div className="rows overflow-hidden rounded-md bg-surface">
-      <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
-        <span>Date</span>
-        <input
-          type="date"
-          value={day}
-          max={today}
-          onChange={(e) => setDay(e.target.value || today)}
-          className="bg-transparent text-right text-sport"
-        />
-      </label>
-      {BODY_FIELDS.map(({ field, label, unit }) => (
-        <label key={field} className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
-          <span>
-            {label} ({unit})
-          </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={values[field]}
-            onChange={(e) => setValues({ ...values, [field]: e.target.value })}
-            placeholder="—"
-            className="w-24 bg-transparent text-right tabular-nums placeholder:text-muted"
-          />
+        <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
+          <span>Date</span>
+          <input type="date" value={day} max={today} onChange={(e) => setDay(e.target.value || today)} className="bg-transparent text-right text-sport" />
         </label>
-      ))}
+        {BODY_FIELDS.map(({ field, label, unit }) => (
+          <label key={field} className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
+            <span>
+              {label} ({unit})
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={values[field]}
+              onChange={(e) => setValues({ ...values, [field]: e.target.value })}
+              placeholder="—"
+              className="w-24 bg-transparent text-right tabular-nums placeholder:text-muted"
+            />
+          </label>
+        ))}
       </div>
       {error && (
         <p role="alert" className="t-footnote px-4 text-danger">

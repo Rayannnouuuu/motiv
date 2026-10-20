@@ -1,7 +1,12 @@
 import type { Rating } from '../../domain/types'
 import { RatingPicker } from '../../ui/RatingPicker'
 
-export function StepRatings({ flow, desire, onFlow, onDesire }: {
+export function StepRatings({
+  flow,
+  desire,
+  onFlow,
+  onDesire,
+}: {
   flow: Rating | null
   desire: Rating | null
   onFlow: (r: Rating) => void

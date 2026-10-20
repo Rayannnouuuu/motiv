@@ -17,11 +17,21 @@ import { StepContent, type Entry } from '../log-guitar/StepContent'
 const input = 'rounded-sm bg-fill px-2 py-1.5 tabular-nums outline-none'
 const MAX_DURATION = 600
 
-const longDate = (day: string) =>
-  new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })
+const longDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })
 
 /** Champs communs : date, durée, notes, dans la couleur de la discipline du log. */
-function Common({ domain, day, duration, flow, desire, today, onDay, onDuration, onFlow, onDesire }: {
+function Common({
+  domain,
+  day,
+  duration,
+  flow,
+  desire,
+  today,
+  onDay,
+  onDuration,
+  onFlow,
+  onDesire,
+}: {
   domain: Domain
   day: string
   duration: string
@@ -38,11 +48,25 @@ function Common({ domain, day, duration, flow, desire, today, onDay, onDuration,
       <div className="rows overflow-hidden rounded-md bg-surface">
         <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
           <span className="t-body">Date</span>
-          <input type="date" value={day} max={today} onChange={(e) => onDay(e.target.value || day)} className={`t-body bg-transparent text-right outline-none ${TONE.text[domain]}`} />
+          <input
+            type="date"
+            value={day}
+            max={today}
+            onChange={(e) => onDay(e.target.value || day)}
+            className={`t-body bg-transparent text-right outline-none ${TONE.text[domain]}`}
+          />
         </label>
         <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
           <span className="t-body">Durée (min)</span>
-          <input type="number" inputMode="numeric" min={1} max={MAX_DURATION} value={duration} onChange={(e) => onDuration(e.target.value)} className={`${input} t-body w-24 text-right`} />
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={MAX_DURATION}
+            value={duration}
+            onChange={(e) => onDuration(e.target.value)}
+            className={`${input} t-body w-24 text-right`}
+          />
         </label>
       </div>
       <RatingPicker tone={domain} label="Temps oublié" value={flow} onChange={onFlow} />
@@ -141,30 +165,45 @@ function EditGuitar({ session }: { session: GuitarSession }) {
   const min = validDuration(duration)
 
   const save = () =>
-    run(async () => {
-      const items = entries.map(toItem)
-      const used = new Set(items.flatMap((it) => (it.kind === 'song' ? [it.songId] : [])))
-      // Morceau décoché : il redevient « en cours ».
-      for (const id of masteredHere) {
-        const still = items.some((it) => it.kind === 'song' && it.songId === id && it.markedMastered)
-        const song = data.songs.find((s) => s.id === id)
-        if (!still && song?.status === 'mastered' && song.masteredOn === session.day)
-          await actions.saveSong({ ...song, status: 'learning', masteredOn: null })
-      }
-      return actions.saveGuitarSession({
-        id: session.id,
-        day,
-        durationMin: min!,
-        items,
-        newSongs: newSongs.filter((s) => used.has(s.id)),
-        flowRating: flow,
-        desireRating: desire,
-      })
-    }, 'guitar', session.id)
+    run(
+      async () => {
+        const items = entries.map(toItem)
+        const used = new Set(items.flatMap((it) => (it.kind === 'song' ? [it.songId] : [])))
+        // Morceau décoché : il redevient « en cours ».
+        for (const id of masteredHere) {
+          const still = items.some((it) => it.kind === 'song' && it.songId === id && it.markedMastered)
+          const song = data.songs.find((s) => s.id === id)
+          if (!still && song?.status === 'mastered' && song.masteredOn === session.day)
+            await actions.saveSong({ ...song, status: 'learning', masteredOn: null })
+        }
+        return actions.saveGuitarSession({
+          id: session.id,
+          day,
+          durationMin: min!,
+          items,
+          newSongs: newSongs.filter((s) => used.has(s.id)),
+          flowRating: flow,
+          desireRating: desire,
+        })
+      },
+      'guitar',
+      session.id,
+    )
 
   return (
     <>
-      <Common domain="guitar" day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
+      <Common
+        domain="guitar"
+        day={day}
+        duration={duration}
+        flow={flow}
+        desire={desire}
+        today={today}
+        onDay={setDay}
+        onDuration={setDuration}
+        onFlow={setFlow}
+        onDesire={setDesire}
+      />
       <StepContent
         entries={entries}
         songs={songs}
@@ -190,15 +229,19 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         domain="guitar"
         disabled={saving}
         onDelete={() =>
-          run(async () => {
-            // Les morceaux passés en « maîtrisé » par ce log redeviennent « en cours ».
-            for (const id of masteredHere) {
-              const song = data.songs.find((s) => s.id === id)
-              if (song?.status === 'mastered' && song.masteredOn === session.day) await actions.saveSong({ ...song, status: 'learning', masteredOn: null })
-            }
-            await actions.deleteLog('guitar', session.id)
-            return null
-          }, 'guitar', session.id)
+          run(
+            async () => {
+              // Les morceaux passés en « maîtrisé » par ce log redeviennent « en cours ».
+              for (const id of masteredHere) {
+                const song = data.songs.find((s) => s.id === id)
+                if (song?.status === 'mastered' && song.masteredOn === session.day) await actions.saveSong({ ...song, status: 'learning', masteredOn: null })
+              }
+              await actions.deleteLog('guitar', session.id)
+              return null
+            },
+            'guitar',
+            session.id,
+          )
         }
       />
     </>
@@ -225,7 +268,18 @@ function EditSport({ session }: { session: SportSession }) {
   return (
     <>
       <p className="t-subhead -mt-2 text-muted">Séance {program?.name ?? 'inconnue'}</p>
-      <Common domain="sport" day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
+      <Common
+        domain="sport"
+        day={day}
+        duration={duration}
+        flow={flow}
+        desire={desire}
+        today={today}
+        onDay={setDay}
+        onDuration={setDuration}
+        onFlow={setFlow}
+        onDesire={setDesire}
+      />
       {groups.length === 0 && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
       {groups.map((pe) => {
         const name = names.get(pe) ?? 'Exo inconnu'
@@ -233,40 +287,40 @@ function EditSport({ session }: { session: SportSession }) {
           <section key={pe} className="flex flex-col">
             <h2 className="t-footnote px-4 pb-1.5 text-muted uppercase">{name}</h2>
             <div className="rows overflow-hidden rounded-md bg-surface">
-            {sets.map((s, i) =>
-              s.programExerciseId !== pe ? null : (
-                <div key={i} className="flex min-h-11 items-center gap-2 px-4 py-1.5">
-                  <span className="t-body w-16 text-muted">Série {s.setIndex}</span>
-                  <WeightInput
-                    aria-label={`Charge · ${name} · série ${s.setIndex}`}
-                    value={s.weightKg}
-                    onChange={(kg) => update(i, { weightKg: kg })}
-                    className={`${input} t-body ml-auto min-h-11 w-20 text-right`}
-                  />
-                  <span className="t-subhead text-muted">kg ×</span>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={1}
-                    aria-label={`Reps · ${name} · série ${s.setIndex}`}
-                    value={s.reps}
-                    onChange={(e) => update(i, { reps: Number(e.target.value) })}
-                    className={`${input} t-body min-h-11 w-14 text-right`}
-                  />
-                  <button
-                    type="button"
-                    aria-label={`Retirer ${name} série ${s.setIndex}`}
-                    className="hit tap py-1 pl-1"
-                    onClick={() => setSets(renumber(sets.filter((_, j) => j !== i)))}
-                  >
-                    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
-                      <circle cx="11" cy="11" r="10" className="fill-danger" />
-                      <path d="M6.5 11h9" className="stroke-on-danger" strokeWidth="2.2" strokeLinecap="round" />
-                    </svg>
-                  </button>
-                </div>
-              ),
-            )}
+              {sets.map((s, i) =>
+                s.programExerciseId !== pe ? null : (
+                  <div key={i} className="flex min-h-11 items-center gap-2 px-4 py-1.5">
+                    <span className="t-body w-16 text-muted">Série {s.setIndex}</span>
+                    <WeightInput
+                      aria-label={`Charge · ${name} · série ${s.setIndex}`}
+                      value={s.weightKg}
+                      onChange={(kg) => update(i, { weightKg: kg })}
+                      className={`${input} t-body ml-auto min-h-11 w-20 text-right`}
+                    />
+                    <span className="t-subhead text-muted">kg ×</span>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      min={1}
+                      aria-label={`Reps · ${name} · série ${s.setIndex}`}
+                      value={s.reps}
+                      onChange={(e) => update(i, { reps: Number(e.target.value) })}
+                      className={`${input} t-body min-h-11 w-14 text-right`}
+                    />
+                    <button
+                      type="button"
+                      aria-label={`Retirer ${name} série ${s.setIndex}`}
+                      className="hit tap py-1 pl-1"
+                      onClick={() => setSets(renumber(sets.filter((_, j) => j !== i)))}
+                    >
+                      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
+                        <circle cx="11" cy="11" r="10" className="fill-danger" />
+                        <path d="M6.5 11h9" className="stroke-on-danger" strokeWidth="2.2" strokeLinecap="round" />
+                      </svg>
+                    </button>
+                  </div>
+                ),
+              )}
             </div>
           </section>
         )
@@ -302,10 +356,14 @@ function EditSport({ session }: { session: SportSession }) {
         domain="sport"
         disabled={saving}
         onDelete={() =>
-          run(async () => {
-            await actions.deleteLog('sport', session.id)
-            return null
-          }, 'sport', session.id)
+          run(
+            async () => {
+              await actions.deleteLog('sport', session.id)
+              return null
+            },
+            'sport',
+            session.id,
+          )
         }
       />
     </>
@@ -343,10 +401,12 @@ function EditLog({ id }: { id: string | undefined }) {
 
   const what =
     target.kind === 'guitar'
-      ? `Guitare · ${target.session.items
-          .flatMap((it) => (it.kind === 'exercise' ? [getExercise(it.exerciseId)?.title ?? 'Exo inconnu'] : []))
-          .slice(0, 2)
-          .join(', ') || 'session'}`
+      ? `Guitare · ${
+          target.session.items
+            .flatMap((it) => (it.kind === 'exercise' ? [getExercise(it.exerciseId)?.title ?? 'Exo inconnu'] : []))
+            .slice(0, 2)
+            .join(', ') || 'session'
+        }`
       : 'Sport'
 
   return (

@@ -23,7 +23,13 @@ function move<T extends { position: number }>(items: T[], i: number, dir: -1 | 1
 const positiveInt = (v: number) => Number.isInteger(v) && v > 0
 
 /** Édition d'une séance sur un brouillon : rien n'est enregistré avant « Enregistrer ». */
-function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
+function SessionEditor({
+  initial,
+  isNew,
+  onSave,
+  onClose,
+  onDelete,
+}: {
   initial: Program
   isNew: boolean
   /** Renvoie `true` si c'est enregistré (la feuille se ferme alors). */
@@ -47,14 +53,25 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
   const remove = (ex: ProgramExercise) => {
     const known = initial.exercises.some((e) => e.id === ex.id)
     // Un exo déjà enregistré est archivé (son historique reste lisible) ; un nouveau disparaît.
-    setDraft((d) => ({ ...d, exercises: known ? d.exercises.map((e) => (e.id === ex.id ? { ...e, archived: true } : e)) : d.exercises.filter((e) => e.id !== ex.id) }))
+    setDraft((d) => ({
+      ...d,
+      exercises: known ? d.exercises.map((e) => (e.id === ex.id ? { ...e, archived: true } : e)) : d.exercises.filter((e) => e.id !== ex.id),
+    }))
   }
   const addExercise = () =>
     setDraft((d) => ({
       ...d,
       exercises: [
         ...d.exercises,
-        { id: crypto.randomUUID(), programId: d.id, name: '', targetSets: 3, targetReps: 10, position: Math.max(-1, ...d.exercises.map((e) => e.position)) + 1, archived: false },
+        {
+          id: crypto.randomUUID(),
+          programId: d.id,
+          name: '',
+          targetSets: 3,
+          targetReps: 10,
+          position: Math.max(-1, ...d.exercises.map((e) => e.position)) + 1,
+          archived: false,
+        },
       ],
     }))
 
@@ -62,7 +79,11 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
     setBusy(true)
     // Positions recalées 0, 1, 2… dans l'ordre affiché.
     const order = new Map(visible.map((e, k) => [e.id, k]))
-    const ok = await onSave({ ...draft, name: draft.name.trim(), exercises: draft.exercises.map((e) => ({ ...e, name: e.name.trim(), position: order.get(e.id) ?? e.position })) })
+    const ok = await onSave({
+      ...draft,
+      name: draft.name.trim(),
+      exercises: draft.exercises.map((e) => ({ ...e, name: e.name.trim(), position: order.get(e.id) ?? e.position })),
+    })
     setBusy(false)
     if (ok) close()
   }
@@ -77,7 +98,12 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
             Annuler
           </button>
           <h2 className="t-headline truncate">{isNew ? 'Nouvelle séance' : initial.name}</h2>
-          <button type="button" className="hit tap t-headline justify-self-end text-sport disabled:text-faint" disabled={!dirty || !valid || busy} onClick={() => void save(close)}>
+          <button
+            type="button"
+            className="hit tap t-headline justify-self-end text-sport disabled:text-faint"
+            disabled={!dirty || !valid || busy}
+            onClick={() => void save(close)}
+          >
             Enregistrer
           </button>
         </div>
@@ -131,10 +157,22 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     className={`t-callout ${num}`}
                   />
                   <div className="ml-auto flex shrink-0 items-center text-muted">
-                    <button type="button" aria-label={`Monter ${label}`} disabled={i === 0} className="hit tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, -1)}>
+                    <button
+                      type="button"
+                      aria-label={`Monter ${label}`}
+                      disabled={i === 0}
+                      className="hit tap px-1.5 py-1 disabled:opacity-25"
+                      onClick={() => reorder(i, -1)}
+                    >
                       <Arrow up />
                     </button>
-                    <button type="button" aria-label={`Descendre ${label}`} disabled={i === visible.length - 1} className="hit tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, 1)}>
+                    <button
+                      type="button"
+                      aria-label={`Descendre ${label}`}
+                      disabled={i === visible.length - 1}
+                      className="hit tap px-1.5 py-1 disabled:opacity-25"
+                      onClick={() => reorder(i, 1)}
+                    >
                       <Arrow />
                     </button>
                     <button type="button" aria-label={`Retirer ${label}`} className="hit tap py-1 pl-1.5" onClick={() => remove(ex)}>
@@ -240,10 +278,22 @@ export function ProgramEditor() {
             {programs.map((p, i) => (
               <span key={p.id} className="t-footnote flex items-center rounded-full bg-fill pl-2.5">
                 {p.name}
-                <button type="button" aria-label={`Monter ${p.name}`} disabled={i === 0 || busy} className="hit tap px-1 py-1 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, -1))}>
+                <button
+                  type="button"
+                  aria-label={`Monter ${p.name}`}
+                  disabled={i === 0 || busy}
+                  className="hit tap px-1 py-1 text-muted disabled:opacity-25"
+                  onClick={() => save(...move(programs, i, -1))}
+                >
                   <Arrow up />
                 </button>
-                <button type="button" aria-label={`Descendre ${p.name}`} disabled={i === programs.length - 1 || busy} className="hit tap py-1 pr-1.5 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, 1))}>
+                <button
+                  type="button"
+                  aria-label={`Descendre ${p.name}`}
+                  disabled={i === programs.length - 1 || busy}
+                  className="hit tap py-1 pr-1.5 text-muted disabled:opacity-25"
+                  onClick={() => save(...move(programs, i, 1))}
+                >
                   <Arrow />
                 </button>
               </span>
@@ -286,15 +336,19 @@ export function ProgramEditor() {
       )}
 
       {showPresets && (
-        <Sheet label="Programmes tout faits" onClose={() => setShowPresets(false)} title={(close) => (
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-            <span />
-            <h2 className="t-headline">Programmes tout faits</h2>
-            <button type="button" className="hit tap t-headline justify-self-end text-sport" onClick={close}>
-              OK
-            </button>
-          </div>
-        )}>
+        <Sheet
+          label="Programmes tout faits"
+          onClose={() => setShowPresets(false)}
+          title={(close) => (
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center">
+              <span />
+              <h2 className="t-headline">Programmes tout faits</h2>
+              <button type="button" className="hit tap t-headline justify-self-end text-sport" onClick={close}>
+                OK
+              </button>
+            </div>
+          )}
+        >
           {(close) => <PresetPicker onDone={close} />}
         </Sheet>
       )}

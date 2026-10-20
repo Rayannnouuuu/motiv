@@ -17,7 +17,12 @@ const COLOR: Record<Variant, Record<Tone | 'danger', string>> = {
   ghost: { ...TONE.text, danger: 'text-danger' },
 }
 
-export function Button({ variant = 'primary', tone = 'accent', className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & {
+export function Button({
+  variant = 'primary',
+  tone = 'accent',
+  className = '',
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant
   tone?: Tone | 'danger'
 }) {

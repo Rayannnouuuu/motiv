@@ -1,12 +1,4 @@
-import {
-  canOfferEasier,
-  canReroll,
-  easierTarget,
-  generateGuitarTarget,
-  generateSportTarget,
-  isChallengeMet,
-  sameTarget,
-} from './challenges'
+import { canOfferEasier, canReroll, easierTarget, generateGuitarTarget, generateSportTarget, isChallengeMet, sameTarget } from './challenges'
 import { domainLevel, totalXp } from './levels'
 import type { AppData, Challenge, ChallengeTarget, Day, Domain, Program, SportSession } from './types'
 

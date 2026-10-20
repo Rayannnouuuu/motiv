@@ -33,7 +33,8 @@ export function LibraryPage() {
   )
 }
 
-const repRange = (m: Movement) => (m.repRange ? `${m.repRange[0]}-${m.repRange[1]} reps` : m.metric === 'duration' ? 'durée' : m.metric === 'distance' ? 'distance' : null)
+const repRange = (m: Movement) =>
+  m.repRange ? `${m.repRange[0]}-${m.repRange[1]} reps` : m.metric === 'duration' ? 'durée' : m.metric === 'distance' ? 'distance' : null
 
 function Exercises() {
   const { data, movements } = useAppData()
@@ -47,7 +48,15 @@ function Exercises() {
             .sort((a, b) => a.difficulty - b.difficulty || a.title.localeCompare(b.title, 'fr'))
             .map((e) => {
               const best = bestBpm(data.guitarSessions, e.id)
-              return <Row key={e.id} to={`/exo/${e.id}`} title={e.title} subtitle={`Niveau ${e.difficulty} · cible ${e.targetBpm} bpm`} detail={best === null ? undefined : `${best} bpm`} />
+              return (
+                <Row
+                  key={e.id}
+                  to={`/exo/${e.id}`}
+                  title={e.title}
+                  subtitle={`Niveau ${e.difficulty} · cible ${e.targetBpm} bpm`}
+                  detail={best === null ? undefined : `${best} bpm`}
+                />
+              )
             })}
         </Group>
       ))}
@@ -56,7 +65,13 @@ function Exercises() {
           <Row
             key={m.id}
             title={m.name}
-            subtitle={[m.category ? MUSCLE_GROUP_LABELS[m.category] : 'à compléter', m.body && (m.body === 'upper' ? 'haut du corps' : 'bas du corps'), repRange(m)].filter(Boolean).join(' · ')}
+            subtitle={[
+              m.category ? MUSCLE_GROUP_LABELS[m.category] : 'à compléter',
+              m.body && (m.body === 'upper' ? 'haut du corps' : 'bas du corps'),
+              repRange(m),
+            ]
+              .filter(Boolean)
+              .join(' · ')}
             onClick={() => setEditing(m)}
             aria-label={`Modifier ${m.name}`}
           />

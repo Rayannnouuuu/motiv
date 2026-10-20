@@ -18,7 +18,9 @@ export function BottomNav() {
             <NavLink
               to={t.to}
               end={t.to === '/'}
-              className={({ isActive }) => `tap flex flex-col items-center gap-0.5 pt-1.5 pb-1 text-[0.625rem] font-medium tracking-[0.01em] ${isActive ? 'text-accent' : 'text-muted'}`}
+              className={({ isActive }) =>
+                `tap flex flex-col items-center gap-0.5 pt-1.5 pb-1 text-[0.625rem] font-medium tracking-[0.01em] ${isActive ? 'text-accent' : 'text-muted'}`
+              }
             >
               {({ isActive }) => (
                 <>

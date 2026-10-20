@@ -33,15 +33,19 @@ export function LevelSheet({ onClose }: { onClose: () => void }) {
   const levels = allLevels(data)
 
   return (
-    <Sheet label="Progression" onClose={onClose} title={(close) => (
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-        <span />
-        <h2 className="t-headline">Progression</h2>
-        <button type="button" aria-label="Fermer" className="hit tap justify-self-end rounded-full bg-fill p-1.5 text-muted" onClick={close}>
-          <Icon name="close" size="1em" />
-        </button>
-      </div>
-    )}>
+    <Sheet
+      label="Progression"
+      onClose={onClose}
+      title={(close) => (
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center">
+          <span />
+          <h2 className="t-headline">Progression</h2>
+          <button type="button" aria-label="Fermer" className="hit tap justify-self-end rounded-full bg-fill p-1.5 text-muted" onClick={close}>
+            <Icon name="close" size="1em" />
+          </button>
+        </div>
+      )}
+    >
       {() => (
         <div className="flex flex-col gap-5 pt-2">
           <div className="flex flex-col items-center gap-2">

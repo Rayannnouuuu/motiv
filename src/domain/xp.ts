@@ -20,11 +20,7 @@ export const XP_SPORT_RECORD = 15
 
 const result = (lines: XpLine[]): XpResult => ({ total: lines.reduce((t, l) => t + l.xp, 0), lines })
 
-export function guitarSessionXp(
-  draft: Pick<GuitarSession, 'durationMin' | 'items'>,
-  history: GuitarSession[],
-  songs: Song[],
-): XpResult {
+export function guitarSessionXp(draft: Pick<GuitarSession, 'durationMin' | 'items'>, history: GuitarSession[], songs: Song[]): XpResult {
   const lines: XpLine[] = []
   if (draft.durationMin > 0) lines.push({ label: `${draft.durationMin} min jouées`, xp: draft.durationMin })
 
@@ -41,8 +37,7 @@ export function guitarSessionXp(
 
   for (const { ex, maxBpm } of exercises.values()) {
     const best = bestBpm(history, ex.id)
-    if (maxBpm !== null && best !== null && maxBpm > best)
-      lines.push({ label: `Record de tempo · ${ex.title}`, xp: XP_TEMPO_RECORD })
+    if (maxBpm !== null && best !== null && maxBpm > best) lines.push({ label: `Record de tempo · ${ex.title}`, xp: XP_TEMPO_RECORD })
   }
 
   const prevMax = maxDifficultyByCategory(history)
@@ -50,8 +45,7 @@ export function guitarSessionXp(
   for (const { ex } of exercises.values()) draftMax.set(ex.category, Math.max(draftMax.get(ex.category) ?? 0, ex.difficulty))
   for (const [category, difficulty] of draftMax) {
     const before = prevMax[category]
-    if (before !== undefined && difficulty > before)
-      lines.push({ label: `Difficulté en hausse · ${CATEGORY_LABELS[category]}`, xp: XP_DIFFICULTY_UP })
+    if (before !== undefined && difficulty > before) lines.push({ label: `Difficulté en hausse · ${CATEGORY_LABELS[category]}`, xp: XP_DIFFICULTY_UP })
   }
 
   for (const it of draft.items) {
