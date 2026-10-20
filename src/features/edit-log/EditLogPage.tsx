@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getExercise } from '../../content/exercises'
 import { useActions, useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
+import { TONE } from '../../design/tone'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { lastLog, type LastLog } from '../../domain/lastLog'
-import type { GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } from '../../domain/types'
+import type { Domain, GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
@@ -12,14 +14,15 @@ import { RatingPicker } from '../../ui/RatingPicker'
 import { WeightInput } from '../../ui/WeightInput'
 import { StepContent, type Entry } from '../log-guitar/StepContent'
 
-const input = 'rounded-[0.5rem] bg-fill px-2 py-1.5 tabular-nums outline-none'
+const input = 'rounded-sm bg-fill px-2 py-1.5 tabular-nums outline-none'
 const MAX_DURATION = 600
 
 const longDate = (day: string) =>
   new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })
 
-/** Champs communs : date, durée, notes. */
-function Common({ day, duration, flow, desire, today, onDay, onDuration, onFlow, onDesire }: {
+/** Champs communs : date, durée, notes, dans la couleur de la discipline du log. */
+function Common({ domain, day, duration, flow, desire, today, onDay, onDuration, onFlow, onDesire }: {
+  domain: Domain
   day: string
   duration: string
   flow: Rating
@@ -32,18 +35,18 @@ function Common({ day, duration, flow, desire, today, onDay, onDuration, onFlow,
 }) {
   return (
     <>
-      <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
+      <div className="rows overflow-hidden rounded-md bg-surface">
         <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
           <span className="t-body">Date</span>
-          <input type="date" value={day} max={today} onChange={(e) => onDay(e.target.value || day)} className="t-body bg-transparent text-right text-accent outline-none" />
+          <input type="date" value={day} max={today} onChange={(e) => onDay(e.target.value || day)} className={`t-body bg-transparent text-right outline-none ${TONE.text[domain]}`} />
         </label>
         <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-1.5">
           <span className="t-body">Durée (min)</span>
           <input type="number" inputMode="numeric" min={1} max={MAX_DURATION} value={duration} onChange={(e) => onDuration(e.target.value)} className={`${input} t-body w-24 text-right`} />
         </label>
       </div>
-      <RatingPicker label="Temps oublié" value={flow} onChange={onFlow} />
-      <RatingPicker label="Envie d'y retourner" value={desire} onChange={onDesire} />
+      <RatingPicker tone={domain} label="Temps oublié" value={flow} onChange={onFlow} />
+      <RatingPicker tone={domain} label="Envie d'y retourner" value={desire} onChange={onDesire} />
     </>
   )
 }
@@ -95,22 +98,22 @@ function useSave() {
   return { saving, error, run }
 }
 
-function DeleteButton({ onDelete, disabled }: { onDelete: () => void; disabled: boolean }) {
+function DeleteButton({ domain, onDelete, disabled }: { domain: Domain; onDelete: () => void; disabled: boolean }) {
   const [confirming, setConfirming] = useState(false)
   if (!confirming)
     return (
-      <Button variant="ghost" className="!text-danger" disabled={disabled} onClick={() => setConfirming(true)}>
+      <Button variant="ghost" tone="danger" disabled={disabled} onClick={() => setConfirming(true)}>
         Supprimer ce log
       </Button>
     )
   return (
-    <div className="animate-rise flex flex-col gap-3 rounded-[1rem] bg-surface p-4 shadow-card">
+    <div className="animate-rise flex flex-col gap-3 rounded-xl bg-surface p-4 shadow-card">
       <p className="t-subhead text-center">Supprimer ce log ? Son XP sera retirée.</p>
       <div className="flex gap-2">
-        <Button variant="ghost" onClick={() => setConfirming(false)}>
+        <Button variant="ghost" tone={domain} onClick={() => setConfirming(false)}>
           Annuler
         </Button>
-        <Button className="flex-1 !bg-danger" disabled={disabled} onClick={onDelete}>
+        <Button tone="danger" className="flex-1" disabled={disabled} onClick={onDelete}>
           Supprimer
         </Button>
       </div>
@@ -161,7 +164,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
 
   return (
     <>
-      <Common day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
+      <Common domain="guitar" day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
       <StepContent
         entries={entries}
         songs={songs}
@@ -180,10 +183,11 @@ function EditGuitar({ session }: { session: GuitarSession }) {
           {error}
         </p>
       )}
-      <Button disabled={min === null || saving} onClick={save}>
+      <Button tone="guitar" disabled={min === null || saving} onClick={save}>
         Enregistrer la correction
       </Button>
       <DeleteButton
+        domain="guitar"
         disabled={saving}
         onDelete={() =>
           run(async () => {
@@ -221,14 +225,14 @@ function EditSport({ session }: { session: SportSession }) {
   return (
     <>
       <p className="t-subhead -mt-2 text-muted">Séance {program?.name ?? 'inconnue'}</p>
-      <Common day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
+      <Common domain="sport" day={day} duration={duration} flow={flow} desire={desire} today={today} onDay={setDay} onDuration={setDuration} onFlow={setFlow} onDesire={setDesire} />
       {groups.length === 0 && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
       {groups.map((pe) => {
         const name = names.get(pe) ?? 'Exo inconnu'
         return (
           <section key={pe} className="flex flex-col">
             <h2 className="t-footnote px-4 pb-1.5 text-muted uppercase">{name}</h2>
-            <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
+            <div className="rows overflow-hidden rounded-md bg-surface">
             {sets.map((s, i) =>
               s.programExerciseId !== pe ? null : (
                 <div key={i} className="flex min-h-11 items-center gap-2 px-4 py-1.5">
@@ -252,7 +256,7 @@ function EditSport({ session }: { session: SportSession }) {
                   <button
                     type="button"
                     aria-label={`Retirer ${name} série ${s.setIndex}`}
-                    className="tap py-1 pl-1"
+                    className="hit tap py-1 pl-1"
                     onClick={() => setSets(renumber(sets.filter((_, j) => j !== i)))}
                   >
                     <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
@@ -273,6 +277,7 @@ function EditSport({ session }: { session: SportSession }) {
         </p>
       )}
       <Button
+        tone="sport"
         disabled={min === null || !valid || saving}
         onClick={() =>
           run(
@@ -294,6 +299,7 @@ function EditSport({ session }: { session: SportSession }) {
         Enregistrer la correction
       </Button>
       <DeleteButton
+        domain="sport"
         disabled={saving}
         onDelete={() =>
           run(async () => {
@@ -331,7 +337,7 @@ function EditLog({ id }: { id: string | undefined }) {
     return (
       <div className="flex flex-1 flex-col justify-center gap-4 text-center">
         <p>Aucun log à corriger.</p>
-        <Link to="/" className="tap t-body text-accent">
+        <Link to="/" className="hit tap t-body self-center text-accent">
           Retour
         </Link>
       </div>
@@ -339,17 +345,18 @@ function EditLog({ id }: { id: string | undefined }) {
 
   const what =
     target.kind === 'guitar'
-      ? `🎸 Guitare · ${target.session.items
+      ? `Guitare · ${target.session.items
           .flatMap((it) => (it.kind === 'exercise' ? [getExercise(it.exerciseId)?.title ?? 'Exo inconnu'] : []))
           .slice(0, 2)
           .join(', ') || 'session'}`
-      : '🏋️ Sport'
+      : 'Sport'
 
   return (
     <div className="flex flex-col gap-5 pb-4">
-      <ModalBar onCancel={() => navigate(-1)} cancelAria="Fermer" />
+      <ModalBar tone={target.kind} onCancel={() => navigate(-1)} cancelAria="Fermer" />
       <h1 className="t-title1 -mt-2">{id ? 'Corriger ce log' : 'Corriger le dernier log'}</h1>
       <p className="t-subhead -mt-3 text-muted">
+        <Icon name={target.kind} className={`mr-1 ${TONE.text[target.kind]}`} />
         {what} · {longDate(target.session.day)} · {target.session.xp} XP
       </p>
       {target.kind === 'guitar' ? <EditGuitar session={target.session} /> : <EditSport session={target.session} />}

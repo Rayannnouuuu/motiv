@@ -1,107 +1,5 @@
 @import 'tailwindcss';
-
-/* `dark:` suit le thème choisi dans l'appli (Sombre, ou Auto quand le téléphone est en sombre). */
-@custom-variant dark {
-  &:where([data-theme='dark'], [data-theme='dark'] *) {
-    @slot;
-  }
-  @media (prefers-color-scheme: dark) {
-    &:where([data-theme='auto'], [data-theme='auto'] *) {
-      @slot;
-    }
-  }
-}
-
-/*
- * Couleurs façon iOS : fond groupé gris, cartes blanches, libellés secondaires translucides,
- * séparateurs fins. Les mêmes noms servent en clair et en sombre (le sombre est vraiment noir).
- */
-:root {
-  --bg: #f2f2f7;
-  --surface: #ffffff;
-  --surface-2: #f2f2f7;
-  --fill: rgb(118 118 128 / 0.12);
-  --fill-strong: rgb(118 118 128 / 0.2);
-  --line: rgb(60 60 67 / 0.18);
-  --ink: #000000;
-  --muted: rgb(60 60 67 / 0.6);
-  --faint: rgb(60 60 67 / 0.3);
-  /* Couleurs du logo : orange de la tenue, violet de la guitare, vert du fond. */
-  --accent: #e07800;
-  --guitar: #9a1be0;
-  --sport: #5b7a45;
-  --danger: #ff3b30;
-  --material: rgb(249 249 249 / 0.78);
-  --material-edge: rgb(0 0 0 / 0.12);
-  --scrim: rgb(0 0 0 / 0.32);
-  --shadow: 0 0.5px 0 rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  --bg: #000000;
-  --surface: #1c1c1e;
-  --surface-2: #2c2c2e;
-  --fill: rgb(118 118 128 / 0.24);
-  --fill-strong: rgb(118 118 128 / 0.36);
-  --line: rgb(84 84 88 / 0.6);
-  --ink: #ffffff;
-  --muted: rgb(235 235 245 / 0.6);
-  --faint: rgb(235 235 245 / 0.3);
-  --accent: #ff9f0a;
-  --guitar: #c061ff;
-  --sport: #9cbf84;
-  --danger: #ff453a;
-  --material: rgb(30 30 30 / 0.75);
-  --material-edge: rgb(255 255 255 / 0.1);
-  --scrim: rgb(0 0 0 / 0.5);
-  --shadow: none;
-  color-scheme: dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root[data-theme='auto'] {
-    --bg: #000000;
-    --surface: #1c1c1e;
-    --surface-2: #2c2c2e;
-    --fill: rgb(118 118 128 / 0.24);
-    --fill-strong: rgb(118 118 128 / 0.36);
-    --line: rgb(84 84 88 / 0.6);
-    --ink: #ffffff;
-    --muted: rgb(235 235 245 / 0.6);
-    --faint: rgb(235 235 245 / 0.3);
-    --accent: #ff9f0a;
-    --guitar: #c061ff;
-    --sport: #9cbf84;
-    --danger: #ff453a;
-    --material: rgb(30 30 30 / 0.75);
-    --material-edge: rgb(255 255 255 / 0.1);
-    --scrim: rgb(0 0 0 / 0.5);
-    --shadow: none;
-    color-scheme: dark;
-  }
-}
-
-@theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-fill: var(--fill);
-  --color-fill-strong: var(--fill-strong);
-  --color-line: var(--line);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-faint: var(--faint);
-  --color-accent: var(--accent);
-  --color-guitar: var(--guitar);
-  --color-sport: var(--sport);
-  --color-danger: var(--danger);
-  --color-scrim: var(--scrim);
-  --shadow-card: var(--shadow);
-  /* Ressorts (réponse 0,4 s) : amorti sans rebond par défaut, léger rebond après un geste. */
-  --ease-spring: linear(0, 0.0596, 0.186, 0.3294, 0.4656, 0.584, 0.6819, 0.7601, 0.821, 0.8677, 0.9029, 0.9292, 0.9487, 0.963, 0.9734, 0.9809, 0.9864, 0.9903, 0.9931, 0.9951, 0.9966, 0.9976, 0.9983, 0.9988, 1);
-  --ease-bounce: linear(0, 0.0624, 0.2017, 0.3663, 0.5257, 0.6644, 0.7763, 0.8613, 0.9223, 0.9637, 0.9898, 1.0049, 1.0124, 1.015, 1.0147, 1.0129, 1.0105, 1.008, 1.0057, 1.0039, 1.0025, 1.0014, 1.0007, 1.0003, 1);
-}
+@import './design/tokens.css';
 
 html,
 body {
@@ -112,75 +10,15 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
-  font-size: 1.0625rem; /* 17 pt : corps de texte iOS */
+  font-family: var(--font-body);
+  font-size: var(--type-body);
   line-height: 1.3;
   letter-spacing: -0.01em;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
   /* Passage clair ↔ sombre en douceur, pas de saut de luminosité. */
-  transition: background-color 300ms ease;
-}
-
-/*
- * Échelle typographique (iOS) : la taille, la graisse, l'interligne et l'approche vont ensemble.
- * Les grands titres sont resserrés, les petits textes légèrement ouverts.
- */
-@utility t-large {
-  font-size: 2.125rem;
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.022em;
-}
-@utility t-title1 {
-  font-size: 1.75rem;
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-@utility t-title2 {
-  font-size: 1.375rem;
-  line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.018em;
-}
-@utility t-title3 {
-  font-size: 1.25rem;
-  line-height: 1.25;
-  font-weight: 600;
-  letter-spacing: -0.016em;
-}
-@utility t-headline {
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-}
-@utility t-body {
-  font-size: 1.0625rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-@utility t-callout {
-  font-size: 1rem;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-@utility t-subhead {
-  font-size: 0.9375rem;
-  line-height: 1.33;
-  letter-spacing: -0.006em;
-}
-@utility t-footnote {
-  font-size: 0.8125rem;
-  line-height: 1.38;
-  letter-spacing: -0.002em;
-}
-@utility t-caption {
-  font-size: 0.75rem;
-  line-height: 1.33;
-  letter-spacing: 0;
+  transition: background-color var(--duration-base) ease;
 }
 
 /*
@@ -188,25 +26,35 @@ body {
  * `tap` : les boutons texte et les lignes s'assombrissent ; `tap-scale` : les boutons pleins s'enfoncent.
  */
 @utility tap {
-  transition: opacity 250ms ease, background-color 250ms ease;
+  transition: opacity var(--duration-base) ease, background-color var(--duration-base) ease;
   &:active:not(:disabled) {
     opacity: 0.45;
     transition-duration: 0ms;
   }
 }
 @utility tap-row {
-  transition: background-color 300ms ease;
+  transition: background-color var(--duration-base) ease;
   &:active {
     background-color: var(--fill-strong);
     transition-duration: 0ms;
   }
 }
 @utility tap-scale {
-  transition: transform 500ms var(--ease-spring), opacity 300ms ease, filter 300ms ease;
+  transition: transform var(--duration-move) var(--ease-spring), opacity var(--duration-base) ease, filter var(--duration-base) ease;
   &:active:not(:disabled) {
     transform: scale(0.96);
     filter: brightness(0.92);
-    transition-duration: 80ms;
+    transition-duration: var(--duration-press);
+  }
+}
+
+/* Zone tactile d'au moins 44 pt sans changer le dessin : le toucher déborde autour d'un petit contrôle. */
+@utility hit {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: min(0px, (100% - var(--tap-min)) / 2);
   }
 }
 
@@ -242,16 +90,16 @@ body {
   }
 }
 @utility animate-present {
-  animation: present 700ms var(--ease-spring) both;
+  animation: present var(--duration-enter) var(--ease-spring) both;
 }
 @utility animate-fade {
-  animation: fade-in 350ms ease-out both;
+  animation: fade-in var(--duration-base) ease-out both;
 }
 @utility animate-rise {
-  animation: rise 650ms var(--ease-spring) both;
+  animation: rise var(--duration-enter) var(--ease-spring) both;
 }
 @utility animate-pop {
-  animation: pop 750ms var(--ease-bounce) both;
+  animation: pop var(--duration-enter) var(--ease-bounce) both;
 }
 
 /* Ouverture d'un onglet (et de l'appli) : le titre puis le contenu montent en se matérialisant. */
@@ -262,7 +110,7 @@ body {
   }
 }
 @utility animate-page {
-  animation: page-in 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: page-in var(--duration-page) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Icône d'onglet choisie : petit rebond, comme les symboles de la barre d'onglets iOS. */
@@ -288,7 +136,7 @@ body {
   }
 }
 .splash-logo {
-  animation: splash-logo 700ms ease-out both;
+  animation: splash-logo var(--duration-enter) ease-out both;
 }
 
 /* Montée de niveau */
@@ -309,16 +157,16 @@ body {
   }
 }
 .levelup-fade {
-  animation: fade-in 300ms ease-out both;
+  animation: fade-in var(--duration-base) ease-out both;
 }
 .levelup-pop {
-  animation: levelup-pop 700ms var(--ease-bounce) both;
+  animation: levelup-pop var(--duration-enter) var(--ease-bounce) both;
 }
 .levelup-rays {
   animation: levelup-rays 40s linear infinite;
 }
 .levelup-rise {
-  animation: rise 500ms var(--ease-spring) both;
+  animation: rise var(--duration-move) var(--ease-spring) both;
 }
 
 /* Mouvement réduit : des fondus à la place des déplacements et des rebonds. */
@@ -329,7 +177,7 @@ body {
   .animate-page,
   .levelup-pop,
   .levelup-rise {
-    animation: fade-in 200ms ease-out both;
+    animation: fade-in var(--duration-fast) ease-out both;
   }
   .levelup-rays,
   .animate-symbol {
@@ -349,12 +197,8 @@ body {
   }
 }
 
-/* Contraste augmenté : séparateurs et libellés secondaires plus marqués. */
+/* Contraste augmenté : matériaux opaques et cernés (les couleurs sont dans les jetons). */
 @media (prefers-contrast: more) {
-  :root {
-    --line: rgb(60 60 67 / 0.5);
-    --muted: rgb(60 60 67 / 0.85);
-  }
   .material {
     background: var(--surface);
     border-color: var(--line);
@@ -365,7 +209,7 @@ body {
 @utility rows {
   & > * + * {
     background-image: linear-gradient(var(--line), var(--line));
-    background-size: calc(100% - 1rem) 0.5px;
+    background-size: calc(100% - var(--spacing) * 4) 0.5px;
     background-position: right top;
     background-repeat: no-repeat;
   }

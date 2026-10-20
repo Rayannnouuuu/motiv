@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { catalogSong } from '../../content/songCatalog'
 import { useActions, useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import { shortDate } from '../../domain/date'
 import { activeSongs, catalogNotAdded } from '../../domain/songSuggestion'
 import type { Song } from '../../domain/types'
@@ -14,19 +15,15 @@ const SHOWN = 6
 /** Coche ronde façon iOS (cocher = maîtrisé). */
 function Check({ checked, label, onChange }: { checked: boolean; label: string; onChange: () => void }) {
   return (
-    <label className="tap flex shrink-0 cursor-pointer items-center gap-1.5">
+    <label className="hit tap flex shrink-0 cursor-pointer items-center gap-1.5">
       <input type="checkbox" aria-label={label} checked={checked} onChange={onChange} className="peer sr-only" />
       <span
         aria-hidden
-        className={`flex h-[1.375rem] w-[1.375rem] items-center justify-center rounded-full transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-accent ${
-          checked ? 'bg-guitar text-white' : 'border-[1.5px] border-faint'
+        className={`flex size-5.5 items-center justify-center rounded-full transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-guitar ${
+          checked ? 'bg-guitar text-on-guitar' : 'border-[1.5px] border-faint'
         }`}
       >
-        {checked && (
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <path d="M2.5 6.2 5 8.6l4.5-5.2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        )}
+        {checked && <Icon name="check" size="0.85em" />}
       </span>
       <span className="t-footnote text-muted">maîtrisé</span>
     </label>
@@ -82,13 +79,18 @@ export function SongsPage() {
                 aria-label={`Jouer ${c.title}`}
                 title={c.title}
                 subtitle={`${c.artist} · niv. ${c.difficulty}${c.tuning !== 'Standard' ? ` · ${c.tuning}` : ''}`}
-                detail={<span className="t-subhead text-accent">Jouer ›</span>}
+                detail={
+                  <span className="t-subhead flex items-center gap-0.5 text-guitar">
+                    <Icon name="play" />
+                    Jouer
+                  </span>
+                }
                 onClick={() => navigate('/log/guitare', { state: { songTitle: c.title } })}
               />
             ))}
             {proposed.length > SHOWN && (
               <Row onClick={() => setShowAll(!showAll)} chevron={false}>
-                <span className="t-body text-accent">{showAll ? 'Voir moins' : `Voir les ${proposed.length} morceaux`}</span>
+                <span className="t-body text-guitar">{showAll ? 'Voir moins' : `Voir les ${proposed.length} morceaux`}</span>
               </Row>
             )}
           </Group>

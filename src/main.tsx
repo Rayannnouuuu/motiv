@@ -10,7 +10,7 @@ import { AppDataProvider } from './data/AppDataProvider'
 import { AuthGate } from './features/auth/AuthGate'
 import './index.css'
 import { Splash } from './ui/Splash'
-import { followSystemTheme } from './ui/theme'
+import { followSystemTheme } from './design/theme'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1 } } })
 

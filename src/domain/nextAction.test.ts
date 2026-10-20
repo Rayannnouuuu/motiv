@@ -17,17 +17,17 @@ const run = (data: ReturnType<typeof base>, live: { guitarLiveMin?: number | nul
 
 describe('nextAction', () => {
   test('séance de sport en cours : reprendre, avant tout le reste', () => {
-    expect(run(base(), { sportLiveProgram: 'Bas', guitarLiveMin: 12 })).toEqual({ kind: 'resumeSport', label: '🏋️ Reprendre Bas', to: '/log/sport' })
+    expect(run(base(), { sportLiveProgram: 'Bas', guitarLiveMin: 12 })).toEqual({ kind: 'resumeSport', label: 'Reprendre Bas', to: '/log/sport' })
   })
 
   test('chrono guitare en cours : reprendre la guitare', () => {
-    expect(run(base(), { guitarLiveMin: 12 })).toEqual({ kind: 'resumeGuitar', label: '⏱ Reprendre la guitare · 12 min', to: '/jouer' })
+    expect(run(base(), { guitarLiveMin: 12 })).toEqual({ kind: 'resumeGuitar', label: 'Reprendre la guitare · 12 min', to: '/jouer' })
   })
 
   test('objectif guitare pas atteint : jouer les minutes restantes', () => {
     expect(run(base({ guitarSessions: [g(today, 5)] }))).toEqual({
       kind: 'playGuitar',
-      label: '▶︎ Jouer · encore 25 min',
+      label: 'Jouer · encore 25 min',
       to: '/jouer',
       state: { autostart: true },
     })
@@ -35,12 +35,12 @@ describe('nextAction', () => {
 
   test('guitare faite, séance de sport due : commencer la prochaine séance', () => {
     const data = base({ guitarSessions: [g(today, 60)], sportSessions: [ss([], '2026-10-13', 'haut')] })
-    expect(run(data)).toEqual({ kind: 'startSport', label: '🏋️ Commencer Bas', to: '/log/sport', state: { programId: 'bas' } })
+    expect(run(data)).toEqual({ kind: 'startSport', label: 'Commencer Bas', to: '/log/sport', state: { programId: 'bas' } })
   })
 
   test('guitare faite, sport déjà fait aujourd’hui : journée bouclée', () => {
     const data = base({ guitarSessions: [g(today, 60)], sportSessions: [ss([], today, 'haut')] })
-    expect(run(data)).toEqual({ kind: 'done', label: 'Journée bouclée ✓' })
+    expect(run(data)).toEqual({ kind: 'done', label: 'Journée bouclée' })
   })
 
   test('guitare faite, semaine de sport validée : journée bouclée', () => {

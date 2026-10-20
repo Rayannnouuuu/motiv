@@ -16,11 +16,11 @@ export function PendingBanner() {
   return (
     <>
       {rejected.map((r) => (
-        <div key={r.entry.id} role="alert" className="t-subhead mt-3 rounded-[0.75rem] bg-surface px-4 py-3">
+        <div key={r.entry.id} role="alert" className="t-subhead mt-3 rounded-md bg-surface px-4 py-3">
           <p>
             {LABEL[r.entry.kind]} du {dayOf(r)} refusé par le serveur : {r.message}
           </p>
-          <button type="button" className="tap mt-1 font-semibold text-accent" onClick={() => discardRejected(r.entry.id)}>
+          <button type="button" className="hit tap mt-1 font-semibold text-accent" onClick={() => discardRejected(r.entry.id)}>
             Ignorer
           </button>
         </div>

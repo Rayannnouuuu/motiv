@@ -31,8 +31,9 @@ export default defineConfig({
         start_url: BASE,
         scope: BASE,
         display: 'standalone',
-        background_color: '#f2f2f7',
-        theme_color: '#f2f2f7',
+        // Thème sombre par défaut (src/design/theme.ts).
+        background_color: '#000000',
+        theme_color: '#000000',
       },
       // injectRegister: false désactive l'activation automatique du plugin : on la remet, sinon une nouvelle
       // version attendrait que toutes les fenêtres soient fermées et le rechargement ne viendrait jamais.

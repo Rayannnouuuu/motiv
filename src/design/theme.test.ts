@@ -26,6 +26,17 @@ describe('themeColor', () => {
   })
 })
 
+describe('getTheme', () => {
+  test('rien de choisi sur cet appareil : sombre', () => {
+    expect(getTheme()).toBe('dark')
+  })
+
+  test('valeur inconnue : sombre', () => {
+    localStorage.setItem('motiv.theme.v1', 'sepia')
+    expect(getTheme()).toBe('dark')
+  })
+})
+
 describe('setTheme', () => {
   test('crée le meta theme-color s’il manque, puis le met à jour', () => {
     expect(meta()).toBeNull()

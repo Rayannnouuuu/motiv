@@ -85,7 +85,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
         role="dialog"
         aria-modal="true"
         aria-label={label}
-        className="relative flex max-h-[92dvh] w-full max-w-md flex-col rounded-t-[1.25rem] bg-bg shadow-2xl will-change-transform dark:[--bg:#1c1c1e] dark:[--surface:#2c2c2e] dark:[--surface-2:#3a3a3c]"
+        className="relative flex max-h-[92dvh] w-full max-w-md flex-col rounded-t-2xl bg-bg shadow-raised will-change-transform [--bg:var(--elevated-bg)] [--surface:var(--elevated-surface)] [--surface-2:var(--elevated-surface-2)]"
         style={{ transform: 'translate3d(0, 100%, 0)' }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -99,7 +99,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
           </div>
           {title?.(close)}
         </div>
-        <div data-sheet-scroll className="overflow-y-auto overscroll-contain px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+        <div data-sheet-scroll className="overflow-y-auto overscroll-contain px-4 pb-[max(--spacing(5),env(safe-area-inset-bottom))]">
           {children(close)}
         </div>
       </div>

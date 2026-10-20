@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Icon } from '../../design/icons'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { haptic } from '../../ui/spring'
 import { beep } from './beep'
@@ -60,20 +61,20 @@ export function RestTimer({ startedAt, restSec, nextLabel, onAdd, onSkip }: {
   const over = phase === 'done'
 
   return (
-    <section role="timer" aria-label="Repos" className="animate-rise flex items-center gap-3.5 rounded-[1rem] bg-surface px-4 py-3 shadow-card">
-      <ProgressRing value={over ? restSec : left} max={restSec} size={56} stroke={5} color={over ? 'guitar' : 'sport'} transitionMs={300}>
-        <span className={`t-subhead font-semibold tabular-nums ${over ? 'text-guitar' : ''}`}>{over ? '✓' : clock(left)}</span>
+    <section role="timer" aria-label="Repos" className="animate-rise flex items-center gap-3.5 rounded-xl bg-surface px-4 py-3 shadow-card">
+      <ProgressRing value={over ? restSec : left} max={restSec} size={56} stroke={5} color="sport" transitionMs={300}>
+        {over ? <Icon name="check" size={24} className="text-sport" /> : <span className="t-subhead font-semibold tabular-nums">{clock(left)}</span>}
       </ProgressRing>
       {over ? (
-        <p className="t-headline font-semibold text-guitar">C'est reparti : {nextLabel}</p>
+        <p className="t-headline font-semibold text-sport">C'est reparti : {nextLabel}</p>
       ) : (
         <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
           <p className="t-headline">Repos</p>
           <div className="flex gap-1">
-            <button type="button" onClick={onAdd} className="tap t-subhead min-h-11 rounded-full px-3 font-semibold text-accent">
+            <button type="button" onClick={onAdd} className="tap t-subhead min-h-11 rounded-full px-3 font-semibold text-sport">
               +30 s
             </button>
-            <button type="button" onClick={onSkip} className="tap t-subhead min-h-11 rounded-full px-3 font-semibold text-accent">
+            <button type="button" onClick={onSkip} className="tap t-subhead min-h-11 rounded-full px-3 font-semibold text-sport">
               Passer
             </button>
           </div>
