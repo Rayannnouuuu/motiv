@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { rubberband, SpringValue, VelocityTracker } from './spring'
 
 /**
  * Feuille qui monte du bas. Elle suit le doigt 1:1 (poignée ou contenu tout en haut), résiste si on la
  * pousse vers le haut, et se ferme si on la lance vers le bas ou qu'on la tire au-delà de la moitié.
  * On peut la rattraper pendant qu'elle bouge.
+ * Rendue dans <body> : posée dans un écran animé (transform), elle se calerait sur lui et non sur l'écran.
  */
 export function Sheet({ label, title, onClose, children }: { label: string; title?: (close: () => void) => ReactNode; onClose: () => void; children: (close: () => void) => ReactNode }) {
   const panel = useRef<HTMLDivElement>(null)
@@ -77,7 +79,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
     } else spring.current.to(0, { damping: 0.85, response: 0.35 })
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-40 flex items-end justify-center">
       <div ref={scrim} className="absolute inset-0 bg-scrim" style={{ opacity: 0 }} onClick={close} aria-hidden />
       <div
@@ -103,6 +105,7 @@ export function Sheet({ label, title, onClose, children }: { label: string; titl
           {children(close)}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
