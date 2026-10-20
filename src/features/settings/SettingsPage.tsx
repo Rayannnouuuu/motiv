@@ -4,7 +4,6 @@ import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
 import { getTheme, setTheme, type Theme } from '../../design/theme'
 import { BackupSection } from './BackupSection'
-import { ProgramEditor } from './ProgramEditor'
 
 // Version installée (date du build + commit) : on voit d'un coup d'œil si la dernière est arrivée.
 const VERSION = `${new Date(__BUILD_DATE__).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${__BUILD_SHA__}`
@@ -36,10 +35,9 @@ function ThemePicker() {
 
 export function SettingsPage() {
   return (
-    <Screen title="Réglages">
+    <Screen title="Moi">
       <div className="flex flex-col gap-8 pb-4">
         <ThemePicker />
-        <ProgramEditor />
         <BackupSection />
         <Group>
           <Row title="Version" detail={VERSION} />

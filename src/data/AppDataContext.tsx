@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import type { Movement } from '../domain/model'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
 import type { MotivDb } from './db'
@@ -32,10 +33,13 @@ export interface Actions {
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
+  saveMovement(m: Movement): Promise<void>
 }
 
 export interface AppDataValue {
   data: AppData
+  /** Bibliothèque sport (modèle v1, déjà lu tel quel par la Bibliothèque). */
+  movements: Movement[]
   today: Day
 }
 

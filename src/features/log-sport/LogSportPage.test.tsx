@@ -29,7 +29,7 @@ const renderSport = (opts: RenderWithDataOptions = {}) =>
 
 /** Contexte de données maison : les données peuvent arriver après le montage (rerender). */
 function Harness({ data }: { data: Partial<AppData> }) {
-  const value = { data: { ...EMPTY_DATA, ...data }, today: '2026-10-15' }
+  const value = { data: { ...EMPTY_DATA, ...data }, movements: [], today: '2026-10-15' }
   return (
     <MemoryRouter initialEntries={['/log/sport']}>
       <AppDataContext.Provider value={value}>
@@ -410,8 +410,8 @@ describe('LogSportPage', () => {
     expect(screen.getByText('at / null')).toBeInTheDocument()
   })
 
-  test('sans programme : lien vers les réglages', () => {
+  test('sans programme : lien vers les modèles de la bibliothèque', () => {
     renderSport()
-    expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/reglages')
+    expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/bibliotheque?vue=modeles')
   })
 })

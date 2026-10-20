@@ -4,7 +4,7 @@ import { expect, test } from 'vitest'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { g, mkSong } from '../../test/factories'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
-import { SongsPage } from './SongsPage'
+import { SongsList } from './SongsList'
 
 function Probe() {
   const loc = useLocation()
@@ -14,7 +14,7 @@ function Probe() {
 const renderPage = (opts: RenderWithDataOptions = {}) =>
   renderWithData(
     <Routes>
-      <Route path="/morceaux" element={<SongsPage />} />
+      <Route path="/morceaux" element={<SongsList />} />
       <Route path="*" element={<Probe />} />
     </Routes>,
     { today: '2026-10-15', route: '/morceaux', ...opts },

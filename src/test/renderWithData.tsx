@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from '../data/AppDataContext'
 import { EMPTY_DATA, type AppData, type Day } from '../domain/types'
 import { testDb } from './testDb'
+import { LIBRARY_MOVEMENTS } from '../data/migrations/v0ToV1'
 
 export interface RenderWithDataOptions {
   data?: Partial<AppData>
@@ -23,6 +24,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     rerollChallenge: vi.fn(async () => {}),
     acceptEasier: vi.fn(async () => {}),
     deleteLog: vi.fn(async () => {}),
+    saveMovement: vi.fn(async () => {}),
     ...over,
   }
 }
@@ -31,6 +33,7 @@ export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {
   const actions = fakeActions(opts.actions)
   const value = {
     data: { ...EMPTY_DATA, ...opts.data },
+    movements: LIBRARY_MOVEMENTS,
     today: opts.today ?? '2026-10-15',
   }
   const result = render(

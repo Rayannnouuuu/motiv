@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { BottomNav } from '../ui/BottomNav'
 import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
 import { LogSportPage } from '../features/log-sport/LogSportPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
 import { SettingsPage } from '../features/settings/SettingsPage'
-import { SongsPage } from '../features/songs/SongsPage'
+import { LibraryPage } from '../features/library/LibraryPage'
+import { StartButton } from '../features/start/StartButton'
 import { EditLogPage } from '../features/edit-log/EditLogPage'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
 import { ExercisePage } from '../features/exercise/ExercisePage'
@@ -16,7 +17,9 @@ import { XpResultPage } from '../features/xp/XpResultPage'
 function Shell({ children }: { children: ReactNode }) {
   return (
     <>
-      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(5.5rem+env(safe-area-inset-bottom))]">{children}</main>
+      {/* La place du bouton « Commencer » et de la barre d'onglets en fin de page. */}
+      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(9rem+env(safe-area-inset-bottom))]">{children}</main>
+      <StartButton />
       <BottomNav />
     </>
   )
@@ -43,8 +46,11 @@ export function AppRoutes() {
       <Route path="/xp" element={<Focus><XpResultPage /></Focus>} />
       <Route path="/exo/:id" element={<Shell><ExercisePage /></Shell>} />
       <Route path="/progres" element={<Shell><ProgressPage /></Shell>} />
-      <Route path="/morceaux" element={<Shell><SongsPage /></Shell>} />
-      <Route path="/reglages" element={<Shell><SettingsPage /></Shell>} />
+      <Route path="/bibliotheque" element={<Shell><LibraryPage /></Shell>} />
+      <Route path="/moi" element={<Shell><SettingsPage /></Shell>} />
+      {/* Anciennes adresses (favoris, anciens rappels). */}
+      <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
+      <Route path="/reglages" element={<Navigate to="/moi" replace />} />
       <Route path="*" element={<Shell><TodayPage /></Shell>} />
     </Routes>
     <LevelUpWatcher />

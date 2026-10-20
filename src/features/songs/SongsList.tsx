@@ -7,7 +7,6 @@ import { shortDate } from '../../domain/date'
 import { activeSongs, catalogNotAdded } from '../../domain/songSuggestion'
 import type { Song } from '../../domain/types'
 import { Group, Row } from '../../ui/List'
-import { Screen } from '../../ui/Screen'
 import { useRun } from '../settings/useRun'
 
 const SHOWN = 6
@@ -34,7 +33,7 @@ function Check({ checked, label, onChange }: { checked: boolean; label: string; 
  * Morceaux : ceux qu'on travaille (joués au moins une fois), les propositions du catalogue (un toucher ouvre
  * le log avec le morceau : une fois joué, il passe en cours) et le classement des morceaux maîtrisés.
  */
-export function SongsPage() {
+export function SongsList() {
   const { data, today } = useAppData()
   const { saveSong } = useActions()
   const navigate = useNavigate()
@@ -55,8 +54,7 @@ export function SongsPage() {
   }
 
   return (
-    <Screen title="Morceaux">
-      <div className="flex flex-col gap-8 pb-4">
+    <div className="flex flex-col gap-8 pb-4">
         {error && (
           <p role="alert" className="t-footnote px-4 text-danger">
             {error}
@@ -108,7 +106,6 @@ export function SongsPage() {
             ))}
           </Group>
         )}
-      </div>
-    </Screen>
+    </div>
   )
 }

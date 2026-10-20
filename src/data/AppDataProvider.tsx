@@ -171,6 +171,11 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.sessions.delete(id)
         })
       },
+      async saveMovement(m) {
+        await write(db, now(), async () => {
+          await db.exercises.put(m)
+        })
+      },
     }
     return { actions, settle: writeChallenges }
   }, [db])
@@ -189,7 +194,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       })
   }, [data, initialized, today, settle])
 
-  const value = useMemo(() => ({ data, today }), [data, today])
+  const value = useMemo(() => ({ data, movements: v1?.exercises ?? [], today }), [data, v1, today])
 
   if (loaded === undefined) return null
   if (!loaded.ok)

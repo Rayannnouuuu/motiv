@@ -126,7 +126,7 @@ export function SportCard() {
           </Button>
         </div>
       ) : (
-        <Link to="/reglages" className={`tap-scale t-headline rounded-lg px-4 py-3.5 text-center ${TONE.tint.sport}`}>
+        <Link to="/bibliotheque?vue=modeles" className={`tap-scale t-headline rounded-lg px-4 py-3.5 text-center ${TONE.tint.sport}`}>
           Choisir ton programme
         </Link>
       )}

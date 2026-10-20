@@ -41,7 +41,7 @@ describe('TodayPage', () => {
     expect(screen.getByText('Gamme majeure 1 à 66 bpm')).toBeInTheDocument()
     expect(screen.getByText('3 séances de sport dans la même semaine')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('link', { name: 'Choisir ton programme' }))
-    expect(screen.getByText(/at \/reglages/)).toBeInTheDocument()
+    expect(screen.getByText(/at \/bibliotheque/)).toBeInTheDocument()
   })
 
   test('compte neuf : « Jouer » lance le chrono', async () => {
