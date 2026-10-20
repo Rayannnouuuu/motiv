@@ -99,7 +99,7 @@ describe('PracticePage', () => {
     fireEvent.click(box)
     expect(box).toHaveAttribute('aria-pressed', 'true')
     expect(loadPractice()?.exercises).toEqual([first.id])
-    expect(screen.getByRole('link', { name: `Tablature : ${first.title}` })).toHaveAttribute('href', `/exo/${first.id}`)
+    expect(screen.getByRole('link', { name: `Tablature : ${first.title}` })).toHaveAttribute('href', `/jouer/exo/${first.id}`)
   })
 
   test('Terminer : log pré-rempli (durée, exos et morceaux cochés, jour, id de séance), à l’étape des notes', () => {

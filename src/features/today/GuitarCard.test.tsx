@@ -40,7 +40,8 @@ test('3 exos sur deux lignes sans description, lien vers la fiche', () => {
   expect(links[0]).toHaveAttribute('href', '/exo/scales-1')
   expect(within(links[0]).queryByText(scales.description)).not.toBeInTheDocument()
   expect(within(links[0]).getByText(`niv. ${scales.difficulty}`)).toBeInTheDocument()
-  expect(within(links[0]).getByText(`Cible ${scales.targetBpm} bpm`)).toBeInTheDocument()
+  // Le tempo du jour (moteur de progression) : sans historique, le tempo de départ de l'exo.
+  expect(within(links[0]).getByText(`Aujourd'hui ${scales.startBpm} bpm`)).toBeInTheDocument()
   expect(screen.queryByText(/Iron Man/)).not.toBeInTheDocument()
   // Plus de jauge ni de « x/60 min » : c'est dans le héros de l'accueil.
   expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()

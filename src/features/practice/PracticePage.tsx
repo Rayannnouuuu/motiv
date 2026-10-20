@@ -270,7 +270,7 @@ export function PracticePage() {
                   </span>
                 </span>
                 <Link
-                  to={`/exo/${ex.id}`}
+                  to={`/jouer/exo/${ex.id}`}
                   aria-label={`Tablature : ${ex.title}`}
                   className="tap -my-2.5 -mr-3.5 flex min-w-11 items-center justify-center self-stretch px-4"
                 >

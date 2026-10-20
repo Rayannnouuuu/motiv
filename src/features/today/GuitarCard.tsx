@@ -4,7 +4,9 @@ import { Icon } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { songsOfTheDay } from '../../domain/songSuggestion'
 import { guitarWeek } from '../../domain/guitarWeek'
+import { historyOf } from '../../domain/history'
 import { bestBpm } from '../../domain/records'
+import { guitarTarget } from '../../domain/targets'
 import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
@@ -15,7 +17,7 @@ import { runningPracticeMinutes } from '../practice/practiceSession'
 
 /** Guitare sur l'accueil : la semaine, la séance du jour (exos, morceaux), le log sans chrono. */
 export function GuitarCard() {
-  const { data, today } = useAppData()
+  const { data, v1, today } = useAppData()
   const navigate = useNavigate()
 
   const week = guitarWeek(data.guitarSessions, today)
@@ -75,7 +77,8 @@ export function GuitarCard() {
                       <span className="t-caption shrink-0 text-muted">niv. {ex.difficulty}</span>
                     </span>
                     <span className="t-subhead text-guitar tabular-nums">
-                      Cible {ex.targetBpm} bpm{best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
+                      Aujourd'hui {guitarTarget(historyOf(v1.sessions, ex.id), ex.startBpm).bpm} bpm
+                      {best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
                     </span>
                   </span>
                   <RowChevron className="self-center" />

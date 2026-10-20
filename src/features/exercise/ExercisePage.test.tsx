@@ -23,6 +23,7 @@ const renderPage = (id: string, data = {}) =>
   renderWithData(
     <Routes>
       <Route path="/exo/:id" element={<ExercisePage />} />
+      <Route path="/jouer/exo/:id" element={<ExercisePage />} />
       <Route path="*" element={<Probe />} />
     </Routes>,
     { route: `/exo/${id}`, data },

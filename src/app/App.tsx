@@ -108,6 +108,15 @@ export function AppRoutes() {
             </Shell>
           }
         />
+        {/* L'exo en cours d'une séance guitare : plein écran, sans onglets. */}
+        <Route
+          path="/jouer/exo/:id"
+          element={
+            <Focus>
+              <ExercisePage />
+            </Focus>
+          }
+        />
         <Route
           path="/progres"
           element={

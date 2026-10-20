@@ -82,7 +82,7 @@ export function ExercisePage() {
     if (saved) savePractice(saved)
     // Exo suivant du plan pas encore fait, sinon retour à la séance.
     const next = index >= 0 ? plan.slice(index + 1).find((e) => !saved?.exercises.includes(e.id)) : undefined
-    if (next) navigate(`/exo/${next.id}`, { replace: true })
+    if (next) navigate(`/jouer/exo/${next.id}`, { replace: true })
     else navigate('/jouer')
   }
 
@@ -112,51 +112,54 @@ export function ExercisePage() {
         <p className="t-body text-muted">{ex.description}</p>
       </div>
 
-      <section className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="tempo-title">
-        <div className="flex items-baseline justify-between gap-2">
-          <h2 id="tempo-title" className="t-headline">
-            Ton meilleur tempo
-          </h2>
-          <p className="t-title2 tabular-nums">{best === null ? '—' : `${best} bpm`}</p>
-        </div>
-        <Gauge value={best ?? 0} max={ex.targetBpm} color="guitar" label={`Meilleur tempo ${best ?? 0} sur ${ex.targetBpm} bpm`} className="h-2" />
-        <p className="t-subhead tabular-nums">
-          {best !== null && best >= ex.targetBpm ? (
-            <span className="font-semibold text-guitar">
-              Tempo cible atteint ({ex.targetBpm} bpm) <Icon name="check" />
-            </span>
-          ) : (
-            <span className="text-muted">Tempo cible : {ex.targetBpm} bpm</span>
+      {/* En séance, le métronome et « Valider » d'abord : le record et l'historique restent hors séance. */}
+      {!practice && (
+        <section className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="tempo-title">
+          <div className="flex items-baseline justify-between gap-2">
+            <h2 id="tempo-title" className="t-headline">
+              Ton meilleur tempo
+            </h2>
+            <p className="t-title2 tabular-nums">{best === null ? '—' : `${best} bpm`}</p>
+          </div>
+          <Gauge value={best ?? 0} max={ex.targetBpm} color="guitar" label={`Meilleur tempo ${best ?? 0} sur ${ex.targetBpm} bpm`} className="h-2" />
+          <p className="t-subhead tabular-nums">
+            {best !== null && best >= ex.targetBpm ? (
+              <span className="font-semibold text-guitar">
+                Tempo cible atteint ({ex.targetBpm} bpm) <Icon name="check" />
+              </span>
+            ) : (
+              <span className="text-muted">Tempo cible : {ex.targetBpm} bpm</span>
+            )}
+            {challengeBpm !== null && (
+              <span className="font-semibold text-guitar">
+                {' · '}
+                <Icon name="target" /> défi : {challengeBpm} bpm
+              </span>
+            )}
+          </p>
+          <p className="t-footnote text-muted">
+            C'est le tempo le plus rapide que tu as noté en loggant cet exo (champ « tempo max » du log guitare). Pour le monter, logge un nouveau tempo ; pour
+            corriger une erreur, corrige le log concerné ci-dessous.
+          </p>
+          {history.length > 0 && (
+            <ul className="rows -mx-4 -mb-4 border-t border-line" aria-label="Historique des tempos">
+              {history.map((h) => (
+                <li key={h.sessionId}>
+                  <Link
+                    to={`/log/corriger/${h.sessionId}`}
+                    className="tap-row t-body flex min-h-11 items-center gap-3 px-4 py-2"
+                    aria-label={`Corriger le log du ${shortDate(h.day)}`}
+                  >
+                    <span className="text-muted">{shortDate(h.day)}</span>
+                    <span className="flex-1 text-right font-semibold tabular-nums">{h.bpm} bpm</span>
+                    <span className="t-subhead text-guitar">Corriger</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           )}
-          {challengeBpm !== null && (
-            <span className="font-semibold text-guitar">
-              {' · '}
-              <Icon name="target" /> défi : {challengeBpm} bpm
-            </span>
-          )}
-        </p>
-        <p className="t-footnote text-muted">
-          C'est le tempo le plus rapide que tu as noté en loggant cet exo (champ « tempo max » du log guitare). Pour le monter, logge un nouveau tempo ; pour
-          corriger une erreur, corrige le log concerné ci-dessous.
-        </p>
-        {history.length > 0 && (
-          <ul className="rows -mx-4 -mb-4 border-t border-line" aria-label="Historique des tempos">
-            {history.map((h) => (
-              <li key={h.sessionId}>
-                <Link
-                  to={`/log/corriger/${h.sessionId}`}
-                  className="tap-row t-body flex min-h-11 items-center gap-3 px-4 py-2"
-                  aria-label={`Corriger le log du ${shortDate(h.day)}`}
-                >
-                  <span className="text-muted">{shortDate(h.day)}</span>
-                  <span className="flex-1 text-right font-semibold tabular-nums">{h.bpm} bpm</span>
-                  <span className="t-subhead text-guitar">Corriger</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+        </section>
+      )}
 
       <p className="t-subhead -mb-3 flex gap-1.5 px-1">
         <Icon name="target" className="mt-0.5 text-guitar" />
@@ -173,6 +176,20 @@ export function ExercisePage() {
         onPlayed={(bpm) => setPlayed((p) => (p?.exerciseId === ex.id && p.bpm >= bpm ? p : { exerciseId: ex.id, bpm }))}
         onTempo={(bpm) => setTempo({ exerciseId: ex.id, bpm })}
       />
+
+      {/* En séance : « propre » et valider juste sous le métronome, à portée de pouce sans rien masquer. */}
+      {practice && (
+        <div className="-mt-3 flex flex-col gap-2">
+          <label className="hit tap t-body flex items-center gap-3 rounded-lg bg-surface px-4 py-2.5">
+            <input type="checkbox" checked={clean} onChange={(e) => setCleanId(e.target.checked ? ex.id : null)} className="h-5 w-5 accent-[var(--guitar)]" />
+            <span className="tabular-nums">Propre à {current} bpm</span>
+          </label>
+          <Button tone="guitar" onClick={validate}>
+            <Icon name="check" />
+            {index >= 0 && index < plan.length - 1 ? 'Valider · exo suivant' : 'Valider'}
+          </Button>
+        </div>
+      )}
 
       <section className="flex flex-col gap-2">
         <h2 className="t-footnote px-4 text-muted uppercase">Tablature</h2>
@@ -194,18 +211,7 @@ export function ExercisePage() {
         </ul>
       </section>
 
-      {practice ? (
-        <div className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom))] flex flex-col gap-2 rounded-2xl bg-surface p-3 shadow-card">
-          <label className="hit tap t-body flex items-center gap-3 px-1 py-1.5">
-            <input type="checkbox" checked={clean} onChange={(e) => setCleanId(e.target.checked ? ex.id : null)} className="h-5 w-5 accent-[var(--guitar)]" />
-            <span className="tabular-nums">Propre à {current} bpm</span>
-          </label>
-          <Button tone="guitar" onClick={validate}>
-            <Icon name="check" />
-            {index >= 0 && index < plan.length - 1 ? 'Valider · exo suivant' : 'Valider'}
-          </Button>
-        </div>
-      ) : (
+      {!practice && (
         <Button
           tone="guitar"
           onClick={() => navigate('/log/guitare', { state: playedBpm === null ? { exerciseId: ex.id } : { exerciseId: ex.id, bpm: playedBpm } })}
