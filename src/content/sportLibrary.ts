@@ -248,6 +248,9 @@ export const SPORT_MOVEMENTS: SportMovement[] = [
     ['Fentes bulgares', 'Split squat bulgare', 'Bulgarian split squat'],
   ),
   mv('leg-extension', 'Leg extension', 'quads', 'lower', 'machine', 'load_reps', [8, 12], ['Extension des jambes', 'Extension quadriceps', 'Quad extension']),
+  // Renfo coureur (lot 3)
+  mv('montees-sur-banc', 'Montées sur banc', 'quads', 'lower', 'dumbbells', 'load_reps', [8, 12], ['Step-up', 'Montée sur caisson']),
+  mv('sauts-pieds-joints', 'Sauts pieds joints', 'quads', 'lower', 'bodyweight', 'reps', [6, 10], ['Squat sauté', 'Jump squat', 'Pliométrie']),
   // Ischios, fessiers, mollets
   mv(
     'souleve-de-terre-roumain',
@@ -260,7 +263,28 @@ export const SPORT_MOVEMENTS: SportMovement[] = [
     ['SDT roumain', 'RDL', 'Romanian deadlift'],
   ),
   mv('leg-curl', 'Leg curl', 'hamstrings', 'lower', 'machine', 'load_reps', [8, 12], ['Curl ischios', 'Curl jambes', 'Hamstring curl']),
+  mv(
+    'sdt-unijambe',
+    'Soulevé de terre unijambe',
+    'hamstrings',
+    'lower',
+    'dumbbells',
+    'load_reps',
+    [8, 12],
+    ['SDT unijambe', 'Soulevé de terre jambe tendue unilatéral', 'Single leg RDL'],
+  ),
   mv('hip-thrust', 'Hip thrust', 'glutes', 'lower', 'barbell', 'load_reps', [8, 12], ['Hip thrust barre', 'Poussée de hanches', 'Barbell hip thrust']),
+  mv('abduction-hanche', 'Abduction de hanche', 'glutes', 'lower', 'machine', 'load_reps', [12, 20], ['Abducteurs', 'Moyen fessier', 'Hip abduction']),
+  mv(
+    'gainage-lateral-jambe',
+    'Gainage latéral, élévation de jambe',
+    'glutes',
+    'lower',
+    'bodyweight',
+    'reps',
+    [10, 15],
+    ['Gainage latéral jambe', 'Side plank leg raise'],
+  ),
   mv(
     'mollets-debout',
     'Mollets debout',
@@ -271,8 +295,10 @@ export const SPORT_MOVEMENTS: SportMovement[] = [
     [12, 15],
     ['Mollets', 'Mollets à la machine', 'Extension mollets debout', 'Standing calf raises', 'Calf raises'],
   ),
+  mv('mollets-une-jambe', 'Mollets sur une jambe', 'calves', 'lower', 'bodyweight', 'reps', [12, 20], ['Mollets unipodal', 'Single leg calf raise']),
   // Abdos
   mv('crunchs', 'Crunchs', 'core', 'upper', 'bodyweight', 'reps', [10, 20], ['Crunch au sol', 'Abdos crunch', 'Crunches']),
+  mv('dead-bug', 'Dead bug', 'core', 'upper', 'bodyweight', 'reps', [8, 12], ['Deadbug', 'Insecte mort']),
   mv('gainage', 'Gainage', 'core', 'upper', 'bodyweight', 'duration', null, ['Gainage ventral', 'Gainage planche', 'Planche', 'Plank']),
   // Cardio
   mv('rameur', 'Rameur', 'cardio', 'lower', 'machine', 'distance', null, ['Ergomètre', 'Aviron indoor', 'Rowing machine', 'Indoor rowing', 'Rower']),

@@ -4,6 +4,7 @@
  * Au lot 1, les écrans lisent encore l'ancienne forme (domain/types.ts) : data/migrations/project.ts la recalcule.
  */
 import type { Equipment, MuscleGroup, RepRange, SportMetric } from '../content/sportLibrary'
+import type { MarathonProfile } from './marathon/profile'
 import type { Day, Domain, Rating } from './types'
 
 export type Discipline = Domain
@@ -49,6 +50,8 @@ export interface Session {
   flowScore: Rating
   desireScore: Rating
   note?: string
+  /** Douleur notée en fin de sortie de course, de 0 à 10 (lot 3). */
+  pain?: number
   /** Modèle de séance suivi (ancien programme sport). */
   templateId?: string
   blocks: Block[]
@@ -143,6 +146,8 @@ export interface Profile {
   migratedFrom: { format: 0; exportedAt: string } | null
   /** Niveaux au moment de la migration : plancher du lot 4. */
   levelsAtMigration: { guitar: number; sport: number; global: number } | null
+  /** Préparation marathon (lot 3) : le questionnaire. Le plan, lui, est recalculé. */
+  marathon?: MarathonProfile
 }
 
 export interface DataV1 {

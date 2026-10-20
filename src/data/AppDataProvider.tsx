@@ -3,6 +3,9 @@ import { useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'rea
 import { movementKey } from '../content/sportLibrary'
 import { todayParis } from '../domain/date'
 import { EMPTY_DATA_V1 } from '../domain/model'
+import { betterChrono } from '../domain/marathon/paces'
+import { isRunEntry, RUN_MOVEMENT_ID } from '../domain/marathon/runs'
+import { RUNNER_TEMPLATE_ID, runnerMoves, runnerTemplateName } from '../domain/marathon/strength'
 import type * as V1 from '../domain/model'
 import { acceptEasier, applyChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate, type Deps } from '../domain/progression'
 import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from '../domain/types'
@@ -10,7 +13,16 @@ import { guitarSessionXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from './AppDataContext'
 import { loadAll, write, type DeviceMeta, type MotivDb } from './db'
 import { sportByMovement, toAppData } from './migrations/project'
-import { challengeToV1, guitarSessionToV1, measurementToV1, movementFor, programToTemplate, songToV1, sportSessionToV1 } from './migrations/v0ToV1'
+import {
+  challengeToV1,
+  guitarSessionToV1,
+  LIBRARY_MOVEMENTS,
+  measurementToV1,
+  movementFor,
+  programToTemplate,
+  songToV1,
+  sportSessionToV1,
+} from './migrations/v0ToV1'
 import { ensurePersisted } from './persist'
 import { useParisDay } from './useParisDay'
 
@@ -19,8 +31,20 @@ const deps: Deps = { rng: Math.random, newId: () => crypto.randomUUID() }
 /** Séance antérieure à celle qu'on enregistre : l'XP (records, progression) ne se compare qu'au passé. */
 const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt: string) => s.day < day || (s.day === day && s.createdAt < createdAt)
 
-/** Une correction depuis l'ancienne forme garde ce qu'elle ne connaît pas (séance légère). */
-const keepLight = (row: V1.Session, v1: V1.DataV1): V1.Session => ({ ...row, isLight: v1.sessions.find((s) => s.id === row.id)?.isLight ?? false })
+/**
+ * Une correction depuis l'ancienne forme garde ce qu'elle ne connaît pas : séance légère, douleur, et la
+ * sortie de course elle-même (distance, durée).
+ */
+function keepLight(row: V1.Session, v1: V1.DataV1): V1.Session {
+  const stored = v1.sessions.find((s) => s.id === row.id)
+  const runs = stored?.blocks.flatMap((b) => b.entries.filter(isRunEntry)) ?? []
+  return {
+    ...row,
+    isLight: stored?.isLight ?? false,
+    ...(stored?.pain !== undefined ? { pain: stored.pain } : {}),
+    ...(runs.length > 0 ? { blocks: [...row.blocks, { type: 'main' as const, entries: runs }] } : {}),
+  }
+}
 
 type Loaded = { ok: true; data: V1.DataV1; meta: DeviceMeta } | { ok: false; error: string }
 
@@ -160,6 +184,79 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const masteredOn = status === 'mastered' || status === 'maintain' ? (song.masteredOn ?? todayParis()) : null
         await write(db, now(), async () => {
           await db.songs.put({ ...song, status, masteredOn })
+        })
+      },
+      async saveMarathon(m) {
+        const { v1 } = state()
+        const before = v1.profile.marathon
+        const existing = v1.templates.find((t) => t.id === RUNNER_TEMPLATE_ID)
+        // Le modèle renfo est créé une fois, puis refait seulement si on passe de la salle à la maison (ou
+        // l'inverse) : tes changements dans Bibliothèque › Modèles restent.
+        const remake = !existing || before?.constraints.gym !== m.constraints.gym
+        const moves = runnerMoves(m.constraints.gym)
+        const known = new Set(v1.exercises.map((x) => x.id))
+        const missing = LIBRARY_MOVEMENTS.filter((x) => !known.has(x.id) && moves.some((r) => r.movementId === x.id))
+        const entries: V1.TemplateEntry[] = moves.map((r, i) => ({
+          id: `${RUNNER_TEMPLATE_ID}-${r.movementId}`,
+          exerciseId: r.movementId,
+          name: r.name,
+          targetSets: r.sets,
+          targetReps: r.reps,
+          position: i,
+          archived: false,
+        }))
+        // Les lignes d'avant restent (archivées) : l'historique des séances garde son mouvement.
+        const old = (existing?.blocks.flatMap((b) => b.entries) ?? []).filter((e) => !entries.some((n) => n.id === e.id)).map((e) => ({ ...e, archived: true }))
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, marathon: m })
+          if (remake) {
+            await db.exercises.bulkPut(missing.map((x) => ({ ...x })))
+            await db.templates.put({
+              id: RUNNER_TEMPLATE_ID,
+              discipline: 'sport',
+              name: runnerTemplateName(m.constraints.gym),
+              position: existing?.position ?? 1000,
+              archived: false,
+              blocks: [{ type: 'main', entries: [...entries, ...old] }],
+            })
+          }
+        })
+      },
+      async saveRun(d) {
+        const { v1 } = state()
+        const stored = v1.sessions.find((s) => s.id === d.id)
+        const xp = sportSessionXp({ sets: [] }, [])
+        const row: V1.Session = {
+          id: d.id,
+          discipline: 'sport',
+          day: d.day,
+          createdAt: stored?.createdAt ?? now(),
+          durationMin: d.durationMin,
+          isLight: stored?.isLight ?? false,
+          flowScore: d.flowRating,
+          desireScore: d.desireRating,
+          ...(d.note ? { note: d.note } : {}),
+          pain: d.pain,
+          blocks: [{ type: 'main', entries: [{ exerciseId: RUN_MOVEMENT_ID, sets: [{ distanceKm: d.km, durationSec: d.sec }] }] }],
+          xp: xp.total,
+        }
+        // Un chrono battu (5 km, 10 km, semi) devient la référence : les allures se recalculent.
+        const m = v1.profile.marathon
+        const chrono = m ? betterChrono(m.level.chrono, { km: d.km, sec: d.sec, day: d.day }) : null
+        await write(db, now(), async () => {
+          await db.sessions.put(row)
+          if (m && chrono) await db.profile.put({ ...v1.profile, marathon: { ...m, level: { ...m.level, chrono } } })
+        })
+        void ensurePersisted()
+        return { ...xp, chrono }
+      },
+      async setSickWeek(monday, sick) {
+        const { v1 } = state()
+        const m = v1.profile.marathon
+        if (!m) return
+        const sickWeeks = sick ? [...new Set([...m.sickWeeks, monday])].sort() : m.sickWeeks.filter((d) => d !== monday)
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, marathon: { ...m, sickWeeks } })
         })
       },
       async saveProgram(p) {

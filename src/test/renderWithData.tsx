@@ -32,6 +32,9 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     acceptEasier: vi.fn(async () => {}),
     deleteLog: vi.fn(async () => {}),
     saveMovement: vi.fn(async () => {}),
+    saveMarathon: vi.fn(async () => {}),
+    saveRun: vi.fn(async () => ({ total: 0, lines: [], chrono: null })),
+    setSickWeek: vi.fn(async () => {}),
     ...over,
   }
 }

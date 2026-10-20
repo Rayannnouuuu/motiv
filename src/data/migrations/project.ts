@@ -3,6 +3,7 @@
  * Réciproque exacte de v0ToV1 : un test vérifie que l'aller-retour rend les données d'origine.
  */
 import type * as V1 from '../../domain/model'
+import { isRunEntry } from '../../domain/marathon/runs'
 import type { AppData, Challenge, GuitarItem, GuitarSession, Program, Song, SportSession } from '../../domain/types'
 
 const entries = (s: V1.Session) => s.blocks.flatMap((b) => b.entries)
@@ -39,14 +40,17 @@ function sportSession(s: V1.Session, key: (e: V1.Entry) => string = (e) => e.tem
     desireRating: s.desireScore,
     xp: s.xp,
     createdAt: s.createdAt,
-    sets: entries(s).flatMap((e) => {
-      const programExerciseId = key(e)
-      return e.sets.map((x) => {
-        const setIndex = (count.get(programExerciseId) ?? 0) + 1
-        count.set(programExerciseId, setIndex)
-        return { programExerciseId, setIndex, reps: x.reps ?? 0, weightKg: x.loadKg ?? 0 }
-      })
-    }),
+    // Les sorties de course (lot 3) n'ont pas de séries de musculation : elles restent dans le modèle v1.
+    sets: entries(s)
+      .filter((e) => !isRunEntry(e))
+      .flatMap((e) => {
+        const programExerciseId = key(e)
+        return e.sets.map((x) => {
+          const setIndex = (count.get(programExerciseId) ?? 0) + 1
+          count.set(programExerciseId, setIndex)
+          return { programExerciseId, setIndex, reps: x.reps ?? 0, weightKg: x.loadKg ?? 0 }
+        })
+      }),
     ...(s.note ? { note: s.note } : {}),
   }
 }

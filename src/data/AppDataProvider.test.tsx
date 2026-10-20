@@ -1,6 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { afterEach, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { v0Replica } from '../test/fixtures/v0Replica'
+import { profile } from '../domain/marathon/fixtures'
+import { RUNNER_TEMPLATE_ID, runnerMoves } from '../domain/marathon/strength'
+import { nextProgram } from '../domain/progression'
 import { importV0, testDb } from '../test/testDb'
 import { useActions, useAppData, type Actions, type AppDataValue, type GuitarDraft } from './AppDataContext'
 import { AppDataProvider } from './AppDataProvider'
@@ -220,4 +223,79 @@ test('répertoire : statut à entretenir gardé par une sauvegarde à l’ancien
   expect(await db.songs.get(song.id)).toMatchObject({ status: 'maintain', title: `${old.title} (live)` })
   await seen.actions!.setSongStatus(song.id, 'learning')
   expect(await db.songs.get(song.id)).toMatchObject({ status: 'learning', masteredOn: null })
+})
+
+describe('marathon (lot 3)', () => {
+  const marathon = profile({ startedOn: '2026-10-19' })
+
+  test('profil : rangé dans `profile`, modèle « Renfo coureur » créé avec ses mouvements, hors rotation PPL', async () => {
+    const db = testDb()
+    await importV0(db, v0Replica())
+    const seen = mount(db)
+    await screen.findByText('appli')
+    const before = nextProgram(seen.value!.data.programs, seen.value!.data.sportSessions)
+    await seen.actions!.saveMarathon(marathon)
+    expect((await db.profile.get('profile'))!.marathon).toEqual(marathon)
+    const t = (await db.templates.get(RUNNER_TEMPLATE_ID))!
+    expect(t.name).toBe('Renfo coureur (salle)')
+    expect(t.blocks[0].entries.map((e) => e.exerciseId)).toEqual(runnerMoves(true).map((m) => m.movementId))
+    expect(await db.exercises.get('montees-sur-banc')).toMatchObject({ name: 'Montées sur banc', source: 'legacy' })
+    await waitFor(() => expect(seen.value!.data.programs.some((p) => p.id === RUNNER_TEMPLATE_ID)).toBe(true))
+    expect(nextProgram(seen.value!.data.programs, seen.value!.data.sportSessions)?.id).toBe(before?.id)
+
+    // Tes changements restent ; passer à la maison refait le modèle, les lignes d'avant sont archivées.
+    await db.templates.update(RUNNER_TEMPLATE_ID, { name: 'Mon renfo' })
+    await waitFor(() => expect(seen.value!.v1.templates.find((x) => x.id === RUNNER_TEMPLATE_ID)?.name).toBe('Mon renfo'))
+    await seen.actions!.saveMarathon({ ...marathon, race: { ...marathon.race, name: 'Paris' } })
+    expect((await db.templates.get(RUNNER_TEMPLATE_ID))!.name).toBe('Mon renfo')
+    await seen.actions!.saveMarathon({ ...marathon, constraints: { ...marathon.constraints, gym: false } })
+    const home = (await db.templates.get(RUNNER_TEMPLATE_ID))!
+    expect(home.name).toBe('Renfo coureur (maison)')
+    expect(home.blocks[0].entries.find((e) => e.exerciseId === 'mollets-debout')).toMatchObject({ archived: true })
+  })
+
+  test('sortie : distance, durée, douleur ; une correction les garde ; la rotation PPL ne bouge pas', async () => {
+    const db = testDb()
+    await importV0(db, v0Replica())
+    const seen = mount(db)
+    await screen.findByText('appli')
+    await seen.actions!.saveMarathon(marathon)
+    await waitFor(() => expect(seen.value!.v1.profile.marathon).toBeDefined())
+    const next = nextProgram(seen.value!.data.programs, seen.value!.data.sportSessions)
+    const draft = { id: 'run-1', day: '2026-10-20', durationMin: 47, km: 10, sec: 46 * 60, pain: 2, flowRating: 4, desireRating: 4 } as const
+    const xp = await seen.actions!.saveRun(draft)
+    // 10 km en 46 min bat le 10 km en 48 min du profil : nouvelle référence.
+    expect(xp.chrono).toEqual({ distance: '10k', sec: 46 * 60, day: '2026-10-20' })
+    expect((await db.profile.get('profile'))!.marathon!.level.chrono).toEqual(xp.chrono)
+    expect(await db.sessions.get('run-1')).toMatchObject({
+      discipline: 'sport',
+      pain: 2,
+      blocks: [{ type: 'main', entries: [{ exerciseId: 'course', sets: [{ distanceKm: 10, durationSec: 2760 }] }] }],
+    })
+    await waitFor(() => expect(seen.value!.data.sportSessions.find((s) => s.id === 'run-1')).toMatchObject({ sets: [], programId: '' }))
+    expect(nextProgram(seen.value!.data.programs, seen.value!.data.sportSessions)?.id).toBe(next?.id)
+
+    // Correction depuis l'écran de correction (ancienne forme) : la distance et la douleur restent.
+    const old = seen.value!.data.sportSessions.find((s) => s.id === 'run-1')!
+    await seen.actions!.saveSportSession({ ...old, durationMin: 50 })
+    expect(await db.sessions.get('run-1')).toMatchObject({
+      durationMin: 50,
+      pain: 2,
+      blocks: [{ entries: [{ exerciseId: 'course', sets: [{ distanceKm: 10 }] }] }],
+    })
+  })
+
+  test('semaine malade : ajoutée puis retirée', async () => {
+    const db = testDb()
+    await importV0(db, v0Replica())
+    const seen = mount(db)
+    await screen.findByText('appli')
+    await seen.actions!.saveMarathon(marathon)
+    await waitFor(() => expect(seen.value!.v1.profile.marathon).toBeDefined())
+    await seen.actions!.setSickWeek('2026-10-19', true)
+    expect((await db.profile.get('profile'))!.marathon!.sickWeeks).toEqual(['2026-10-19'])
+    await waitFor(() => expect(seen.value!.v1.profile.marathon!.sickWeeks).toEqual(['2026-10-19']))
+    await seen.actions!.setSickWeek('2026-10-19', false)
+    expect((await db.profile.get('profile'))!.marathon!.sickWeeks).toEqual([])
+  })
 })

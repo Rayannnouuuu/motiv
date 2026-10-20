@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import type { Chrono, MarathonProfile } from '../domain/marathon/profile'
 import type { DataV1, SongStatus } from '../domain/model'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
@@ -26,6 +27,20 @@ export interface SportDraft {
   note?: string
 }
 
+/** Une sortie de course, notée en fin de séance (lot 3). */
+export interface RunDraft {
+  id: string
+  day: Day
+  durationMin: number
+  km: number
+  sec: number
+  /** Douleur de 0 à 10. */
+  pain: number
+  flowRating: Rating
+  desireRating: Rating
+  note?: string
+}
+
 export interface Actions {
   saveGuitarSession(d: GuitarDraft): Promise<XpResult>
   saveSportSession(d: SportDraft): Promise<XpResult>
@@ -38,6 +53,12 @@ export interface Actions {
   acceptEasier(id: string): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
   saveMovement(m: DataV1['exercises'][number]): Promise<void>
+  /** Profil marathon ; crée ou met à jour le modèle « Renfo coureur ». */
+  saveMarathon(m: MarathonProfile): Promise<void>
+  /** Une sortie ; un chrono battu devient la référence (`chrono` dans le résultat). */
+  saveRun(d: RunDraft): Promise<XpResult & { chrono: Chrono | null }>
+  /** Semaine déclarée « malade » (lundi), ou plus. */
+  setSickWeek(monday: Day, sick: boolean): Promise<void>
 }
 
 export interface AppDataValue {

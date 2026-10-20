@@ -1,5 +1,6 @@
 import { canOfferEasier, canReroll, easierTarget, generateGuitarTarget, generateSportTarget, isChallengeMet, sameTarget } from './challenges'
 import { domainLevel, totalXp } from './levels'
+import { RUNNER_TEMPLATE_ID } from './marathon/strength'
 import type { AppData, Challenge, ChallengeTarget, Day, Domain, Program, SportSession } from './types'
 
 export type ChallengeUpdate =
@@ -107,17 +108,24 @@ export function acceptEasier(data: AppData, id: string, today: Day, deps: Deps):
   return replaceWith(ch, easierTarget(ch.target)!, { easier: true }, today, deps)
 }
 
+/** Programmes de la rotation : actifs, hors renfo coureur du plan marathon (il a ses propres jours). */
+const rotation = (programs: Program[]) => programs.filter((p) => !p.archived && p.id !== RUNNER_TEMPLATE_ID).sort((a, b) => a.position - b.position)
+
 export function nextProgram(programs: Program[], sessions: SportSession[]): Program | undefined {
-  const active = programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
+  const active = rotation(programs)
   if (active.length === 0) return undefined
-  const last = [...sessions].sort((a, b) => a.createdAt.localeCompare(b.createdAt)).at(-1)
+  // Une sortie de course ou un renfo coureur ne fait pas repartir la rotation au début.
+  const last = sessions
+    .filter((s) => active.some((p) => p.id === s.programId))
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .at(-1)
   const idx = last ? active.findIndex((p) => p.id === last.programId) : -1
   return idx === -1 ? active[0] : active[(idx + 1) % active.length]
 }
 
 /** Les `n` prochaines séances dans la rotation (la première est `nextProgram`). */
 export function upcomingPrograms(programs: Program[], sessions: SportSession[], n: number): Program[] {
-  const active = programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
+  const active = rotation(programs)
   const first = nextProgram(programs, sessions)
   if (!first) return []
   const start = active.indexOf(first)
