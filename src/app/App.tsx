@@ -1,5 +1,5 @@
-import { lazy, Suspense, type ComponentType, type ReactNode } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from 'react'
+import { Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import { BottomNav } from '../ui/BottomNav'
 import { StartButton } from '../features/start/StartButton'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
@@ -43,9 +43,20 @@ function Focus({ children }: { children: ReactNode }) {
   )
 }
 
+/** Un nouvel écran s'ouvre en haut ; un retour arrière garde sa position (le navigateur la restaure). */
+function ScrollReset() {
+  const { pathname } = useLocation()
+  const type = useNavigationType()
+  useEffect(() => {
+    if (type !== 'POP') window.scrollTo(0, 0)
+  }, [pathname, type])
+  return null
+}
+
 export function AppRoutes() {
   return (
     <>
+      <ScrollReset />
       <Routes>
         <Route
           path="/log"

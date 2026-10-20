@@ -123,7 +123,8 @@ export function RunPage() {
   const [now, setNow] = useState(() => new Date())
   const [finishing, setFinishing] = useState(false)
   const day = run?.day ?? asked?.day ?? mk?.today ?? ''
-  const kind = run?.kind ?? asked?.kind
+  // Ouverte sans précision : la première sortie prévue ce jour-là, sinon une course libre.
+  const kind = run?.kind ?? asked?.kind ?? (mk?.plan && day ? plannedOn(mk.plan, day).runs.find((r) => r.kind !== 'cross')?.kind : undefined)
   const planned = (mk?.plan && day && plannedOn(mk.plan, day).runs.find((r) => r.kind === kind)) || null
   const segments = planned?.segments ?? []
   const running = run !== null && run.pausedAt === null && !finishing

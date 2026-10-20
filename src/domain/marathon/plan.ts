@@ -363,7 +363,11 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
       day: dayOf(d),
       kind: walkRun ? 'walkRun' : w.frozen ? 'easy' : recovery ? 'recovery' : 'easy',
       km,
-      detail: walkRun ? 'Course-marche facile' : recovery ? 'Récupération, très facile' : 'Footing facile',
+      detail: walkRun
+        ? 'En aisance, en alternant course et marche'
+        : recovery
+          ? 'Très facile, pour récupérer de la sortie longue'
+          : 'En aisance : tu peux parler en phrases',
       pace: recovery ? 'recovery' : 'easy',
       segments: walkRun ? walkRunSegments(km, w.phase, longPace) : [],
     })

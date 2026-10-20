@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 validé et en ligne sur `/motiv/` (20 oct.). Lot 2 terminé sur `refonte/lot-2`, en attente de validation** (version d'essai sur `/motiv/essai/`).
+**Lot 1 en ligne sur `/motiv/`. Lot 2 validé (« Ok », 20 oct.) : sa mise en ligne sur `/motiv/` attend ton feu vert explicite. Lot 3 terminé sur `refonte/lot-3`, en attente de validation** (version d'essai sur `/motiv/essai/`).
 
 ## Fait
 
@@ -59,6 +59,29 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Suites du lot 1 : toast et feux d'artifice au-dessus de l'écran, chevrons, code mort retiré, un fichier JS par écran (premier chargement 189 → 132 Ko), variantes `-11` à `-15` dans le plan du jour.
   - 585 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot2/`.
 
+- 20 oct. 2026 : lot 2 validé (« Ok »). La mise en ligne sur `main` a été bloquée par le contrôle de sécurité, faute de « déploie » explicite : elle attend ton feu vert.
+- 20 oct. 2026 : **lot 3, le plan marathon** (plan et décisions dans `docs/lots/LOT-3.md`).
+  - Générateur dans `src/domain/marathon` (règles pures, jamais stocké, recalculé chaque lundi). Il est testé sur 8 profils types, dont un débutant complet ; le délai trop court est testé à part.
+  - Faisabilité : refus argumenté et 3 options (course-marche, semi, course plus tardive), mode prudent (IMC, douleur), rappel médical.
+  - Plan :
+    - 4 phases ;
+    - allègement toutes les 3 ou 4 semaines ;
+    - +10 % au plus par semaine ;
+    - sortie longue plafonnée à 32 km ou 3 h, la plus longue 3 semaines avant la course ;
+    - affûtage à 60 % puis 50 % ;
+    - environ 80 % facile ;
+    - allures par Riegel, avec 5 % de marge.
+  - Renfo coureur, en version salle ou maison : un modèle créé avec le profil, placé après les séances dures, jamais la veille, rien les 10 derniers jours.
+  - Adaptation :
+    - semaine manquée ;
+    - plus d'une semaine manquée ;
+    - douleur au-dessus de 3, ou deux sorties de suite avec une douleur : progression gelée, vélo ou marche à la place ;
+    - malade ;
+    - date de course changée.
+  - Écrans : Moi › Marathon (questionnaire, plan), carte dans Aujourd'hui, séance de course (allure cible, chrono, minuteur d'intervalles avec bips, distance, durée, douleur).
+  - Un nouvel écran s'ouvre désormais en haut de page.
+  - 625 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3/`. Questionnaire rempli → plan en quelques secondes.
+
 ## Décidé (détails, option la plus simple)
 
 - Les ids des exos guitare ne changent pas (`scales-3`…), pour garder l'historique valide.
@@ -71,6 +94,9 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - Mouvements sport : nom exact ou alias uniquement, jamais de rapprochement approximatif. Un nom inconnu devient un mouvement à toi.
 - Versions de dépendances : figées, et publiées depuis au moins 2 semaines (fake-indexeddb 6.2.5 plutôt que 6.2.6).
 - `supabase/` reste dans le dépôt jusqu'à la bascule : l'appli en ligne s'en sert encore. Sa suppression se fera avec ton accord.
+- Lot 3 : une sortie de course est une séance sport (mouvement « course »). Elle compte pour la semaine sport et l'XP, pas pour les records de musculation.
+- Lot 3 : le profil marathon est rangé dans la ligne `profile` (champ facultatif), donc pas de migration. Le plan n'est jamais stocké.
+- Lot 3 : les bips du minuteur reprennent ceux du repos sport, qui ne coupent pas la musique.
 - Lot 2 : une séance guitare de la semaine = un jour à 30 min ou plus (plusieurs petites séances le même jour comptent ensemble).
 - Lot 2 : un morceau « à entretenir » jamais joué compte depuis sa date de maîtrise.
 - Lot 2 : à niveau égal, la variante d'un exo guitare change selon le jour.
@@ -98,7 +124,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [ ] Après la bascule : confirmer que tes données sont bien dans la nouvelle appli, puis mettre Supabase en pause et retirer `supabase/` du dépôt.
 - [x] Suites notées pour le lot 2 (sauf les graphiques : ils s'adaptent déjà à la largeur, rien à changer).
 - [x] 183 cm le 13 oct. : c'est ta hauteur.
-- [x] Lot 2 — La séance unifiée : fait, à valider sur `/motiv/essai/`.
-- [ ] Lot 3 — Plan marathon
+- [x] Lot 2 — La séance unifiée : validé. [ ] Mise en ligne sur `/motiv/` (attend ton feu vert).
+- [x] Lot 3 — Plan marathon : fait, à valider sur `/motiv/essai/`.
 - [ ] Lot 4 — Progrès et rythme
 - [ ] Lot 5 — Preuves et anti-stagnation
