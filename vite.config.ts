@@ -50,5 +50,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: 'src/test/setup.ts',
+    // Les CSS sont vidés en test, sauf les jetons : tokens.test.ts lit leurs valeurs (contrastes).
+    css: { include: [/src\/design\/tokens\.css/] },
   },
 })
