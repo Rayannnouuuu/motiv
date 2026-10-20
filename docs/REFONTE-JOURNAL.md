@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 en cours** sur `refonte/lot-1`. Le stockage local est fait et vérifié sur la copie réelle. Restent : design system, navigation à 4 onglets, captures, version d'essai, démo.
+**Lot 1 livré sur `refonte/lot-1`, en attente de ta validation.** La version d'essai est sur `/motiv/essai/`, avec sa propre base. L'appli actuelle reste sur `/motiv/`.
 
 ## Fait
 
@@ -32,6 +32,15 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Retirés de l'appli : connexion, file d'envoi, instantané, réglages push, TanStack Query, supabase-js.
   - Vérifié sur la copie réelle : aller-retour exact, mêmes niveaux, même série, même plan du jour.
   - 453 tests verts.
+
+- 20 oct. 2026 : lot 1, design et navigation.
+  - Design system dans `src/design/` : jetons, sombre par défaut, une couleur par discipline, icônes au trait à la place des emoji, contrastes AA testés.
+  - Navigation : Aujourd'hui · Progrès · Bibliothèque (exercices guitare et sport, morceaux, modèles) · Moi (thème, sauvegarde, version).
+  - Bouton « Commencer » sur tous les écrans à onglets.
+  - Mouvements sport modifiables : nom, haut ou bas du corps, fourchette de reps.
+  - Prettier ajouté (`npm run format`, `npm run lint`).
+  - 558 tests verts.
+  - Captures 390 px, sombre et clair, dans `docs/lots/lot1/`.
 
 ## Décidé (détails, option la plus simple)
 
@@ -64,8 +73,15 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 1 : tu exportes tes données (fait le 19 oct.).
 - [x] Lot 1 : base d'exos guitare normalisée, bibliothèque sport.
 - [x] Lot 1 : stockage Dexie versionné, import avec aperçu (format 0 migré), export format 1, migration testée sur une copie.
-- [ ] Lot 1 : design system (en cours sur `refonte/lot1-design`), puis navigation à 4 onglets.
-- [ ] Lot 1 : Prettier, captures 390 px sombre et clair, version d'essai `/motiv/essai/`, démo.
+- [x] Lot 1 : design system, navigation à 4 onglets, Prettier, captures, version d'essai.
+- [ ] Lot 1 : ta validation, puis la bascule (voir `docs/lots/LOT-1-DONNEES.md`, section « Bascule »).
+- [ ] Suites notées pour le lot 2 :
+  - l'historique sport suit le mouvement dans l'écran séance ;
+  - les variantes guitare `-11` à `-15` dans le plan du jour ;
+  - le toast « Record ! » et les feux d'artifice affichés au-dessus de l'écran animé ;
+  - les flèches en texte dans `ModalBar` ;
+  - les tailles fixes des graphiques ;
+  - `RowIcon` et `Chip` inutilisés.
 - [ ] Réponse attendue : 183 cm dans « Taille » le 13 oct., c'était ta hauteur ?
 - [ ] Lot 2 — La séance unifiée
 - [ ] Lot 3 — Plan marathon

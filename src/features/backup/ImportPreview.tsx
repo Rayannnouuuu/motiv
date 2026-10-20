@@ -79,7 +79,10 @@ export function ImportPreview({ prepared: p, onConfirm, onCancel }: { prepared: 
       {p.warnings.length > 0 && (
         <Group header="À vérifier (rien n’est modifié)">
           {p.warnings.map((w) => (
-            <Row key={w} subtitle={w} />
+            // En entier : le sous-titre d'une ligne est coupé à deux lignes.
+            <Row key={w}>
+              <span className="t-subhead text-muted">{w}</span>
+            </Row>
           ))}
         </Group>
       )}
