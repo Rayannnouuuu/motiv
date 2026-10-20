@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { Movement } from '../domain/model'
+import type { DataV1 } from '../domain/model'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
 import type { MotivDb } from './db'
@@ -12,6 +12,7 @@ export interface GuitarDraft {
   newSongs: Song[]
   flowRating: Rating
   desireRating: Rating
+  note?: string
 }
 
 export interface SportDraft {
@@ -22,6 +23,7 @@ export interface SportDraft {
   sets: SportSet[]
   flowRating: Rating
   desireRating: Rating
+  note?: string
 }
 
 export interface Actions {
@@ -33,13 +35,13 @@ export interface Actions {
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
-  saveMovement(m: Movement): Promise<void>
+  saveMovement(m: DataV1['exercises'][number]): Promise<void>
 }
 
 export interface AppDataValue {
   data: AppData
-  /** Bibliothèque sport (modèle v1, déjà lu tel quel par la Bibliothèque). */
-  movements: Movement[]
+  /** Les mêmes données au modèle v1 (bibliothèque sport, historique par mouvement, tempos propres). */
+  v1: DataV1
   today: Day
 }
 

@@ -19,8 +19,11 @@ function guitarSession(s: V1.Session): GuitarSession {
     items: entries(s).map((e): GuitarItem =>
       e.songId !== undefined
         ? { kind: 'song', songId: e.songId, markedMastered: e.markedMastered === true }
-        : { kind: 'exercise', exerciseId: e.exerciseId ?? '', maxBpm: e.sets[0]?.bpm ?? null },
+        : e.sets[0]?.clean
+          ? { kind: 'exercise', exerciseId: e.exerciseId ?? '', maxBpm: e.sets[0].bpm ?? null, clean: true }
+          : { kind: 'exercise', exerciseId: e.exerciseId ?? '', maxBpm: e.sets[0]?.bpm ?? null },
     ),
+    ...(s.note ? { note: s.note } : {}),
   }
 }
 
@@ -44,6 +47,7 @@ function sportSession(s: V1.Session): SportSession {
         return { programExerciseId, setIndex, reps: x.reps ?? 0, weightKg: x.loadKg ?? 0 }
       })
     }),
+    ...(s.note ? { note: s.note } : {}),
   }
 }
 

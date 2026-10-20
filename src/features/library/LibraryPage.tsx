@@ -37,9 +37,9 @@ const repRange = (m: Movement) =>
   m.repRange ? `${m.repRange[0]}-${m.repRange[1]} reps` : m.metric === 'duration' ? 'durée' : m.metric === 'distance' ? 'distance' : null
 
 function Exercises() {
-  const { data, movements } = useAppData()
+  const { data, v1 } = useAppData()
   const [editing, setEditing] = useState<Movement | null>(null)
-  const sport = movements.filter((m) => !m.archived).sort((a, b) => a.name.localeCompare(b.name, 'fr'))
+  const sport = v1.exercises.filter((m) => !m.archived).sort((a, b) => a.name.localeCompare(b.name, 'fr'))
   return (
     <div className="flex flex-col gap-6 pb-4">
       {(Object.keys(CATEGORY_LABELS) as ExerciseCategory[]).map((cat) => (

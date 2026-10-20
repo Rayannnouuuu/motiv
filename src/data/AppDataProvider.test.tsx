@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { afterEach, expect, test, vi } from 'vitest'
 import { v0Replica } from '../test/fixtures/v0Replica'
 import { importV0, testDb } from '../test/testDb'
-import { useActions, useAppData, type Actions, type AppDataValue } from './AppDataContext'
+import { useActions, useAppData, type Actions, type AppDataValue, type GuitarDraft } from './AppDataContext'
 import { AppDataProvider } from './AppDataProvider'
 import { startEmpty } from './backup'
 import type { MotivDb } from './db'
@@ -80,6 +80,33 @@ test('log guitare : séance écrite avec son XP, morceau joué « en cours », m
   expect(await db.songs.get('song-00')).toMatchObject({ status: 'learning' })
   expect(await db.songs.get('song-01')).toMatchObject({ status: 'mastered', masteredOn: '2026-10-20' })
   await waitFor(() => expect(seen.value!.data.guitarSessions).toHaveLength(7))
+})
+
+test('correction d’un log : la séance légère, la note et le tempo propre restent', async () => {
+  const db = testDb()
+  await importV0(db, v0Replica())
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const draft: GuitarDraft = {
+    id: 'new-g',
+    day: '2026-10-20',
+    durationMin: 30,
+    items: [{ kind: 'exercise', exerciseId: 'scales-1', maxBpm: 72, clean: true }],
+    newSongs: [],
+    flowRating: 3,
+    desireRating: 3,
+    note: 'Propre à 72.',
+  }
+  await seen.actions!.saveGuitarSession(draft)
+  await db.sessions.update('new-g', { isLight: true })
+  await waitFor(() => expect(seen.value!.v1.sessions.find((s) => s.id === 'new-g')?.isLight).toBe(true))
+  await seen.actions!.saveGuitarSession({ ...draft, durationMin: 35 })
+  expect(await db.sessions.get('new-g')).toMatchObject({
+    durationMin: 35,
+    isLight: true,
+    note: 'Propre à 72.',
+    blocks: [{ type: 'technique', entries: [{ exerciseId: 'scales-1', sets: [{ bpm: 72, clean: true }] }] }],
+  })
 })
 
 test('séance sport : chaque série rattachée au mouvement de la bibliothèque', async () => {

@@ -5,7 +5,10 @@ import { vi } from 'vitest'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from '../data/AppDataContext'
 import { EMPTY_DATA, type AppData, type Day } from '../domain/types'
 import { testDb } from './testDb'
-import { LIBRARY_MOVEMENTS } from '../data/migrations/v0ToV1'
+import { migrateV0toV1 } from '../data/migrations/v0ToV1'
+
+/** Le modèle v1 que la base aurait pour ces données (même migration qu'à l'import). */
+export const v1Of = (data: AppData) => migrateV0toV1({ app: 'motiv', schemaVersion: 0, exportedAt: '', data }).data
 
 export interface RenderWithDataOptions {
   data?: Partial<AppData>
@@ -31,11 +34,8 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
 
 export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {}): RenderResult & { actions: Actions } {
   const actions = fakeActions(opts.actions)
-  const value = {
-    data: { ...EMPTY_DATA, ...opts.data },
-    movements: LIBRARY_MOVEMENTS,
-    today: opts.today ?? '2026-10-15',
-  }
+  const data = { ...EMPTY_DATA, ...opts.data }
+  const value = { data, v1: v1Of(data), today: opts.today ?? '2026-10-15' }
   const result = render(
     <MemoryRouter initialEntries={[opts.route ?? '/']}>
       <DbContext.Provider value={testDb()}>

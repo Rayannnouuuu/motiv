@@ -88,7 +88,7 @@ function guitarBlocks(items: GuitarItem[]): V1.Block[] {
     type: group[0].kind === 'exercise' ? 'technique' : 'repertoire',
     entries: group.map((it): V1.Entry =>
       it.kind === 'exercise'
-        ? { exerciseId: it.exerciseId, sets: it.maxBpm === null ? [] : [{ bpm: it.maxBpm }] }
+        ? { exerciseId: it.exerciseId, sets: it.maxBpm === null ? [] : [it.clean ? { bpm: it.maxBpm, clean: true } : { bpm: it.maxBpm }] }
         : it.markedMastered
           ? { songId: it.songId, markedMastered: true, sets: [] }
           : { songId: it.songId, sets: [] },
@@ -108,6 +108,7 @@ export function guitarSessionToV1(s: GuitarSession): V1.Session {
     desireScore: s.desireRating,
     blocks: guitarBlocks(s.items),
     xp: s.xp,
+    ...(s.note ? { note: s.note } : {}),
   }
 }
 
@@ -130,6 +131,7 @@ export function sportSessionToV1(s: SportSession, exerciseOf: (programExerciseId
     templateId: s.programId,
     blocks: entries.length > 0 ? [{ type: 'main', entries }] : [],
     xp: s.xp,
+    ...(s.note ? { note: s.note } : {}),
   }
 }
 

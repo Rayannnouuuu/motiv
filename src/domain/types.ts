@@ -2,7 +2,9 @@ export type Day = string // 'YYYY-MM-DD', Europe/Paris
 export type Rating = 1 | 2 | 3 | 4 | 5
 export type Domain = 'guitar' | 'sport'
 
-export type GuitarItem = { kind: 'exercise'; exerciseId: string; maxBpm: number | null } | { kind: 'song'; songId: string; markedMastered: boolean }
+/** `clean` : tempo joué proprement (séance en direct du lot 2) ; absent dans l'historique d'avant. */
+export type GuitarItem =
+  { kind: 'exercise'; exerciseId: string; maxBpm: number | null; clean?: true } | { kind: 'song'; songId: string; markedMastered: boolean }
 
 export interface GuitarSession {
   id: string
@@ -13,6 +15,7 @@ export interface GuitarSession {
   xp: number
   createdAt: string
   items: GuitarItem[]
+  note?: string
 }
 
 export interface Song {
@@ -57,6 +60,7 @@ export interface SportSession {
   xp: number
   createdAt: string
   sets: SportSet[]
+  note?: string
 }
 
 export type BodyField = 'weightKg' | 'waistCm' | 'chestCm' | 'armCm' | 'thighCm'

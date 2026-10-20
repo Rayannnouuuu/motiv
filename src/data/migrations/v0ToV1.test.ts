@@ -102,6 +102,17 @@ describe('migration format 0 → 1', () => {
     expect(toAppData(data)).toEqual(normalize(src.data))
   })
 
+  test('lot 2 : tempo marqué propre et note libre font l’aller-retour', () => {
+    const guitar = { ...g('2026-10-20', 30, [{ kind: 'exercise', exerciseId: 'scales-1', maxBpm: 72, clean: true }]), note: 'Main droite plus souple.' }
+    const sport = { ...ss([set(60, 8)]), note: 'Épaule un peu raide.' }
+    const src = backup({ guitarSessions: [guitar], sportSessions: [sport] })
+    const { data } = migrateV0toV1(src)
+    const v1Guitar = data.sessions.find((s) => s.discipline === 'guitar')!
+    expect(v1Guitar).toMatchObject({ note: 'Main droite plus souple.' })
+    expect(v1Guitar.blocks[0].entries[0].sets).toEqual([{ bpm: 72, clean: true }])
+    expect(toAppData(data)).toEqual(normalize(src.data))
+  })
+
   test('déterministe : deux exécutions identiques, entrée mélangée → même sortie, ni date ni hasard', () => {
     const random = vi.spyOn(Math, 'random')
     const now = vi.spyOn(Date, 'now')

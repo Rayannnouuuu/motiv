@@ -156,3 +156,5 @@ export interface DataV1 {
 }
 
 export const EMPTY_PROFILE: Profile = { key: 'profile', migratedFrom: null, levelsAtMigration: null }
+
+export const EMPTY_DATA_V1: DataV1 = { exercises: [], songs: [], sessions: [], templates: [], measurements: [], challenges: [], profile: EMPTY_PROFILE }

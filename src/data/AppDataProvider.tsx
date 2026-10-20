@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'react'
 import { movementKey } from '../content/sportLibrary'
 import { todayParis } from '../domain/date'
+import { EMPTY_DATA_V1 } from '../domain/model'
 import type * as V1 from '../domain/model'
 import { acceptEasier, applyChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate, type Deps } from '../domain/progression'
 import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from '../domain/types'
@@ -17,6 +18,9 @@ const deps: Deps = { rng: Math.random, newId: () => crypto.randomUUID() }
 
 /** Séance antérieure à celle qu'on enregistre : l'XP (records, progression) ne se compare qu'au passé. */
 const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt: string) => s.day < day || (s.day === day && s.createdAt < createdAt)
+
+/** Une correction depuis l'ancienne forme garde ce qu'elle ne connaît pas (séance légère). */
+const keepLight = (row: V1.Session, v1: V1.DataV1): V1.Session => ({ ...row, isLight: v1.sessions.find((s) => s.id === row.id)?.isLight ?? false })
 
 type Loaded = { ok: true; data: V1.DataV1; meta: DeviceMeta } | { ok: false; error: string }
 
@@ -95,12 +99,13 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           xp: xp.total,
           createdAt,
           items: d.items,
+          ...(d.note ? { note: d.note } : {}),
         }
         const mastered = new Set(d.items.flatMap((it) => (it.kind === 'song' && it.markedMastered ? [it.songId] : [])))
         const played = new Set(d.items.flatMap((it) => (it.kind === 'song' ? [it.songId] : [])))
         const newIds = new Set(d.newSongs.map((s) => s.id))
         await write(db, now(), async () => {
-          await db.sessions.put(guitarSessionToV1(session))
+          await db.sessions.put(keepLight(guitarSessionToV1(session), v1))
           for (const s of d.newSongs) await db.songs.put(songToV1(mastered.has(s.id) ? { ...s, status: 'mastered', masteredOn: d.day } : s, true))
           // Comme le serveur : un morceau coché passe « maîtrisé » ce jour-là s'il ne l'était pas déjà.
           for (const s of v1.songs) {
@@ -121,7 +126,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const xp = sportSessionXp(d, history, (id) => names.get(id) ?? 'Exo inconnu')
         const session: SportSession = { ...d, xp: xp.total, createdAt }
         const r = exerciseResolver(v1)
-        const row = sportSessionToV1(session, r.exerciseOf)
+        const row = keepLight(sportSessionToV1(session, r.exerciseOf), v1)
         await write(db, now(), async () => {
           await db.sessions.put(row)
           await db.exercises.bulkPut(r.created())
@@ -201,7 +206,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       })
   }, [data, initialized, today, settle])
 
-  const value = useMemo(() => ({ data, movements: v1?.exercises ?? [], today }), [data, v1, today])
+  const value = useMemo(() => ({ data, v1: v1 ?? EMPTY_DATA_V1, today }), [data, v1, today])
 
   if (loaded === undefined) return null
   if (!loaded.ok)

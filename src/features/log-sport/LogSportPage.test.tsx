@@ -6,7 +6,7 @@ import { ActionsContext, AppDataContext } from '../../data/AppDataContext'
 import { EMPTY_DATA, type AppData } from '../../domain/types'
 import { challenge, pe, program, set, ss } from '../../test/factories'
 import { icon } from '../../test/icon'
-import { fakeActions, renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
+import { fakeActions, renderWithData, v1Of, type RenderWithDataOptions } from '../../test/renderWithData'
 import { beep, primeBeep } from './beep'
 import { loadLive, saveLive, type LiveState } from './liveSession'
 import { LogSportPage } from './LogSportPage'
@@ -33,7 +33,8 @@ const renderSport = (opts: RenderWithDataOptions = {}) =>
 
 /** Contexte de données maison : les données peuvent arriver après le montage (rerender). */
 function Harness({ data }: { data: Partial<AppData> }) {
-  const value = { data: { ...EMPTY_DATA, ...data }, movements: [], today: '2026-10-15' }
+  const full = { ...EMPTY_DATA, ...data }
+  const value = { data: full, v1: v1Of(full), today: '2026-10-15' }
   return (
     <MemoryRouter initialEntries={['/log/sport']}>
       <AppDataContext.Provider value={value}>
