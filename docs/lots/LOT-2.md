@@ -2,6 +2,8 @@
 
 _20 oct. 2026. Point de départ : REFONTE §6 lot 2, sur la base du lot 1 (stockage v1, écrans encore branchés sur l'ancienne forme)._
 
+**État : les 8 étapes sont faites, en attente de validation.**
+
 ## Décisions (détails, option la plus simple)
 
 - **Modèles de séance**
@@ -31,9 +33,9 @@ _20 oct. 2026. Point de départ : REFONTE §6 lot 2, sur la base du lot 1 (stock
   - le bouton « Commencer ».
   - La série 30/60 reste jusqu'au lot 4 (décision de l'audit).
 - **Fusions**
-  - Le chrono `/jouer` devient la séance guitare en direct : le chrono est dans le cadre commun.
-  - La séance sport actuelle passe dans le même cadre.
-  - Les anciennes adresses redirigent.
+  - Le chrono `/jouer` devient la séance guitare en direct. Chaque exo s'ouvre en plein écran sur `/jouer/exo/:id`, avec le titre commun (exo k/N, chrono).
+  - La séance sport garde son écran ; son titre affiche le même chrono.
+  - Pas d'ancienne adresse à rediriger : `/jouer` et `/log/sport` restent.
 - **Correction d'un log** : corriger une séance garde ce que l'ancienne forme ne connaît pas (note libre, séance légère, tempos marqués propres).
 
 ## Étapes (chacune verte et commitée)

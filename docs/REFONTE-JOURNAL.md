@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 validé et en ligne sur `/motiv/` (20 oct.). Lot 2 en cours sur `refonte/lot-2`** (version d'essai sur `/motiv/essai/`).
+**Lot 1 validé et en ligne sur `/motiv/` (20 oct.). Lot 2 terminé sur `refonte/lot-2`, en attente de validation** (version d'essai sur `/motiv/essai/`).
 
 ## Fait
 
@@ -48,6 +48,17 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Le cron `motiv-notify` de Supabase est coupé. Supabase reste actif, en lecture seule, comme copie de secours. Sa mise en pause et le retrait de `supabase/` du dépôt viendront une fois l'import confirmé.
   - 183 cm dans « Taille » le 13 oct. = la hauteur. Ce sera corrigé avec le profil du lot 3 (taille, poids), sans toucher à l'historique avant.
 
+- 20 oct. 2026 : **lot 2, la séance unifiée** (plan et détails dans `docs/lots/LOT-2.md`).
+  - Moteur de progression : guitare, propre 3 séances de suite → +4 bpm ; sport, double progression (+2,5 / +5 kg). Chaque cible a sa raison en une phrase.
+  - Sport : les dernières fois, la charge proposée, les records et l'XP suivent le mouvement, plus la ligne du programme (bug 1 de l'audit).
+  - Guitare en direct : l'exo en cours s'ouvre en plein écran (exo k/N, chrono), métronome au tempo du jour, ±1 et ±5, case « propre », « Valider · exo suivant ».
+  - Fin de séance commune : les deux notes et une note libre. Une correction garde la note, la séance légère et les tempos propres.
+  - Log rapide (`/log`) depuis « Commencer », guitare ou sport.
+  - Répertoire à 4 statuts dans la Bibliothèque ; un morceau « à entretenir » pas joué depuis 14 jours revient dans Aujourd'hui.
+  - Aujourd'hui : la semaine en haut (guitare x/5, sport x/3), puis les séances, les morceaux à entretenir, les défis.
+  - Suites du lot 1 : toast et feux d'artifice au-dessus de l'écran, chevrons, code mort retiré, un fichier JS par écran (premier chargement 189 → 132 Ko), variantes `-11` à `-15` dans le plan du jour.
+  - 585 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot2/`.
+
 ## Décidé (détails, option la plus simple)
 
 - Les ids des exos guitare ne changent pas (`scales-3`…), pour garder l'historique valide.
@@ -60,6 +71,9 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - Mouvements sport : nom exact ou alias uniquement, jamais de rapprochement approximatif. Un nom inconnu devient un mouvement à toi.
 - Versions de dépendances : figées, et publiées depuis au moins 2 semaines (fake-indexeddb 6.2.5 plutôt que 6.2.6).
 - `supabase/` reste dans le dépôt jusqu'à la bascule : l'appli en ligne s'en sert encore. Sa suppression se fera avec ton accord.
+- Lot 2 : une séance guitare de la semaine = un jour à 30 min ou plus (plusieurs petites séances le même jour comptent ensemble).
+- Lot 2 : un morceau « à entretenir » jamais joué compte depuis sa date de maîtrise.
+- Lot 2 : à niveau égal, la variante d'un exo guitare change selon le jour.
 - Lot 3 marathon : le sport couvre maintenant la course à pied en plus de la musculation. Dès le lot 1, le modèle de données prévoit la distance, la durée et la douleur (0-10) d'une sortie, pour ne pas avoir à migrer plus tard.
 
 ## Réponses aux questions de l'audit (validées le 19 oct.)
@@ -82,15 +96,9 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 1 : design system, navigation à 4 onglets, Prettier, captures, version d'essai.
 - [x] Lot 1 : validé et basculé sur `/motiv/` (20 oct.).
 - [ ] Après la bascule : confirmer que tes données sont bien dans la nouvelle appli, puis mettre Supabase en pause et retirer `supabase/` du dépôt.
-- [ ] Suites notées pour le lot 2 :
-  - l'historique sport suit le mouvement dans l'écran séance ;
-  - les variantes guitare `-11` à `-15` dans le plan du jour ;
-  - le toast « Record ! » et les feux d'artifice affichés au-dessus de l'écran animé ;
-  - les flèches en texte dans `ModalBar` ;
-  - les tailles fixes des graphiques ;
-  - `RowIcon` et `Chip` inutilisés.
+- [x] Suites notées pour le lot 2 (sauf les graphiques : ils s'adaptent déjà à la largeur, rien à changer).
 - [x] 183 cm le 13 oct. : c'est ta hauteur.
-- [ ] Lot 2 — La séance unifiée
+- [x] Lot 2 — La séance unifiée : fait, à valider sur `/motiv/essai/`.
 - [ ] Lot 3 — Plan marathon
 - [ ] Lot 4 — Progrès et rythme
 - [ ] Lot 5 — Preuves et anti-stagnation
