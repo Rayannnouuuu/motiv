@@ -123,7 +123,7 @@ Meta { schemaVersion, lastBackupAt }
 
 ## 6. Fonctionnalités par lot
 
-Quatre lots, dans cet ordre, avec ma validation entre chacun. Les valeurs chiffrées sont des réglages par défaut, modifiables dans l'appli.
+Cinq lots, dans cet ordre, avec ma validation entre chacun. Les valeurs chiffrées sont des réglages par défaut, modifiables dans l'appli.
 
 ### Lot 1 — Fondations
 
@@ -155,7 +155,62 @@ Le cœur de l'appli : une seule façon de faire une séance, quelle que soit la 
 
 Terminé quand je fais une séance complète de chaque discipline sans quitter l'écran séance.
 
-### Lot 3 — Progrès et rythme
+### Lot 3 — Plan marathon
+
+Un générateur de plan de préparation marathon, construit à rebours depuis la date de course et adapté à mon profil. Il repose sur des règles écrites dans domain/, explicables et testées. Chaque séance proposée reste modifiable.
+
+Questionnaire de départ, modifiable à tout moment :
+
+- Course : nom, date, objectif (finir, ou un temps visé).
+- Corps : taille, poids, année de naissance, sexe. Le poids suit mes pesées.
+- Niveau en course : km par semaine sur les 4 dernières semaines, plus longue sortie du dernier mois, années de pratique, un chrono récent sur 5 km, 10 km ou semi s'il existe.
+- Contraintes : jours disponibles, jour préféré pour la sortie longue, accès à une salle ou non.
+- Santé : douleurs ou blessures récentes en texte libre, fréquences cardiaques max et de repos si je les connais.
+
+Faisabilité, avant de générer quoi que ce soit
+
+- L'appli compte les semaines jusqu'à la course et les compare à mon niveau. Repères par défaut, paramétrables :
+  - déjà 30 à 40 km par semaine et une sortie de 15 km : 16 à 20 semaines, 12 au minimum ;
+  - course régulière mais petit volume : 20 à 24 semaines ;
+  - débutant ou reprise : 6 mois ou plus, en commençant par de la course-marche.
+- Délai trop court : elle le dit franchement et propose 3 options. Finir en alternant course et marche, viser un semi-marathon, ou choisir une course plus tardive. Jamais un plan risqué pour tenir une date.
+- Taille et poids servent à calculer l'IMC. À partir de 30 (seuil paramétrable), ou si une douleur est signalée, la progression devient plus prudente : plus de course-marche, volume qui monte plus lentement, vélo ou marche en complément.
+- Un rappel conseille un avis médical avant de démarrer, surtout en partant de peu de pratique.
+
+Structure du plan
+
+- 4 phases : base (volume facile), développement (seuil, allure marathon), spécifique (pic de volume, sorties longues avec passages à allure), affûtage (2 à 3 semaines, volume réduit de 40 à 60 %, intensité conservée).
+- Une semaine allégée toutes les 3 ou 4 semaines, avec environ 25 % de volume en moins.
+- Volume hebdomadaire : +10 % maximum d'une semaine à l'autre.
+- Sortie longue : +1,5 à 3 km par semaine, plafonnée vers 32 km ou 3 h. La plus longue a lieu 3 semaines avant la course.
+- Environ 80 % du temps en endurance facile.
+- 3 à 5 sorties par semaine selon mes jours disponibles : footing facile, sortie longue, seuil, fractionné, allure marathon, récupération, course-marche.
+- Allures calculées depuis mon chrono récent (formule de Riegel) et recalculées quand j'en bats un. Riegel est optimiste pour un premier marathon : applique une marge prudente. Sans chrono, allures au ressenti et à la fréquence cardiaque.
+
+Musculation intégrée au plan
+
+- 2 séances par semaine en base et en développement, 1 en phase spécifique, une légère au début de l'affûtage, aucune les 10 derniers jours.
+- Contenu orienté coureur, en version salle et maison : fentes et montées sur banc, soulevé de terre jambes tendues, mollets, moyen fessier, gainage, pliométrie légère.
+- Placement : le même jour qu'une séance de course difficile, après elle, pour garder les jours faciles vraiment faciles. Jamais la veille d'une sortie longue ou d'une séance de qualité.
+- Pendant la préparation, la musculation sert la course : charges entretenues, pas de recherche de prise de masse. L'appli l'affiche clairement.
+
+Adaptation semaine après semaine
+
+- Le plan se recalcule chaque lundi à partir de ce que j'ai vraiment fait.
+- Séance manquée : on ne la rattrape pas, on reprend le plan. Plus d'une semaine manquée : le volume redescend avant de remonter.
+- Douleur notée de 0 à 10 en fin de sortie. Au-dessus de 3, ou présente 2 sorties de suite : progression gelée, alternative sans impact proposée, conseil de consulter.
+- Maladie déclarée : semaine allégée proposée.
+- Date de course modifiée : plan régénéré, historique conservé.
+
+Affichage et séance
+
+- Vue du plan semaine par semaine : phase en cours, km prévus et faits, compte à rebours jusqu'à la course.
+- Les séances du plan apparaissent dans Aujourd'hui et se lancent dans le mode séance du lot 2.
+- Course : allure cible affichée et chrono, distance et durée saisies à la fin. Fractionné : minuteur d'intervalles avec signaux sonores, sur le même moteur audio que le métronome.
+
+Terminé quand je saisis mon profil et ma date, et j'obtiens en moins d'une minute un plan réaliste, ou un refus argumenté avec des alternatives. Le générateur est testé sur au moins 6 profils types, dont un débutant complet et un délai trop court.
+
+### Lot 4 — Progrès et rythme
 
 - Écran Progrès commun : courbes 30, 90 et 365 jours par exercice, 1RM estimé (formule d'Epley), volume par semaine, poids et mensurations.
 - Répartition guitare : temps passé par catégorie, pour voir ce que je néglige.
@@ -167,7 +222,7 @@ Terminé quand je fais une séance complète de chaque discipline sans quitter l
 
 Terminé quand je vois en 10 secondes sur l'écran Progrès si j'avance.
 
-### Lot 4 — Preuves et anti-stagnation
+### Lot 5 — Preuves et anti-stagnation
 
 - Enregistrement audio dans l'appli, rattaché à un morceau ou un exercice. Écran « Il y a 30 jours / aujourd'hui » pour réécouter côte à côte.
 - Photos de progression sport, avec la même grille de comparaison que l'audio.
@@ -211,8 +266,8 @@ Garde la stack actuelle si elle est saine. Sinon, voici la cible, et tout change
 - Comptes, serveur, synchronisation dans le cloud.
 - Partage, réseau social, classements.
 - Tablatures et paroles : seulement le titre et l'artiste.
-- Programmes d'entraînement ou conseils nutritionnels générés par l'appli. Je saisis mes programmes, l'appli propose seulement la progression.
-- Notifications push : à rediscuter après le lot 4.
+- Programmes d'entraînement ou conseils nutritionnels générés par l'appli. Je saisis mes programmes, l'appli propose seulement la progression. Seule exception : le plan marathon du lot 3.
+- Notifications push : à rediscuter après le lot 5.
 
 ### Un lot est terminé quand
 
