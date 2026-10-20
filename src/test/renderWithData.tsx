@@ -2,18 +2,14 @@ import { render, type RenderResult } from '@testing-library/react'
 import type { ReactElement } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import { ActionsContext, AppDataContext, type Actions } from '../data/AppDataContext'
+import { ActionsContext, AppDataContext, DbContext, type Actions } from '../data/AppDataContext'
 import { EMPTY_DATA, type AppData, type Day } from '../domain/types'
+import { testDb } from './testDb'
 
 export interface RenderWithDataOptions {
   data?: Partial<AppData>
   actions?: Partial<Actions>
   today?: Day
-  pendingCount?: number
-  loading?: boolean
-  /** Données serveur reçues depuis le lancement (défaut : !loading). */
-  fresh?: boolean
-  offline?: boolean
   route?: string | { pathname: string; state?: unknown }
 }
 
@@ -27,9 +23,6 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     rerollChallenge: vi.fn(async () => {}),
     acceptEasier: vi.fn(async () => {}),
     deleteLog: vi.fn(async () => {}),
-    discardRejected: vi.fn(),
-    setPassword: vi.fn(async () => {}),
-    signOut: vi.fn(async () => {}),
     ...over,
   }
 }
@@ -38,19 +31,15 @@ export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {
   const actions = fakeActions(opts.actions)
   const value = {
     data: { ...EMPTY_DATA, ...opts.data },
-    pendingCount: opts.pendingCount ?? 0,
-    rejected: [],
     today: opts.today ?? '2026-10-15',
-    loading: opts.loading ?? false,
-    fresh: opts.fresh ?? !opts.loading,
-    offline: opts.offline ?? false,
-    error: null,
   }
   const result = render(
     <MemoryRouter initialEntries={[opts.route ?? '/']}>
-      <AppDataContext.Provider value={value}>
-        <ActionsContext.Provider value={actions}>{ui}</ActionsContext.Provider>
-      </AppDataContext.Provider>
+      <DbContext.Provider value={testDb()}>
+        <AppDataContext.Provider value={value}>
+          <ActionsContext.Provider value={actions}>{ui}</ActionsContext.Provider>
+        </AppDataContext.Provider>
+      </DbContext.Provider>
     </MemoryRouter>,
   )
   return { ...result, actions }

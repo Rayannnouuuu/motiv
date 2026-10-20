@@ -56,21 +56,8 @@ function newLive(program: Program, history: SportSession[]): LiveState {
 const startable = (programs: Program[], id: string | null) =>
   programs.find((p) => p.id === id && !p.archived && activeExercises(p).length > 0)
 
-/** Écran d'attente neutre, le temps que les données arrivent. */
-function Waiting({ label }: { label: string }) {
-  const navigate = useNavigate()
-  return (
-    <div className="flex flex-1 flex-col">
-      <ModalBar onCancel={() => navigate('/')} cancelLabel="Fermer" cancelAria="Fermer" />
-      <p role="status" className="t-body m-auto text-muted">
-        {label}
-      </p>
-    </div>
-  )
-}
-
 export function LogSportPage() {
-  const { data, loading } = useAppData()
+  const { data } = useAppData()
   const navigate = useNavigate()
   const navState = useLocation().state as { programId?: unknown } | null
   const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
@@ -108,9 +95,6 @@ export function LogSportPage() {
   const exercises = activeExercises(program ?? undefined)
 
   if (!live) return <ChooseProgram onStart={setLive} preferred={requestedId} />
-
-  // Programmes pas encore chargés : attendre, plutôt qu'une fin de séance vide.
-  if (!program && loading) return <Waiting label="Chargement de ta séance…" />
 
   if (askStale) {
     return (
@@ -406,7 +390,7 @@ export function LogSportPage() {
 }
 
 function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void; preferred: string | null }) {
-  const { data, loading } = useAppData()
+  const { data } = useAppData()
   const navigate = useNavigate()
   const programs = data.programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
   const [picked, setPicked] = useState<string | null>(preferred)
@@ -415,7 +399,6 @@ function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void
   const programId = selected?.id ?? null
 
   if (programs.length === 0) {
-    if (loading) return <Waiting label="Chargement…" />
     return (
       <div className="flex flex-1 flex-col justify-center gap-4 text-center">
         <p className="text-[3rem]" aria-hidden>

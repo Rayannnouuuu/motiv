@@ -40,7 +40,6 @@ export default defineConfig({
       workbox: {
         navigateFallback: `${BASE}index.html`,
         navigateFallbackDenylist: ESSAI ? [] : [/^\/motiv\/essai\//],
-        importScripts: ['push-sw.js'],
         skipWaiting: true,
         clientsClaim: true,
       },

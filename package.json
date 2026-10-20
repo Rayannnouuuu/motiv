@@ -12,8 +12,6 @@
     "build:notify": "node scripts/build-notify.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.117.3",
-    "@tanstack/react-query": "^5.104.2",
     "dexie": "4.4.6",
     "dexie-react-hooks": "4.4.0",
     "react": "^19.2.8",

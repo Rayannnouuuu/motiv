@@ -27,8 +27,8 @@ const renderSport = (opts: RenderWithDataOptions = {}) =>
   )
 
 /** Contexte de données maison : les données peuvent arriver après le montage (rerender). */
-function Harness({ data, loading }: { data: Partial<AppData>; loading: boolean }) {
-  const value = { data: { ...EMPTY_DATA, ...data }, pendingCount: 0, rejected: [], today: '2026-10-15', loading, error: null, fresh: !loading, offline: false }
+function Harness({ data }: { data: Partial<AppData> }) {
+  const value = { data: { ...EMPTY_DATA, ...data }, today: '2026-10-15' }
   return (
     <MemoryRouter initialEntries={['/log/sport']}>
       <AppDataContext.Provider value={value}>
@@ -279,22 +279,12 @@ describe('LogSportPage', () => {
   })
 
   test('choix de la séance : présélection correcte quand les programmes arrivent après l’ouverture', async () => {
-    const { rerender } = render(<Harness data={{}} loading />)
-    expect(screen.getByText('Chargement…')).toBeInTheDocument()
-    rerender(<Harness data={{ programs: [haut, bas], sportSessions: [ss([], '2026-10-08', 'haut')] }} loading={false} />)
+    const { rerender } = render(<Harness data={{}} />)
+    rerender(<Harness data={{ programs: [haut, bas], sportSessions: [ss([], '2026-10-08', 'haut')] }} />)
     expect(screen.getByRole('button', { name: 'Bas' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Haut' })).toHaveAttribute('aria-pressed', 'false')
     await click('Commencer')
     expect(screen.getByRole('heading', { name: 'Squat' })).toBeInTheDocument()
-  })
-
-  test('séance en cours pendant le chargement : « Chargement de ta séance… », pas la fin de séance', () => {
-    saveLive({ id: 'live', programId: 'haut', startedAt: new Date().toISOString(), exerciseIndex: 0, exerciseId: 'bench', weightKg: 60, reps: 8, sets: [] })
-    const { rerender } = render(<Harness data={{}} loading />)
-    expect(screen.getByText('Chargement de ta séance…')).toBeInTheDocument()
-    expect(screen.queryByText(/Séance terminée/)).not.toBeInTheDocument()
-    rerender(<Harness data={{ programs: [haut] }} loading={false} />)
-    expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
   })
 
   test('exo archivé depuis le début de la séance : sauté sans plantage', async () => {

@@ -10,16 +10,14 @@ const DELAY_MS = 1200 // laisse voir l'écran « +N XP » et ses petits feux d'a
 
 /** Affiche l'animation de montée de niveau une fois par niveau gagné (hors écrans de saisie). */
 export function LevelUpWatcher() {
-  const { data, fresh } = useAppData()
+  const { data } = useAppData()
   const { pathname } = useLocation()
   const [info, setInfo] = useState<LevelUpInfo | null>(null)
   const now = snapshot(allLevels(data))
   const key = `${now.global}/${now.guitar}/${now.sport}`
 
   useEffect(() => {
-    // Pas encore de réponse du serveur (chargement, échec ou instantané local) : des niveaux à 1, ou ceux
-    // d'un instantané ancien, feraient croire à une baisse, puis rejoueraient les fêtes.
-    if (!fresh || info || pathname.startsWith('/log')) return
+    if (info || pathname.startsWith('/log')) return
     const seen = loadSeen()
     // Premier passage sur cet appareil : on part des niveaux actuels, sans fête.
     if (!seen) return saveSeen(now)
@@ -36,7 +34,7 @@ export function LevelUpWatcher() {
     return () => clearTimeout(t)
     // `now` est décrit par `key`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, fresh, pathname, info])
+  }, [key, pathname, info])
 
   if (!info) return null
   return (

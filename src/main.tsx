@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -7,20 +6,14 @@ import { AppRoutes } from './app/App'
 import { KeepAwake } from './app/KeepAwake'
 import { setupUpdates } from './app/updates'
 import { AppDataProvider } from './data/AppDataProvider'
-import { AuthGate } from './features/auth/AuthGate'
+import { createDb } from './data/db'
+import { WelcomePage } from './features/backup/WelcomePage'
 import './index.css'
 import { Splash } from './ui/Splash'
 import { followSystemTheme } from './ui/theme'
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1 } } })
-
 // Sur iPhone, :active (retour visuel à l'appui) ne s'applique que si la page écoute les touchers.
 document.addEventListener('touchstart', () => {}, { passive: true })
-
-// Efface la pastille posée par une notification quand l'appli est ouverte ou revient au premier plan.
-const clearBadge = () => (navigator as Navigator & { clearAppBadge?: () => Promise<void> }).clearAppBadge?.().catch(() => {})
-clearBadge()
-document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && clearBadge())
 
 followSystemTheme()
 
@@ -29,16 +22,13 @@ setupUpdates(registerSW)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/motiv">
-        <Splash />
-        <KeepAwake />
-        <AuthGate>
-          <AppDataProvider>
-            <AppRoutes />
-          </AppDataProvider>
-        </AuthGate>
-      </BrowserRouter>
-    </QueryClientProvider>
+    {/* « /motiv » ou « /motiv/essai » : la version d'essai vit sous l'appli principale. */}
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <Splash />
+      <KeepAwake />
+      <AppDataProvider db={createDb()} welcome={<WelcomePage />}>
+        <AppRoutes />
+      </AppDataProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

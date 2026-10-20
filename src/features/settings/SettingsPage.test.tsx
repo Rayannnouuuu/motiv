@@ -90,23 +90,6 @@ describe('SettingsPage', () => {
     expect(vi.mocked(actions.saveProgram).mock.calls[1][0]).toMatchObject({ id: 'a', archived: true })
   })
 
-  test('« Se déconnecter » appelle signOut', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
-    await click('Se déconnecter')
-    expect(actions.signOut).toHaveBeenCalled()
-  })
-
-  test('mot de passe : 8 caractères min., puis enregistré', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
-    const input = screen.getByLabelText(/Mot de passe/)
-    await userEvent.type(input, 'court')
-    expect(screen.getByRole('button', { name: 'Enregistrer le mot de passe' })).toBeDisabled()
-    await userEvent.type(input, '-assez-long')
-    await click('Enregistrer le mot de passe')
-    expect(actions.setPassword).toHaveBeenCalledWith('court-assez-long')
-    expect(await screen.findByText('Mot de passe enregistré ✓')).toBeInTheDocument()
-  })
-
   test('programme tout fait sans séance : créé directement', async () => {
     const { actions } = renderWithData(<SettingsPage />, { today })
     await click('Suivre Haut / Bas')

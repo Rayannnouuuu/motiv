@@ -1,3 +1,5 @@
+import { storageKey } from '../../data/db'
+
 /**
  * Chrono de guitare en cours. Tout est en horodatages : il survit à la fermeture de l'appli
  * (iOS tue souvent une PWA en arrière-plan) et le temps écoulé se recalcule à la réouverture.
@@ -28,7 +30,7 @@ export type PracticeAction =
   /** Exo coché depuis sa fiche, avec le tempo joué au métronome s'il y en a un. */
   | { type: 'checkExercise'; id: string; bpm: number | null }
 
-const KEY = 'motiv.practice.v1'
+const KEY = storageKey('practice.v1')
 const STALE_MS = 12 * 60 * 60 * 1000
 const MAX_MIN = 600
 

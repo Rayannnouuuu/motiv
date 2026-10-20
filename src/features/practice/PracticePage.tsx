@@ -58,7 +58,7 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
 
 /** Chrono de guitare : le temps qui passe, l'objectif du jour qui se remplit, les exos qu'on coche en jouant. */
 export function PracticePage() {
-  const { data, today, loading } = useAppData()
+  const { data, today } = useAppData()
   const navigate = useNavigate()
   const nav = useLocation().state as { autostart?: unknown } | null
   // En StrictMode l'initialiseur peut tourner deux fois : seul l'état retenu est sauvegardé (effet ci-dessous).
@@ -121,7 +121,7 @@ export function PracticePage() {
   const elapsed = session ? elapsedMs(session, now) : 0
   const total = Math.min(targetMin, loggedMin + Math.floor(elapsed / 60_000))
   // L'objectif franchi pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
-  const crossed = session !== null && !stale && !loading && loggedMin < targetMin && total >= targetMin
+  const crossed = session !== null && !stale && loggedMin < targetMin && total >= targetMin
   const alreadyCelebrated = session?.goalCelebrated ?? true
   useEffect(() => {
     if (!crossed || alreadyCelebrated) return

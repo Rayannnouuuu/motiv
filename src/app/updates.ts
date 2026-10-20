@@ -20,10 +20,11 @@ const CHECK_EVERY = 60 * 60_000
 
 // Saisies non sauvegardées (log guitare, correction, fin de séance sport), écran XP qu'on vient d'ouvrir,
 // fiche exo (métronome en marche, tempo joué en mémoire) : on attend que Rayan en sorte.
-const BUSY_PATHS = ['/motiv/log/guitare', '/motiv/log/corriger', '/motiv/log/sport', '/motiv/xp', '/motiv/exo']
+// Relatifs à l'adresse de l'appli (/motiv/ ou /motiv/essai/).
+const BUSY_PATHS = ['log/guitare', 'log/corriger', 'log/sport', 'xp', 'exo'].map((p) => `${import.meta.env.BASE_URL}${p}`)
 
 /**
- * Peut-on recharger maintenant ? `pathname` est celui de `window.location` (avec /motiv). Le chrono survit
+ * Peut-on recharger maintenant ? `pathname` est celui de `window.location` (avec /motiv/). Le chrono survit
  * au rechargement (localStorage) : seuls les écrans qui gardent quelque chose en mémoire bloquent.
  */
 export function shouldReloadNow({ pathname, dialogOpen }: { pathname: string; dialogOpen: boolean }): boolean {

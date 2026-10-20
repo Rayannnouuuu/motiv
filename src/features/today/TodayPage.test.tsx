@@ -102,12 +102,6 @@ describe('TodayPage', () => {
     expect(screen.getByRole('button', { name: '▶︎ Jouer · encore 30 min' })).toBeInTheDocument()
   })
 
-  test('pendant le chargement : pas de bouton d’action', () => {
-    renderToday({ loading: true })
-    expect(screen.queryByRole('button', { name: /Jouer/ })).not.toBeInTheDocument()
-    expect(screen.queryByText(/Journée bouclée/)).not.toBeInTheDocument()
-  })
-
   test('sport : semaine, séance du jour détaillée, suivante', async () => {
     const bench = pe({ id: 'bench', programId: 'b', name: 'Squat', targetSets: 4, targetReps: 8 })
     const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1, exercises: [bench] })]

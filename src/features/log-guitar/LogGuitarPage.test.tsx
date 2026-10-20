@@ -1,12 +1,10 @@
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test, vi } from 'vitest'
-import { ActionsContext, AppDataContext } from '../../data/AppDataContext'
 import { addDays } from '../../domain/date'
-import { EMPTY_DATA } from '../../domain/types'
 import { challenge, ex, g, mkSong } from '../../test/factories'
-import { fakeActions, renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
+import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { loadPractice, savePractice, startPractice } from '../practice/practiceSession'
 import { LogGuitarPage } from './LogGuitarPage'
 
@@ -121,23 +119,6 @@ describe('LogGuitarPage', () => {
     unmount()
     renderLog({ data: { guitarSessions: [g(today, 60)] } })
     expect(screen.getByRole('button', { name: 'Suivant' })).toBeDisabled()
-  })
-
-  test('ouvert pendant le chargement : présélection refaite avec les minutes du jour', () => {
-    const { rerender } = renderLog({ loading: true })
-    expect(screen.getByRole('button', { name: '30' })).toHaveAttribute('aria-pressed', 'true')
-    rerender(
-      <MemoryRouter initialEntries={['/log/guitare']}>
-        <AppDataContext.Provider value={{ data: { ...EMPTY_DATA, guitarSessions: [g(today, 15)] }, pendingCount: 0, rejected: [], today, loading: false, error: null, fresh: true, offline: false }}>
-          <ActionsContext.Provider value={fakeActions()}>
-            <Routes>
-              <Route path="/log/guitare" element={<LogGuitarPage />} />
-            </Routes>
-          </ActionsContext.Provider>
-        </AppDataContext.Provider>
-      </MemoryRouter>,
-    )
-    expect(screen.getByRole('button', { name: '15' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   test('depuis le chrono : notes directement, contenu pré-rempli, id de la séance, chrono effacé', async () => {

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import { data, g, mkSong, ss } from '../test/factories'
-import { mergePending } from './merge'
-import type { OutboxEntry } from './outbox'
+import { data, g, mkSong, ss } from '../../test/factories'
+import { mergePending, readLegacyLocal } from './legacyLocal'
+import type { OutboxEntry } from './legacyLocal'
 
 test('une session en attente apparaît dans AppData, sans doublon si le serveur l’a déjà', () => {
   const s = g('2026-10-11', 30)
@@ -35,4 +35,22 @@ test('un log corrigé en attente remplace la version du serveur', () => {
   const fixed = { ...s, durationMin: 45 }
   const pending: OutboxEntry[] = [{ id: s.id, kind: 'guitarSession', payload: { session: fixed, newSongs: [], masteredSongIds: [] } }]
   expect(mergePending(data({ guitarSessions: [s] }), pending).guitarSessions).toEqual([fixed])
+})
+
+test('ancienne version sur le téléphone : instantané + file d’envoi relus en sauvegarde format 0', () => {
+  const server = g('2026-10-11', 30)
+  const queued = g('2026-10-12', 45)
+  localStorage.setItem('motiv.snapshot.v1', JSON.stringify({ savedAt: Date.UTC(2026, 9, 12, 8), data: data({ guitarSessions: [server] }) }))
+  localStorage.setItem('motiv.outbox.v1', JSON.stringify([{ id: queued.id, kind: 'guitarSession', payload: { session: queued, newSongs: [], masteredSongIds: [] } }]))
+  const found = readLegacyLocal()
+  expect(found?.pending).toBe(1)
+  expect(found?.backup).toMatchObject({ app: 'motiv', schemaVersion: 0, exportedAt: '2026-10-12T08:00:00.000Z' })
+  expect(found?.backup.data.guitarSessions).toEqual([server, queued])
+  expect(localStorage.getItem('motiv.snapshot.v1')).not.toBeNull()
+})
+
+test('rien de l’ancienne version : null', () => {
+  expect(readLegacyLocal()).toBeNull()
+  localStorage.setItem('motiv.snapshot.v1', '{"savedAt":1,"data":{}}')
+  expect(readLegacyLocal()).toBeNull()
 })

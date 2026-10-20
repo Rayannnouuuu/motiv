@@ -105,11 +105,6 @@ describe('EditLogPage', () => {
     expect(actions.deleteLog).toHaveBeenCalledWith('guitar', last.id)
   })
 
-  test('ouverture pendant le chargement : attend les données', () => {
-    renderEdit({ loading: true, data: { guitarSessions: [g(today, 30)] } })
-    expect(screen.getByText('Chargement…')).toBeInTheDocument()
-  })
-
   test('corriger un log précis (pas le dernier) via son id', async () => {
     const old = { ...g('2026-10-10', 40, [ex('legato-4', 300)]), createdAt: '2026-10-10T20:00:00Z' }
     const last = { ...g(today, 30), createdAt: '2026-10-15T20:00:00Z' }

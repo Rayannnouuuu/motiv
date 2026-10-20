@@ -1,34 +1,37 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { canReloadAgain, RELOADED_AT_KEY, setupUpdates, shouldReloadNow, type RegisterOptions } from './updates'
 
+/** Adresse de l'appli (« /motiv/ » en vrai, « / » sous vitest). */
+const B = import.meta.env.BASE_URL
+
 describe('shouldReloadNow', () => {
   const at = (pathname: string, dialogOpen = false) => shouldReloadNow({ pathname, dialogOpen })
 
   test('log guitare : saisie non sauvegardée, on attend', () => {
-    expect(at('/motiv/log/guitare')).toBe(false)
+    expect(at(`${B}log/guitare`)).toBe(false)
   })
 
   test('correction d’un log (avec ou sans id) : on attend', () => {
-    expect(at('/motiv/log/corriger')).toBe(false)
-    expect(at('/motiv/log/corriger/abc')).toBe(false)
+    expect(at(`${B}log/corriger`)).toBe(false)
+    expect(at(`${B}log/corriger/abc`)).toBe(false)
   })
 
   test('écran XP : on attend', () => {
-    expect(at('/motiv/xp')).toBe(false)
+    expect(at(`${B}xp`)).toBe(false)
   })
 
   test('une feuille ou une boîte de dialogue ouverte : on attend', () => {
-    expect(at('/motiv/', true)).toBe(false)
-    expect(at('/motiv/reglages', true)).toBe(false)
+    expect(at(`${B}`, true)).toBe(false)
+    expect(at(`${B}reglages`, true)).toBe(false)
   })
 
   test('ailleurs : on recharge ; séance sport et fiche exo (état en mémoire) : on attend', () => {
-    expect(at('/motiv/')).toBe(true)
-    expect(at('/motiv/progres')).toBe(true)
-    expect(at('/motiv/reglages')).toBe(true)
-    expect(at('/motiv/log/sport')).toBe(false) // formulaire de fin de séance en mémoire
-    expect(at('/motiv/exo/abc')).toBe(false) // métronome en marche
-    expect(at('/motiv/xperience')).toBe(true)
+    expect(at(`${B}`)).toBe(true)
+    expect(at(`${B}progres`)).toBe(true)
+    expect(at(`${B}reglages`)).toBe(true)
+    expect(at(`${B}log/sport`)).toBe(false) // formulaire de fin de séance en mémoire
+    expect(at(`${B}exo/abc`)).toBe(false) // métronome en marche
+    expect(at(`${B}xperience`)).toBe(true)
   })
 })
 
@@ -75,7 +78,7 @@ describe('setupUpdates', () => {
     vi.setSystemTime(new Date('2026-10-12T10:00:00Z'))
     visibility = 'visible'
     Object.defineProperty(document, 'visibilityState', { get: () => visibility, configurable: true })
-    window.history.replaceState(null, '', '/motiv/')
+    window.history.replaceState(null, '', `${B}`)
     sessionStorage.clear()
   })
 
@@ -102,13 +105,13 @@ describe('setupUpdates', () => {
   })
 
   test('saisie en cours : attend, réessaie toutes les 2 s, puis recharge une seule fois', () => {
-    window.history.replaceState(null, '', '/motiv/log/guitare')
+    window.history.replaceState(null, '', `${B}log/guitare`)
     const { opts, reload } = start()
     opts.onNeedReload!()
     opts.onNeedReload!()
     vi.advanceTimersByTime(10_000)
     expect(reload).not.toHaveBeenCalled()
-    window.history.replaceState(null, '', '/motiv/')
+    window.history.replaceState(null, '', `${B}`)
     vi.advanceTimersByTime(2_000)
     expect(reload).toHaveBeenCalledTimes(1)
     vi.advanceTimersByTime(10_000)

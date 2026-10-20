@@ -1,54 +1,63 @@
-import { screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { g, mkSong } from '../../test/factories'
-import { renderWithData } from '../../test/renderWithData'
+import { DbContext } from '../../data/AppDataContext'
+import { startEmpty } from '../../data/backup'
+import type { MotivDb } from '../../data/db'
+import { v0Replica } from '../../test/fixtures/v0Replica'
+import { testDb } from '../../test/testDb'
 import { BackupSection } from './BackupSection'
-
-const data = { guitarSessions: [{ ...g('2026-10-14', 30), id: 'g1' }], songs: [mkSong({ id: 's1', title: 'Iron Man' })] }
 
 afterEach(() => {
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
 })
 
+async function mount() {
+  const db = testDb()
+  // Données créées dans le passé : l'export d'aujourd'hui est forcément plus récent.
+  await startEmpty(db, '2026-01-01T08:00:00.000Z')
+  render(
+    <DbContext.Provider value={db}>
+      <BackupSection />
+    </DbContext.Provider>,
+  )
+  return db
+}
+
+const file = (content: unknown) => new File([JSON.stringify(content)], 'motiv-sauvegarde-2026-10-19.json', { type: 'application/json' })
+
 describe('BackupSection', () => {
-  test('télécharge un fichier JSON avec toutes les données quand le partage de fichiers est absent', async () => {
-    let blob: Blob | undefined
-    vi.stubGlobal('URL', { ...URL, createObjectURL: (b: Blob) => ((blob = b), 'blob:x'), revokeObjectURL: () => {} })
+  test('export : fichier téléchargé, puis « À jour »', async () => {
+    vi.stubGlobal('URL', { ...URL, createObjectURL: () => 'blob:x', revokeObjectURL: () => {} })
     const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
-    renderWithData(<BackupSection />, { data, today: '2026-10-15' })
+    await mount()
+    expect(await screen.findByText('Jamais')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
     expect(click).toHaveBeenCalledOnce()
-    expect((click.mock.contexts[0] as HTMLAnchorElement).download).toBe('motiv-sauvegarde-2026-10-15.json')
-    const backup = JSON.parse(await blob!.text())
-    expect(backup).toMatchObject({ app: 'motiv', schemaVersion: 0 })
-    expect(backup.data.guitarSessions.map((s: { id: string }) => s.id)).toEqual(['g1'])
-    expect(backup.data.songs[0].title).toBe('Iron Man')
-    expect(Object.keys(backup.data).sort()).toEqual(['bodyMetrics', 'challenges', 'guitarSessions', 'programs', 'songs', 'sportSessions'])
-    expect(await screen.findByText('Sauvegarde prête ✓')).toBeInTheDocument()
+    expect((click.mock.contexts[0] as HTMLAnchorElement).download).toMatch(/^motiv-sauvegarde-\d{4}-\d{2}-\d{2}-\d{4}\.json$/)
+    expect(await screen.findByText('À jour ✓')).toBeInTheDocument()
   })
 
-  test('passe par la feuille de partage quand elle accepte les fichiers', async () => {
-    const share = vi.fn(async () => {})
-    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share })
-    renderWithData(<BackupSection />, { data })
-    await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
-    expect(share).toHaveBeenCalledOnce()
-    expect(await screen.findByText('Sauvegarde prête ✓')).toBeInTheDocument()
+  test('import d’une ancienne sauvegarde : aperçu, confirmation, puis annulation possible', async () => {
+    const db = await mount()
+    await userEvent.upload(screen.getByLabelText('Fichier de sauvegarde'), file(v0Replica()))
+    const dialog = await screen.findByRole('dialog', { name: 'Importer une sauvegarde' })
+    expect(dialog).toHaveTextContent('ancienne version, convertie')
+    expect(dialog).toHaveTextContent('45 morceaux « à apprendre »')
+    expect(dialog).toHaveTextContent('183 cm en tour de taille')
+    expect(await db.sessions.count()).toBe(0)
+    await userEvent.click(screen.getByRole('button', { name: 'Importer' }))
+    await waitFor(async () => expect(await db.sessions.count()).toBe(7))
+    await userEvent.click(await screen.findByRole('button', { name: 'Annuler le dernier import' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Annuler le dernier import' }))
+    await waitFor(async () => expect(await db.sessions.count()).toBe(0))
   })
 
-  test('feuille de partage refermée : rien n’est annoncé', async () => {
-    vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share: vi.fn(async () => Promise.reject(new DOMException('x', 'AbortError'))) })
-    renderWithData(<BackupSection />, { data })
-    await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
-    expect(screen.queryByText('Sauvegarde prête ✓')).not.toBeInTheDocument()
-    expect(screen.getByText(/Garde-le dans Fichiers/)).toBeInTheDocument()
-  })
-
-  test('sans données à jour du serveur, l’export est désactivé', () => {
-    renderWithData(<BackupSection />, { data, fresh: false })
-    expect(screen.queryByRole('button', { name: 'Exporter mes données' })).not.toBeInTheDocument()
-    expect(screen.getByText(/Il faut le réseau/)).toBeInTheDocument()
+  test('fichier qui n’est pas une sauvegarde : message, rien d’écrit', async () => {
+    const db: MotivDb = await mount()
+    await userEvent.upload(screen.getByLabelText('Fichier de sauvegarde'), file({ hello: 'world' }))
+    expect(await screen.findByText("Ce fichier n'est pas une sauvegarde MOTIV.")).toBeInTheDocument()
+    expect(await db.sessions.count()).toBe(0)
   })
 })

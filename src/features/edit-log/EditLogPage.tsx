@@ -308,10 +308,8 @@ function EditSport({ session }: { session: SportSession }) {
 
 /** Corriger (ou supprimer) le dernier log enregistré. */
 export function EditLogPage() {
-  const { loading } = useAppData()
   const { id } = useParams()
-  // La cible est figée au montage : on attend les données (ouverture directe de l'URL, relance de l'appli).
-  if (loading) return <p className="t-subhead pt-16 text-center text-muted">Chargement…</p>
+  // La cible est figée au montage : les données locales sont déjà là quand l'écran s'ouvre.
   return <EditLog key={id} id={id} />
 }
 

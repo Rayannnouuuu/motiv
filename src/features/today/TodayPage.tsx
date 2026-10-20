@@ -22,7 +22,7 @@ const SECTION_TITLE = 't-footnote px-4 pb-1.5 text-muted uppercase'
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 export function TodayPage() {
-  const { data, today, loading } = useAppData()
+  const { data, today } = useAppData()
   const navigate = useNavigate()
   const [showLevels, setShowLevels] = useState(false)
 
@@ -88,14 +88,13 @@ export function TodayPage() {
             </div>
           </div>
           <Gauge value={streak.todayMin} max={streak.targetMin} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
-          {!loading &&
-            (to ? (
-              <Button className="w-full" onClick={() => navigate(to, { state: action.state })}>
-                {action.label}
-              </Button>
-            ) : (
-              <p className="t-subhead text-center font-semibold text-guitar">Journée bouclée ✓ · à demain</p>
-            ))}
+          {to ? (
+            <Button className="w-full" onClick={() => navigate(to, { state: action.state })}>
+              {action.label}
+            </Button>
+          ) : (
+            <p className="t-subhead text-center font-semibold text-guitar">Journée bouclée ✓ · à demain</p>
+          )}
         </section>
 
         {challenges.length > 0 && (
