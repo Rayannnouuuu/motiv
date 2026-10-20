@@ -127,6 +127,38 @@ test('séance sport : chaque série rattachée au mouvement de la bibliothèque'
   expect(row!.blocks[0].entries).toEqual([{ exerciseId: 'squat', templateEntryId: 'prog-b2-pe0', sets: [{ reps: 8, loadKg: 100 }] }])
 })
 
+test('records sport comptés par mouvement : un nouveau programme garde l’historique du squat', async () => {
+  const db = testDb()
+  await importV0(db, v0Replica())
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const session = { durationMin: 60, flowRating: 4, desireRating: 4 } as const
+  await seen.actions!.saveSportSession({
+    ...session,
+    id: 's1',
+    day: '2026-10-20',
+    programId: 'prog-b2',
+    sets: [{ programExerciseId: 'prog-b2-pe0', setIndex: 1, reps: 8, weightKg: 200 }],
+  })
+  await seen.actions!.saveProgram({
+    id: 'jambes',
+    name: 'Jambes',
+    position: 9,
+    archived: false,
+    exercises: [{ id: 'x-squat', programId: 'jambes', name: 'Squat', targetSets: 3, targetReps: 8, position: 0, archived: false }],
+  })
+  await waitFor(() => expect(seen.value!.v1.templates.some((t) => t.id === 'jambes')).toBe(true))
+  const second = await seen.actions!.saveSportSession({
+    ...session,
+    id: 's2',
+    day: '2026-10-21',
+    programId: 'jambes',
+    sets: [{ programExerciseId: 'x-squat', setIndex: 1, reps: 8, weightKg: 205 }],
+  })
+  // Sans suivi par mouvement, ce serait une « première fois » : pas de record.
+  expect(second.lines.map((l) => l.label)).toEqual(['Séance terminée', 'Record · Squat'])
+})
+
 test('programme : nom inconnu → mouvement à moi ; exo renommé → il suit son nouveau nom', async () => {
   const db = testDb()
   await importV0(db, v0Replica())

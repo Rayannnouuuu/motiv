@@ -28,7 +28,7 @@ function guitarSession(s: V1.Session): GuitarSession {
 }
 
 /** Le rang d'une série parmi celles du même exo dans la séance redonne son ancien numéro. */
-function sportSession(s: V1.Session): SportSession {
+function sportSession(s: V1.Session, key: (e: V1.Entry) => string = (e) => e.templateEntryId ?? e.exerciseId ?? ''): SportSession {
   const count = new Map<string, number>()
   return {
     id: s.id,
@@ -40,7 +40,7 @@ function sportSession(s: V1.Session): SportSession {
     xp: s.xp,
     createdAt: s.createdAt,
     sets: entries(s).flatMap((e) => {
-      const programExerciseId = e.templateEntryId ?? e.exerciseId ?? ''
+      const programExerciseId = key(e)
       return e.sets.map((x) => {
         const setIndex = (count.get(programExerciseId) ?? 0) + 1
         count.set(programExerciseId, setIndex)
@@ -50,6 +50,13 @@ function sportSession(s: V1.Session): SportSession {
     ...(s.note ? { note: s.note } : {}),
   }
 }
+
+/**
+ * Les séances sport rangées par mouvement : `programExerciseId` y porte l'id du mouvement. Les dernières fois,
+ * la charge proposée, les records et l'XP suivent ainsi le mouvement d'un programme à l'autre (bug 1 de l'audit).
+ */
+export const sportByMovement = (d: Pick<V1.DataV1, 'sessions'>): SportSession[] =>
+  d.sessions.filter((s) => s.discipline === 'sport').map((s) => sportSession(s, (e) => e.exerciseId ?? ''))
 
 const song = (s: V1.Song): Song => ({
   id: s.id,
@@ -86,7 +93,7 @@ function challenge(c: V1.Challenge): Challenge {
 export function toAppData(d: Pick<V1.DataV1, 'sessions' | 'songs' | 'templates' | 'measurements' | 'challenges'>): AppData {
   return {
     guitarSessions: d.sessions.filter((s) => s.discipline === 'guitar').map(guitarSession),
-    sportSessions: d.sessions.filter((s) => s.discipline === 'sport').map(sportSession),
+    sportSessions: d.sessions.filter((s) => s.discipline === 'sport').map((s) => sportSession(s)),
     songs: d.songs.map(song),
     programs: d.templates.filter((t) => t.discipline === 'sport').map(program),
     bodyMetrics: d.measurements.map((m) => ({ ...m })),

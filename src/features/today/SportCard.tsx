@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
@@ -9,11 +10,11 @@ import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
 import { Gauge } from '../../ui/Gauge'
 import { WeekStrip } from '../../ui/WeekStrip'
-import { activeExercises, formatWeight, loadLive, prefillFor, resolveIndex } from '../log-sport/liveSession'
+import { activeExercises, formatWeight, loadLive, prefillFor, resolveIndex, tracking } from '../log-sport/liveSession'
 
 /** Sport sur l'accueil : la semaine, la séance du jour avec ses exos (ou celle en cours), la suivante. */
 export function SportCard() {
-  const { data, today } = useAppData()
+  const { data, v1, today } = useAppData()
   const navigate = useNavigate()
   const week = sportWeek(data.sportSessions, today)
   const streak = sportStreak(data.sportSessions, today)
@@ -24,6 +25,7 @@ export function SportCard() {
   const liveIndex = live ? resolveIndex(live, liveExercises) : -1
   const doneToday = week.days.find((d) => d.day === today)!.sessions.length > 0
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
+  const track = useMemo(() => tracking(v1), [v1])
 
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="sport-title">
@@ -105,8 +107,8 @@ export function SportCard() {
             <p className="t-headline pb-1.5">{next.name}</p>
             <ul className="t-subhead flex flex-col gap-1">
               {activeExercises(next).map((e) => {
-                // Charge de la dernière fois.
-                const p = prefillFor(e, data.sportSessions)
+                // Charge proposée (suit le mouvement).
+                const p = prefillFor(e, track)
                 return (
                   <li key={e.id} className="flex justify-between gap-2">
                     <span className="truncate">{e.name}</span>

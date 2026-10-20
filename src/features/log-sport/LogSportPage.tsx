@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon, type IconName } from '../../design/icons'
@@ -7,7 +7,7 @@ import { shortDate, todayParis } from '../../domain/date'
 import { nextProgram } from '../../domain/progression'
 import { isSportRecord, setsForExercise } from '../../domain/records'
 import { activeSetChallenge, isNewRecord, meetsChallenge } from '../../domain/setFeedback'
-import type { Program, Rating, SportSession, SportSet } from '../../domain/types'
+import type { Program, Rating, SportSet } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
 import { RatingPicker } from '../../ui/RatingPicker'
@@ -26,8 +26,10 @@ import {
   recentSetsFor,
   resolveIndex,
   saveLive,
+  tracking,
   type LiveAction,
   type LiveState,
+  type Tracking,
 } from './liveSession'
 import { primeBeep } from './beep'
 import { RestTimer } from './RestTimer'
@@ -39,9 +41,9 @@ const CHEER_MS = 2500
 const nowIso = () => new Date().toISOString()
 
 /** Nouvelle séance, sur le premier exo du programme, à la charge de la dernière fois. */
-function newLive(program: Program, history: SportSession[]): LiveState {
+function newLive(program: Program, t: Tracking): LiveState {
   const first = activeExercises(program)[0]
-  const p = first ? prefillFor(first, history) : { weightKg: 0, reps: 1 }
+  const p = first ? prefillFor(first, t) : { weightKg: 0, reps: 1 }
   return {
     id: crypto.randomUUID(),
     programId: program.id,
@@ -58,7 +60,8 @@ function newLive(program: Program, history: SportSession[]): LiveState {
 const startable = (programs: Program[], id: string | null) => programs.find((p) => p.id === id && !p.archived && activeExercises(p).length > 0)
 
 export function LogSportPage() {
-  const { data } = useAppData()
+  const { data, v1 } = useAppData()
+  const track = useMemo(() => tracking(v1), [v1])
   const navigate = useNavigate()
   const navState = useLocation().state as { programId?: unknown } | null
   const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
@@ -67,7 +70,7 @@ export function LogSportPage() {
     const saved = loadLive()
     if (saved) return saved
     const p = startable(data.programs, requestedId)
-    return p ? newLive(p, data.sportSessions) : null
+    return p ? newLive(p, track) : null
   })
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
@@ -138,14 +141,15 @@ export function LogSportPage() {
   }
   const goBack = () => {
     const prev = exercises[Math.min(index, exercises.length) - 1]
-    const p = prev ? prefillFor(prev, data.sportSessions) : { weightKg: 0, reps: 1 }
+    const p = prev ? prefillFor(prev, track) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
   if (index >= exercises.length) return <FinishSession live={live} onDone={clear} onBack={exercises.length > 0 ? goBack : undefined} onAbandon={abandon} />
 
   const current = exercises[index]
-  const recent = recentSetsFor(current, data.sportSessions)
+  const recent = recentSetsFor(track.key(current.id), track.history)
+  const proposal = prefillFor(current, track)
   const doneSets = live.sets.filter((s) => s.programExerciseId === current.id)
   const done = doneSets.length
   const next = exercises[index + 1]
@@ -154,11 +158,11 @@ export function LogSportPage() {
   const reached = done >= targetSets
   const boxes = Math.max(targetSets, done)
   const edited = editing?.exerciseId === current.id ? editing : null
-  const historySets = setsForExercise(data.sportSessions, current.id)
+  const historySets = setsForExercise(track.history, track.key(current.id))
   const challenge = activeSetChallenge(data.challenges, current.id)
   const challengeMet = challenge !== null && doneSets.some((s) => meetsChallenge(challenge.target, s))
   const goNext = () => {
-    const p = next ? prefillFor(next, data.sportSessions) : { weightKg: 0, reps: 1 }
+    const p = next ? prefillFor(next, track) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
   const completeSet = () => {
@@ -245,6 +249,7 @@ export function LogSportPage() {
               </span>
             </div>
           ))}
+          {proposal.why && <p className="t-subhead border-t border-line pt-2">{proposal.why}</p>}
         </section>
       ) : (
         <p className="t-subhead text-muted">Première fois sur cet exo : choisis une charge confortable.</p>
@@ -403,7 +408,7 @@ export function LogSportPage() {
 }
 
 function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void; preferred: string | null }) {
-  const { data } = useAppData()
+  const { data, v1 } = useAppData()
   const navigate = useNavigate()
   const programs = data.programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
   const [picked, setPicked] = useState<string | null>(preferred)
@@ -455,7 +460,7 @@ function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void
           </button>
         ))}
       </div>
-      <Button tone="sport" className="mt-auto" disabled={!selected} onClick={() => selected && onStart(newLive(selected, data.sportSessions))}>
+      <Button tone="sport" className="mt-auto" disabled={!selected} onClick={() => selected && onStart(newLive(selected, tracking(v1)))}>
         <Icon name="play" />
         Commencer
       </Button>

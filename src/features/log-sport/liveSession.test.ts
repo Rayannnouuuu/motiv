@@ -1,6 +1,21 @@
 import { beforeEach, describe, expect, test } from 'vitest'
-import { pe, set, ss } from '../../test/factories'
-import { isStale, liveReducer, loadLive, prefillFor, recentSetsFor, resolveIndex, restFor, restLeft, saveLive, type LiveState } from './liveSession'
+import { pe, program, set, ss } from '../../test/factories'
+import { v1Of } from '../../test/renderWithData'
+import { EMPTY_DATA } from '../../domain/types'
+import {
+  isStale,
+  liveReducer,
+  loadLive,
+  prefillFor,
+  recentSetsFor,
+  resolveIndex,
+  restFor,
+  restLeft,
+  saveLive,
+  tracking,
+  type LiveState,
+  type Tracking,
+} from './liveSession'
 
 const a = pe({ id: 'a', position: 0 })
 const b = pe({ id: 'b', position: 1, name: 'Rowing' })
@@ -144,13 +159,30 @@ test('isStale après 12 h 01', () => {
   expect(isStale(s, new Date('2026-10-15T18:01:00Z'))).toBe(true)
 })
 
-test('prefillFor : comme la dernière fois (série la plus lourde), échauffement ignoré', () => {
+/** Suivi sans mouvement connu : la clé est l'exo du programme. */
+const byExo = (history: ReturnType<typeof ss>[]): Tracking => ({ history, key: (id) => id, movement: () => undefined })
+
+test('prefillFor sans mouvement connu : comme la dernière fois (série la plus lourde), échauffement ignoré', () => {
   const history = [
     ss([set(60, 8, 'a', 1), set(60, 8, 'a', 2)], '2026-10-01'),
     ss([set(20, 12, 'a', 1), set(62.5, 8, 'a', 2), set(62.5, 7, 'a', 3)], '2026-10-08'),
   ]
-  expect(prefillFor(a, history)).toEqual({ weightKg: 62.5, reps: 8, known: true })
-  expect(prefillFor(a, [])).toEqual({ weightKg: 0, reps: 8, known: false })
+  expect(prefillFor(a, byExo(history))).toEqual({ weightKg: 62.5, reps: 8, known: true })
+  expect(prefillFor(a, byExo([]))).toEqual({ weightKg: 0, reps: 8, known: false })
+})
+
+test('prefillFor suit le mouvement d’un programme à l’autre, et propose la cible avec sa raison', () => {
+  // « DC » dans le nouveau programme = « Développé couché » de l'ancien (alias).
+  const old = pe({ id: 'old', programId: 'p-old', name: 'Développé couché' })
+  const fresh = pe({ id: 'new', programId: 'p-new', name: 'DC' })
+  const data = {
+    ...EMPTY_DATA,
+    programs: [program({ id: 'p-old', archived: true, exercises: [old] }), program({ id: 'p-new', exercises: [fresh] })],
+    sportSessions: [ss([set(80, 10, 'old', 1), set(80, 10, 'old', 2)], '2026-10-08', 'p-old')],
+  }
+  const t = tracking(v1Of(data))
+  expect(recentSetsFor(t.key('new'), t.history)).toHaveLength(1)
+  expect(prefillFor(fresh, t)).toEqual({ weightKg: 82.5, reps: 6, known: true, why: '10 reps sur toutes les séries : +2,5 kg, retour à 6 reps.' })
 })
 
 test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre', () => {
@@ -161,10 +193,10 @@ test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre'
     ss([set(65, 6, 'a', 1)], '2026-10-08'),
     ss([set(57.5, 8, 'a', 1)], '2026-09-10'),
   ]
-  expect(recentSetsFor(a, history)).toEqual([
+  expect(recentSetsFor('a', history)).toEqual([
     { day: '2026-10-08', sets: [set(65, 6, 'a', 1)] },
     { day: '2026-10-01', sets: [set(62.5, 8, 'a', 1), set(62.5, 8, 'a', 2)] },
     { day: '2026-09-20', sets: [set(60, 8, 'a', 1)] },
   ])
-  expect(recentSetsFor(a, [])).toEqual([])
+  expect(recentSetsFor('a', [])).toEqual([])
 })

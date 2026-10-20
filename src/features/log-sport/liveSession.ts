@@ -1,5 +1,8 @@
 import type { Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
+import type { DataV1, Movement } from '../../domain/model'
 import { storageKey } from '../../data/db'
+import { sportByMovement } from '../../data/migrations/project'
+import { sportTarget } from '../../domain/targets'
 
 export interface LiveState {
   id: string
@@ -166,31 +169,60 @@ export function elapsedMin(s: LiveState, now: Date): number {
 
 const kg = (w: number) => w.toLocaleString('fr-FR')
 
-/** Charge et reps de départ d'un exo : `known` faux quand il n'a jamais été fait. */
+/** Charge et reps de départ d'un exo : `known` faux quand il n'a jamais été fait ; `why` : la raison de la proposition. */
 export interface Prefill {
   weightKg: number
   reps: number
   known: boolean
+  why?: string
 }
 
 /**
- * Comme la dernière fois : la série la plus lourde de la dernière séance sur l'exo (un échauffement plus
- * léger est ignoré). Jamais fait : 0 kg et les reps visées.
+ * Le suivi par mouvement (bug 1 de l'audit) : `key` donne le mouvement d'un exo de programme, et `history`
+ * range les séances sport par mouvement. Changer de programme garde les dernières fois, la charge proposée
+ * et les records.
  */
-export function prefillFor(pe: ProgramExercise, history: SportSession[]): Prefill {
-  const [last] = recentSetsFor(pe, history, 1)
+export interface Tracking {
+  history: SportSession[]
+  key: (programExerciseId: string) => string
+  movement: (programExerciseId: string) => Movement | undefined
+}
+
+export function tracking(v1: Pick<DataV1, 'templates' | 'sessions' | 'exercises'>): Tracking {
+  const of = new Map(v1.templates.flatMap((t) => t.blocks.flatMap((b) => b.entries)).map((e) => [e.id, e.exerciseId] as const))
+  const movements = new Map(v1.exercises.map((m) => [m.id, m] as const))
+  const key = (id: string) => of.get(id) ?? id
+  return { history: sportByMovement(v1), key, movement: (id) => movements.get(key(id)) }
+}
+
+/**
+ * La proposition du moteur de progression (double progression), à partir des séances sur le mouvement.
+ * Jamais fait : 0 kg et les reps visées. Durée, distance ou mouvement inconnu : comme la dernière fois
+ * (la série la plus lourde ; un échauffement plus léger est ignoré).
+ */
+export function prefillFor(pe: ProgramExercise, t: Tracking): Prefill {
+  const recent = recentSetsFor(t.key(pe.id), t.history)
+  const [last] = recent
   if (!last) return { weightKg: 0, reps: pe.targetReps, known: false }
+  const m = t.movement(pe.id)
+  const target =
+    m &&
+    sportTarget(
+      recent.map((r) => ({ sessionId: '', day: r.day, sets: r.sets.map((x) => ({ loadKg: x.weightKg, reps: x.reps })) })),
+      m,
+    )
+  if (target?.loadKg !== undefined && target.reps !== undefined) return { weightKg: target.loadKg, reps: target.reps, known: true, why: target.why }
   const top = last.sets.reduce((best, s) => (s.weightKg > best.weightKg ? s : best))
   return { weightKg: top.weightKg, reps: top.reps, known: true }
 }
 
 export const formatWeight = (w: number) => (w === 0 ? 'PDC' : `${kg(w)} kg`)
 
-/** Les `n` dernières séances où l'exo a été fait (la plus récente d'abord), avec toutes leurs séries. */
-export function recentSetsFor(pe: ProgramExercise, history: SportSession[], n = 3): { day: string; sets: SportSet[] }[] {
+/** Les `n` dernières séances où l'exo (ou le mouvement) `key` a été fait, la plus récente d'abord, avec toutes leurs séries. */
+export function recentSetsFor(key: string, history: SportSession[], n = 3): { day: string; sets: SportSet[] }[] {
   return [...history]
     .sort((a, b) => b.day.localeCompare(a.day) || b.createdAt.localeCompare(a.createdAt))
-    .map((s) => ({ day: s.day, sets: s.sets.filter((x) => x.programExerciseId === pe.id).sort((a, b) => a.setIndex - b.setIndex) }))
+    .map((s) => ({ day: s.day, sets: s.sets.filter((x) => x.programExerciseId === key).sort((a, b) => a.setIndex - b.setIndex) }))
     .filter((s) => s.sets.length > 0)
     .slice(0, n)
 }

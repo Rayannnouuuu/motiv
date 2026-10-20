@@ -83,15 +83,17 @@ describe('LogSportPage', () => {
     expect(screen.getByRole('heading', { name: 'Squat' })).toBeInTheDocument()
   })
 
-  test('charge de la dernière fois pré-remplie, séries et reprise après remontage', async () => {
+  test('cible pré-remplie avec sa raison, séries et reprise après remontage', async () => {
     const { unmount } = renderSport({ data: { programs: [haut], sportSessions: history } })
     await click('Commencer')
     const recent = screen.getByRole('region', { name: 'Tes dernières fois' })
     expect(within(recent).getByText('8 oct.')).toBeInTheDocument()
     expect(within(recent).getAllByText('62,5 kg × 8')).toHaveLength(4)
     expect(screen.getByText('Série 1/4 · objectif 4×8')).toBeInTheDocument()
+    // 4×8 à 62,5 kg, fourchette 6-10 : même charge, une rep de plus.
+    expect(within(recent).getByText("Même charge : vise 9 reps, jusqu'à 10 sur toutes les séries pour monter.")).toBeInTheDocument()
     expect(screen.getByLabelText('Charge (kg)')).toHaveValue('62,5')
-    expect(screen.getByLabelText('Reps')).toHaveTextContent('8')
+    expect(screen.getByLabelText('Reps')).toHaveTextContent('9')
     await click('Charge +')
     await click('Série 1 faite')
     unmount()
@@ -99,8 +101,17 @@ describe('LogSportPage', () => {
     renderSport({ data: { programs: [haut], sportSessions: history } })
     expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Série 2 faite' })).toBeInTheDocument()
-    expect(screen.getByText('65 kg × 8')).toBeInTheDocument()
-    expect(loadLive()?.sets).toEqual([set(65, 8, 'bench', 1)])
+    expect(screen.getByText('65 kg × 9')).toBeInTheDocument()
+    expect(loadLive()?.sets).toEqual([set(65, 9, 'bench', 1)])
+  })
+
+  test('autre programme, même mouvement : les dernières fois suivent (« DC » = Développé couché)', async () => {
+    const dc = pe({ id: 'dc', programId: 'push', name: 'DC', position: 0 })
+    const push = program({ id: 'push', name: 'Push', position: 2, exercises: [dc] })
+    renderSport({ data: { programs: [haut, push], sportSessions: history }, route: { pathname: '/log/sport', state: { programId: 'push' } } })
+    const recent = screen.getByRole('region', { name: 'Tes dernières fois' })
+    expect(within(recent).getAllByText('62,5 kg × 8')).toHaveLength(4)
+    expect(screen.getByLabelText('Charge (kg)')).toHaveValue('62,5')
   })
 
   test('PDC affiché quand la charge vaut 0', async () => {
@@ -207,7 +218,7 @@ describe('LogSportPage', () => {
     await click('Commencer')
     await click('Charge +')
     await click('Série 1 faite')
-    expect(screen.getByRole('status')).toHaveTextContent('Record ! 65 kg × 8')
+    expect(screen.getByRole('status')).toHaveTextContent('Record ! 65 kg × 9')
     expect(icon(screen.getByRole('status'), 'trophy')).toBeInTheDocument()
     const pill = screen.getByRole('button', { name: 'Modifier la série 1' })
     expect(icon(pill, 'trophy')).toBeInTheDocument()
@@ -221,6 +232,7 @@ describe('LogSportPage', () => {
 
     await click('Charge −')
     await click('Charge −')
+    await click('Reps −')
     await click('Série 3 faite')
     expect(icon(screen.getByRole('button', { name: 'Modifier la série 3' }), 'trophy')).not.toBeInTheDocument()
   })
@@ -234,7 +246,7 @@ describe('LogSportPage', () => {
     await click('Charge +')
     await click('Série 1 faite')
     const toast = screen.getByRole('status')
-    expect(icon(within(toast).getByText('Record ! 67,5 kg × 8'), 'trophy')).toBeInTheDocument()
+    expect(icon(within(toast).getByText('Record ! 67,5 kg × 9'), 'trophy')).toBeInTheDocument()
     expect(icon(within(toast).getByText('Défi réussi !'), 'target')).toBeInTheDocument()
     expect(icon(screen.getByText("Défi réussi ! Validé à l'enregistrement"), 'check')).toBeInTheDocument()
   })

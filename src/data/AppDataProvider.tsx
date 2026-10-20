@@ -9,7 +9,7 @@ import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from 
 import { guitarSessionXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from './AppDataContext'
 import { loadAll, write, type DeviceMeta, type MotivDb } from './db'
-import { toAppData } from './migrations/project'
+import { sportByMovement, toAppData } from './migrations/project'
 import { challengeToV1, guitarSessionToV1, measurementToV1, movementFor, programToTemplate, songToV1, sportSessionToV1 } from './migrations/v0ToV1'
 import { ensurePersisted } from './persist'
 import { useParisDay } from './useParisDay'
@@ -119,13 +119,15 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       },
       async saveSportSession(d) {
         const { v1, data } = state()
-        const names = new Map(data.programs.flatMap((p) => p.exercises.map((e) => [e.id, e.name] as const)))
         const original = data.sportSessions.find((s) => s.id === d.id)
         const createdAt = original?.createdAt ?? now()
-        const history = data.sportSessions.filter((s) => s.id !== d.id && isBefore(s, d.day, createdAt))
-        const xp = sportSessionXp(d, history, (id) => names.get(id) ?? 'Exo inconnu')
-        const session: SportSession = { ...d, xp: xp.total, createdAt }
+        // Records comptés par mouvement : changer de programme ne refait pas gagner les mêmes records.
         const r = exerciseResolver(v1)
+        const names = new Map(v1.exercises.map((m) => [m.id, m.name] as const))
+        const history = sportByMovement(v1).filter((s) => s.id !== d.id && isBefore(s, d.day, createdAt))
+        const sets = d.sets.map((x) => ({ ...x, programExerciseId: r.exerciseOf(x.programExerciseId) }))
+        const xp = sportSessionXp({ sets }, history, (id) => names.get(id) ?? 'Exo inconnu')
+        const session: SportSession = { ...d, xp: xp.total, createdAt }
         const row = keepLight(sportSessionToV1(session, r.exerciseOf), v1)
         await write(db, now(), async () => {
           await db.sessions.put(row)
