@@ -36,7 +36,11 @@ export function StartButton() {
             <div className="flex flex-col gap-6">
               <Group header="Guitare">
                 <Row icon={<Icon name="guitar" className="text-guitar" />} title="Jouer maintenant" onClick={() => go(close, '/jouer', { autostart: true })} />
-                <Row icon={<Icon name="plus" className="text-guitar" />} title="Noter une séance déjà faite" onClick={() => go(close, '/log/guitare')} />
+                <Row
+                  icon={<Icon name="plus" className="text-guitar" />}
+                  title="Noter une séance déjà faite"
+                  onClick={() => go(close, '/log', { discipline: 'guitar' })}
+                />
               </Group>
               <Group header="Sport">
                 {next && (
@@ -48,6 +52,11 @@ export function StartButton() {
                   />
                 )}
                 <Row icon={<Icon name="sport" className="text-sport" />} title="Choisir une séance" onClick={() => go(close, '/log/sport')} />
+                <Row
+                  icon={<Icon name="plus" className="text-sport" />}
+                  title="Noter une séance déjà faite"
+                  onClick={() => go(close, '/log', { discipline: 'sport' })}
+                />
               </Group>
             </div>
           )}

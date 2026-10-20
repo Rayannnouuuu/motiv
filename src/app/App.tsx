@@ -11,6 +11,7 @@ import { EditLogPage } from '../features/edit-log/EditLogPage'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
 import { ExercisePage } from '../features/exercise/ExercisePage'
 import { PracticePage } from '../features/practice/PracticePage'
+import { QuickLogPage } from '../features/quick-log/QuickLogPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { XpResultPage } from '../features/xp/XpResultPage'
 
@@ -38,6 +39,14 @@ export function AppRoutes() {
   return (
     <>
       <Routes>
+        <Route
+          path="/log"
+          element={
+            <Focus>
+              <QuickLogPage />
+            </Focus>
+          }
+        />
         <Route
           path="/log/guitare"
           element={
