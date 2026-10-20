@@ -2,7 +2,7 @@
 
 _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'artefact [MOTIV — Refonte visuelle](https://claude.ai/artifact/KXWWKDbUXrhH3swfux4ztV), qui fait foi pour la disposition et le design._
 
-**État : 2e version sur l'essai (`/motiv/essai/`), en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push tout », 20 oct.).**
 
 ## Retour du 20 oct. (1re version refusée)
 
