@@ -1,10 +1,25 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 /**
- * Écran principal : grand titre en haut ; quand il sort de l'écran au défilement, une barre translucide
- * prend le relais avec le titre en petit (le contenu passe flouté dessous).
+ * Écran principal, même gabarit sur chaque onglet (REFONTE §7) : un surtitre en capitales (date, période), le
+ * titre, une seule pastille à droite. Quand le titre sort de l'écran au défilement, une barre translucide prend
+ * le relais avec le titre en petit (le contenu passe flouté dessous).
  */
-export function Screen({ title, leading, trailing, children }: { title: string; leading?: ReactNode; trailing?: ReactNode; children: ReactNode }) {
+export function Screen({
+  title,
+  overline,
+  pill,
+  leading,
+  trailing,
+  children,
+}: {
+  title: string
+  overline?: ReactNode
+  pill?: ReactNode
+  leading?: ReactNode
+  trailing?: ReactNode
+  children: ReactNode
+}) {
   const heading = useRef<HTMLHeadingElement>(null)
   const [compact, setCompact] = useState(false)
 
@@ -32,9 +47,15 @@ export function Screen({ title, leading, trailing, children }: { title: string; 
           {trailing && <div className="absolute right-4 flex items-center">{trailing}</div>}
         </div>
       </div>
-      <h1 ref={heading} className="t-large animate-page pt-11.5 pb-3">
-        {title}
-      </h1>
+      <header className="animate-page flex items-end justify-between gap-3 pt-11.5 pb-6">
+        <div className="min-w-0">
+          {overline && <p className="t-overline text-muted">{overline}</p>}
+          <h1 ref={heading} className="t-large mt-1">
+            {title}
+          </h1>
+        </div>
+        {pill && <div className="mb-1 shrink-0">{pill}</div>}
+      </header>
       <div className="animate-page [animation-delay:120ms]">{children}</div>
     </>
   )

@@ -1,196 +1,143 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
-import { Icon, type IconName } from '../../design/icons'
-import type { Tone } from '../../design/tone'
+import { Icon } from '../../design/icons'
+import { longDate } from '../../domain/date'
+import { guitarWeek } from '../../domain/guitarWeek'
 import { lastLog } from '../../domain/lastLog'
-import { allLevels } from '../../domain/levels'
-import { nextAction, type NextAction } from '../../domain/nextAction'
 import { songsToMaintain } from '../../domain/repertoire'
-import { bestGuitarStreak, guitarStreak } from '../../domain/streak'
+import { sportWeek } from '../../domain/sportWeek'
 import { weekGoals } from '../../domain/weekGoals'
-import type { Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
-import { Gauge } from '../../ui/Gauge'
-import { Group, Row } from '../../ui/List'
-import { ProgressRing } from '../../ui/ProgressRing'
+import { Hero, StepList } from '../../ui/Hero'
+import { Pill } from '../../ui/Pill'
+import { SectionHeader } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
-import { LevelSheet } from '../levels/LevelSheet'
-import { loadLive } from '../log-sport/liveSession'
-import { runningPracticeMinutes } from '../practice/practiceSession'
-import { ChallengeCard } from './ChallengeCard'
-import { GuitarCard } from './GuitarCard'
-import { MarathonCard } from './MarathonCard'
-import { SportCard } from './SportCard'
+import { GoalTile, TileRow } from '../../ui/Tile'
 import { StorageNotices } from '../backup/StorageNotices'
-
-const SECTION_TITLE = 't-footnote px-4 pb-1.5 text-muted uppercase'
-
-/** Couleur de la discipline, et même icône dans les deux : lancer, ou reprendre une séance en cours. */
-const ACTION_LOOK: Record<Exclude<NextAction['kind'], 'done'>, { tone: Tone; icon: IconName }> = {
-  resumeSport: { tone: 'sport', icon: 'timer' },
-  resumeGuitar: { tone: 'guitar', icon: 'timer' },
-  playGuitar: { tone: 'guitar', icon: 'play' },
-  startSport: { tone: 'sport', icon: 'play' },
-}
+import { StartSheet } from '../start/StartSheet'
+import { currentWeek, planWeekProgress } from '../week/planWeek'
+import { useToday, type SessionView } from './useToday'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
+const UNIVERSE = { guitar: 'Guitare', sport: 'Sport' } as const
 
+function NextHero({ view }: { view: SessionView }) {
+  const navigate = useNavigate()
+  return (
+    <Hero
+      tone={view.tone}
+      overline={`${view.resume ? 'En cours' : 'Prochaine séance'} · ${UNIVERSE[view.tone]}`}
+      titleId="next-title"
+      title={view.title}
+      subtitle={view.subtitle}
+    >
+      {view.steps.length > 0 && <StepList tone={view.tone} steps={view.steps} label="Étapes de la séance" />}
+      <Button tone={view.tone} className="w-full" onClick={() => navigate(view.action.to!, { state: view.action.state })}>
+        <Icon name={view.resume ? 'timer' : 'play'} />
+        {view.resume ? 'Reprendre' : 'Commencer'}
+      </Button>
+    </Hero>
+  )
+}
+
+/**
+ * Aujourd'hui : le jour, quoi faire maintenant en un bouton (REFONTE §7). La prochaine séance en héros, les
+ * autres séances du jour et les morceaux à entretenir, puis la semaine en deux tuiles.
+ */
 export function TodayPage() {
   const { data, v1, today } = useAppData()
   const navigate = useNavigate()
-  const [showLevels, setShowLevels] = useState(false)
-  const week = weekGoals(data, today)
+  const { queue, streak, mk } = useToday()
+  const [sheet, setSheet] = useState(false)
+  const [next, ...others] = queue
   const maintain = songsToMaintain(v1.songs, v1.sessions, today)
 
-  const streak = guitarStreak(data.guitarSessions, today)
-  const levels = allLevels(data)
-  const r = streak.remainingMin
-  const done = r === 0
-  const best = streak.days === 0 ? bestGuitarStreak(data.guitarSessions) : 0
-  const subtitle = done
-    ? "Série tenue aujourd'hui"
-    : streak.days > 0
-      ? `Encore ${r} min pour tenir la série`
-      : best > 0
-        ? `Record : ${plural(best, 'jour', 'jours')} · ${r} min aujourd'hui pour repartir`
-        : `${r} min aujourd'hui pour lancer ta série`
-
-  // La seule prochaine action : une séance en cours d'abord, puis la guitare du jour, puis le sport.
-  const live = loadLive()
-  const action = nextAction({
-    data,
-    today,
-    guitarLiveMin: runningPracticeMinutes(),
-    sportLiveProgram: (live && data.programs.find((p) => p.id === live.programId)?.name) ?? null,
-  })
-  // Seul « done » n'a pas de destination.
-  const to = action.kind === 'done' ? undefined : action.to
-  const look = action.kind === 'done' ? null : ACTION_LOOK[action.kind]
-  const active = (domain: Domain) => data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
-  // Défis bloquants en premier.
-  const challenges = (['guitar', 'sport'] as const)
-    .flatMap((d) => {
-      const c = active(d)
-      return c ? [{ c, d }] : []
-    })
-    .sort((a, b) => Number(levels[b.d].blocked) - Number(levels[a.d].blocked))
-
-  const ring = (
-    <button
-      type="button"
-      aria-label={`Niveau ${levels.global.level}, voir la progression`}
-      className="hit tap-scale rounded-full"
-      onClick={() => setShowLevels(true)}
-    >
-      <ProgressRing value={levels.global.xpInLevel} max={levels.global.perLevel} size={36} stroke={4}>
-        <span className="t-footnote font-bold tabular-nums">{levels.global.level}</span>
-      </ProgressRing>
-    </button>
-  )
+  const goals = weekGoals(data, today)
+  const minutes = guitarWeek(data.guitarSessions, today).days.reduce((n, d) => n + d.minutes, 0)
+  const remaining = sportWeek(data.sportSessions, today).remaining
+  const planWeek = currentWeek(mk?.plan)
+  const go = (v: SessionView) => navigate(v.action.to!, { state: v.action.state })
 
   return (
-    <Screen title="Aujourd'hui" trailing={ring}>
+    <Screen title="Aujourd'hui" overline={longDate(today)} pill={streak.days > 0 && <Pill>{plural(streak.days, 'jour', 'jours')} d'affilée</Pill>}>
       <div className="flex flex-col gap-6">
         <StorageNotices />
-        <section className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="week-title">
-          <h2 id="week-title" className="t-headline">
-            Cette semaine
-          </h2>
-          {(['guitar', 'sport'] as const).map((d) => (
-            <div key={d} className="flex flex-col gap-1.5">
-              <p className="t-subhead flex items-center gap-1.5">
-                <Icon name={d} className={d === 'guitar' ? 'text-guitar' : 'text-sport'} />
-                <span className="flex-1">{d === 'guitar' ? 'Guitare · séances de 30 min' : 'Sport · séances'}</span>
-                <span className="font-semibold tabular-nums">
-                  {week[d].done}/{week[d].goal}
-                </span>
-              </p>
-              <Gauge
-                value={week[d].done}
-                max={week[d].goal}
-                color={d}
-                label={d === 'guitar' ? 'Séances de guitare cette semaine' : 'Séances de sport cette semaine'}
-                className="h-1.5"
-              />
-            </div>
-          ))}
-        </section>
-        <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-label="Série">
-          <div className="flex items-center gap-4">
-            {/* La série est celle de la guitare : son icône, dans sa couleur. */}
-            <span
-              className="animate-pop flex size-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-guitar/25 to-guitar/5 text-guitar [animation-delay:250ms]"
-              aria-hidden
-            >
-              <Icon name="guitar" size="2.125em" />
-            </span>
-            <div className="min-w-0">
-              <p className="t-title1 tabular-nums">{streak.days === 0 ? 'Nouvelle série' : plural(streak.days, 'jour', 'jours')}</p>
-              <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>
-                {subtitle}
-                {done && <Icon name="check" className="ml-1" />}
-              </p>
-            </div>
-          </div>
-          <Gauge value={streak.todayMin} max={streak.targetMin} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
-          {to && look ? (
-            <Button tone={look.tone} className="w-full" onClick={() => navigate(to, { state: action.state })}>
-              <Icon name={look.icon} />
-              {action.label}
+
+        {next ? (
+          <NextHero view={next} />
+        ) : (
+          <Hero tone="accent" overline="Journée bouclée" titleId="next-title" title="Tout est fait" subtitle="Guitare et sport sont à jour. À demain !">
+            <Button variant="secondary" tone="guitar" className="w-full" onClick={() => navigate('/jouer', { state: { autostart: true } })}>
+              <Icon name="play" />
+              Rejouer avec le chrono
             </Button>
-          ) : (
-            <p className="t-subhead flex items-center justify-center gap-1 font-semibold text-accent">
-              <Icon name="check" />
-              {action.label} · à demain
-            </p>
-          )}
-        </section>
-
-        <section className="flex flex-col gap-4" aria-labelledby="today-title">
-          <h2 id="today-title" className="sr-only">
-            Aujourd'hui
-          </h2>
-          <GuitarCard />
-          <SportCard />
-          <MarathonCard />
-        </section>
-
-        {maintain.length > 0 && (
-          <Group header="À entretenir" footer="Pas joués depuis 14 jours ou plus. Touche un morceau pour le noter dans un log." labelledBy="maintain-title">
-            {maintain.map(({ song, since }) => (
-              <Row
-                key={song.id}
-                title={song.title}
-                subtitle={since === null ? 'Pas encore joué depuis sa maîtrise' : `Pas joué depuis ${since} jours`}
-                onClick={() => navigate('/log/guitare', { state: { songTitle: song.title } })}
-              />
-            ))}
-          </Group>
+          </Hero>
         )}
 
-        {challenges.length > 0 && (
-          <section className="flex flex-col" aria-labelledby="challenges-title">
-            <h2 id="challenges-title" className={`${SECTION_TITLE} flex items-center gap-1.5`}>
-              <Icon name="target" />
-              Défis en cours
-            </h2>
-            <div className="rows overflow-hidden rounded-2xl bg-surface shadow-card">
-              {challenges.map(({ c, d }) => (
-                <ChallengeCard key={c.id} challenge={c} level={levels[d]} />
+        {others.length + maintain.length > 0 && (
+          <section aria-labelledby="also-title">
+            <SectionHeader id="also-title" title="Aussi aujourd'hui" action={`${others.length + maintain.length} à faire`} />
+            <div className="flex flex-col gap-2.5">
+              {others.map((v) => (
+                <TileRow key={v.action.kind} tone={v.tone} title={`${UNIVERSE[v.tone]} · ${v.title}`} subtitle={v.subtitle} onClick={() => go(v)} />
+              ))}
+              {maintain.map(({ song, since }) => (
+                <TileRow
+                  key={song.id}
+                  tone="guitar"
+                  icon="song"
+                  title={`À entretenir · ${song.title}`}
+                  subtitle={since === null ? 'Pas encore joué depuis sa maîtrise' : `Pas joué depuis ${since} jours`}
+                  onClick={() => navigate('/log/guitare', { state: { songTitle: song.title } })}
+                />
               ))}
             </div>
           </section>
         )}
 
-        {lastLog(data) && (
-          <Link to="/log/corriger" className="hit tap t-subhead self-center py-2 text-accent">
-            Corriger le dernier log
-          </Link>
-        )}
-      </div>
+        <section aria-labelledby="week-title">
+          <SectionHeader
+            id="week-title"
+            title="Cette semaine"
+            action={
+              <Link to="/semaine" className="hit tap">
+                Voir la semaine
+              </Link>
+            }
+          />
+          <div className="grid grid-cols-2 gap-2.5">
+            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances">
+              {minutes} min jouées
+            </GoalTile>
+            <GoalTile tone="sport" done={goals.sport.done} goal={goals.sport.goal} unit="séances">
+              {planWeek ? (
+                planWeekProgress(planWeek, v1.sessions).text
+              ) : data.programs.length === 0 ? (
+                <Link to="/bibliotheque?vue=modeles" className="hit tap font-semibold text-sport">
+                  Choisir ton programme
+                </Link>
+              ) : remaining === 0 ? (
+                'Semaine validée'
+              ) : (
+                `Encore ${plural(remaining, 'séance', 'séances')}`
+              )}
+            </GoalTile>
+          </div>
+        </section>
 
-      {showLevels && <LevelSheet onClose={() => setShowLevels(false)} />}
+        <div className="flex flex-col items-center gap-1">
+          <button type="button" className="hit tap t-subhead py-2 text-accent" onClick={() => setSheet(true)}>
+            Autre séance ou séance déjà faite
+          </button>
+          {lastLog(data) && (
+            <Link to="/log/corriger" className="hit tap t-subhead py-2 text-muted">
+              Corriger le dernier log
+            </Link>
+          )}
+        </div>
+      </div>
+      {sheet && <StartSheet onClose={() => setSheet(false)} />}
     </Screen>
   )
 }

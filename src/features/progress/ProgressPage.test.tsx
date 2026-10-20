@@ -36,8 +36,9 @@ describe('ProgressPage', () => {
     renderWithData(<ProgressPage />, { today, data: { guitarSessions: [g('2026-06-01', 600), g('2026-10-10', 120)] } })
     expect(screen.getByText('12 h')).toBeInTheDocument()
     expect(screen.getByTestId('delta')).toHaveTextContent('+2 h sur 90 j')
-    await userEvent.click(screen.getByRole('button', { name: '365 j' }))
-    expect(screen.getByTestId('delta')).toHaveTextContent('+12 h sur 365 j')
+    await userEvent.click(screen.getByRole('button', { name: '1 an' }))
+    expect(screen.getByTestId('delta')).toHaveTextContent('+12 h sur 1 an')
+    expect(screen.getByText('La dernière année')).toBeInTheDocument()
     expect(screen.getByText('10 h de guitare')).toBeInTheDocument()
   })
 

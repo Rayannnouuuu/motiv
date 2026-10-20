@@ -57,3 +57,13 @@ export function daysBetween(from: Day, to: Day): number {
 
 /** « 12 oct. » */
 export const shortDate = (day: Day) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+
+/** « mardi 20 octobre » */
+export const longDate = (day: Day) =>
+  new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })
+
+/** Numéro de semaine ISO (la semaine 1 contient le premier jeudi de l'année). */
+export function isoWeek(day: Day): number {
+  const thursday = addDays(weekStart(day), 3)
+  return Math.floor(daysBetween(`${thursday.slice(0, 4)}-01-01`, thursday) / 7) + 1
+}

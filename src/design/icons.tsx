@@ -9,9 +9,14 @@ const PATHS = {
   // Onglets
   today: (
     <>
-      <rect x="3.5" y="5" width="17" height="15.5" rx="3" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2M12 19.5v2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M2.5 12h2M19.5 12h2M6.7 17.3l-1.4 1.4M18.7 5.3l-1.4 1.4" />
+    </>
+  ),
+  week: (
+    <>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
       <path d="M3.5 10h17M8 3v4M16 3v4" />
-      <path d="M11 14.5h2v2h-2z" />
     </>
   ),
   progress: (
@@ -33,23 +38,15 @@ const PATHS = {
       <path d="M4.5 20.5c.8-4 3.8-6.3 7.5-6.3s6.7 2.3 7.5 6.3" />
     </>
   ),
-  // Disciplines
+  // Disciplines : la note pour la guitare, le pouls pour le sport (course, renfo et marathon réunis)
   guitar: (
     <>
-      <path d="M13.2 10.8 19 5" />
-      <path d="m18 3.5 2.5 2.5M19.7 2.6l1.7 1.7" />
-      <path d="M11.4 8.9a3.4 3.4 0 0 0-4.6.3 2.1 2.1 0 0 1-1.3.7 3.5 3.5 0 0 0-2.2 1.1 4.6 4.6 0 0 0 .2 6.4l1.1 1.1a4.6 4.6 0 0 0 6.4.2 3.5 3.5 0 0 0 1.1-2.2 2.1 2.1 0 0 1 .7-1.3 3.4 3.4 0 0 0 .3-4.6" />
-      <path d="m7.5 13.5 3 3" />
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
     </>
   ),
-  sport: (
-    <>
-      <path d="M8 12h8" />
-      <rect x="4.5" y="7" width="3.5" height="10" rx="1.2" />
-      <rect x="16" y="7" width="3.5" height="10" rx="1.2" />
-      <path d="M2.5 10v4M21.5 10v4" />
-    </>
-  ),
+  sport: <path d="M21.5 12h-4l-3 8.5-5-17-3 8.5h-4" />,
   // Contenu
   target: (
     <>

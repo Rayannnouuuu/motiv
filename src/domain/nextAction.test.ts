@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { g, program, ss } from '../test/factories'
-import { nextAction } from './nextAction'
+import { nextAction, todayQueue } from './nextAction'
 import type { AppData } from './types'
 
 const today = '2026-10-15' // jeudi
@@ -50,5 +50,25 @@ describe('nextAction', () => {
 
   test('guitare faite, aucun programme : journée bouclée', () => {
     expect(run(base({ guitarSessions: [g(today, 60)], programs: [] })).kind).toBe('done')
+  })
+})
+
+describe('todayQueue', () => {
+  const planned = { label: 'Footing facile', to: '/course', state: { day: today, kind: 'easy' } }
+
+  test('guitare à jouer puis sortie du plan : les deux, guitare d’abord', () => {
+    const q = todayQueue({ data: base(), today, guitarLiveMin: null, sportLiveProgram: null, planned })
+    expect(q.map((a) => a.kind)).toEqual(['playGuitar', 'startPlanned'])
+    expect(q[1]).toEqual({ kind: 'startPlanned', ...planned })
+  })
+
+  test('sortie du plan : passe avant le programme, même si du sport est déjà fait aujourd’hui', () => {
+    const data = base({ guitarSessions: [g(today, 60)], sportSessions: [ss([], today, 'haut')] })
+    expect(nextAction({ data, today, guitarLiveMin: null, sportLiveProgram: null, planned }).kind).toBe('startPlanned')
+  })
+
+  test('séance de sport en cours : pas d’autre séance de sport proposée', () => {
+    const q = todayQueue({ data: base(), today, guitarLiveMin: null, sportLiveProgram: 'Bas', planned })
+    expect(q.map((a) => a.kind)).toEqual(['resumeSport', 'playGuitar'])
   })
 })

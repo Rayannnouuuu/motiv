@@ -2,18 +2,32 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../design/icons'
 
+/** Titre de section (REFONTE §7) : titre à gauche, un lien ou un repère à droite, 12 px avant le contenu. */
+export function SectionHeader({ id, title, action }: { id?: string; title: ReactNode; action?: ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 pb-3">
+      <h2 id={id} className="t-headline">
+        {title}
+      </h2>
+      {action && <div className="t-footnote shrink-0 font-semibold text-muted">{action}</div>}
+    </div>
+  )
+}
+
 /**
- * Liste groupée façon Réglages iOS : un en-tête discret, des lignes dans une carte arrondie séparées
- * par un filet qui commence après l'icône, un pied de texte explicatif.
+ * Liste groupée : le titre de section, des lignes dans une carte bordée séparées par un filet qui commence
+ * après l'icône, un pied de texte explicatif.
  */
 export function Group({
   header,
+  action,
   footer,
   children,
   className = '',
   labelledBy,
 }: {
   header?: ReactNode
+  action?: ReactNode
   footer?: ReactNode
   children: ReactNode
   className?: string
@@ -21,13 +35,9 @@ export function Group({
 }) {
   return (
     <section className={`flex flex-col ${className}`} aria-labelledby={labelledBy}>
-      {header && (
-        <h2 id={labelledBy} className="t-footnote px-4 pb-1.5 text-muted uppercase">
-          {header}
-        </h2>
-      )}
-      <div className="rows overflow-hidden rounded-md bg-surface">{children}</div>
-      {footer && <p className="t-footnote px-4 pt-1.5 text-muted">{footer}</p>}
+      {header && <SectionHeader id={labelledBy} title={header} action={action} />}
+      <div className="rows overflow-hidden rounded-xl border border-line bg-surface">{children}</div>
+      {footer && <p className="t-footnote px-1 pt-2 text-muted">{footer}</p>}
     </section>
   )
 }

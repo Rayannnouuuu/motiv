@@ -37,6 +37,7 @@ const METRICS: { id: Metric; label: string; domain: Domain }[] = [
   { id: 'measures', label: 'Mensurations', domain: 'sport' },
 ]
 const PERIODS: Period[] = [30, 90, 365]
+const PERIOD_LABEL = (p: Period) => (p === 365 ? '1 an' : `${p} j`)
 const MEASURES = BODY_FIELDS.filter((f) => f.field !== 'weightKg')
 const HOURS_MILESTONE = 10
 
@@ -183,9 +184,16 @@ export function ProgressPage() {
   const domain = METRICS.find((m) => m.id === metric)!.domain
 
   return (
-    <Screen title="Progrès">
+    <Screen title="Progrès" overline={period === 365 ? 'La dernière année' : `${period} derniers jours`}>
       <div className="flex flex-col gap-5">
-        <div role="tablist" aria-label="Métrique" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+        <Segmented
+          label="Période"
+          options={PERIODS.map((p) => ({ value: String(p), label: PERIOD_LABEL(p) }))}
+          value={String(period)}
+          onChange={(v) => setPeriod(Number(v) as Period)}
+        />
+
+        <div role="tablist" aria-label="Métrique" className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none]">
           {METRICS.map((m) => (
             <button
               key={m.id}
@@ -194,7 +202,7 @@ export function ProgressPage() {
               aria-selected={metric === m.id}
               onClick={() => setMetric(m.id)}
               className={`hit tap-scale t-subhead min-h-9 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
-                metric === m.id ? 'bg-ink text-bg' : 'bg-surface text-ink shadow-card'
+                metric === m.id ? 'bg-ink text-bg' : 'border border-line bg-surface text-ink shadow-card'
               }`}
             >
               {m.label}
@@ -202,7 +210,7 @@ export function ProgressPage() {
           ))}
         </div>
 
-        <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-label="Courbe">
+        <section className="flex flex-col gap-4 rounded-2xl border border-line bg-surface px-5 py-4.5 shadow-card" aria-label="Courbe">
           {options.length > 0 && (
             <label className="t-subhead flex items-center justify-between gap-3">
               <span className="text-muted">{metric === 'measures' ? 'Mesure' : 'Exo'}</span>
@@ -232,19 +240,12 @@ export function ProgressPage() {
             {win.delta !== null && win.points.length > 1 && (
               <p className={`t-subhead font-semibold ${win.delta > 0 ? TONE.text[domain] : 'text-muted'}`} data-testid="delta">
                 {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
-                {formatDelta(Math.abs(win.delta))} sur {period} j
+                {formatDelta(Math.abs(win.delta))} sur {PERIOD_LABEL(period)}
               </p>
             )}
           </div>
 
           <LineChart points={win.points} format={view.format} highlights={view.records} tone={domain} />
-
-          <Segmented
-            label="Période"
-            options={PERIODS.map((p) => ({ value: String(p), label: `${p} j` }))}
-            value={String(period)}
-            onChange={(v) => setPeriod(Number(v) as Period)}
-          />
 
           {view.footnote && <p className="t-footnote text-muted">{view.footnote}</p>}
         </section>

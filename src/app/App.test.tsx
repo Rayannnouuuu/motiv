@@ -1,32 +1,47 @@
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test } from 'vitest'
+import { g } from '../test/factories'
 import { icon } from '../test/icon'
 import { renderWithData } from '../test/renderWithData'
 import { AppRoutes } from './App'
 
-test('la navigation basse a 4 onglets : Aujourd’hui, Progrès, Bibliothèque, Moi', () => {
+const TODAY = '2026-10-15'
+
+test('la navigation basse : 4 onglets, « Commencer » au centre', () => {
   renderWithData(<AppRoutes />)
-  const links = within(screen.getByRole('navigation')).getAllByRole('link')
-  expect(links.map((l) => [l.textContent, l.getAttribute('href')])).toEqual([
+  const nav = screen.getByRole('navigation', { name: 'Navigation principale' })
+  expect(
+    within(nav)
+      .getAllByRole('link')
+      .map((l) => [l.textContent, l.getAttribute('href')]),
+  ).toEqual([
     ["Aujourd'hui", '/'],
+    ['Semaine', '/semaine'],
     ['Progrès', '/progres'],
-    ['Bibliothèque', '/bibliotheque'],
     ['Moi', '/moi'],
   ])
+  expect(within(nav).getAllByRole('listitem')[2]).toContainElement(within(nav).getByRole('button', { name: 'Commencer la prochaine séance' }))
 })
 
 test.each([
   ['/morceaux', 'Bibliothèque'],
-  ['/reglages', 'Moi'],
+  ['/reglages', 'Réglages'],
 ])('ancienne adresse %s : redirigée vers %s', async (route, title) => {
   renderWithData(<AppRoutes />, { route })
   expect(await screen.findByRole('heading', { name: title, level: 1 })).toBeInTheDocument()
 })
 
-test('« Commencer » sur les écrans à onglets : guitare ou sport en deux taps', async () => {
+test('« Commencer » au centre : lance la prochaine séance prévue, depuis n’importe quel onglet', async () => {
   renderWithData(<AppRoutes />, { route: '/progres' })
-  await userEvent.click(screen.getByRole('button', { name: 'Commencer' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Commencer la prochaine séance' }))
+  // Compte neuf : la guitare du jour, chrono lancé.
+  expect(await screen.findByRole('button', { name: 'Pause' })).toBeInTheDocument()
+})
+
+test('« Commencer » au centre, journée bouclée : toutes les façons de commencer', async () => {
+  renderWithData(<AppRoutes />, { route: '/progres', data: { guitarSessions: [g(TODAY, 60)] } })
+  await userEvent.click(screen.getByRole('button', { name: 'Commencer une séance' }))
   const sheet = await screen.findByRole('dialog', { name: 'Commencer' })
   expect(within(sheet).getByRole('button', { name: 'Jouer maintenant' })).toBeInTheDocument()
   await userEvent.click(within(sheet).getByRole('button', { name: 'Choisir une séance' }))

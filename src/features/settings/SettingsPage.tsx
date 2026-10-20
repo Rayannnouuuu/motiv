@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Icon } from '../../design/icons'
 import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
@@ -33,13 +35,18 @@ function ThemePicker() {
   )
 }
 
+/** Moi › Sauvegarde et réglages. */
 export function SettingsPage() {
+  const back = (
+    <Link to="/moi" className="hit tap t-body flex items-center text-accent">
+      <Icon name="chevron" size="1.4em" className="rotate-180" />
+      Moi
+    </Link>
+  )
   return (
-    <Screen title="Moi">
-      <div className="flex flex-col gap-8 pb-4">
-        <Group footer="Un plan construit à rebours depuis ta date de course, recalculé chaque lundi.">
-          <Row title="Marathon" to="/marathon" />
-        </Group>
+    <Screen title="Réglages" overline="Moi" leading={back}>
+      <div className="flex flex-col gap-6 pb-4">
+        <BackupSection />
         <ThemePicker />
         <BackupSection />
         <Group>

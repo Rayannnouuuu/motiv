@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
-import { BottomNav } from '../ui/BottomNav'
-import { StartButton } from '../features/start/StartButton'
+import { BottomNav } from './BottomNav'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
 import { TodayPage } from '../features/today/TodayPage'
 
@@ -11,6 +10,7 @@ const LogGuitarPage = page(() => import('../features/log-guitar/LogGuitarPage'),
 const LogSportPage = page(() => import('../features/log-sport/LogSportPage'), 'LogSportPage')
 const ProgressPage = page(() => import('../features/progress/ProgressPage'), 'ProgressPage')
 const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'SettingsPage')
+const MePage = page(() => import('../features/me/MePage'), 'MePage')
 const LibraryPage = page(() => import('../features/library/LibraryPage'), 'LibraryPage')
 const EditLogPage = page(() => import('../features/edit-log/EditLogPage'), 'EditLogPage')
 const ExercisePage = page(() => import('../features/exercise/ExercisePage'), 'ExercisePage')
@@ -20,15 +20,15 @@ const XpResultPage = page(() => import('../features/xp/XpResultPage'), 'XpResult
 const MarathonPage = page(() => import('../features/marathon/MarathonPage'), 'MarathonPage')
 const MarathonForm = page(() => import('../features/marathon/MarathonForm'), 'MarathonForm')
 const RunPage = page(() => import('../features/marathon/RunPage'), 'RunPage')
+const WeekPage = page(() => import('../features/week/WeekPage'), 'WeekPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
     <>
-      {/* La place du bouton « Commencer » et de la barre d'onglets en fin de page. */}
-      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(9rem+env(safe-area-inset-bottom))]">
+      {/* Marge de 20 px ; la place de la barre d'onglets en fin de page. */}
+      <main className="mx-auto max-w-md px-5 pt-[env(safe-area-inset-top)] pb-[calc(7rem+env(safe-area-inset-bottom))]">
         <Suspense fallback={null}>{children}</Suspense>
       </main>
-      <StartButton />
       <BottomNav />
     </>
   )
@@ -156,6 +156,14 @@ export function AppRoutes() {
           }
         />
         <Route
+          path="/semaine"
+          element={
+            <Shell>
+              <WeekPage />
+            </Shell>
+          }
+        />
+        <Route
           path="/progres"
           element={
             <Shell>
@@ -175,13 +183,21 @@ export function AppRoutes() {
           path="/moi"
           element={
             <Shell>
+              <MePage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/moi/reglages"
+          element={
+            <Shell>
               <SettingsPage />
             </Shell>
           }
         />
         {/* Anciennes adresses (favoris, anciens rappels). */}
         <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
-        <Route path="/reglages" element={<Navigate to="/moi" replace />} />
+        <Route path="/reglages" element={<Navigate to="/moi/reglages" replace />} />
         <Route
           path="*"
           element={

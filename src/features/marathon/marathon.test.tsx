@@ -7,7 +7,8 @@ import { generatePlan } from '../../domain/marathon/plan'
 import type { MarathonProfile } from '../../domain/marathon/profile'
 import { EMPTY_PROFILE } from '../../domain/model'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
-import { MarathonCard } from '../today/MarathonCard'
+import { TodayPage } from '../today/TodayPage'
+import { WeekPage } from '../week/WeekPage'
 import { beep } from '../log-sport/beep'
 import { MarathonForm } from './MarathonForm'
 import { MarathonPage } from './MarathonPage'
@@ -132,10 +133,21 @@ describe('plan', () => {
     expect(actions.setSickWeek).toHaveBeenCalledWith('2026-10-19', true)
   })
 
-  test('Aujourd’hui : J-N et la séance du jour, lancée d’un toucher', async () => {
-    render(<MarathonCard />, '/', '/', base)
-    expect(screen.getByText('J-173')).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Commencer : Footing facile' }))
+  test('Aujourd’hui : la sortie du plan après la guitare, dans « Aussi aujourd’hui », lancée d’un toucher', async () => {
+    render(<TodayPage />, '/', '/', base)
+    expect(within(screen.getByRole('region', { name: /Technique et répertoire/ })).getByText('Prochaine séance · Guitare')).toBeInTheDocument()
+    const also = screen.getByRole('region', { name: "Aussi aujourd'hui" })
+    await userEvent.click(within(also).getByRole('button', { name: /^Sport · Footing facile/ }))
+    expect(screen.getByText(`at /course {"day":"${TODAY}","kind":"easy"}`)).toBeInTheDocument()
+  })
+
+  test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {
+    render(<WeekPage />, '/semaine', '/semaine', base)
+    const hero = screen.getByRole('region', { name: /^Base · semaine 1 sur/ })
+    expect(within(hero).getByText('J-173')).toBeInTheDocument()
+    expect(within(hero).getByRole('img', { name: 'Phase en cours : Base' })).toBeInTheDocument()
+    const today = screen.getByRole('listitem', { current: 'date' })
+    await userEvent.click(within(today).getByRole('button', { name: /^Footing facile/ }))
     expect(screen.getByText(`at /course {"day":"${TODAY}","kind":"easy"}`)).toBeInTheDocument()
   })
 })
