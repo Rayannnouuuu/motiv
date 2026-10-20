@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 en cours** sur `refonte/lot-1`. Tu as exporté tes données le 19 oct. : la migration et le nouveau stockage peuvent avancer (règle 2).
+**Lot 1 en cours** sur `refonte/lot-1`. Le stockage local est fait et vérifié sur la copie réelle. Restent : design system, navigation à 4 onglets, captures, version d'essai, démo.
 
 ## Fait
 
@@ -21,6 +21,18 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - 19 oct. 2026 : export fait (« C'est bon »). Une copie de test au format 0 est relue depuis Supabase, en lecture seule. Elle reste dans le dossier temporaire de session, jamais dans le dépôt.
 - 20 oct. 2026 : **nouveau lot 3, Plan marathon**, ajouté au cahier des charges (`REFONTE.md` §6). Les lots suivants sont renumérotés : 4 = Progrès et rythme, 5 = Preuves et anti-stagnation. Au §9, les push sont repoussés « après le lot 5 » (même sens qu'avant : après le dernier lot) et le plan marathon devient la seule exception à « pas de programmes générés ».
 
+- 20 oct. 2026 : lot 1, contenus.
+  - Base guitare normalisée : `metric`, `startBpm` et `source` ajoutés, ids inchangés, les 20 « doublons » retitrés.
+  - Bibliothèque sport de 34 mouvements, avec `findMovement` qui reconnaît un nom exact ou un alias.
+- 20 oct. 2026 : lot 1, stockage. Le détail est dans `docs/lots/LOT-1-DONNEES.md`.
+  - Dexie local, une base par adresse.
+  - Modèle v1 unifié, avec une migration format 0 → 1 pure et testée.
+  - Export format 1, import avec aperçu et annulation, premier lancement (reprise des données laissées par l'ancienne version).
+  - Rappel de sauvegarde et bandeau d'installation.
+  - Retirés de l'appli : connexion, file d'envoi, instantané, réglages push, TanStack Query, supabase-js.
+  - Vérifié sur la copie réelle : aller-retour exact, mêmes niveaux, même série, même plan du jour.
+  - 453 tests verts.
+
 ## Décidé (détails, option la plus simple)
 
 - Les ids des exos guitare ne changent pas (`scales-3`…), pour garder l'historique valide.
@@ -29,6 +41,10 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - Graphiques : on garde `LineChart` maison (0 dépendance), et on ajoute des barres du même style.
 - Lint : on garde oxlint et on ajoute Prettier, au lieu de passer à ESLint.
 - Les exos guitare en double deviennent des variantes : ils sont renommés, pas supprimés.
+- Stockage : l'XP reste stockée jusqu'au lot 4 (plancher de niveau). Les défis restent jusqu'au lot 4. Les écrans du lot 1 lisent une projection vers l'ancienne forme.
+- Mouvements sport : nom exact ou alias uniquement, jamais de rapprochement approximatif. Un nom inconnu devient un mouvement à toi.
+- Versions de dépendances : figées, et publiées depuis au moins 2 semaines (fake-indexeddb 6.2.5 plutôt que 6.2.6).
+- `supabase/` reste dans le dépôt jusqu'à la bascule : l'appli en ligne s'en sert encore. Sa suppression se fera avec ton accord.
 - Lot 3 marathon : le sport couvre maintenant la course à pied en plus de la musculation. Dès le lot 1, le modèle de données prévoit la distance, la durée et la douleur (0-10) d'une sortie, pour ne pas avoir à migrer plus tard.
 
 ## Réponses aux questions de l'audit (validées le 19 oct.)
@@ -46,8 +62,11 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 - [x] Lot 1, étape 0 : export JSON dans l'appli actuelle.
 - [x] Lot 1 : tu exportes tes données (fait le 19 oct.).
-- [ ] Lot 1 : design system et navigation, base d'exos guitare normalisée, bibliothèque sport (rien de tout ça ne touche au stockage).
-- [ ] Lot 1 : stockage Dexie versionné, import avec aperçu (le format 0 est migré), export au format 1, migration testée sur une copie.
+- [x] Lot 1 : base d'exos guitare normalisée, bibliothèque sport.
+- [x] Lot 1 : stockage Dexie versionné, import avec aperçu (format 0 migré), export format 1, migration testée sur une copie.
+- [ ] Lot 1 : design system (en cours sur `refonte/lot1-design`), puis navigation à 4 onglets.
+- [ ] Lot 1 : Prettier, captures 390 px sombre et clair, version d'essai `/motiv/essai/`, démo.
+- [ ] Réponse attendue : 183 cm dans « Taille » le 13 oct., c'était ta hauteur ?
 - [ ] Lot 2 — La séance unifiée
 - [ ] Lot 3 — Plan marathon
 - [ ] Lot 4 — Progrès et rythme
