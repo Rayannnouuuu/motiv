@@ -16,6 +16,7 @@ import { runningPracticeMinutes } from '../practice/practiceSession'
 import { ChallengeCard } from './ChallengeCard'
 import { GuitarCard } from './GuitarCard'
 import { SportCard } from './SportCard'
+import { StorageNotices } from '../backup/StorageNotices'
 
 const SECTION_TITLE = 't-footnote px-4 pb-1.5 text-muted uppercase'
 
@@ -74,6 +75,7 @@ export function TodayPage() {
   return (
     <Screen title="Aujourd'hui" trailing={ring}>
       <div className="flex flex-col gap-6">
+        <StorageNotices />
         <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Série">
           <div className="flex items-center gap-4">
             <span
