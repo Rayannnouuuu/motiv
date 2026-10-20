@@ -1,6 +1,6 @@
 /**
- * Couleur d'accent d'un élément, selon ce qu'il concerne : `guitar` (violet) et `sport` (vert) pour une
- * discipline, `accent` (orange) seulement pour le global (actions communes, onglet choisi).
+ * Couleur d'accent d'un élément, selon ce qu'il concerne : `guitar` (ambre) et `sport` (bleu) pour une
+ * discipline, `accent` (neutre, couleur du texte) seulement pour le global (actions communes, onglet choisi).
  * Une discipline (`Domain`) s'utilise telle quelle comme ton.
  */
 export type Tone = 'accent' | 'guitar' | 'sport'

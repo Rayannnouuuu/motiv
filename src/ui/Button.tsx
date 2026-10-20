@@ -10,7 +10,7 @@ const SHAPE: Record<Variant, string> = {
   ghost: 'tap min-h-11',
 }
 
-/** Couleur selon ce que le bouton concerne (orange par défaut : action globale), ou rouge pour détruire. */
+/** Couleur selon ce que le bouton concerne (neutre par défaut : action globale), ou rouge pour détruire. */
 const COLOR: Record<Variant, Record<Tone | 'danger', string>> = {
   primary: { ...TONE.solid, danger: 'bg-danger text-on-danger' },
   secondary: { ...TONE.tint, danger: 'bg-danger/12 text-danger' },

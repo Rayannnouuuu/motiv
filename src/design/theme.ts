@@ -5,8 +5,8 @@ const KEY = 'motiv.theme.v1'
 export const DEFAULT_THEME: Theme = 'dark'
 
 // Fond de l'appli (--bg dans tokens.css), repris par la barre d'état et le manifeste. Mêmes valeurs dans index.html.
-const LIGHT_BAR = '#f2f2f7'
-const DARK_BAR = '#000000'
+const LIGHT_BAR = '#f4f3ef'
+const DARK_BAR = '#0f1012'
 
 export function getTheme(): Theme {
   try {
@@ -17,7 +17,7 @@ export function getTheme(): Theme {
   }
 }
 
-/** Couleur du meta `theme-color` pour ce thème : noir en sombre (ou en auto si le téléphone est en sombre). */
+/** Couleur du meta `theme-color` pour ce thème : le fond sombre (ou en auto si le téléphone est en sombre). */
 export function themeColor(t: Theme, prefersDark: boolean): string {
   return t === 'dark' || (t === 'auto' && prefersDark) ? DARK_BAR : LIGHT_BAR
 }

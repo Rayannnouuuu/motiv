@@ -11,18 +11,18 @@ afterEach(() => {
 
 describe('themeColor', () => {
   test('clair : gris clair, même si le téléphone est en sombre', () => {
-    expect(themeColor('light', false)).toBe('#f2f2f7')
-    expect(themeColor('light', true)).toBe('#f2f2f7')
+    expect(themeColor('light', false)).toBe('#f4f3ef')
+    expect(themeColor('light', true)).toBe('#f4f3ef')
   })
 
   test('sombre : noir, même si le téléphone est en clair', () => {
-    expect(themeColor('dark', false)).toBe('#000000')
-    expect(themeColor('dark', true)).toBe('#000000')
+    expect(themeColor('dark', false)).toBe('#0f1012')
+    expect(themeColor('dark', true)).toBe('#0f1012')
   })
 
   test('auto : suit le téléphone', () => {
-    expect(themeColor('auto', false)).toBe('#f2f2f7')
-    expect(themeColor('auto', true)).toBe('#000000')
+    expect(themeColor('auto', false)).toBe('#f4f3ef')
+    expect(themeColor('auto', true)).toBe('#0f1012')
   })
 })
 
@@ -41,29 +41,29 @@ describe('setTheme', () => {
   test('crée le meta theme-color s’il manque, puis le met à jour', () => {
     expect(meta()).toBeNull()
     setTheme('dark')
-    expect(meta()?.content).toBe('#000000')
+    expect(meta()?.content).toBe('#0f1012')
     setTheme('light')
     expect(document.querySelectorAll('meta[name="theme-color"]')).toHaveLength(1)
-    expect(meta()?.content).toBe('#f2f2f7')
+    expect(meta()?.content).toBe('#f4f3ef')
   })
 
   test('met à jour le meta existant (celui d’index.html)', () => {
     const m = document.createElement('meta')
     m.name = 'theme-color'
-    m.content = '#f2f2f7'
+    m.content = '#f4f3ef'
     document.head.appendChild(m)
     setTheme('dark')
     expect(meta()).toBe(m)
-    expect(m.content).toBe('#000000')
+    expect(m.content).toBe('#0f1012')
   })
 
   test('auto : lit prefers-color-scheme', () => {
     vi.stubGlobal('matchMedia', (q: string) => ({ matches: q === '(prefers-color-scheme: dark)' }))
     setTheme('auto')
-    expect(meta()?.content).toBe('#000000')
+    expect(meta()?.content).toBe('#0f1012')
     vi.stubGlobal('matchMedia', () => ({ matches: false }))
     setTheme('auto')
-    expect(meta()?.content).toBe('#f2f2f7')
+    expect(meta()?.content).toBe('#f4f3ef')
   })
 
   test('applique data-theme et mémorise le choix', () => {

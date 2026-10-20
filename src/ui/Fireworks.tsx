@@ -53,7 +53,7 @@ export function Fireworks({ size, onDone }: { size: FireworksSize; onDone?: () =
     ctx.scale(dpr, dpr)
 
     const css = getComputedStyle(document.documentElement)
-    // Les couleurs du design system : l'orange, les deux disciplines et l'or des records.
+    // Les couleurs du design system : le neutre, les deux disciplines et l'or des records.
     const colors = ['--accent', '--guitar', '--sport', '--record'].map((v) => css.getPropertyValue(v).trim() || '#ea580c')
 
     const particles: Particle[] = []
