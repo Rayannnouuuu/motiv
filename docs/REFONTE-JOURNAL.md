@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 en ligne sur `/motiv/`. Lot 2 validé (« Ok », 20 oct.) : sa mise en ligne sur `/motiv/` attend ton feu vert explicite. Lot 3 terminé sur `refonte/lot-3`, en attente de validation** (version d'essai sur `/motiv/essai/`).
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Prochain : lot 4 — Progrès et rythme.
 
 ## Fait
 
@@ -81,6 +81,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Écrans : Moi › Marathon (questionnaire, plan), carte dans Aujourd'hui, séance de course (allure cible, chrono, minuteur d'intervalles avec bips, distance, durée, douleur).
   - Un nouvel écran s'ouvre désormais en haut de page.
   - 625 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3/`. Questionnaire rempli → plan en quelques secondes.
+- 20 oct. 2026 : **« Push tout »** : les lots 2 et 3 passent sur `main` et sur `/motiv/`. Le schéma de stockage n'a pas changé depuis le lot 1 : pas de migration, données intactes.
 
 ## Décidé (détails, option la plus simple)
 
@@ -124,7 +125,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [ ] Après la bascule : confirmer que tes données sont bien dans la nouvelle appli, puis mettre Supabase en pause et retirer `supabase/` du dépôt.
 - [x] Suites notées pour le lot 2 (sauf les graphiques : ils s'adaptent déjà à la largeur, rien à changer).
 - [x] 183 cm le 13 oct. : c'est ta hauteur.
-- [x] Lot 2 — La séance unifiée : validé. [ ] Mise en ligne sur `/motiv/` (attend ton feu vert).
-- [x] Lot 3 — Plan marathon : fait, à valider sur `/motiv/essai/`.
+- [x] Lot 2 — La séance unifiée : en ligne.
+- [x] Lot 3 — Plan marathon : en ligne.
 - [ ] Lot 4 — Progrès et rythme
 - [ ] Lot 5 — Preuves et anti-stagnation

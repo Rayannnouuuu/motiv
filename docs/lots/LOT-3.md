@@ -2,7 +2,7 @@
 
 _20 oct. 2026. Point de départ : REFONTE §6 lot 3, sur la base du lot 2._
 
-**État : les 6 étapes sont faites, en attente de validation.**
+**État : fait et en ligne (20 oct.).**
 
 ## Décisions (détails, option la plus simple)
 

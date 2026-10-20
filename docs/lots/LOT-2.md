@@ -2,7 +2,7 @@
 
 _20 oct. 2026. Point de départ : REFONTE §6 lot 2, sur la base du lot 1 (stockage v1, écrans encore branchés sur l'ancienne forme)._
 
-**État : les 8 étapes sont faites, en attente de validation.**
+**État : validé et en ligne (20 oct.).**
 
 ## Décisions (détails, option la plus simple)
 
