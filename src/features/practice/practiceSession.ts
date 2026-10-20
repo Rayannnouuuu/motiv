@@ -1,3 +1,5 @@
+import { storageKey } from '../../data/db'
+
 /**
  * Chrono de guitare en cours. Tout est en horodatages : il survit à la fermeture de l'appli
  * (iOS tue souvent une PWA en arrière-plan) et le temps écoulé se recalcule à la réouverture.
@@ -28,7 +30,7 @@ export type PracticeAction =
   /** Exo coché depuis sa fiche, avec le tempo joué au métronome s'il y en a un. */
   | { type: 'checkExercise'; id: string; bpm: number | null }
 
-const KEY = 'motiv.practice.v1'
+const KEY = storageKey('practice.v1')
 const STALE_MS = 12 * 60 * 60 * 1000
 const MAX_MIN = 600
 
@@ -93,7 +95,7 @@ export function runningPracticeMinutes(now: Date = new Date()): number | null {
   return s && !isStale(s, now) ? logMinutes(s, now) : null
 }
 
-const isStringArray =(v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string')
+const isStringArray = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string')
 const isDate = (v: unknown): v is string => typeof v === 'string' && !Number.isNaN(new Date(v).getTime())
 
 export function loadPractice(): PracticeState | null {
@@ -115,7 +117,16 @@ export function loadPractice(): PracticeState | null {
       s.bpms && typeof s.bpms === 'object'
         ? Object.fromEntries(Object.entries(s.bpms).filter(([, b]) => typeof b === 'number' && Number.isFinite(b) && b > 0))
         : undefined
-    return { id: s.id, startedAt: s.startedAt, pausedAt: s.pausedAt, pausedMs: s.pausedMs, exercises: s.exercises, songs: s.songs, goalCelebrated: s.goalCelebrated, ...(bpms ? { bpms } : {}) }
+    return {
+      id: s.id,
+      startedAt: s.startedAt,
+      pausedAt: s.pausedAt,
+      pausedMs: s.pausedMs,
+      exercises: s.exercises,
+      songs: s.songs,
+      goalCelebrated: s.goalCelebrated,
+      ...(bpms ? { bpms } : {}),
+    }
   } catch {
     return null
   }

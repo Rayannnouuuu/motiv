@@ -29,7 +29,7 @@ export function PresetPicker({ onDone }: { onDone?: () => void }) {
         <Card key={preset.id} className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between gap-2">
             <p className="t-headline">{preset.name}</p>
-            <button type="button" className="tap t-subhead text-accent" onClick={() => setOpen(open === preset.id ? null : preset.id)}>
+            <button type="button" className="hit tap t-subhead text-sport" onClick={() => setOpen(open === preset.id ? null : preset.id)}>
               {open === preset.id ? 'Masquer les exos' : 'Voir les exos'}
             </button>
           </div>
@@ -38,7 +38,7 @@ export function PresetPicker({ onDone }: { onDone?: () => void }) {
             {preset.sessions.length} séances : {preset.sessions.map((x) => x.name).join(' · ')}
           </p>
           {open === preset.id && (
-            <div className="t-subhead animate-rise flex flex-col gap-2 rounded-[0.75rem] bg-surface-2 p-3 dark:bg-fill">
+            <div className="t-subhead animate-rise flex flex-col gap-2 rounded-md bg-inset p-3">
               {preset.sessions.map((s) => (
                 <div key={s.name}>
                   <p className="font-semibold">{s.name}</p>
@@ -51,16 +51,16 @@ export function PresetPicker({ onDone }: { onDone?: () => void }) {
             <div className="flex flex-col gap-2">
               <p className="t-subhead">Tes séances actuelles seront remplacées (l'historique est gardé).</p>
               <div className="flex gap-2">
-                <Button variant="ghost" onClick={() => setConfirming(null)}>
+                <Button variant="ghost" tone="sport" onClick={() => setConfirming(null)}>
                   Annuler
                 </Button>
-                <Button className="flex-1" disabled={busy} onClick={() => apply(preset)}>
+                <Button tone="sport" className="flex-1" disabled={busy} onClick={() => apply(preset)}>
                   Remplacer
                 </Button>
               </div>
             </div>
           ) : (
-            <Button variant="secondary" disabled={busy} onClick={() => (active.length > 0 ? setConfirming(preset.id) : apply(preset))}>
+            <Button variant="secondary" tone="sport" disabled={busy} onClick={() => (active.length > 0 ? setConfirming(preset.id) : apply(preset))}>
               Suivre {preset.name}
             </Button>
           )}

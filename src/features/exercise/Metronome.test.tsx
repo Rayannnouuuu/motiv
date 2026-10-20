@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { getExercise } from '../../content/exercises'
+import { icon } from '../../test/icon'
 import { Metronome, type AudioContextLike } from './Metronome'
 
 const QUARTERS = getExercise('scales-1')!.pattern
@@ -41,7 +42,7 @@ test('lancer programme des oscillateurs, le premier à 1600 Hz, dans le geste', 
   const audio = fakeAudio()
   const onPlayed = vi.fn()
   const user = setup()
-  render(<Metronome pattern={EIGHTHS} best={120} targetBpm={160} challengeBpm={null} onPlayed={onPlayed} createContext={audio.create} />)
+  render(<Metronome pattern={EIGHTHS} best={120} startBpm={112} targetBpm={160} challengeBpm={null} onPlayed={onPlayed} createContext={audio.create} />)
   expect(audio.ctx.createOscillator).not.toHaveBeenCalled()
 
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
@@ -59,7 +60,7 @@ test('lancer programme des oscillateurs, le premier à 1600 Hz, dans le geste', 
 
 test('« Tempo + » fait passer de 46 à 48, « Tempo − » redescend', async () => {
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={null} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
+  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
   expect(tempo()).toHaveTextContent('46')
   await user.click(screen.getByRole('button', { name: 'Tempo +' }))
   expect(tempo()).toHaveTextContent('48')
@@ -70,19 +71,21 @@ test('« Tempo + » fait passer de 46 à 48, « Tempo − » redescend', async (
 
 test('pastilles de raccourci : record, cible, défi', async () => {
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={50} targetBpm={66} challengeBpm={58} createContext={fakeAudio().create} />)
+  render(<Metronome pattern={QUARTERS} best={50} startBpm={46} targetBpm={66} challengeBpm={58} createContext={fakeAudio().create} />)
   expect(tempo()).toHaveTextContent('50')
   expect(screen.getByRole('button', { name: 'Record 50' })).toHaveAttribute('aria-pressed', 'true')
   await user.click(screen.getByRole('button', { name: 'Cible 66' }))
   expect(tempo()).toHaveTextContent('66')
   expect(screen.getByRole('button', { name: 'Cible 66' })).toHaveAttribute('aria-pressed', 'true')
-  await user.click(screen.getByRole('button', { name: 'Défi 58' }))
+  const challenge = screen.getByRole('button', { name: 'Défi 58' })
+  expect(icon(challenge, 'target')).toBeInTheDocument()
+  await user.click(challenge)
   expect(tempo()).toHaveTextContent('58')
-  expect(screen.getByText('🎯 58')).toBeInTheDocument()
+  expect(challenge).toHaveAttribute('aria-pressed', 'true')
 })
 
 test('sans record ni défi : seule la pastille cible', () => {
-  render(<Metronome pattern={QUARTERS} best={null} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
+  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
   expect(screen.queryByRole('button', { name: /Record/ })).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: /Défi/ })).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Cible 66' })).toBeInTheDocument()
@@ -91,7 +94,7 @@ test('sans record ni défi : seule la pastille cible', () => {
 test('arrêter : plus aucun nouvel oscillateur', async () => {
   const audio = fakeAudio()
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={120} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
+  render(<Metronome pattern={QUARTERS} best={120} startBpm={112} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await audio.play(1000)
   const count = audio.ctx.createOscillator.mock.calls.length
@@ -113,7 +116,7 @@ test('arrêter : plus aucun nouvel oscillateur', async () => {
 test('démontage : l’interval est nettoyé et le contexte fermé', async () => {
   const audio = fakeAudio()
   const user = setup()
-  const { unmount } = render(<Metronome pattern={QUARTERS} best={120} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
+  const { unmount } = render(<Metronome pattern={QUARTERS} best={120} startBpm={112} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await audio.play(300)
   expect(vi.getTimerCount()).toBeGreaterThan(0)
@@ -129,7 +132,7 @@ test('démontage : l’interval est nettoyé et le contexte fermé', async () =>
 test('page en arrière-plan : le métronome s’arrête', async () => {
   const audio = fakeAudio()
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={120} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
+  render(<Metronome pattern={QUARTERS} best={120} startBpm={112} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   const hidden = vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden')
   act(() => {
@@ -143,7 +146,7 @@ test('page en arrière-plan : le métronome s’arrête', async () => {
 test('onPlayed : au lancement et à chaque changement de tempo pendant la lecture', async () => {
   const onPlayed = vi.fn()
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={80} targetBpm={100} challengeBpm={null} onPlayed={onPlayed} createContext={fakeAudio().create} />)
+  render(<Metronome pattern={QUARTERS} best={80} startBpm={70} targetBpm={100} challengeBpm={null} onPlayed={onPlayed} createContext={fakeAudio().create} />)
   await user.click(screen.getByRole('button', { name: 'Tempo +' }))
   expect(onPlayed).not.toHaveBeenCalled()
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
@@ -155,7 +158,7 @@ test('onPlayed : au lancement et à chaque changement de tempo pendant la lectur
 test('subdivision : croches par défaut, noires au choix, absente sur un motif en noires', async () => {
   const audio = fakeAudio()
   const user = setup()
-  const { unmount } = render(<Metronome pattern={EIGHTHS} best={120} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
+  const { unmount } = render(<Metronome pattern={EIGHTHS} best={120} startBpm={112} targetBpm={160} challengeBpm={null} createContext={audio.create} />)
   expect(screen.getByRole('button', { name: 'Croches' })).toHaveAttribute('aria-pressed', 'true')
   await user.click(screen.getByRole('button', { name: 'Noires' }))
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
@@ -164,7 +167,7 @@ test('subdivision : croches par défaut, noires au choix, absente sur un motif e
   expect(audio.freqs()).toEqual([1600, 1000, 1000, 1000, 1600])
   unmount()
 
-  render(<Metronome pattern={QUARTERS} best={null} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
+  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
   expect(screen.queryByRole('group', { name: 'Subdivision' })).not.toBeInTheDocument()
 })
 
@@ -173,7 +176,7 @@ test('mode silencieux de l’iPhone : session audio « playback » pendant la le
   Object.defineProperty(navigator, 'audioSession', { value: session, configurable: true })
   try {
     const user = setup()
-    render(<Metronome pattern={QUARTERS} best={null} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
+    render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
     expect(screen.getByText('Le métronome sonne même en mode silencieux.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
     expect(session.type).toBe('playback')
@@ -187,12 +190,15 @@ test('mode silencieux de l’iPhone : session audio « playback » pendant la le
 test('les points de temps s’allument quand le clic sonne', async () => {
   const audio = fakeAudio()
   const user = setup()
-  const { container } = render(<Metronome pattern={QUARTERS} best={60} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
-  const dots = () => [...container.querySelectorAll('[aria-hidden] > span')].map((d) => d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-accent') ? 'A' : 'G')
+  const { container } = render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
+  const dots = () =>
+    [...container.querySelectorAll('[aria-hidden] > span')].map((d) =>
+      d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G',
+    )
   expect(dots()).toEqual(['·', '·', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await audio.play(100)
-  expect(dots()).toEqual(['A', '·', '·', '·'])
+  expect(dots()).toEqual(['F', '·', '·', '·'])
   await audio.play(1000)
   expect(dots()).toEqual(['·', 'G', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
@@ -201,7 +207,7 @@ test('les points de temps s’allument quand le clic sonne', async () => {
 
 test('navigateur sans audio web : le bouton ne plante pas', async () => {
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={null} targetBpm={66} challengeBpm={null} />)
+  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} />)
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   expect(screen.getByRole('button', { name: 'Lancer le métronome' })).toBeInTheDocument()
   expect(vi.getTimerCount()).toBe(0)

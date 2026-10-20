@@ -21,10 +21,7 @@ const isShort = (m: number) => m >= GUITAR_SHORT_MIN && m < GUITAR_DAILY_MIN
  * `targetMin` : ce qu'il faut aujourd'hui pour tenir la série (60 si hier était un jour court, sinon 30).
  * `days` compte aujourd'hui seulement s'il atteint déjà ce minimum.
  */
-export function guitarStreak(
-  sessions: GuitarSession[],
-  today: Day,
-): { days: number; todayMin: number; remainingMin: number; targetMin: number } {
+export function guitarStreak(sessions: GuitarSession[], today: Day): { days: number; todayMin: number; remainingMin: number; targetMin: number } {
   const minutes = minutesByDay(sessions)
   const m = (d: Day) => minutes.get(d) ?? 0
   const todayMin = m(today)

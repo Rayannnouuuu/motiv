@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react'
+import type { Movement } from '../domain/model'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
-import type { RejectedEntry } from './outbox'
+import type { MotivDb } from './db'
 
 export interface GuitarDraft {
   id: string
@@ -32,28 +33,19 @@ export interface Actions {
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
-  discardRejected(id: string): void
-  setPassword(password: string): Promise<void>
-  signOut(): Promise<void>
+  saveMovement(m: Movement): Promise<void>
 }
 
 export interface AppDataValue {
   data: AppData
-  pendingCount: number
-  rejected: RejectedEntry[]
+  /** Bibliothèque sport (modèle v1, déjà lu tel quel par la Bibliothèque). */
+  movements: Movement[]
   today: Day
-  /** Aucune donnée encore (ni serveur ni instantané local). */
-  loading: boolean
-  /** Des données serveur ont été reçues depuis le lancement (sinon : instantané local, ou rien). */
-  fresh: boolean
-  /** Le serveur n'a pas encore pu répondre (pas de réseau) : on affiche l'instantané local. */
-  offline: boolean
-  /** Échec de chargement, seulement quand il n'y a aucune donnée à montrer. */
-  error: string | null
 }
 
 export const AppDataContext = createContext<AppDataValue | null>(null)
 export const ActionsContext = createContext<Actions | null>(null)
+export const DbContext = createContext<MotivDb | null>(null)
 
 export function useAppData(): AppDataValue {
   const v = useContext(AppDataContext)
@@ -64,5 +56,12 @@ export function useAppData(): AppDataValue {
 export function useActions(): Actions {
   const v = useContext(ActionsContext)
   if (!v) throw new Error('useActions hors de AppDataProvider')
+  return v
+}
+
+/** La base locale, pour la sauvegarde et l'import. */
+export function useDb(): MotivDb {
+  const v = useContext(DbContext)
+  if (!v) throw new Error('useDb hors de DbContext')
   return v
 }

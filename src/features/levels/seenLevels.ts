@@ -1,6 +1,7 @@
 import type { LevelSnapshot } from '../../domain/levelUp'
+import { storageKey } from '../../data/db'
 
-const KEY = 'motiv.seenLevels.v1'
+const KEY = storageKey('seenLevels.v1')
 
 /** Derniers niveaux montrés sur cet appareil (pour ne fêter chaque niveau qu'une fois). */
 export function loadSeen(): LevelSnapshot | null {

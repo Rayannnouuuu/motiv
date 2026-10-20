@@ -1,16 +1,22 @@
 import type { ReactNode } from 'react'
-
-export type RingColor = 'accent' | 'guitar' | 'sport'
-
-const STROKE: Record<RingColor, string> = { accent: 'stroke-accent', guitar: 'stroke-guitar', sport: 'stroke-sport' }
+import { TONE, type Tone } from '../design/tone'
 
 /** Cercle qui se remplit (0 → max), contenu libre au centre. */
-export function ProgressRing({ value, max, size = 48, stroke = 5, color = 'accent', children, className = '', transitionMs = 700 }: {
+export function ProgressRing({
+  value,
+  max,
+  size = 48,
+  stroke = 5,
+  color = 'accent',
+  children,
+  className = '',
+  transitionMs = 700,
+}: {
   value: number
   max: number
   size?: number
   stroke?: number
-  color?: RingColor
+  color?: Tone
   children?: ReactNode
   className?: string
   transitionMs?: number
@@ -28,7 +34,7 @@ export function ProgressRing({ value, max, size = 48, stroke = 5, color = 'accen
           cy={size / 2}
           r={r}
           fill="none"
-          className={STROKE[color]}
+          className={TONE.stroke[color]}
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={c}

@@ -13,7 +13,17 @@ const show = (kg: number) => String(kg).replace('.', ',')
  * Le texte tapé est gardé tel quel ; seule une valeur valide remonte. Un changement venu de l'extérieur
  * (boutons − / +, exo suivant) remplace le texte.
  */
-export function WeightInput({ value, onChange, className, ...rest }: { value: number; onChange: (kg: number) => void; className?: string; 'aria-label': string }) {
+export function WeightInput({
+  value,
+  onChange,
+  className,
+  ...rest
+}: {
+  value: number
+  onChange: (kg: number) => void
+  className?: string
+  'aria-label': string
+}) {
   const [draft, setDraft] = useState(show(value))
   const [synced, setSynced] = useState(value)
   if (value !== synced) {

@@ -133,13 +133,7 @@ export function Splash() {
     >
       <canvas ref={ref} className={`absolute inset-0 h-full w-full ${phase === 'gather' ? '' : 'hidden'}`} />
       {phase !== 'gather' && (
-        <img
-          src={LOGO}
-          alt=""
-          width={SIZE}
-          height={SIZE}
-          className="splash-logo absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+        <img src={LOGO} alt="" width={SIZE} height={SIZE} className="splash-logo absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       )}
     </div>
   )

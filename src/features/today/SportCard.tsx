@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
+import { TONE } from '../../design/tone'
 import { upcomingPrograms } from '../../domain/progression'
 import { SPORT_WEEKLY_SESSIONS, sportStreak } from '../../domain/streak'
 import { sportWeek } from '../../domain/sportWeek'
@@ -26,8 +28,9 @@ export function SportCard() {
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="sport-title">
       <div className="flex items-baseline justify-between gap-2">
-        <h2 id="sport-title" className="t-title3">
-          🏋️ Sport
+        <h2 id="sport-title" className="t-title3 flex items-center gap-2">
+          <Icon name="sport" className="text-sport" />
+          Sport
         </h2>
         <p className="t-footnote text-muted">{streak.weeks > 0 ? `${streak.weeks} sem. d'affilée` : 'Cette semaine'}</p>
       </div>
@@ -39,7 +42,7 @@ export function SportCard() {
         days={week.days.map((d) => ({
           day: d.day,
           fill: d.sessions.length > 0 ? 1 : 0,
-          content: d.sessions.length > 0 ? '✓' : '',
+          content: d.sessions.length > 0 ? <Icon name="check" size="1.45em" /> : '',
           label: d.sessions.map((s) => names.get(s.programId) ?? 'Séance').join(', ') || (d.day < today ? 'pas de sport' : ''),
           missed: d.sessions.length === 0 && d.day < today,
         }))}
@@ -52,14 +55,20 @@ export function SportCard() {
           </span>{' '}
           <span className="text-muted">
             ·{' '}
-            {week.remaining === 0 ? 'Semaine validée ✓' : `Encore ${week.remaining} séance${week.remaining > 1 ? 's' : ''} cette semaine`}
+            {week.remaining === 0 ? (
+              <>
+                Semaine validée <Icon name="check" className="text-sport" />
+              </>
+            ) : (
+              `Encore ${week.remaining} séance${week.remaining > 1 ? 's' : ''} cette semaine`
+            )}
           </span>
         </p>
         <Gauge value={week.done} max={SPORT_WEEKLY_SESSIONS} color="sport" label="Séances de sport cette semaine" className="h-1.5" />
       </div>
 
       {live && liveProgram ? (
-        <div className="flex flex-col gap-3 rounded-[0.875rem] bg-sport/10 p-3.5 ring-1 ring-sport/40">
+        <div className="flex flex-col gap-3 rounded-lg bg-sport/10 p-3.5 ring-1 ring-sport/40">
           <div>
             <p className="t-footnote flex items-center gap-1.5 font-semibold text-sport">
               <span className="h-2 w-2 animate-pulse rounded-full bg-sport motion-reduce:animate-none" aria-hidden />
@@ -73,8 +82,8 @@ export function SportCard() {
               const isCurrent = i === liveIndex
               return (
                 <li key={e.id} className={`flex justify-between gap-2 ${isCurrent ? 'font-semibold' : ''} ${i < liveIndex ? 'text-muted' : ''}`}>
-                  <span>
-                    {isCurrent ? '▸ ' : done >= e.targetSets ? '✓ ' : ''}
+                  <span className="flex min-w-0 items-center gap-1">
+                    {isCurrent ? <Icon name="chevron" className="text-sport" /> : done >= e.targetSets && <Icon name="check" className="text-sport" />}
                     {e.name}
                   </span>
                   <span className="shrink-0 tabular-nums">
@@ -84,12 +93,15 @@ export function SportCard() {
               )
             })}
           </ul>
-          <Button onClick={() => navigate('/log/sport')}>Reprendre la séance</Button>
+          <Button tone="sport" onClick={() => navigate('/log/sport')}>
+            <Icon name="timer" />
+            Reprendre la séance
+          </Button>
         </div>
       ) : next ? (
         <div className="flex flex-col gap-2">
           <h3 className="t-footnote font-semibold text-muted uppercase">{doneToday ? 'Prochaine séance' : 'Séance du jour'}</h3>
-          <div className="rounded-[0.875rem] bg-surface-2 px-3.5 py-3 dark:bg-fill">
+          <div className="rounded-lg bg-inset px-3.5 py-3">
             <p className="t-headline pb-1.5">{next.name}</p>
             <ul className="t-subhead flex flex-col gap-1">
               {activeExercises(next).map((e) => {
@@ -108,12 +120,13 @@ export function SportCard() {
             </ul>
           </div>
           {after && after.id !== next.id && <p className="t-footnote px-1 text-muted">Ensuite : {after.name}</p>}
-          <Button className="mt-1" variant="secondary" onClick={() => navigate('/log/sport', { state: { programId: next.id } })}>
+          <Button className="mt-1" variant="secondary" tone="sport" onClick={() => navigate('/log/sport', { state: { programId: next.id } })}>
+            <Icon name="play" />
             Commencer {next.name}
           </Button>
         </div>
       ) : (
-        <Link to="/reglages" className="tap-scale t-headline rounded-[0.875rem] bg-accent/12 px-4 py-3.5 text-center text-accent">
+        <Link to="/bibliotheque?vue=modeles" className={`tap-scale t-headline rounded-lg px-4 py-3.5 text-center ${TONE.tint.sport}`}>
           Choisir ton programme
         </Link>
       )}

@@ -42,7 +42,11 @@ describe('ProgressPage', () => {
   })
 
   test('Tempo : seulement les exos loggés, records datés', async () => {
-    const sessions = [g('2026-10-01', 30, [ex('legato-4', 90)]), g('2026-10-05', 30, [ex('legato-4', 96), ex('ghost-1', 200)]), g('2026-10-08', 30, [ex('scales-1', null)])]
+    const sessions = [
+      g('2026-10-01', 30, [ex('legato-4', 90)]),
+      g('2026-10-05', 30, [ex('legato-4', 96), ex('ghost-1', 200)]),
+      g('2026-10-08', 30, [ex('scales-1', null)]),
+    ]
     renderWithData(<ProgressPage />, { today, data: { guitarSessions: sessions } })
     await tab('Tempo')
     const options = screen.getAllByRole('option').map((o) => o.textContent)
@@ -98,11 +102,11 @@ describe('ProgressPage', () => {
     expect(screen.getByText(/Estimation d'Epley/)).toBeInTheDocument()
   })
 
-  test('Poids : « + mesure », Enregistrer désactivé si tout est vide', async () => {
+  test('Poids : « Ajouter une mesure », Enregistrer désactivé si tout est vide', async () => {
     const { actions } = renderWithData(<ProgressPage />, { today, data: { bodyMetrics: [metric('2026-10-01', 72)] } })
     await tab('Poids')
     expect(screen.getAllByText('72 kg').length).toBeGreaterThan(0)
-    await userEvent.click(screen.getByRole('button', { name: '+ mesure' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter une mesure' }))
     const save = screen.getByRole('button', { name: 'Enregistrer' })
     expect(save).toBeDisabled()
     await userEvent.type(screen.getByLabelText('Taille (cm)'), '81,5')

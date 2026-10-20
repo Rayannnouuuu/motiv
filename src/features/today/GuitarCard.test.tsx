@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { expect, test } from 'vitest'
 import { getExercise } from '../../content/exercises'
 import { ex, g, mkSong } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { savePractice, startPractice } from '../practice/practiceSession'
 import { GuitarCard } from './GuitarCard'
@@ -12,7 +13,11 @@ const today = '2026-10-15'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderCard = (opts: RenderWithDataOptions = {}) =>
@@ -43,7 +48,7 @@ test('3 exos sur deux lignes sans description, lien vers la fiche', () => {
 
 test('exo déjà loggé aujourd’hui : coché, record affiché', () => {
   renderCard({ data: { guitarSessions: [g(today, 20, [ex('scales-1', 70)])] } })
-  expect(screen.getAllByRole('link').some((l) => l.textContent?.includes('✓') && l.textContent.includes('ton record 70 bpm'))).toBe(true)
+  expect(screen.getAllByRole('link').some((l) => icon(l, 'check') && l.textContent?.includes('ton record 70 bpm'))).toBe(true)
 })
 
 test('morceaux du jour : un en cours (déjà joué) et un nouveau ; le toucher ouvre le log avec le morceau', async () => {
@@ -51,14 +56,15 @@ test('morceaux du jour : un en cours (déjà joué) et un nouveau ; le toucher o
   renderCard({ data: { guitarSessions: [played], songs: [mkSong({ id: 's1', title: 'Paranoid' }), mkSong({ id: 's2', title: 'Iron Man' })] } })
   const list = within(screen.getByRole('list', { name: "Morceaux à jouer aujourd'hui" })).getAllByRole('button')
   expect(list).toHaveLength(2)
-  expect(list[0]).toHaveTextContent('🎵 Paranoid')
+  expect(list[0]).toHaveTextContent('Paranoid')
+  expect(icon(list[0], 'song')).toBeInTheDocument()
   await userEvent.click(list[0])
   expect(screen.getByText('at /log/guitare {"songTitle":"Paranoid"}')).toBeInTheDocument()
 })
 
 test('« Logger sans chrono » : avec les minutes qui manquent', async () => {
   renderCard({ data: { guitarSessions: [g(today, 20)] } })
-  expect(screen.queryByRole('button', { name: '▶︎ Rejouer avec le chrono' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Rejouer avec le chrono' })).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Logger sans chrono' }))
   expect(screen.getByText('at /log/guitare {"durationMin":10}')).toBeInTheDocument()
 })
@@ -71,19 +77,19 @@ test('objectif atteint : « Logger sans chrono » sans durée, et rejouer avec l
 
 test('objectif atteint : « Rejouer avec le chrono » lance le chrono', async () => {
   renderCard({ data: { guitarSessions: [g(today, 60)] } })
-  await userEvent.click(screen.getByRole('button', { name: '▶︎ Rejouer avec le chrono' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Rejouer avec le chrono' }))
   expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
 })
 
 test('objectif atteint mais chrono en cours : pas de « Rejouer »', () => {
   savePractice(startPractice(new Date(), 'p'))
   renderCard({ data: { guitarSessions: [g(today, 60)] } })
-  expect(screen.queryByRole('button', { name: '▶︎ Rejouer avec le chrono' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Rejouer avec le chrono' })).not.toBeInTheDocument()
 })
 
-test('semaine : minutes par jour, objectif tenu ✓', () => {
+test('semaine : minutes par jour, objectif tenu coché', () => {
   renderCard({ data: { guitarSessions: [g('2026-10-12', 60), g('2026-10-13', 25)] } })
-  expect(screen.getByRole('listitem', { name: 'L : 60 min' })).toHaveTextContent('✓')
+  expect(icon(screen.getByRole('listitem', { name: 'L : 60 min' }), 'check')).toBeInTheDocument()
   expect(screen.getByRole('listitem', { name: 'M : 25 min' })).toHaveTextContent('25')
   expect(screen.getByText('1/7 jours à 60 min')).toBeInTheDocument()
 })

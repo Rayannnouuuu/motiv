@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getExercise } from '../../content/exercises'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { todayParis } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
 import { guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
+import { RowChevron } from '../../ui/List'
 import { ModalBar } from '../../ui/ModalBar'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { haptic } from '../../ui/spring'
@@ -27,22 +29,6 @@ import {
 
 const HOUR_MS = 3_600_000
 
-function Chevron() {
-  return (
-    <svg width="8" height="13" viewBox="0 0 8 13" className="shrink-0 text-faint" aria-hidden>
-      <path d="M1.5 1.5 6.5 6.5 1.5 11.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function Check() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-      <path d="M2.5 7.5 5.5 10.5 11.5 3.5" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
 /** Exos et morceaux cochés, au format du log guitare. */
 function toEntries(s: PracticeState, best: (id: string) => number | null, songIds: Set<string>): Entry[] {
   const exercises: Entry[] = s.exercises
@@ -58,13 +44,11 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
 
 /** Chrono de guitare : le temps qui passe, l'objectif du jour qui se remplit, les exos qu'on coche en jouant. */
 export function PracticePage() {
-  const { data, today, loading } = useAppData()
+  const { data, today } = useAppData()
   const navigate = useNavigate()
   const nav = useLocation().state as { autostart?: unknown } | null
   // En StrictMode l'initialiseur peut tourner deux fois : seul l'état retenu est sauvegardé (effet ci-dessous).
-  const [session, setSession] = useState<PracticeState | null>(
-    () => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null),
-  )
+  const [session, setSession] = useState<PracticeState | null>(() => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null))
   const [now, setNow] = useState(() => new Date())
   // Recalculé à chaque instant (et au retour de l'appli, voir plus bas) : une séance de plus de 12 h,
   // même reprise sans rechargement par iOS, demande quoi en faire au lieu d'enregistrer des heures.
@@ -121,7 +105,7 @@ export function PracticePage() {
   const elapsed = session ? elapsedMs(session, now) : 0
   const total = Math.min(targetMin, loggedMin + Math.floor(elapsed / 60_000))
   // L'objectif franchi pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
-  const crossed = session !== null && !stale && !loading && loggedMin < targetMin && total >= targetMin
+  const crossed = session !== null && !stale && loggedMin < targetMin && total >= targetMin
   const alreadyCelebrated = session?.goalCelebrated ?? true
   useEffect(() => {
     if (!crossed || alreadyCelebrated) return
@@ -154,7 +138,20 @@ export function PracticePage() {
     toLog(paused, { durationMin: logMinutes(paused, at), step: 2 })
   }
 
-  const bar = <ModalBar onCancel={() => navigate('/')} cancelLabel="Fermer" cancelAria="Fermer" title="🎸 Guitare" />
+  const bar = (
+    <ModalBar
+      tone="guitar"
+      onCancel={() => navigate('/')}
+      cancelLabel="Fermer"
+      cancelAria="Fermer"
+      title={
+        <span className="flex items-center justify-center gap-1.5">
+          <Icon name="guitar" className="text-guitar" />
+          Guitare
+        </span>
+      }
+    />
+  )
 
   if (!session)
     return (
@@ -162,7 +159,7 @@ export function PracticePage() {
         {bar}
         <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
           <p className="t-body text-muted">
-            {loggedMin >= targetMin ? "Objectif du jour atteint. Encore un peu ?" : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
+            {loggedMin >= targetMin ? 'Objectif du jour atteint. Encore un peu ?' : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
           </p>
           <button
             type="button"
@@ -170,9 +167,10 @@ export function PracticePage() {
               haptic()
               setSession(startPractice(new Date(), crypto.randomUUID()))
             }}
-            className="tap-scale t-title2 flex h-40 w-40 items-center justify-center rounded-full bg-guitar text-white shadow-[0_10px_28px_color-mix(in_srgb,var(--guitar)_35%,transparent)]"
+            className="tap-scale t-title2 flex size-40 items-center justify-center gap-1.5 rounded-full bg-guitar text-on-guitar shadow-glow shadow-guitar/35"
           >
-            ▶︎ Démarrer
+            <Icon name="play" />
+            Démarrer
           </button>
         </div>
       </div>
@@ -185,16 +183,16 @@ export function PracticePage() {
       <div className="flex flex-1 flex-col">
         {bar}
         <div className="flex flex-1 flex-col justify-center gap-3 text-center">
-          <p className="text-[3rem]" aria-hidden>
-            ⏱️
-          </p>
+          <Icon name="timer" size="3em" className="self-center text-guitar" />
           <p className="t-title3 pb-3">
             {pausedMin !== null
               ? `Une séance restée en pause n'a pas été enregistrée : ${pausedMin} min jouées.`
               : "Une séance commencée il y a plus de 12 h n'a pas été terminée."}
           </p>
-          <Button onClick={() => toLog(session, { durationMin: pausedMin })}>{pausedMin !== null ? `Logger ${pausedMin} min` : 'Logger sans durée'}</Button>
-          <Button variant="ghost" className="!text-danger" onClick={abandon}>
+          <Button tone="guitar" onClick={() => toLog(session, { durationMin: pausedMin })}>
+            {pausedMin !== null ? `Logger ${pausedMin} min` : 'Logger sans durée'}
+          </Button>
+          <Button variant="ghost" tone="danger" onClick={abandon}>
             Abandonner
           </Button>
         </div>
@@ -217,12 +215,15 @@ export function PracticePage() {
             <span
               role="timer"
               aria-label="Temps joué"
-              className={`${elapsed >= HOUR_MS ? 'text-[2.75rem]' : 'text-[3.5rem]'} leading-none font-bold tabular-nums transition-colors ${paused ? 'text-muted' : ''}`}
+              className={`${elapsed >= HOUR_MS ? 't-display-sm' : 't-display'} tracking-normal tabular-nums transition-colors ${paused ? 'text-muted' : ''}`}
             >
               {formatClock(elapsed)}
             </span>
             {total >= targetMin ? (
-              <span className="t-footnote font-semibold text-guitar">Série tenue ✓</span>
+              <span className="t-footnote flex items-center gap-0.5 font-semibold text-guitar">
+                Série tenue
+                <Icon name="check" />
+              </span>
             ) : (
               <span className="t-footnote text-muted tabular-nums">
                 {total}/{targetMin} min {sessionDay === today ? "aujourd'hui" : 'hier'}
@@ -237,7 +238,7 @@ export function PracticePage() {
         <h2 id="practice-plan" className="t-footnote px-1 font-semibold text-muted uppercase">
           Séance du jour
         </h2>
-        <ul className="rows overflow-hidden rounded-[0.875rem] bg-surface">
+        <ul className="rows overflow-hidden rounded-lg bg-surface">
           {plan.map((ex) => {
             const done = session.exercises.includes(ex.id)
             const record = best(ex.id)
@@ -251,11 +252,11 @@ export function PracticePage() {
                     haptic()
                     dispatch({ type: 'toggleExercise', id: ex.id })
                   }}
-                  className={`tap-scale flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
-                    done ? 'bg-guitar' : 'border-[1.5px] border-faint'
+                  className={`hit tap-scale flex size-7 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
+                    done ? 'bg-guitar text-on-guitar' : 'border-[1.5px] border-faint'
                   }`}
                 >
-                  {done && <Check />}
+                  {done && <Icon name="check" size="1em" />}
                 </button>
                 <span className="flex min-w-0 flex-1 flex-col">
                   <span className={`t-headline truncate ${done ? 'text-muted' : ''}`}>{ex.title}</span>
@@ -263,8 +264,12 @@ export function PracticePage() {
                     Cible {ex.targetBpm} bpm{record !== null && ` · record ${record}`}
                   </span>
                 </span>
-                <Link to={`/exo/${ex.id}`} aria-label={`Tablature : ${ex.title}`} className="tap -my-2.5 -mr-3.5 flex items-center self-stretch px-4">
-                  <Chevron />
+                <Link
+                  to={`/exo/${ex.id}`}
+                  aria-label={`Tablature : ${ex.title}`}
+                  className="tap -my-2.5 -mr-3.5 flex min-w-11 items-center justify-center self-stretch px-4"
+                >
+                  <RowChevron />
                 </Link>
               </li>
             )
@@ -284,9 +289,10 @@ export function PracticePage() {
                       haptic()
                       dispatch({ type: 'toggleSong', id: s.id })
                     }}
-                    className={`tap-scale t-footnote rounded-full px-3 py-1.5 transition-colors duration-200 ${on ? 'bg-guitar font-semibold text-white' : 'bg-fill'}`}
+                    className={`hit tap-scale t-footnote flex items-center gap-1 rounded-full px-3 py-1.5 transition-colors duration-200 ${on ? 'bg-guitar font-semibold text-on-guitar' : 'bg-fill'}`}
                   >
-                    🎵 {s.title}
+                    <Icon name="song" />
+                    {s.title}
                   </button>
                 </li>
               )
@@ -297,12 +303,15 @@ export function PracticePage() {
 
       <div className="mt-auto flex flex-col gap-2">
         {fromYesterday && (
-          <p className="t-footnote px-4 text-center text-muted">Commencée hier : termine-la pour l'enregistrer sur hier, puis relance un chrono pour aujourd'hui.</p>
+          <p className="t-footnote px-4 text-center text-muted">
+            Commencée hier : termine-la pour l'enregistrer sur hier, puis relance un chrono pour aujourd'hui.
+          </p>
         )}
         <div className="flex gap-2.5">
           {!fromYesterday && (
             <Button
               variant="secondary"
+              tone="guitar"
               className="flex-1"
               onClick={() => {
                 const at = new Date()
@@ -310,19 +319,20 @@ export function PracticePage() {
                 dispatch({ type: paused ? 'resume' : 'pause', at })
               }}
             >
+              <Icon name={paused ? 'play' : 'pause'} />
               {paused ? 'Reprendre' : 'Pause'}
             </Button>
           )}
-          <Button className="flex-1" onClick={finish}>
+          <Button tone="guitar" className="flex-1" onClick={finish}>
             Terminer
           </Button>
         </div>
         {confirmAbandon ? (
-          <Button variant="ghost" className="!text-danger" onClick={abandon}>
+          <Button variant="ghost" tone="danger" onClick={abandon}>
             Oui, abandonner (rien n'est enregistré)
           </Button>
         ) : (
-          <button type="button" className="tap t-subhead self-center py-1.5 text-danger" onClick={() => setConfirmAbandon(true)}>
+          <button type="button" className="hit tap t-subhead self-center py-1.5 text-danger" onClick={() => setConfirmAbandon(true)}>
             Abandonner
           </button>
         )}

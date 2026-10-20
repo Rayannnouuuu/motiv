@@ -65,7 +65,7 @@ function toItem(e: Entry): GuitarItem {
 }
 
 export function LogGuitarPage() {
-  const { data, today, loading } = useAppData()
+  const { data, today } = useAppData()
   const actions = useActions()
   const navigate = useNavigate()
   const nav = useLocation().state as NavState | null
@@ -77,17 +77,6 @@ export function LogGuitarPage() {
 
   const [choice, setChoice] = useState<DurationChoice>(init.choice)
   const [other, setOther] = useState(init.other)
-  // Ouvert à froid (rappel) pendant le chargement : la présélection est refaite avec les vraies minutes du jour,
-  // sauf si une durée a déjà été choisie.
-  const [loadedOnce, setLoadedOnce] = useState(!loading)
-  if (!loadedOnce && !loading) {
-    setLoadedOnce(true)
-    if (choice === init.choice && other === init.other) {
-      const d = initialDuration(nav?.durationMin, remainingMin)
-      setChoice(d.choice)
-      setOther(d.other)
-    }
-  }
   // Depuis le chrono : directement aux notes, le contenu et la durée sont déjà remplis.
   const [step, setStep] = useState(() => (nav?.step === 2 && parseDuration(init.choice, init.other) !== null ? 2 : 0))
   // Séance commencée avant minuit : datée de la veille.
@@ -156,16 +145,15 @@ export function LogGuitarPage() {
   return (
     <div className="flex flex-1 flex-col gap-5">
       <ModalBar
+        tone="guitar"
         onCancel={() => (step === 0 ? navigate('/') : setStep(step - 1))}
         cancelLabel={step === 0 ? 'Annuler' : '‹ Retour'}
         cancelAria={step === 0 ? 'Fermer' : 'Retour'}
-        title={<StepBar count={3} current={step} />}
+        title={<StepBar count={3} current={step} tone="guitar" />}
       />
 
       <div key={step} className="animate-rise flex-1">
-        {step === 0 && (
-          <StepDuration choice={choice} other={other} yesterday={yesterday} onChoice={setChoice} onOther={setOther} onYesterday={setYesterday} />
-        )}
+        {step === 0 && <StepDuration choice={choice} other={other} yesterday={yesterday} onChoice={setChoice} onOther={setOther} onYesterday={setYesterday} />}
         {step === 1 && (
           <StepContent
             entries={entries}
@@ -186,11 +174,11 @@ export function LogGuitarPage() {
         </p>
       )}
       {step < 2 ? (
-        <Button disabled={!canNext} onClick={() => setStep(step + 1)}>
+        <Button tone="guitar" disabled={!canNext} onClick={() => setStep(step + 1)}>
           Suivant
         </Button>
       ) : (
-        <Button disabled={flow === null || desire === null || saving} onClick={save}>
+        <Button tone="guitar" disabled={flow === null || desire === null || saving} onClick={save}>
           Enregistrer
         </Button>
       )}

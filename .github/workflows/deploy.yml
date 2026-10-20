@@ -26,9 +26,6 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-        env:
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       # Version d'essai de la refonte (dernière branche refonte/lot-N) sous /motiv/essai/, avec ses
       # propres données. Un échec ici ne bloque pas l'appli principale.
       - name: Version d'essai

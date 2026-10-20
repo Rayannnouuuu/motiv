@@ -1,0 +1,343 @@
+/*
+ * Jetons du design system MOTIV : la seule source des couleurs, de la typo, des espacements, des formes,
+ * des ombres et des durées. Les composants passent par les utilitaires Tailwind générés ici
+ * (bg-surface, text-muted, bg-guitar, text-on-sport, rounded-2xl, shadow-card, t-body…).
+ * Rôles et contrastes mesurés : voir README.md ; les contrastes sont vérifiés par tokens.test.ts.
+ */
+
+/* Thème : `data-theme` sur <html> vaut dark (par défaut), light ou auto (suit le téléphone). */
+@custom-variant light {
+  &:where([data-theme='light'], [data-theme='light'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: light) {
+    &:where([data-theme='auto'], [data-theme='auto'] *) {
+      @slot;
+    }
+  }
+}
+/* `dark:` suit le thème choisi dans l'appli (Sombre, ou Auto quand le téléphone est en sombre). */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where([data-theme='auto'], [data-theme='auto'] *) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * Couleurs façon iOS : sombre par défaut (vraiment noir), clair disponible. Les textes sont opaques pour que
+ * leur contraste ne dépende pas du fond. Accents du logo : orange pour le global, violet pour la guitare,
+ * vert pour le sport ; chaque accent a sa couleur de texte posée dessus (on-…).
+ */
+:root {
+  /* Base neutre */
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  /* Bloc posé dans une carte (liste de la séance du jour, détail d'un programme) */
+  --inset: rgb(118 118 128 / 0.24);
+  /* Feuilles : un cran plus clair que l'écran derrière, comme sur iPhone */
+  --elevated-bg: #1c1c1e;
+  --elevated-surface: #2c2c2e;
+  --elevated-surface-2: #3a3a3c;
+  --fill: rgb(118 118 128 / 0.24);
+  --fill-strong: rgb(118 118 128 / 0.36);
+  --line: rgb(84 84 88 / 0.6);
+  --ink: #ffffff;
+  --muted: #a4a4aa;
+  /* Décor et états désactivés seulement (chevrons, poignées, cercles vides) : jamais pour un texte à lire */
+  --faint: rgb(235 235 245 / 0.3);
+  /* Pastille d'un contrôle segmenté */
+  --thumb: #636366;
+  --material: rgb(30 30 30 / 0.75);
+  --scrim: rgb(0 0 0 / 0.5);
+  --card-shadow: none;
+
+  /* Accents */
+  --accent: #ff9f0a;
+  --on-accent: #1f1200;
+  --guitar: #cb85ff;
+  --on-guitar: #1d0533;
+  --sport: #9cbf84;
+  --on-sport: #0f1d06;
+  --danger: #ff7b72;
+  --on-danger: #2b0402;
+  /* Record battu : doré, le même dans les deux disciplines */
+  --record: #fbbf24;
+  --on-record: #000000;
+  color-scheme: dark;
+
+  @variant light {
+    --bg: #f2f2f7;
+    --surface: #ffffff;
+    --surface-2: #f2f2f7;
+    --inset: #f2f2f7;
+    --elevated-bg: #f2f2f7;
+    --elevated-surface: #ffffff;
+    --elevated-surface-2: #f2f2f7;
+    --fill: rgb(118 118 128 / 0.12);
+    --fill-strong: rgb(118 118 128 / 0.2);
+    --line: rgb(60 60 67 / 0.18);
+    --ink: #000000;
+    --muted: #6c6c70;
+    --faint: rgb(60 60 67 / 0.3);
+    --thumb: #ffffff;
+    --material: rgb(249 249 249 / 0.78);
+    --scrim: rgb(0 0 0 / 0.32);
+    --card-shadow: 0 0.5px 0 rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+    /* Sur fond clair, les accents sont plus profonds pour rester lisibles en texte */
+    --accent: #a34500;
+    --on-accent: #ffffff;
+    --guitar: #8c17cc;
+    --on-guitar: #ffffff;
+    --sport: #4f6b3d;
+    --on-sport: #ffffff;
+    --danger: #c00013;
+    --on-danger: #ffffff;
+    --record: #fbbf24;
+    --on-record: #000000;
+    color-scheme: light;
+  }
+}
+
+/* Contraste augmenté : séparateurs et libellés secondaires plus marqués. */
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgb(140 140 145 / 0.7);
+    --muted: #d1d1d6;
+
+    @variant light {
+      --line: rgb(60 60 67 / 0.5);
+      --muted: #3c3c43;
+    }
+  }
+}
+
+/* 1rem = taille du texte choisie sur le téléphone : tout ce qui est en rem suit ce réglage. */
+html {
+  font-size: 106.25%; /* 17 px avec le réglage par défaut du navigateur */
+}
+/* iPhone : la taille de Réglages › Luminosité et affichage › Taille du texte (17 pt par défaut). */
+@supports (-webkit-touch-callout: none) {
+  html {
+    font: -apple-system-body;
+  }
+}
+
+:root {
+  --font-body: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* Échelle typographique (iOS), en pt ramenés au corps de texte : 17 pt = 1rem. */
+  --type-display-lg: calc(72rem / 17);
+  --type-display: calc(56rem / 17);
+  --type-display-sm: calc(44rem / 17);
+  --type-large: calc(34rem / 17);
+  --type-title1: calc(28rem / 17);
+  --type-title2: calc(22rem / 17);
+  --type-title3: calc(20rem / 17);
+  --type-body: 1rem;
+  --type-callout: calc(16rem / 17);
+  --type-subhead: calc(15rem / 17);
+  --type-footnote: calc(13rem / 17);
+  --type-caption: calc(12rem / 17);
+  --type-caption2: calc(11rem / 17);
+
+  /* Zone tactile minimale (44 pt) */
+  --tap-min: calc(44rem / 17);
+
+  /* Durées : un toucher répond tout de suite, les entrées prennent leur temps. */
+  --duration-press: 80ms;
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-move: 500ms;
+  --duration-enter: 700ms;
+  --duration-page: 850ms;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-inset: var(--inset);
+  --color-fill: var(--fill);
+  --color-fill-strong: var(--fill-strong);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-thumb: var(--thumb);
+  --color-scrim: var(--scrim);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-guitar: var(--guitar);
+  --color-on-guitar: var(--on-guitar);
+  --color-sport: var(--sport);
+  --color-on-sport: var(--on-sport);
+  --color-danger: var(--danger);
+  --color-on-danger: var(--on-danger);
+  --color-record: var(--record);
+  --color-on-record: var(--on-record);
+  --shadow-card: var(--card-shadow);
+}
+
+@theme {
+  /* Espacements : base 4 pt (p-1 = 4 px, p-4 = 16 px avec la taille de texte par défaut). */
+  --spacing: calc(4rem / 17);
+
+  /* Rayons */
+  --radius-xs: 6px; /* étiquettes, contrôle segmenté */
+  --radius-sm: 8px; /* champs, pastilles d'icône */
+  --radius-md: 12px; /* listes groupées, encarts */
+  --radius-lg: 14px; /* boutons */
+  --radius-xl: 16px; /* tuiles, bulles, notes */
+  --radius-2xl: 20px; /* cartes, feuilles */
+
+  /* Ombres (les cartes n'en ont qu'en clair : en sombre, la couleur suffit à les détacher) */
+  --shadow-raised: 0 16px 48px rgb(0 0 0 / 0.28);
+  --shadow-thumb: 0 3px 8px rgb(0 0 0 / 0.12), 0 3px 1px rgb(0 0 0 / 0.04);
+  /* Halo d'un grand bouton plein, teinté par sa couleur (shadow-glow shadow-guitar/35) */
+  --shadow-glow: 0 8px 24px rgb(0 0 0 / 0.3);
+
+  /* Ressorts (réponse 0,4 s) : amorti sans rebond par défaut, léger rebond après un geste. */
+  --ease-spring: linear(
+    0,
+    0.0596,
+    0.186,
+    0.3294,
+    0.4656,
+    0.584,
+    0.6819,
+    0.7601,
+    0.821,
+    0.8677,
+    0.9029,
+    0.9292,
+    0.9487,
+    0.963,
+    0.9734,
+    0.9809,
+    0.9864,
+    0.9903,
+    0.9931,
+    0.9951,
+    0.9966,
+    0.9976,
+    0.9983,
+    0.9988,
+    1
+  );
+  --ease-bounce: linear(
+    0,
+    0.0624,
+    0.2017,
+    0.3663,
+    0.5257,
+    0.6644,
+    0.7763,
+    0.8613,
+    0.9223,
+    0.9637,
+    0.9898,
+    1.0049,
+    1.0124,
+    1.015,
+    1.0147,
+    1.0129,
+    1.0105,
+    1.008,
+    1.0057,
+    1.0039,
+    1.0025,
+    1.0014,
+    1.0007,
+    1.0003,
+    1
+  );
+}
+
+/*
+ * Styles de texte (iOS) : la taille, la graisse, l'interligne et l'approche vont ensemble.
+ * Les grands titres sont resserrés, les petits textes légèrement ouverts.
+ */
+@utility t-display-lg {
+  font-size: var(--type-display-lg);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+@utility t-display {
+  font-size: var(--type-display);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+@utility t-display-sm {
+  font-size: var(--type-display-sm);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+@utility t-large {
+  font-size: var(--type-large);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+@utility t-title1 {
+  font-size: var(--type-title1);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+@utility t-title2 {
+  font-size: var(--type-title2);
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+@utility t-title3 {
+  font-size: var(--type-title3);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+@utility t-headline {
+  font-size: var(--type-body);
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+@utility t-body {
+  font-size: var(--type-body);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+@utility t-callout {
+  font-size: var(--type-callout);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+@utility t-subhead {
+  font-size: var(--type-subhead);
+  line-height: 1.33;
+  letter-spacing: -0.006em;
+}
+@utility t-footnote {
+  font-size: var(--type-footnote);
+  line-height: 1.38;
+  letter-spacing: -0.002em;
+}
+@utility t-caption {
+  font-size: var(--type-caption);
+  line-height: 1.33;
+  letter-spacing: 0;
+}
+@utility t-caption2 {
+  font-size: var(--type-caption2);
+  line-height: 1.2;
+  letter-spacing: 0.006em;
+}

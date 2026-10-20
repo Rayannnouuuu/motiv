@@ -40,32 +40,26 @@ export function BodyMetricForm({ onClose }: { onClose: () => void }) {
         if (!empty) void save()
       }}
     >
-      <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
-      <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
-        <span>Date</span>
-        <input
-          type="date"
-          value={day}
-          max={today}
-          onChange={(e) => setDay(e.target.value || today)}
-          className="bg-transparent text-right text-accent"
-        />
-      </label>
-      {BODY_FIELDS.map(({ field, label, unit }) => (
-        <label key={field} className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
-          <span>
-            {label} ({unit})
-          </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={values[field]}
-            onChange={(e) => setValues({ ...values, [field]: e.target.value })}
-            placeholder="—"
-            className="w-24 bg-transparent text-right tabular-nums placeholder:text-faint"
-          />
+      <div className="rows overflow-hidden rounded-md bg-surface">
+        <label className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
+          <span>Date</span>
+          <input type="date" value={day} max={today} onChange={(e) => setDay(e.target.value || today)} className="bg-transparent text-right text-sport" />
         </label>
-      ))}
+        {BODY_FIELDS.map(({ field, label, unit }) => (
+          <label key={field} className="flex min-h-11 items-center justify-between gap-2 px-4 py-2">
+            <span>
+              {label} ({unit})
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={values[field]}
+              onChange={(e) => setValues({ ...values, [field]: e.target.value })}
+              placeholder="—"
+              className="w-24 bg-transparent text-right tabular-nums placeholder:text-muted"
+            />
+          </label>
+        ))}
       </div>
       {error && (
         <p role="alert" className="t-footnote px-4 text-danger">
@@ -73,10 +67,10 @@ export function BodyMetricForm({ onClose }: { onClose: () => void }) {
         </p>
       )}
       <div className="flex gap-2">
-        <Button variant="ghost" onClick={onClose}>
+        <Button variant="ghost" tone="sport" onClick={onClose}>
           Annuler
         </Button>
-        <Button type="submit" className="flex-1" disabled={empty || saving}>
+        <Button type="submit" tone="sport" className="flex-1" disabled={empty || saving}>
           Enregistrer
         </Button>
       </div>

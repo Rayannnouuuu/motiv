@@ -9,7 +9,11 @@ import { ExercisePage } from './ExercisePage'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderPage = (id: string, data = {}) =>
@@ -72,6 +76,15 @@ test('la carte Métronome démarre au tempo du record, juste au-dessus de la tab
   expect(within(card).getByRole('button', { name: 'Record 80' })).toHaveAttribute('aria-pressed', 'true')
   expect(within(card).getByRole('button', { name: `Cible ${getExercise('legato-4')!.targetBpm}` })).toBeInTheDocument()
   expect(card.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Tablature' }))
+})
+
+test('sans record, la carte Métronome démarre au tempo de départ de l’exo', () => {
+  renderPage('legato-4')
+  const card = screen.getByRole('region', { name: 'Métronome' })
+  // Même tempo qu'avant la normalisation : 70 % de la cible (84), arrondi pair.
+  expect(getExercise('legato-4')!.startBpm).toBe(58)
+  expect(within(card).getByText('bpm').previousElementSibling).toHaveTextContent('58')
+  expect(within(card).queryByRole('button', { name: /Record/ })).not.toBeInTheDocument()
 })
 
 test('« Logger cet exo » sans lecture du métronome : pas de tempo transmis', async () => {

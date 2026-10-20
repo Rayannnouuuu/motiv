@@ -1,4 +1,5 @@
 import type { Program, ProgramExercise, SportSession, SportSet } from '../../domain/types'
+import { storageKey } from '../../data/db'
 
 export interface LiveState {
   id: string
@@ -33,7 +34,7 @@ export type LiveAction =
   | { type: 'restAdd' }
   | { type: 'restSkip' }
 
-const KEY = 'motiv.liveSport.v1'
+const KEY = storageKey('liveSport.v1')
 const STALE_MS = 12 * 60 * 60 * 1000
 const REST_ADD_SEC = 30
 const IDLE_START_MS = 30 * 60 * 1000

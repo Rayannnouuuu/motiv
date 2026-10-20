@@ -1,0 +1,4 @@
+dist
+package-lock.json
+supabase/functions/notify/dist
+.claude

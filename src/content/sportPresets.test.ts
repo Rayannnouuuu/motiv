@@ -11,7 +11,11 @@ test('Full body, Haut/Bas et Push/Pull/Legs', () => {
 
 test('presetToPrograms : ids, positions, exos rattachés', () => {
   let n = 0
-  const programs = presetToPrograms(SPORT_PRESETS.find((p) => p.id === 'push-pull-legs')!, 5, () => `id${n++}`)
+  const programs = presetToPrograms(
+    SPORT_PRESETS.find((p) => p.id === 'push-pull-legs')!,
+    5,
+    () => `id${n++}`,
+  )
   expect(programs.map((p) => [p.name, p.position])).toEqual([
     ['Push', 5],
     ['Pull', 6],

@@ -10,7 +10,11 @@ const today = '2026-10-15'
 
 function Probe() {
   const loc = useLocation()
-  return <p>at {loc.pathname} {JSON.stringify(loc.state)}</p>
+  return (
+    <p>
+      at {loc.pathname} {JSON.stringify(loc.state)}
+    </p>
+  )
 }
 
 const renderEdit = (opts: RenderWithDataOptions = {}) =>
@@ -103,11 +107,6 @@ describe('EditLogPage', () => {
     await click('Supprimer')
     expect(actions.saveSong).toHaveBeenCalledWith({ ...s1, status: 'learning', masteredOn: null })
     expect(actions.deleteLog).toHaveBeenCalledWith('guitar', last.id)
-  })
-
-  test('ouverture pendant le chargement : attend les données', () => {
-    renderEdit({ loading: true, data: { guitarSessions: [g(today, 30)] } })
-    expect(screen.getByText('Chargement…')).toBeInTheDocument()
   })
 
   test('corriger un log précis (pas le dernier) via son id', async () => {

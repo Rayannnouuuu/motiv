@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import { TONE, type Tone } from '../../design/tone'
 import type { LevelKey } from '../../domain/levelUp'
 import { Fireworks } from '../../ui/Fireworks'
-import { ProgressRing, type RingColor } from '../../ui/ProgressRing'
+import { ProgressRing } from '../../ui/ProgressRing'
 
-const LABEL: Record<LevelKey, string> = { global: 'Niveau global', guitar: '🎸 Guitare', sport: '🏋️ Sport' }
-const COLOR: Record<LevelKey, RingColor> = { global: 'accent', guitar: 'guitar', sport: 'sport' }
+const LABEL: Record<LevelKey, string> = { global: 'Niveau global', guitar: 'Guitare', sport: 'Sport' }
+const COLOR: Record<LevelKey, Tone> = { global: 'accent', guitar: 'guitar', sport: 'sport' }
 
 const FILL_FROM = 0.6
 const FILL_MS = 1300
@@ -45,16 +46,19 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
       <div
         aria-hidden
         className="levelup-rays pointer-events-none absolute top-1/2 left-1/2 -mt-[60vmax] -ml-[60vmax] h-[120vmax] w-[120vmax] opacity-25"
-        style={{ background: 'repeating-conic-gradient(var(--accent) 0deg 9deg, transparent 9deg 24deg)', maskImage: 'radial-gradient(circle, black 0%, transparent 60%)' }}
+        style={{
+          background: `repeating-conic-gradient(var(--${COLOR[info.key]}) 0deg 9deg, transparent 9deg 24deg)`,
+          maskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+        }}
       />
 
       <p className="t-footnote relative font-semibold text-muted uppercase">{LABEL[info.key]}</p>
 
-      <div className={`relative rounded-full bg-surface p-3 shadow-2xl ${done ? 'levelup-pop' : ''}`}>
+      <div className={`relative rounded-full bg-surface p-3 shadow-raised ${done ? 'levelup-pop' : ''}`}>
         <ProgressRing value={fill} max={1} size={224} stroke={18} color={COLOR[info.key]} transitionMs={FILL_MS}>
           <span className="flex flex-col items-center leading-none">
             <span className="t-footnote text-muted">Niveau</span>
-            <span key={done ? 'to' : 'from'} className={`text-[4.5rem] font-bold tracking-[-0.03em] tabular-nums ${done ? 'levelup-pop' : ''}`}>
+            <span key={done ? 'to' : 'from'} className={`t-display-lg tabular-nums ${done ? 'levelup-pop' : ''}`}>
               {done ? info.to : info.from}
             </span>
           </span>
@@ -64,10 +68,8 @@ export function LevelUpOverlay({ info, onClose }: { info: LevelUpInfo; onClose: 
       {done && (
         <div className="levelup-rise relative flex flex-col items-center gap-2">
           <p className="t-large">Niveau {info.to} !</p>
-          {info.also.length > 0 && (
-            <p className="t-subhead text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>
-          )}
-          <button type="button" className="tap-scale t-headline mt-4 min-h-[3.125rem] rounded-[0.875rem] bg-accent px-10 py-3 text-white" onClick={onClose}>
+          {info.also.length > 0 && <p className="t-subhead text-muted">Et aussi : {info.also.map((a) => `${LABEL[a.key]} niveau ${a.to}`).join(' · ')}</p>}
+          <button type="button" className={`tap-scale t-headline mt-4 min-h-12.5 rounded-lg px-10 py-3 ${TONE.solid[COLOR[info.key]]}`} onClick={onClose}>
             Continuer
           </button>
         </div>

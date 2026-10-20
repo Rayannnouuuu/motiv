@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, test, vi } from 'vitest'
 import { pe, program } from '../../test/factories'
 import { renderWithData } from '../../test/renderWithData'
+import { ProgramEditor } from './ProgramEditor'
 import { SettingsPage } from './SettingsPage'
 
 const today = '2026-10-15'
@@ -10,10 +11,10 @@ const click = (name: string | RegExp) => userEvent.click(screen.getByRole('butto
 
 describe('SettingsPage', () => {
   test('nouvelle séance « Haut » avec « Développé couché » 4×8', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
-    await click('+ Nouvelle séance')
+    const { actions } = renderWithData(<ProgramEditor />, { today })
+    await click('Nouvelle séance')
     await userEvent.type(screen.getByLabelText('Nom de la séance'), 'Haut')
-    await click('+ Ajouter un exo')
+    await click('Ajouter un exo')
     await userEvent.type(screen.getByLabelText('Nom · exo 1'), 'Développé couché')
     const sets = screen.getByLabelText('Séries · Développé couché')
     await userEvent.clear(sets)
@@ -27,12 +28,12 @@ describe('SettingsPage', () => {
     expect(saved.exercises).toEqual([
       { id: expect.any(String), programId: saved.id, name: 'Développé couché', targetSets: 4, targetReps: 8, position: 0, archived: false },
     ])
-    expect(await screen.findByText('« Haut » enregistrée ✓')).toBeInTheDocument()
+    expect(await screen.findByText('« Haut » enregistrée')).toBeInTheDocument()
   })
 
   test('modifier : séries et reps modifiables, rien n’est enregistré avant « Enregistrer »', async () => {
     const a = program({ id: 'a', name: 'Haut', exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', targetSets: 3, targetReps: 10 })] })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [a] } })
+    const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [a] } })
     expect(screen.getByText('Dips 3×10')).toBeInTheDocument()
     await click('Modifier Haut')
     expect(screen.getByRole('button', { name: 'Enregistrer' })).toBeDisabled()
@@ -46,7 +47,7 @@ describe('SettingsPage', () => {
 
   test('« Annuler » abandonne les changements', async () => {
     const a = program({ id: 'a', name: 'Haut' })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [a] } })
+    const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [a] } })
     await click('Modifier Haut')
     await userEvent.type(screen.getByLabelText('Nom de la séance'), ' 2')
     await click('Annuler')
@@ -55,9 +56,14 @@ describe('SettingsPage', () => {
   })
 
   test('↑ / ↓ : ordre des séances et des exos', async () => {
-    const a = program({ id: 'a', name: 'Haut', position: 0, exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', position: 0 }), pe({ id: 'y', programId: 'a', name: 'Rowing', position: 1 })] })
+    const a = program({
+      id: 'a',
+      name: 'Haut',
+      position: 0,
+      exercises: [pe({ id: 'x', programId: 'a', name: 'Dips', position: 0 }), pe({ id: 'y', programId: 'a', name: 'Rowing', position: 1 })],
+    })
     const b = program({ id: 'b', name: 'Bas', position: 1 })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [a, b] } })
+    const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [a, b] } })
 
     await click('Descendre Haut')
     expect(vi.mocked(actions.saveProgram).mock.calls.map((c) => [c[0].id, c[0].position])).toEqual([
@@ -77,7 +83,7 @@ describe('SettingsPage', () => {
 
   test('retirer un exo l’archive ; supprimer la séance l’archive après confirmation', async () => {
     const a = program({ id: 'a', name: 'Haut', exercises: [pe({ id: 'x', programId: 'a', name: 'Dips' })] })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [a] } })
+    const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [a] } })
     await click('Modifier Haut')
     await click('Retirer Dips')
     await click('Enregistrer')
@@ -90,25 +96,8 @@ describe('SettingsPage', () => {
     expect(vi.mocked(actions.saveProgram).mock.calls[1][0]).toMatchObject({ id: 'a', archived: true })
   })
 
-  test('« Se déconnecter » appelle signOut', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
-    await click('Se déconnecter')
-    expect(actions.signOut).toHaveBeenCalled()
-  })
-
-  test('mot de passe : 8 caractères min., puis enregistré', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
-    const input = screen.getByLabelText(/Mot de passe/)
-    await userEvent.type(input, 'court')
-    expect(screen.getByRole('button', { name: 'Enregistrer le mot de passe' })).toBeDisabled()
-    await userEvent.type(input, '-assez-long')
-    await click('Enregistrer le mot de passe')
-    expect(actions.setPassword).toHaveBeenCalledWith('court-assez-long')
-    expect(await screen.findByText('Mot de passe enregistré ✓')).toBeInTheDocument()
-  })
-
   test('programme tout fait sans séance : créé directement', async () => {
-    const { actions } = renderWithData(<SettingsPage />, { today })
+    const { actions } = renderWithData(<ProgramEditor />, { today })
     await click('Suivre Haut / Bas')
     const saved = vi.mocked(actions.saveProgram).mock.calls.map((c) => c[0])
     expect(saved.map((p) => p.name)).toEqual(['Haut', 'Bas'])
@@ -117,7 +106,7 @@ describe('SettingsPage', () => {
 
   test('programme tout fait avec séances existantes : confirmation puis remplacement', async () => {
     const old = program({ id: 'old', name: 'Ancienne' })
-    const { actions } = renderWithData(<SettingsPage />, { today, data: { programs: [old] } })
+    const { actions } = renderWithData(<ProgramEditor />, { today, data: { programs: [old] } })
     await click('Changer pour un programme tout fait')
     await click('Suivre Push / Pull / Legs')
     expect(actions.saveProgram).not.toHaveBeenCalled()
@@ -133,14 +122,14 @@ describe('SettingsPage', () => {
     await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Programmes tout faits' })).not.toBeInTheDocument())
   })
 
-  test('thème : clair par défaut, choix appliqué et mémorisé', async () => {
+  test('thème : sombre par défaut, choix appliqué et mémorisé', async () => {
     localStorage.clear()
     renderWithData(<SettingsPage />, { today })
-    expect(screen.getByRole('button', { name: 'Clair' })).toHaveAttribute('aria-pressed', 'true')
-    await click('Sombre')
-    expect(document.documentElement.dataset.theme).toBe('dark')
-    expect(localStorage.getItem('motiv.theme.v1')).toBe('dark')
     expect(screen.getByRole('button', { name: 'Sombre' })).toHaveAttribute('aria-pressed', 'true')
+    await click('Clair')
+    expect(document.documentElement.dataset.theme).toBe('light')
+    expect(localStorage.getItem('motiv.theme.v1')).toBe('light')
+    expect(screen.getByRole('button', { name: 'Clair' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   test('« Version » : date du build et commit, en dernier', () => {

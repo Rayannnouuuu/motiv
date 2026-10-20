@@ -61,8 +61,7 @@ export function generateGuitarTarget(data: AppData, today: Day, rng: () => numbe
   const sessions = [...data.guitarSessions].sort((a, b) => b.day.localeCompare(a.day))
   for (const s of sessions) {
     if (!isRecent(s.day, today)) continue
-    for (const it of s.items)
-      if (it.kind === 'exercise' && getExercise(it.exerciseId) && !recentIds.includes(it.exerciseId)) recentIds.push(it.exerciseId)
+    for (const it of s.items) if (it.kind === 'exercise' && getExercise(it.exerciseId) && !recentIds.includes(it.exerciseId)) recentIds.push(it.exerciseId)
   }
   const maxDone = maxDifficultyByCategory(data.guitarSessions)
 
@@ -106,8 +105,7 @@ export function generateSportTarget(data: AppData, today: Day, rng: () => number
     const all = setsForExercise(data.sportSessions, id)
     const bestWeight = Math.max(...all.map((s) => s.weightKg))
     const repsAtBest = Math.max(...all.filter((s) => s.weightKg === bestWeight).map((s) => s.reps))
-    if (bestWeight > 0)
-      candidates.push({ kind: 'weight', programExerciseId: id, reps: repsAtBest, weightKg: bestWeight + WEIGHT_STEP, baseline: bestWeight })
+    if (bestWeight > 0) candidates.push({ kind: 'weight', programExerciseId: id, reps: repsAtBest, weightKg: bestWeight + WEIGHT_STEP, baseline: bestWeight })
     candidates.push({ kind: 'reps', programExerciseId: id, weightKg: bestWeight, reps: repsAtBest + REPS_STEP, baseline: repsAtBest })
   }
   return pick([candidates], exclude, rng, FALLBACK_SPORT)
@@ -125,14 +123,11 @@ export function isChallengeMet(ch: Challenge, data: AppData): boolean {
     case 'weight':
     case 'reps':
       return data.sportSessions.some(
-        (s) =>
-          s.day >= ch.createdOn &&
-          s.sets.some((x) => x.programExerciseId === t.programExerciseId && x.weightKg >= t.weightKg && x.reps >= t.reps),
+        (s) => s.day >= ch.createdOn && s.sets.some((x) => x.programExerciseId === t.programExerciseId && x.weightKg >= t.weightKg && x.reps >= t.reps),
       )
     case 'sessionsInWeek': {
       const perWeek = new Map<Day, number>()
-      for (const s of data.sportSessions)
-        if (s.day >= ch.createdOn) perWeek.set(weekStart(s.day), (perWeek.get(weekStart(s.day)) ?? 0) + 1)
+      for (const s of data.sportSessions) if (s.day >= ch.createdOn) perWeek.set(weekStart(s.day), (perWeek.get(weekStart(s.day)) ?? 0) + 1)
       return [...perWeek.values()].some((n) => n >= t.count)
     }
   }
@@ -156,13 +151,7 @@ export function easierTarget(t: ChallengeTarget): ChallengeTarget | null {
 }
 
 export function canOfferEasier(ch: Challenge, today: Day): boolean {
-  return (
-    ch.status === 'active' &&
-    !ch.easier &&
-    ch.blockedSince !== null &&
-    daysBetween(ch.blockedSince, today) >= EASIER_AFTER_DAYS &&
-    isEasier(ch.target)
-  )
+  return ch.status === 'active' && !ch.easier && ch.blockedSince !== null && daysBetween(ch.blockedSince, today) >= EASIER_AFTER_DAYS && isEasier(ch.target)
 }
 
 /** Vrai seulement si la version facile change vraiment la cible. */
@@ -180,8 +169,7 @@ export function formatKg(kg: number): string {
 }
 
 export function describeTarget(t: ChallengeTarget, data: AppData): string {
-  const exoName = (id: string) =>
-    data.programs.flatMap((p) => p.exercises).find((e) => e.id === id)?.name ?? 'Exo inconnu'
+  const exoName = (id: string) => data.programs.flatMap((p) => p.exercises).find((e) => e.id === id)?.name ?? 'Exo inconnu'
   switch (t.kind) {
     case 'bpm':
       return `${getExercise(t.exerciseId)?.title ?? 'Exo inconnu'} à ${t.bpm} bpm`

@@ -25,6 +25,6 @@ export function songsOfTheDay(songs: Song[], sessions: GuitarSession[], today: D
   const learning = active.filter((s) => s.status === 'learning').sort((a, b) => a.title.localeCompare(b.title))
   const left = catalogNotAdded(active)
   const easy = left.filter((c) => c.difficulty <= (left[0]?.difficulty ?? 0) + 1)
-  const pick = <T,>(list: T[], salt: string) => (list.length > 0 ? [list[hash(today + salt) % list.length]] : [])
+  const pick = <T>(list: T[], salt: string) => (list.length > 0 ? [list[hash(today + salt) % list.length]] : [])
   return [...pick(learning, 'cours').map((s) => s.title), ...pick(easy, 'neuf').map((c) => c.title)]
 }

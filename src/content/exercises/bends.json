@@ -5,8 +5,10 @@
     "category": "bends",
     "difficulty": 1,
     "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 3,
@@ -42,8 +44,10 @@
     "category": "bends",
     "difficulty": 2,
     "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 2,
@@ -79,8 +83,10 @@
     "category": "bends",
     "difficulty": 3,
     "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 1,
@@ -116,8 +122,10 @@
     "category": "bends",
     "difficulty": 4,
     "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 3,
@@ -153,8 +161,10 @@
     "category": "bends",
     "difficulty": 5,
     "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 2,
@@ -190,8 +200,10 @@
     "category": "bends",
     "difficulty": 6,
     "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "metric": "bpm",
+    "startBpm": 68,
     "targetBpm": 96,
-    "xpReward": 60,
+    "source": "legacy",
     "pattern": [
       {
         "string": 1,
@@ -227,8 +239,10 @@
     "category": "bends",
     "difficulty": 7,
     "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "metric": "bpm",
+    "startBpm": 72,
     "targetBpm": 102,
-    "xpReward": 70,
+    "source": "legacy",
     "pattern": [
       {
         "string": 3,
@@ -264,8 +278,10 @@
     "category": "bends",
     "difficulty": 8,
     "description": "Bend d'un demi-ton : vise la justesse plutôt que la force.",
+    "metric": "bpm",
+    "startBpm": 76,
     "targetBpm": 108,
-    "xpReward": 80,
+    "source": "legacy",
     "pattern": [
       {
         "string": 2,
@@ -301,8 +317,10 @@
     "category": "bends",
     "difficulty": 9,
     "description": "Bend et vibrato : ajoute un petit vibrato une fois la hauteur du bend atteinte.",
+    "metric": "bpm",
+    "startBpm": 80,
     "targetBpm": 114,
-    "xpReward": 90,
+    "source": "legacy",
     "pattern": [
       {
         "string": 1,
@@ -338,8 +356,10 @@
     "category": "bends",
     "difficulty": 10,
     "description": "Monte la note d'un ton avec le bend, tiens la hauteur, puis reviens.",
+    "metric": "bpm",
+    "startBpm": 84,
     "targetBpm": 120,
-    "xpReward": 100,
+    "source": "legacy",
     "pattern": [
       {
         "string": 3,

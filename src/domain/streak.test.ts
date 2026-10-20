@@ -46,8 +46,12 @@ test('aucune session : série 0, 30 min restantes', () => {
 
 test('série sport en semaines de 3 séances, semaine en cours non comptée tant que < 3', () => {
   const sessions = [
-    ss([], '2026-09-28'), ss([], '2026-09-30'), ss([], '2026-10-04'),
-    ss([], '2026-10-05'), ss([], '2026-10-07'), ss([], '2026-10-09'),
+    ss([], '2026-09-28'),
+    ss([], '2026-09-30'),
+    ss([], '2026-10-04'),
+    ss([], '2026-10-05'),
+    ss([], '2026-10-07'),
+    ss([], '2026-10-09'),
     ss([], '2026-10-12'),
   ]
   expect(sportStreak(sessions, '2026-10-13')).toEqual({ weeks: 2, thisWeekCount: 1 })
@@ -59,10 +63,7 @@ test('série sport : semaine en cours complète comptée', () => {
 })
 
 test('meilleure série : la plus longue suite, même avec un trou au milieu', () => {
-  const sessions = [
-    g('2026-10-01', 60), g('2026-10-02', 60), g('2026-10-03', 60),
-    g('2026-10-05', 60), g('2026-10-06', 60),
-  ]
+  const sessions = [g('2026-10-01', 60), g('2026-10-02', 60), g('2026-10-03', 60), g('2026-10-05', 60), g('2026-10-06', 60)]
   expect(bestGuitarStreak(sessions)).toBe(3)
 })
 

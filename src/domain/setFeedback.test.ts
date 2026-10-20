@@ -13,7 +13,15 @@ describe('activeSetChallenge', () => {
   })
 
   test('défi terminé, remplacé, guitare ou par semaine : ignoré', () => {
-    expect(activeSetChallenge([{ ...weight, status: 'done' }, { ...weight, status: 'replaced' }], 'a')).toBeNull()
+    expect(
+      activeSetChallenge(
+        [
+          { ...weight, status: 'done' },
+          { ...weight, status: 'replaced' },
+        ],
+        'a',
+      ),
+    ).toBeNull()
     expect(activeSetChallenge([challenge(), challenge({ domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })], 'a')).toBeNull()
   })
 })

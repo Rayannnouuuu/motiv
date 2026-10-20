@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
+import { TONE } from '../../design/tone'
 import { describeTarget, isChallengeMet } from '../../domain/challenges'
 import { guitarMoment, sportMoment, type GoalMoment } from '../../domain/goalMoment'
 import { allLevels } from '../../domain/levels'
@@ -33,20 +35,18 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
     case 'streakRepaired': {
       const what = moment.kind === 'streakKept' ? 'Série tenue' : 'Série réparée'
       return (
-        <div className="text-center">
-          <p className="text-[3.5rem] leading-none" aria-hidden>
-            🔥
-          </p>
+        <div className="flex flex-col items-center text-center">
+          <Icon name={moment.milestone ? 'trophy' : 'guitar'} size="3.25em" className="text-guitar" />
           <p className="t-title1 mt-2 tabular-nums">{jours(moment.days)}</p>
           <p className="t-headline text-guitar">
-            {moment.milestone ? `${what} · palier de ${moment.days} jours 🎉` : moment.kind === 'streakKept' ? 'Série tenue !' : 'Série réparée ✓'}
+            {moment.milestone ? `${what} · palier de ${moment.days} jours` : moment.kind === 'streakKept' ? 'Série tenue !' : 'Série réparée'}
           </p>
         </div>
       )
     }
     case 'guitarRemaining':
       return (
-        <div className="rounded-[1rem] bg-surface p-4 shadow-card">
+        <div className="rounded-xl bg-surface p-4 shadow-card">
           <p className="t-subhead font-semibold tabular-nums">
             {moment.todayMin}/{moment.targetMin} min aujourd'hui
           </p>
@@ -66,26 +66,24 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
         </div>
       )
     case 'guitarBonus':
-      return <p className="t-subhead text-center text-muted">Série déjà tenue aujourd'hui · {jours(moment.days)} ✓</p>
+      return <p className="t-subhead text-center text-muted">Série déjà tenue aujourd'hui · {jours(moment.days)}</p>
     case 'weekDone':
       return (
-        <div className="text-center">
-          <p className="text-[3.5rem] leading-none" aria-hidden>
-            🏋️
-          </p>
-          <p className="t-title2 mt-2">Semaine validée ✓</p>
+        <div className="flex flex-col items-center text-center">
+          <Icon name={moment.milestone ? 'trophy' : 'sport'} size="3.25em" className="text-sport" />
+          <p className="t-title2 mt-2">Semaine validée</p>
           <p className="t-headline text-sport">
             {moment.weeks === 1
               ? moment.firstEver
                 ? 'Première semaine validée'
                 : "C'est reparti · 1 semaine d'affilée"
-              : `${moment.weeks} semaines d'affilée${moment.milestone ? ' 🎉' : ''}`}
+              : `${moment.weeks} semaines d'affilée`}
           </p>
         </div>
       )
     case 'weekProgress':
       return (
-        <div className="rounded-[1rem] bg-surface p-4 shadow-card">
+        <div className="rounded-xl bg-surface p-4 shadow-card">
           <Gauge
             from={moment.done - 1}
             value={moment.done}
@@ -100,7 +98,7 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
         </div>
       )
     case 'weekBonus':
-      return <p className="t-subhead text-center text-muted">Séance bonus · {moment.done} cette semaine 💪</p>
+      return <p className="t-subhead text-center text-muted">Séance bonus · {moment.done} cette semaine</p>
   }
 }
 
@@ -135,23 +133,26 @@ export function XpResultPage() {
       )}
       <div className="animate-pop text-center">
         <p className="t-footnote font-semibold text-muted uppercase">{LABEL[domain]}</p>
-        <p className="text-[3.75rem] leading-none font-bold tracking-[-0.03em] text-accent tabular-nums">+{result.total} XP</p>
+        <p className={`t-display tabular-nums ${TONE.text[domain]}`}>+{result.total} XP</p>
       </div>
       {met.map((c) => (
-        <div key={c.id} className="animate-rise rounded-[1rem] bg-accent/12 px-4 py-3 text-center">
-          <p className="t-headline text-accent">🎯 Défi réussi !</p>
-          <p className="t-subhead">{describeTarget(c.target, data)}</p>
+        <div key={c.id} className={`animate-rise rounded-xl px-4 py-3 text-center ${TONE.tint[c.domain]}`}>
+          <p className="t-headline flex items-center justify-center gap-1.5">
+            <Icon name="target" />
+            Défi réussi !
+          </p>
+          <p className="t-subhead text-ink">{describeTarget(c.target, data)}</p>
         </div>
       ))}
-      <ul className="rows animate-rise overflow-hidden rounded-[0.75rem] bg-surface" style={{ animationDelay: '80ms' }}>
+      <ul className="rows animate-rise overflow-hidden rounded-md bg-surface" style={{ animationDelay: '80ms' }}>
         {result.lines.map((l) => (
           <li key={l.label} className="t-body flex min-h-11 items-center justify-between gap-3 px-4 py-2.5">
             <span>{l.label}</span>
-            <span className="font-semibold text-accent tabular-nums">+{l.xp}</span>
+            <span className={`font-semibold tabular-nums ${TONE.text[domain]}`}>+{l.xp}</span>
           </li>
         ))}
       </ul>
-      <div className="animate-rise rounded-[1rem] bg-surface p-4 shadow-card" style={{ animationDelay: '160ms' }}>
+      <div className="animate-rise rounded-xl bg-surface p-4 shadow-card" style={{ animationDelay: '160ms' }}>
         <div className="t-subhead flex justify-between">
           <span className="font-semibold">
             {LABEL[domain]} · niveau {lvl.level}
@@ -168,12 +169,12 @@ export function XpResultPage() {
           label={`${LABEL[domain]} : ${lvl.xpInLevel} / ${lvl.perLevel} XP`}
           className="mt-2.5 h-2.5"
         />
-        {lvl.blocked && <p className="t-subhead mt-2 font-semibold text-accent">Défi requis pour passer au niveau suivant</p>}
+        {lvl.blocked && <p className={`t-subhead mt-2 font-semibold ${TONE.text[domain]}`}>Défi requis pour passer au niveau suivant</p>}
       </div>
-      <Link to="/" className="tap-scale t-headline mt-2 rounded-[0.875rem] bg-accent px-4 py-3.5 text-center text-white">
+      <Link to="/" className={`tap-scale t-headline mt-2 rounded-lg px-4 py-3.5 text-center ${TONE.solid[domain]}`}>
         Continuer
       </Link>
-      <Link to={state.logId ? `/log/corriger/${state.logId}` : '/log/corriger'} className="tap t-subhead -mt-2 self-center py-2 text-accent">
+      <Link to={state.logId ? `/log/corriger/${state.logId}` : '/log/corriger'} className={`hit tap t-subhead -mt-2 self-center py-2 ${TONE.text[domain]}`}>
         Une erreur ? Corriger ce log
       </Link>
     </div>

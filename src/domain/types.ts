@@ -2,9 +2,7 @@ export type Day = string // 'YYYY-MM-DD', Europe/Paris
 export type Rating = 1 | 2 | 3 | 4 | 5
 export type Domain = 'guitar' | 'sport'
 
-export type GuitarItem =
-  | { kind: 'exercise'; exerciseId: string; maxBpm: number | null }
-  | { kind: 'song'; songId: string; markedMastered: boolean }
+export type GuitarItem = { kind: 'exercise'; exerciseId: string; maxBpm: number | null } | { kind: 'song'; songId: string; markedMastered: boolean }
 
 export interface GuitarSession {
   id: string

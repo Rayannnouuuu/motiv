@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 en cours** sur `refonte/lot-1`. Tu as exporté tes données le 19 oct. : la migration et le nouveau stockage peuvent avancer (règle 2).
+**Lot 1 validé et en ligne sur `/motiv/` (20 oct.). Lot 2 en cours sur `refonte/lot-2`** (version d'essai sur `/motiv/essai/`).
 
 ## Fait
 
@@ -21,6 +21,33 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - 19 oct. 2026 : export fait (« C'est bon »). Une copie de test au format 0 est relue depuis Supabase, en lecture seule. Elle reste dans le dossier temporaire de session, jamais dans le dépôt.
 - 20 oct. 2026 : **nouveau lot 3, Plan marathon**, ajouté au cahier des charges (`REFONTE.md` §6). Les lots suivants sont renumérotés : 4 = Progrès et rythme, 5 = Preuves et anti-stagnation. Au §9, les push sont repoussés « après le lot 5 » (même sens qu'avant : après le dernier lot) et le plan marathon devient la seule exception à « pas de programmes générés ».
 
+- 20 oct. 2026 : lot 1, contenus.
+  - Base guitare normalisée : `metric`, `startBpm` et `source` ajoutés, ids inchangés, les 20 « doublons » retitrés.
+  - Bibliothèque sport de 34 mouvements, avec `findMovement` qui reconnaît un nom exact ou un alias.
+- 20 oct. 2026 : lot 1, stockage. Le détail est dans `docs/lots/LOT-1-DONNEES.md`.
+  - Dexie local, une base par adresse.
+  - Modèle v1 unifié, avec une migration format 0 → 1 pure et testée.
+  - Export format 1, import avec aperçu et annulation, premier lancement (reprise des données laissées par l'ancienne version).
+  - Rappel de sauvegarde et bandeau d'installation.
+  - Retirés de l'appli : connexion, file d'envoi, instantané, réglages push, TanStack Query, supabase-js.
+  - Vérifié sur la copie réelle : aller-retour exact, mêmes niveaux, même série, même plan du jour.
+  - 453 tests verts.
+
+- 20 oct. 2026 : lot 1, design et navigation.
+  - Design system dans `src/design/` : jetons, sombre par défaut, une couleur par discipline, icônes au trait à la place des emoji, contrastes AA testés.
+  - Navigation : Aujourd'hui · Progrès · Bibliothèque (exercices guitare et sport, morceaux, modèles) · Moi (thème, sauvegarde, version).
+  - Bouton « Commencer » sur tous les écrans à onglets.
+  - Mouvements sport modifiables : nom, haut ou bas du corps, fourchette de reps.
+  - Prettier ajouté (`npm run format`, `npm run lint`).
+  - 558 tests verts.
+  - Captures 390 px, sombre et clair, dans `docs/lots/lot1/`.
+
+- 20 oct. 2026 : **bascule du lot 1** (validé : « ça me convient »).
+  - Une sauvegarde complète et à jour a été recalculée depuis Supabase : 8 séances guitare, dont 2 du 19 oct. au soir, faites après l'export. Elle a été vérifiée par la migration (aller-retour identique) et envoyée à l'utilisateur. Elle n'est pas dans le dépôt.
+  - `main` = lot 1. Au premier lancement, l'appli propose de reprendre les données laissées sur le téléphone par l'ancienne version, ou d'importer la sauvegarde.
+  - Le cron `motiv-notify` de Supabase est coupé. Supabase reste actif, en lecture seule, comme copie de secours. Sa mise en pause et le retrait de `supabase/` du dépôt viendront une fois l'import confirmé.
+  - 183 cm dans « Taille » le 13 oct. = la hauteur. Ce sera corrigé avec le profil du lot 3 (taille, poids), sans toucher à l'historique avant.
+
 ## Décidé (détails, option la plus simple)
 
 - Les ids des exos guitare ne changent pas (`scales-3`…), pour garder l'historique valide.
@@ -29,6 +56,10 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - Graphiques : on garde `LineChart` maison (0 dépendance), et on ajoute des barres du même style.
 - Lint : on garde oxlint et on ajoute Prettier, au lieu de passer à ESLint.
 - Les exos guitare en double deviennent des variantes : ils sont renommés, pas supprimés.
+- Stockage : l'XP reste stockée jusqu'au lot 4 (plancher de niveau). Les défis restent jusqu'au lot 4. Les écrans du lot 1 lisent une projection vers l'ancienne forme.
+- Mouvements sport : nom exact ou alias uniquement, jamais de rapprochement approximatif. Un nom inconnu devient un mouvement à toi.
+- Versions de dépendances : figées, et publiées depuis au moins 2 semaines (fake-indexeddb 6.2.5 plutôt que 6.2.6).
+- `supabase/` reste dans le dépôt jusqu'à la bascule : l'appli en ligne s'en sert encore. Sa suppression se fera avec ton accord.
 - Lot 3 marathon : le sport couvre maintenant la course à pied en plus de la musculation. Dès le lot 1, le modèle de données prévoit la distance, la durée et la douleur (0-10) d'une sortie, pour ne pas avoir à migrer plus tard.
 
 ## Réponses aux questions de l'audit (validées le 19 oct.)
@@ -46,8 +77,19 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 - [x] Lot 1, étape 0 : export JSON dans l'appli actuelle.
 - [x] Lot 1 : tu exportes tes données (fait le 19 oct.).
-- [ ] Lot 1 : design system et navigation, base d'exos guitare normalisée, bibliothèque sport (rien de tout ça ne touche au stockage).
-- [ ] Lot 1 : stockage Dexie versionné, import avec aperçu (le format 0 est migré), export au format 1, migration testée sur une copie.
+- [x] Lot 1 : base d'exos guitare normalisée, bibliothèque sport.
+- [x] Lot 1 : stockage Dexie versionné, import avec aperçu (format 0 migré), export format 1, migration testée sur une copie.
+- [x] Lot 1 : design system, navigation à 4 onglets, Prettier, captures, version d'essai.
+- [x] Lot 1 : validé et basculé sur `/motiv/` (20 oct.).
+- [ ] Après la bascule : confirmer que tes données sont bien dans la nouvelle appli, puis mettre Supabase en pause et retirer `supabase/` du dépôt.
+- [ ] Suites notées pour le lot 2 :
+  - l'historique sport suit le mouvement dans l'écran séance ;
+  - les variantes guitare `-11` à `-15` dans le plan du jour ;
+  - le toast « Record ! » et les feux d'artifice affichés au-dessus de l'écran animé ;
+  - les flèches en texte dans `ModalBar` ;
+  - les tailles fixes des graphiques ;
+  - `RowIcon` et `Chip` inutilisés.
+- [x] 183 cm le 13 oct. : c'est ta hauteur.
 - [ ] Lot 2 — La séance unifiée
 - [ ] Lot 3 — Plan marathon
 - [ ] Lot 4 — Progrès et rythme

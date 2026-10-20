@@ -5,8 +5,10 @@
     "category": "picking",
     "difficulty": 1,
     "description": "Alterne coup de médiator vers le bas et vers le haut, sans sauter de mouvement.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -64,8 +66,10 @@
     "category": "picking",
     "difficulty": 2,
     "description": "Garde le poignet détendu : c'est lui qui bouge, pas tout le bras.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -123,8 +127,10 @@
     "category": "picking",
     "difficulty": 3,
     "description": "Picking croisé entre deux cordes : vise la régularité avant la vitesse.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -182,8 +188,10 @@
     "category": "picking",
     "difficulty": 4,
     "description": "Alterne coup de médiator vers le bas et vers le haut, sans sauter de mouvement.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -241,8 +249,10 @@
     "category": "picking",
     "difficulty": 5,
     "description": "Garde le poignet détendu : c'est lui qui bouge, pas tout le bras.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -300,8 +310,10 @@
     "category": "picking",
     "difficulty": 6,
     "description": "Picking croisé entre deux cordes : vise la régularité avant la vitesse.",
+    "metric": "bpm",
+    "startBpm": 68,
     "targetBpm": 96,
-    "xpReward": 60,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -359,8 +371,10 @@
     "category": "picking",
     "difficulty": 7,
     "description": "Alterne coup de médiator vers le bas et vers le haut, sans sauter de mouvement.",
+    "metric": "bpm",
+    "startBpm": 72,
     "targetBpm": 102,
-    "xpReward": 70,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -418,8 +432,10 @@
     "category": "picking",
     "difficulty": 8,
     "description": "Garde le poignet détendu : c'est lui qui bouge, pas tout le bras.",
+    "metric": "bpm",
+    "startBpm": 76,
     "targetBpm": 108,
-    "xpReward": 80,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -477,8 +493,10 @@
     "category": "picking",
     "difficulty": 9,
     "description": "Picking croisé entre deux cordes : vise la régularité avant la vitesse.",
+    "metric": "bpm",
+    "startBpm": 80,
     "targetBpm": 114,
-    "xpReward": 90,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -536,8 +554,10 @@
     "category": "picking",
     "difficulty": 10,
     "description": "Alterne coup de médiator vers le bas et vers le haut, sans sauter de mouvement.",
+    "metric": "bpm",
+    "startBpm": 84,
     "targetBpm": 120,
-    "xpReward": 100,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -591,12 +611,14 @@
   },
   {
     "id": "picking-11",
-    "title": "Picking croisé 11",
+    "title": "Picking croisé 1, haut du manche",
     "category": "picking",
     "difficulty": 1,
     "description": "Garde le poignet détendu : c'est lui qui bouge, pas tout le bras.",
+    "metric": "bpm",
+    "startBpm": 46,
     "targetBpm": 66,
-    "xpReward": 10,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -650,12 +672,14 @@
   },
   {
     "id": "picking-12",
-    "title": "Médiator alterné 12",
+    "title": "Médiator alterné 2, haut du manche",
     "category": "picking",
     "difficulty": 2,
     "description": "Picking croisé entre deux cordes : vise la régularité avant la vitesse.",
+    "metric": "bpm",
+    "startBpm": 50,
     "targetBpm": 72,
-    "xpReward": 20,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,
@@ -709,12 +733,14 @@
   },
   {
     "id": "picking-13",
-    "title": "Alternate picking 13",
+    "title": "Alternate picking 3, haut du manche",
     "category": "picking",
     "difficulty": 3,
     "description": "Alterne coup de médiator vers le bas et vers le haut, sans sauter de mouvement.",
+    "metric": "bpm",
+    "startBpm": 54,
     "targetBpm": 78,
-    "xpReward": 30,
+    "source": "legacy",
     "pattern": [
       {
         "string": 6,
@@ -768,12 +794,14 @@
   },
   {
     "id": "picking-14",
-    "title": "Picking croisé 14",
+    "title": "Picking croisé 4, haut du manche",
     "category": "picking",
     "difficulty": 4,
     "description": "Garde le poignet détendu : c'est lui qui bouge, pas tout le bras.",
+    "metric": "bpm",
+    "startBpm": 58,
     "targetBpm": 84,
-    "xpReward": 40,
+    "source": "legacy",
     "pattern": [
       {
         "string": 5,
@@ -827,12 +855,14 @@
   },
   {
     "id": "picking-15",
-    "title": "Médiator alterné 15",
+    "title": "Médiator alterné 5, haut du manche",
     "category": "picking",
     "difficulty": 5,
     "description": "Picking croisé entre deux cordes : vise la régularité avant la vitesse.",
+    "metric": "bpm",
+    "startBpm": 62,
     "targetBpm": 90,
-    "xpReward": 50,
+    "source": "legacy",
     "pattern": [
       {
         "string": 4,

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { songsOfTheDay } from '../../domain/songSuggestion'
 import { guitarWeek } from '../../domain/guitarWeek'
@@ -7,17 +8,10 @@ import { bestBpm } from '../../domain/records'
 import { GUITAR_DAILY_MIN, GUITAR_SHORT_MIN, guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
+import { RowChevron } from '../../ui/List'
 import { WeekStrip } from '../../ui/WeekStrip'
 import { loadLive } from '../log-sport/liveSession'
 import { runningPracticeMinutes } from '../practice/practiceSession'
-
-function Chevron() {
-  return (
-    <svg width="8" height="13" viewBox="0 0 8 13" className="shrink-0 self-center text-faint" aria-hidden>
-      <path d="M1.5 1.5 6.5 6.5 1.5 11.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 
 /** Guitare sur l'accueil : la semaine, la séance du jour (exos, morceaux), le log sans chrono. */
 export function GuitarCard() {
@@ -41,8 +35,9 @@ export function GuitarCard() {
   return (
     <Card className="flex flex-col gap-4" role="region" aria-labelledby="guitar-title">
       <div className="flex items-baseline justify-between gap-2">
-        <h2 id="guitar-title" className="t-title3">
-          🎸 Guitare
+        <h2 id="guitar-title" className="t-title3 flex items-center gap-2">
+          <Icon name="guitar" className="text-guitar" />
+          Guitare
         </h2>
         <p className="t-footnote text-muted">
           {week.goalDays}/7 jours à {GUITAR_DAILY_MIN} min
@@ -57,14 +52,14 @@ export function GuitarCard() {
           day: d.day,
           // Plein à 60 min, à moitié pour un jour court (30 à 59 min, il compte), vide en dessous.
           fill: d.minutes >= GUITAR_DAILY_MIN ? 1 : d.minutes >= GUITAR_SHORT_MIN ? 0.5 : 0,
-          content: d.minutes >= GUITAR_DAILY_MIN ? '✓' : d.minutes > 0 ? d.minutes : '',
+          content: d.minutes >= GUITAR_DAILY_MIN ? <Icon name="check" size="1.45em" /> : d.minutes > 0 ? d.minutes : '',
           label: `${d.minutes} min`,
         }))}
       />
 
       <div className="flex flex-col gap-2">
         <h3 className="t-footnote font-semibold text-muted uppercase">Séance du jour</h3>
-        <ul className="rows -mx-1 overflow-hidden rounded-[0.875rem] bg-surface-2 dark:bg-fill">
+        <ul className="rows -mx-1 overflow-hidden rounded-lg bg-inset">
           {plan.map((ex) => {
             const best = bestBpm(data.guitarSessions, ex.id)
             const done = doneToday.has(ex.id)
@@ -73,9 +68,9 @@ export function GuitarCard() {
                 <Link to={`/exo/${ex.id}`} className={`tap-row flex gap-3 px-3.5 py-2.5 ${done ? 'opacity-55' : ''}`}>
                   <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <span className="flex items-baseline justify-between gap-2">
-                      <span className="t-headline truncate">
-                        {done && '✓ '}
-                        {ex.title}
+                      <span className="t-headline flex min-w-0 items-center gap-1">
+                        {done && <Icon name="check" className="text-guitar" />}
+                        <span className="truncate">{ex.title}</span>
                       </span>
                       <span className="t-caption shrink-0 text-muted">niv. {ex.difficulty}</span>
                     </span>
@@ -83,7 +78,7 @@ export function GuitarCard() {
                       Cible {ex.targetBpm} bpm{best !== null && <span className="text-muted"> · ton record {best} bpm</span>}
                     </span>
                   </span>
-                  <Chevron />
+                  <RowChevron className="self-center" />
                 </Link>
               </li>
             )
@@ -95,10 +90,11 @@ export function GuitarCard() {
               <li key={title}>
                 <button
                   type="button"
-                  className="tap-scale t-footnote rounded-full bg-guitar/12 px-3 py-1.5 font-medium text-guitar"
+                  className="hit tap-scale t-footnote flex items-center gap-1 rounded-full bg-guitar/12 px-3 py-1.5 font-medium text-guitar"
                   onClick={() => navigate('/log/guitare', { state: { songTitle: title } })}
                 >
-                  🎵 {title}
+                  <Icon name="song" />
+                  {title}
                 </button>
               </li>
             ))}
@@ -108,12 +104,14 @@ export function GuitarCard() {
 
       <div className="flex flex-col gap-1">
         {!heroIsGuitar && (
-          <Button variant="secondary" onClick={() => navigate('/jouer', practiceRunning ? undefined : { state: { autostart: true } })}>
-            {practiceRunning ? '⏱ Reprendre le chrono' : goalMet ? '▶︎ Rejouer avec le chrono' : '▶︎ Jouer avec le chrono'}
+          <Button variant="secondary" tone="guitar" onClick={() => navigate('/jouer', practiceRunning ? undefined : { state: { autostart: true } })}>
+            <Icon name={practiceRunning ? 'timer' : 'play'} />
+            {practiceRunning ? 'Reprendre le chrono' : goalMet ? 'Rejouer avec le chrono' : 'Jouer avec le chrono'}
           </Button>
         )}
         <Button
           variant="ghost"
+          tone="guitar"
           // Chrono en cours : ses minutes seront comptées à sa fin, rien à présélectionner ici.
           onClick={() => navigate('/log/guitare', streak.remainingMin > 0 && !practiceRunning ? { state: { durationMin: streak.remainingMin } } : undefined)}
         >

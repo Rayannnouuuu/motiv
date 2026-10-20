@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
-
-export type GaugeColor = 'accent' | 'guitar' | 'sport'
-
-const FILL: Record<GaugeColor, string> = { accent: 'bg-accent', guitar: 'bg-guitar', sport: 'bg-sport' }
+import { TONE, type Tone } from '../design/tone'
 
 /** Barre de progression. `from` permet d'animer la montée depuis une valeur précédente. */
-export function Gauge({ value, max, color = 'accent', label, from, className = 'h-2' }: {
+export function Gauge({
+  value,
+  max,
+  color = 'accent',
+  label,
+  from,
+  className = 'h-2',
+}: {
   value: number
   max: number
-  color?: GaugeColor
+  color?: Tone
   label: string
   from?: number
   className?: string
@@ -30,7 +34,7 @@ export function Gauge({ value, max, color = 'accent', label, from, className = '
       aria-valuemax={max}
       className={`w-full overflow-hidden rounded-full bg-fill ${className}`}
     >
-      <div className={`h-full rounded-full transition-[width] duration-700 ease-spring ${FILL[color]}`} style={{ width }} />
+      <div className={`h-full rounded-full transition-[width] duration-700 ease-spring ${TONE.bg[color]}`} style={{ width }} />
     </div>
   )
 }
