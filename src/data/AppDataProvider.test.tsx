@@ -202,3 +202,22 @@ test('lecture impossible : message, rien d’effacé, pas d’écran d’accueil
   expect(await screen.findByText(/n'ont pas pu être lues \(base fermée\)/)).toBeInTheDocument()
   expect(screen.queryByText('bienvenue')).not.toBeInTheDocument()
 })
+
+test('répertoire : statut à entretenir gardé par une sauvegarde à l’ancienne forme ; « en cours » efface la date', async () => {
+  const db = testDb()
+  await importV0(db, v0Replica())
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const song = seen.value!.v1.songs[0]
+  await seen.actions!.setSongStatus(song.id, 'mastered')
+  const { masteredOn } = (await db.songs.get(song.id))!
+  expect(masteredOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+  await seen.actions!.setSongStatus(song.id, 'maintain')
+  expect(await db.songs.get(song.id)).toMatchObject({ status: 'maintain', masteredOn })
+  await waitFor(() => expect(seen.value!.v1.songs.find((s) => s.id === song.id)?.status).toBe('maintain'))
+  const old = seen.value!.data.songs.find((s) => s.id === song.id)!
+  await seen.actions!.saveSong({ ...old, title: `${old.title} (live)` })
+  expect(await db.songs.get(song.id)).toMatchObject({ status: 'maintain', title: `${old.title} (live)` })
+  await seen.actions!.setSongStatus(song.id, 'learning')
+  expect(await db.songs.get(song.id)).toMatchObject({ status: 'learning', masteredOn: null })
+})

@@ -153,6 +153,15 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.songs.put(row)
         })
       },
+      async setSongStatus(id, status) {
+        const song = state().v1.songs.find((s) => s.id === id)
+        if (!song) return
+        // Maîtrisé ou à entretenir : la date de maîtrise est gardée (ou posée aujourd'hui) ; sinon effacée.
+        const masteredOn = status === 'mastered' || status === 'maintain' ? (song.masteredOn ?? todayParis()) : null
+        await write(db, now(), async () => {
+          await db.songs.put({ ...song, status, masteredOn })
+        })
+      },
       async saveProgram(p) {
         const { v1 } = state()
         const movements = v1.exercises.map((m) => ({ ...m }))

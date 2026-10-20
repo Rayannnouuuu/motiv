@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { DataV1 } from '../domain/model'
+import type { DataV1, SongStatus } from '../domain/model'
 import type { AppData, BodyMetric, Day, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
 import type { MotivDb } from './db'
@@ -31,6 +31,8 @@ export interface Actions {
   saveSportSession(d: SportDraft): Promise<XpResult>
   saveBodyMetric(m: BodyMetric): Promise<void>
   saveSong(s: Song): Promise<void>
+  /** Statut du répertoire (à apprendre, en cours, maîtrisé, à entretenir). */
+  setSongStatus(id: string, status: SongStatus): Promise<void>
   saveProgram(p: Program): Promise<void>
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>

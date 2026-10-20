@@ -161,7 +161,11 @@ export function programToTemplate(p: Program, exerciseOf: (programExerciseId: st
 
 /** « En cours » seulement une fois joué (règle de l'appli depuis le 15 oct.) ; sinon « à apprendre ». */
 export function songToV1(s: Song, played: boolean, previous?: V1.Song): V1.Song {
-  const status: V1.SongStatus = s.status === 'mastered' ? 'mastered' : played ? 'learning' : 'to_learn'
+  // L'ancienne forme ne connaît que « en cours » et « maîtrisé » : un statut plus fin déjà en base est gardé.
+  const coarse = (x: V1.SongStatus) => (x === 'mastered' || x === 'maintain' ? 'mastered' : 'learning')
+  const fresh: V1.SongStatus = s.status === 'mastered' ? 'mastered' : played ? 'learning' : 'to_learn'
+  const keep = previous && coarse(previous.status) === s.status && !(previous.status === 'to_learn' && played)
+  const status = keep ? previous.status : fresh
   const out: V1.Song = {
     id: s.id,
     title: s.title,
