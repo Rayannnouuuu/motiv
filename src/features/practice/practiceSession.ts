@@ -19,6 +19,8 @@ export interface PracticeState {
   goalCelebrated: boolean
   /** Tempo le plus rapide joué au métronome (fiche exo) pendant la séance, par exo : prioritaire sur le record. */
   bpms?: Record<string, number>
+  /** Tempo le plus rapide joué proprement pendant la séance, par exo. */
+  clean?: Record<string, number>
 }
 
 export type PracticeAction =
@@ -27,8 +29,8 @@ export type PracticeAction =
   | { type: 'toggleExercise'; id: string }
   | { type: 'toggleSong'; id: string }
   | { type: 'celebrated' }
-  /** Exo coché depuis sa fiche, avec le tempo joué au métronome s'il y en a un. */
-  | { type: 'checkExercise'; id: string; bpm: number | null }
+  /** Exo coché depuis sa fiche, avec le tempo joué au métronome s'il y en a un, et s'il était propre. */
+  | { type: 'checkExercise'; id: string; bpm: number | null; clean?: boolean }
 
 const KEY = storageKey('practice.v1')
 const STALE_MS = 12 * 60 * 60 * 1000
@@ -60,6 +62,7 @@ export function practiceReducer(s: PracticeState, a: PracticeAction): PracticeSt
         exercises: s.exercises.includes(a.id) ? s.exercises : [...s.exercises, a.id],
         // Le plus rapide des passages sur la fiche : une deuxième visite plus lente n'efface pas le record.
         bpms: a.bpm === null ? s.bpms : { ...s.bpms, [a.id]: Math.max(a.bpm, s.bpms?.[a.id] ?? 0) },
+        clean: a.bpm === null || !a.clean ? s.clean : { ...s.clean, [a.id]: Math.max(a.bpm, s.clean?.[a.id] ?? 0) },
       }
   }
 }
@@ -113,10 +116,10 @@ export function loadPractice(): PracticeState | null {
       isStringArray(s.songs) &&
       typeof s.goalCelebrated === 'boolean'
     if (!ok) return null
-    const bpms =
-      s.bpms && typeof s.bpms === 'object'
-        ? Object.fromEntries(Object.entries(s.bpms).filter(([, b]) => typeof b === 'number' && Number.isFinite(b) && b > 0))
-        : undefined
+    const tempos = (m: unknown) =>
+      m && typeof m === 'object' ? Object.fromEntries(Object.entries(m).filter(([, b]) => typeof b === 'number' && Number.isFinite(b) && b > 0)) : undefined
+    const bpms = tempos(s.bpms)
+    const clean = tempos(s.clean)
     return {
       id: s.id,
       startedAt: s.startedAt,
@@ -126,6 +129,7 @@ export function loadPractice(): PracticeState | null {
       songs: s.songs,
       goalCelebrated: s.goalCelebrated,
       ...(bpms ? { bpms } : {}),
+      ...(clean ? { clean } : {}),
     }
   } catch {
     return null

@@ -5,7 +5,9 @@ import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { todayParis } from '../../domain/date'
+import { historyOf } from '../../domain/history'
 import { bestBpm } from '../../domain/records'
+import { guitarTarget } from '../../domain/targets'
 import { guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
@@ -34,7 +36,9 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
   const exercises: Entry[] = s.exercises
     .filter((id) => getExercise(id))
     .map((id) => {
-      // Tempo joué au métronome pendant la séance, sinon le record.
+      // Tempo joué proprement pendant la séance, sinon le plus rapide joué au métronome, sinon le record.
+      const clean = s.clean?.[id]
+      if (clean !== undefined) return { kind: 'exercise', exerciseId: id, bpm: String(clean), clean: true }
       const b = s.bpms?.[id] ?? best(id)
       return { kind: 'exercise', exerciseId: id, bpm: b === null ? '' : String(b) }
     })
@@ -44,7 +48,7 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
 
 /** Chrono de guitare : le temps qui passe, l'objectif du jour qui se remplit, les exos qu'on coche en jouant. */
 export function PracticePage() {
-  const { data, today } = useAppData()
+  const { data, v1, today } = useAppData()
   const navigate = useNavigate()
   const nav = useLocation().state as { autostart?: unknown } | null
   // En StrictMode l'initialiseur peut tourner deux fois : seul l'état retenu est sauvegardé (effet ci-dessous).
@@ -242,6 +246,7 @@ export function PracticePage() {
           {plan.map((ex) => {
             const done = session.exercises.includes(ex.id)
             const record = best(ex.id)
+            const target = guitarTarget(historyOf(v1.sessions, ex.id), ex.startBpm).bpm
             return (
               <li key={ex.id} className="flex items-center gap-3 px-3.5 py-2.5">
                 <button
@@ -261,7 +266,7 @@ export function PracticePage() {
                 <span className="flex min-w-0 flex-1 flex-col">
                   <span className={`t-headline truncate ${done ? 'text-muted' : ''}`}>{ex.title}</span>
                   <span className="t-footnote text-muted tabular-nums">
-                    Cible {ex.targetBpm} bpm{record !== null && ` · record ${record}`}
+                    Aujourd'hui {target} bpm{record !== null && ` · record ${record}`}
                   </span>
                 </span>
                 <Link

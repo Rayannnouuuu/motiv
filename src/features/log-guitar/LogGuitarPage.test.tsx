@@ -137,7 +137,7 @@ describe('LogGuitarPage', () => {
       day: today,
       practiceId: 'practice-1',
       entries: [
-        { kind: 'exercise', exerciseId: 'legato-4', bpm: '100' },
+        { kind: 'exercise', exerciseId: 'legato-4', bpm: '100', clean: true },
         { kind: 'exercise', exerciseId: 'ghost-1', bpm: '90' },
         { kind: 'song', songId: 'song-p', mastered: false },
         { kind: 'song', songId: 'song-inconnu', mastered: false },
@@ -151,6 +151,7 @@ describe('LogGuitarPage', () => {
     const content = screen.getByRole('list', { name: 'Travaillé pendant la séance' })
     expect(within(content).getAllByRole('listitem')).toHaveLength(2)
     expect(screen.getByLabelText('Tempo max · Legato 4')).toHaveValue(100)
+    expect(screen.getByRole('checkbox', { name: 'Propre · Legato 4' })).toBeChecked()
     await userEvent.click(screen.getByRole('button', { name: 'Retour' }))
     expect(screen.getByLabelText('Durée en minutes')).toHaveValue(42)
     await next()
@@ -163,7 +164,7 @@ describe('LogGuitarPage', () => {
         day: today,
         durationMin: 42,
         items: [
-          { kind: 'exercise', exerciseId: 'legato-4', maxBpm: 100 },
+          { kind: 'exercise', exerciseId: 'legato-4', maxBpm: 100, clean: true },
           { kind: 'song', songId: 'song-p', markedMastered: false },
         ],
       }),

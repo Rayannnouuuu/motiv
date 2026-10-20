@@ -4,13 +4,19 @@ import { CATEGORY_LABELS, getExercise } from '../../content/exercises'
 import { tipsFor } from '../../content/tips'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
+import { dailyPlan } from '../../domain/dailyPlan'
 import { shortDate } from '../../domain/date'
+import { historyOf } from '../../domain/history'
 import { bestBpm } from '../../domain/records'
+import { guitarTarget } from '../../domain/targets'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
+import { ModalBar } from '../../ui/ModalBar'
+import { SessionTitle } from '../../ui/SessionTitle'
 import { TabView } from '../../ui/TabView'
-import { loadPractice, practiceReducer, runningPracticeMinutes, savePractice } from '../practice/practiceSession'
+import { elapsedMs, isStale, loadPractice, practiceReducer, savePractice } from '../practice/practiceSession'
 import { Metronome } from './Metronome'
+import { clampBpm } from './metronome'
 
 const HISTORY_SIZE = 8
 
@@ -27,13 +33,19 @@ function DifficultyMeter({ value }: { value: number }) {
 /** Fiche détaillée d'un exo : description, tempo, tablature, conseils. */
 export function ExercisePage() {
   const { id = '' } = useParams()
-  const { data } = useAppData()
+  const { data, v1, today } = useAppData()
   const navigate = useNavigate()
   const ex = getExercise(id)
   // Tempo le plus rapide joué au métronome sur cet exo (pas le dernier : on redescend souvent pour nettoyer), transmis au log.
   const [played, setPlayed] = useState<{ exerciseId: string; bpm: number } | null>(null)
-  // Un chrono guitare tourne : l'exo se coche dans le chrono plutôt que d'ouvrir un log à part (temps compté deux fois).
-  const [chrono] = useState(() => runningPracticeMinutes() !== null)
+  // Tempo affiché au métronome, et l'exo coché « propre » à ce tempo.
+  const [tempo, setTempo] = useState<{ exerciseId: string; bpm: number } | null>(null)
+  const [cleanId, setCleanId] = useState<string | null>(null)
+  // Une séance guitare tourne : la fiche devient l'exo en cours (validé dans la séance plutôt que loggé à part).
+  const [practice] = useState(() => {
+    const s = loadPractice()
+    return s && !isStale(s, new Date()) ? s : null
+  })
 
   if (!ex)
     return (
@@ -59,13 +71,39 @@ export function ExercisePage() {
   const challenge = data.challenges.find((c) => c.status === 'active' && c.target.kind === 'bpm' && c.target.exerciseId === ex.id)
   const challengeBpm = challenge?.target.kind === 'bpm' ? challenge.target.bpm : null
   const playedBpm = played?.exerciseId === ex.id ? played.bpm : null
+  const target = guitarTarget(historyOf(v1.sessions, ex.id), ex.startBpm)
+  const current = tempo?.exerciseId === ex.id ? tempo.bpm : clampBpm(target.bpm ?? ex.startBpm)
+  const clean = cleanId === ex.id
+  const plan = practice ? dailyPlan(data, today) : []
+  const index = plan.findIndex((e) => e.id === ex.id)
+  const validate = () => {
+    const s = loadPractice()
+    const saved = s && practiceReducer(s, { type: 'checkExercise', id: ex.id, bpm: clean ? current : playedBpm, clean })
+    if (saved) savePractice(saved)
+    // Exo suivant du plan pas encore fait, sinon retour à la séance.
+    const next = index >= 0 ? plan.slice(index + 1).find((e) => !saved?.exercises.includes(e.id)) : undefined
+    if (next) navigate(`/exo/${next.id}`, { replace: true })
+    else navigate('/jouer')
+  }
 
   return (
     <div className="animate-page flex flex-col gap-6 pb-4">
-      <button type="button" className="hit tap t-body -ml-2.5 flex items-center self-start pt-2.5 pb-1 text-guitar" onClick={() => navigate(-1)}>
-        <Icon name="chevron" size="1.5em" className="rotate-180" />
-        Retour
-      </button>
+      {practice ? (
+        <ModalBar
+          tone="guitar"
+          onCancel={() => navigate('/jouer')}
+          cancelLabel="Séance"
+          cancelAria="Retour à la séance"
+          title={
+            <SessionTitle name="Guitare" step={index >= 0 ? `exo ${index + 1}/${plan.length}` : undefined} elapsedMs={(now) => elapsedMs(practice, now)} />
+          }
+        />
+      ) : (
+        <button type="button" className="hit tap t-body -ml-2.5 flex items-center self-start pt-2.5 pb-1 text-guitar" onClick={() => navigate(-1)}>
+          <Icon name="chevron" size="1.5em" className="rotate-180" />
+          Retour
+        </button>
+      )}
       <div className="flex flex-col gap-2">
         <p className="t-footnote flex items-center gap-2 font-semibold text-muted uppercase">
           {CATEGORY_LABELS[ex.category]} · niveau {ex.difficulty}/10 <DifficultyMeter value={ex.difficulty} />
@@ -120,14 +158,20 @@ export function ExercisePage() {
         )}
       </section>
 
+      <p className="t-subhead -mb-3 flex gap-1.5 px-1">
+        <Icon name="target" className="mt-0.5 text-guitar" />
+        {target.why}
+      </p>
       <Metronome
         key={ex.id}
         pattern={ex.pattern}
         best={best}
         startBpm={ex.startBpm}
+        startAt={target.bpm}
         targetBpm={ex.targetBpm}
         challengeBpm={challengeBpm}
         onPlayed={(bpm) => setPlayed((p) => (p?.exerciseId === ex.id && p.bpm >= bpm ? p : { exerciseId: ex.id, bpm }))}
+        onTempo={(bpm) => setTempo({ exerciseId: ex.id, bpm })}
       />
 
       <section className="flex flex-col gap-2">
@@ -150,18 +194,17 @@ export function ExercisePage() {
         </ul>
       </section>
 
-      {chrono ? (
-        <Button
-          tone="guitar"
-          onClick={() => {
-            const s = loadPractice()
-            if (s) savePractice(practiceReducer(s, { type: 'checkExercise', id: ex.id, bpm: playedBpm }))
-            navigate('/jouer')
-          }}
-        >
-          <Icon name="check" />
-          Cocher dans le chrono
-        </Button>
+      {practice ? (
+        <div className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom))] flex flex-col gap-2 rounded-2xl bg-surface p-3 shadow-card">
+          <label className="hit tap t-body flex items-center gap-3 px-1 py-1.5">
+            <input type="checkbox" checked={clean} onChange={(e) => setCleanId(e.target.checked ? ex.id : null)} className="h-5 w-5 accent-[var(--guitar)]" />
+            <span className="tabular-nums">Propre à {current} bpm</span>
+          </label>
+          <Button tone="guitar" onClick={validate}>
+            <Icon name="check" />
+            {index >= 0 && index < plan.length - 1 ? 'Valider · exo suivant' : 'Valider'}
+          </Button>
+        </div>
       ) : (
         <Button
           tone="guitar"

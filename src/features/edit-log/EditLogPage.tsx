@@ -83,13 +83,17 @@ const validDuration = (s: string) => {
 function toEntry(it: GuitarItem): Entry {
   return it.kind === 'song'
     ? { kind: 'song', songId: it.songId, mastered: it.markedMastered }
-    : { kind: 'exercise', exerciseId: it.exerciseId, bpm: it.maxBpm === null ? '' : String(it.maxBpm) }
+    : { kind: 'exercise', exerciseId: it.exerciseId, bpm: it.maxBpm === null ? '' : String(it.maxBpm), ...(it.clean ? { clean: true } : {}) }
 }
 
 function toItem(e: Entry): GuitarItem {
   if (e.kind === 'song') return { kind: 'song', songId: e.songId, markedMastered: e.mastered }
   const bpm = Number(e.bpm)
-  return { kind: 'exercise', exerciseId: e.exerciseId, maxBpm: e.bpm !== '' && Number.isFinite(bpm) && bpm > 0 ? Math.round(bpm) : null }
+  const maxBpm = e.bpm !== '' && Number.isFinite(bpm) && bpm > 0 ? Math.round(bpm) : null
+  // « Propre » sans tempo ne veut rien dire : ignoré.
+  return maxBpm !== null && e.clean
+    ? { kind: 'exercise', exerciseId: e.exerciseId, maxBpm, clean: true }
+    : { kind: 'exercise', exerciseId: e.exerciseId, maxBpm }
 }
 
 /** Renumérote les séries de chaque exo à partir de 1, dans l'ordre. */

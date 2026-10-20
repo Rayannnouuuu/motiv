@@ -13,6 +13,7 @@ import { Fireworks } from '../../ui/Fireworks'
 import { RatingPicker } from '../../ui/RatingPicker'
 import { WeightInput } from '../../ui/WeightInput'
 import { ModalBar } from '../../ui/ModalBar'
+import { SessionTitle } from '../../ui/SessionTitle'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
 import {
@@ -202,12 +203,11 @@ export function LogSportPage() {
           ) : undefined
         }
         title={
-          <span className="flex flex-col items-center leading-tight">
-            <span>{program?.name}</span>
-            <span className="t-caption font-normal text-muted tabular-nums">
-              exo {index + 1}/{exercises.length}
-            </span>
-          </span>
+          <SessionTitle
+            name={program?.name}
+            step={`exo ${index + 1}/${exercises.length}`}
+            elapsedMs={(now) => Math.max(0, now.getTime() - new Date(live.startedAt).getTime())}
+          />
         }
       />
 

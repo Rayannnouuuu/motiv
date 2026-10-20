@@ -13,7 +13,8 @@ export type AudioContextLike = Pick<AudioContext, 'currentTime' | 'destination' 
 const TICK_MS = 25
 const LOOKAHEAD = 0.1
 const START_DELAY = 0.05
-const BPM_STEP = 2
+const BPM_STEP = 1
+const BPM_JUMP = 5
 const BEATS = 4
 
 const TONES: Record<ClickKind, { freq: number; gain: number }> = {
@@ -140,26 +141,33 @@ class Engine {
   }
 }
 
-/** Métronome de la fiche exo : réglé sur ton record (sinon le tempo de départ de l'exo), il remonte au log le tempo réellement joué. */
+/**
+ * Métronome de la fiche exo : réglé sur le tempo proposé (`startAt`), sinon ton record, sinon le tempo de départ
+ * de l'exo. Il remonte au log le tempo réellement joué (`onPlayed`) et le tempo affiché (`onTempo`).
+ */
 export function Metronome({
   pattern,
   best,
   startBpm,
+  startAt,
   targetBpm,
   challengeBpm,
   onPlayed,
+  onTempo,
   createContext = defaultContext,
 }: {
   pattern: TabNote[]
   best: number | null
   startBpm: number
+  startAt?: number
   targetBpm: number
   challengeBpm: number | null
   onPlayed?: (bpm: number) => void
+  onTempo?: (bpm: number) => void
   createContext?: () => AudioContextLike
 }) {
   const patternSub = subdivisionOf(pattern)
-  const [bpm, setBpm] = useState(() => initialBpm(best, startBpm))
+  const [bpm, setBpm] = useState(() => (startAt === undefined ? initialBpm(best, startBpm) : clampBpm(startAt)))
   const [sub, setSub] = useState<number>(patternSub)
   const [playing, setPlaying] = useState(false)
   const [beat, setBeat] = useState(-1)
@@ -200,6 +208,7 @@ export function Metronome({
     const next = clampBpm(n)
     if (next === bpm) return
     setBpm(next)
+    onTempo?.(next)
     if (!engineRef.current) return
     engineRef.current.bpm = next
     if (engineRef.current.playing) onPlayed?.(next)
@@ -215,6 +224,17 @@ export function Metronome({
     { key: 'target', label: `Cible ${targetBpm}`, value: targetBpm },
     challengeBpm !== null && { key: 'challenge', label: `Défi ${challengeBpm}`, value: challengeBpm },
   ].filter((s) => s !== false)
+  const jump = (sign: 1 | -1) => (
+    <button
+      type="button"
+      aria-label={`Tempo ${sign > 0 ? '+' : '−'}${BPM_JUMP}`}
+      onClick={() => changeBpm(bpm + sign * BPM_JUMP)}
+      className="hit tap t-footnote rounded-full bg-fill px-3 py-1.5 tabular-nums"
+    >
+      {sign > 0 ? '+' : '−'}
+      {BPM_JUMP}
+    </button>
+  )
 
   return (
     <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="metronome-title">
@@ -244,6 +264,7 @@ export function Metronome({
       </Stepper>
 
       <div className="flex flex-wrap justify-center gap-2">
+        {jump(-1)}
         {shortcuts.map((s) => (
           <button
             key={s.key}
@@ -256,6 +277,7 @@ export function Metronome({
             {s.label}
           </button>
         ))}
+        {jump(1)}
       </div>
 
       <div className="flex items-center justify-between gap-4">

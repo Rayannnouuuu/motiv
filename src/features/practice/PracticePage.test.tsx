@@ -106,7 +106,8 @@ describe('PracticePage', () => {
     const [first] = dailyPlan({ guitarSessions: [], challenges: [] }, today)
     const songs = [mkSong({ id: 'song-p', title: 'Paranoid' })]
     renderPractice({ data: { songs, guitarSessions: [g(today, 10, [ex(first.id, 72)])] } })
-    expect(screen.getByText(`Cible ${first.targetBpm} bpm · record 72`)).toBeInTheDocument()
+    // Joué à 72 (pas noté propre) : on reste à 72 aujourd’hui.
+    expect(screen.getByText(`Aujourd'hui 72 bpm · record 72`)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: `Fait : ${first.title}` }))
     expect(icon(screen.getByRole('button', { name: 'Paranoid' }), 'song')).toBeInTheDocument()
     click('Paranoid')

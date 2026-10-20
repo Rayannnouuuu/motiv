@@ -49,7 +49,7 @@ function validEntries(list: unknown[], songs: Song[]): Entry[] {
     const e = v as Record<string, unknown>
     if (e.kind === 'exercise' && typeof e.exerciseId === 'string' && getExercise(e.exerciseId) && !seen.has(`ex:${e.exerciseId}`)) {
       seen.add(`ex:${e.exerciseId}`)
-      out.push({ kind: 'exercise', exerciseId: e.exerciseId, bpm: typeof e.bpm === 'string' ? e.bpm : '' })
+      out.push({ kind: 'exercise', exerciseId: e.exerciseId, bpm: typeof e.bpm === 'string' ? e.bpm : '', ...(e.clean === true ? { clean: true } : {}) })
     } else if (e.kind === 'song' && typeof e.songId === 'string' && songs.some((s) => s.id === e.songId) && !seen.has(`song:${e.songId}`)) {
       seen.add(`song:${e.songId}`)
       out.push({ kind: 'song', songId: e.songId, mastered: e.mastered === true })
@@ -61,7 +61,11 @@ function validEntries(list: unknown[], songs: Song[]): Entry[] {
 function toItem(e: Entry): GuitarItem {
   if (e.kind === 'song') return { kind: 'song', songId: e.songId, markedMastered: e.mastered }
   const bpm = Number(e.bpm)
-  return { kind: 'exercise', exerciseId: e.exerciseId, maxBpm: e.bpm !== '' && Number.isFinite(bpm) && bpm > 0 ? Math.round(bpm) : null }
+  const maxBpm = e.bpm !== '' && Number.isFinite(bpm) && bpm > 0 ? Math.round(bpm) : null
+  // « Propre » sans tempo ne veut rien dire : ignoré.
+  return maxBpm !== null && e.clean
+    ? { kind: 'exercise', exerciseId: e.exerciseId, maxBpm, clean: true }
+    : { kind: 'exercise', exerciseId: e.exerciseId, maxBpm }
 }
 
 export function LogGuitarPage() {

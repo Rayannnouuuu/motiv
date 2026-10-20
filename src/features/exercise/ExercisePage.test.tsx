@@ -5,6 +5,9 @@ import { afterEach, expect, test, vi } from 'vitest'
 import { getExercise } from '../../content/exercises'
 import { challenge, ex, g } from '../../test/factories'
 import { renderWithData } from '../../test/renderWithData'
+import { dailyPlan } from '../../domain/dailyPlan'
+import { EMPTY_DATA } from '../../domain/types'
+import { loadPractice, savePractice, startPractice } from '../practice/practiceSession'
 import { ExercisePage } from './ExercisePage'
 
 function Probe() {
@@ -67,7 +70,10 @@ class FakeAudioContext {
   createGain = vi.fn(() => ({ gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() }, connect: vi.fn() }))
 }
 
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  vi.unstubAllGlobals()
+  savePractice(null)
+})
 
 test('la carte Métronome démarre au tempo du record, juste au-dessus de la tablature', () => {
   renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
@@ -101,7 +107,7 @@ test('« Logger cet exo » après lecture : le dernier tempo joué est transmis'
   await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
   await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
   await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
-  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":82}')).toBeInTheDocument()
+  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":81}')).toBeInTheDocument()
 })
 
 test('« Logger cet exo » : le tempo le plus rapide joué est transmis, même après être redescendu', async () => {
@@ -113,5 +119,20 @@ test('« Logger cet exo » : le tempo le plus rapide joué est transmis, même a
   await userEvent.click(screen.getByRole('button', { name: 'Tempo −' }))
   await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
   await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
-  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":84}')).toBeInTheDocument()
+  expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":82}')).toBeInTheDocument()
+})
+
+test('séance en cours : exo k/N et chrono, tempo proposé avec sa raison, « propre » puis exo suivant', async () => {
+  savePractice(startPractice(new Date(), 'p'))
+  const [first, second] = dailyPlan(EMPTY_DATA, '2026-10-15')
+  renderPage(first.id)
+  expect(screen.getByText(/^exo 1\/3/)).toBeInTheDocument()
+  expect(screen.getByRole('timer', { name: 'Chrono de la séance' })).toBeInTheDocument()
+  expect(screen.getByText(`Premier passage : on démarre à ${first.startBpm} bpm.`)).toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Tempo +5' }))
+  await userEvent.click(screen.getByRole('checkbox', { name: `Propre à ${first.startBpm + 5} bpm` }))
+  await userEvent.click(screen.getByRole('button', { name: 'Valider · exo suivant' }))
+  expect(screen.getByRole('heading', { name: second.title })).toBeInTheDocument()
+  expect(screen.getByText(/^exo 2\/3/)).toBeInTheDocument()
+  expect(loadPractice()).toMatchObject({ exercises: [first.id], clean: { [first.id]: first.startBpm + 5 } })
 })

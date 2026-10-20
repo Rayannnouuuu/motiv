@@ -26,6 +26,16 @@ describe('practiceReducer', () => {
     expect(s.exercises).toEqual(['legato-4'])
   })
 
+  test('checkExercise « propre » : le tempo propre le plus rapide, gardé au rechargement', () => {
+    let s = practiceReducer(startPractice(t0, 'p'), { type: 'checkExercise', id: 'legato-4', bpm: 76, clean: true })
+    s = practiceReducer(s, { type: 'checkExercise', id: 'legato-4', bpm: 84, clean: false })
+    s = practiceReducer(s, { type: 'checkExercise', id: 'legato-4', bpm: 72, clean: true })
+    expect(s.clean).toEqual({ 'legato-4': 76 })
+    savePractice(s)
+    expect(loadPractice()?.clean).toEqual({ 'legato-4': 76 })
+    savePractice(null)
+  })
+
   test('les pauses ne comptent pas ; une double pause ne change rien', () => {
     let s = startPractice(t0, 'p')
     expect(elapsedMs(s, at(90))).toBe(90_000)

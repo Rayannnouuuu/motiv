@@ -58,15 +58,24 @@ test('lancer programme des oscillateurs, le premier à 1600 Hz, dans le geste', 
   expect(audio.freqs()).toEqual([1600, 700, 1000, 700, 1000])
 })
 
-test('« Tempo + » fait passer de 46 à 48, « Tempo − » redescend', async () => {
+test('tempo au bpm près (±1) et par 5 (±5), chaque changement remonté', async () => {
   const user = setup()
-  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
+  const onTempo = vi.fn()
+  render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} onTempo={onTempo} createContext={fakeAudio().create} />)
   expect(tempo()).toHaveTextContent('46')
   await user.click(screen.getByRole('button', { name: 'Tempo +' }))
-  expect(tempo()).toHaveTextContent('48')
+  expect(tempo()).toHaveTextContent('47')
+  await user.click(screen.getByRole('button', { name: 'Tempo +5' }))
+  expect(tempo()).toHaveTextContent('52')
+  await user.click(screen.getByRole('button', { name: 'Tempo −5' }))
   await user.click(screen.getByRole('button', { name: 'Tempo −' }))
-  await user.click(screen.getByRole('button', { name: 'Tempo −' }))
-  expect(tempo()).toHaveTextContent('44')
+  expect(tempo()).toHaveTextContent('46')
+  expect(onTempo).toHaveBeenLastCalledWith(46)
+})
+
+test('tempo proposé : prioritaire sur le record', () => {
+  render(<Metronome pattern={QUARTERS} best={80} startBpm={46} startAt={76} targetBpm={120} challengeBpm={null} createContext={fakeAudio().create} />)
+  expect(tempo()).toHaveTextContent('76')
 })
 
 test('pastilles de raccourci : record, cible, défi', async () => {
@@ -152,7 +161,7 @@ test('onPlayed : au lancement et à chaque changement de tempo pendant la lectur
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await user.click(screen.getByRole('button', { name: 'Tempo +' }))
   await user.click(screen.getByRole('button', { name: 'Cible 100' }))
-  expect(onPlayed.mock.calls).toEqual([[82], [84], [100]])
+  expect(onPlayed.mock.calls).toEqual([[81], [82], [100]])
 })
 
 test('subdivision : croches par défaut, noires au choix, absente sur un motif en noires', async () => {

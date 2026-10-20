@@ -6,7 +6,8 @@ import { bestBpm } from '../../domain/records'
 import { activeSongs, catalogNotAdded } from '../../domain/songSuggestion'
 import type { Challenge, GuitarSession, Song } from '../../domain/types'
 
-export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string } | { kind: 'song'; songId: string; mastered: boolean }
+/** `clean` : le tempo noté a été joué proprement (il compte pour monter de 4 bpm). */
+export type Entry = { kind: 'exercise'; exerciseId: string; bpm: string; clean?: boolean } | { kind: 'song'; songId: string; mastered: boolean }
 
 const MAX_RESULTS = 8
 
@@ -144,6 +145,16 @@ export function StepContent({
                       className="t-body min-h-11 w-16 rounded-sm bg-fill px-2 py-1.5 text-right tabular-nums outline-none placeholder:text-muted"
                     />
                     <span className="t-footnote text-muted">bpm</span>
+                    <label className="hit tap t-footnote flex items-center gap-1.5 text-muted">
+                      <input
+                        type="checkbox"
+                        aria-label={`Propre · ${title}`}
+                        checked={e.clean === true}
+                        onChange={(ev) => update(i, { ...e, clean: ev.target.checked })}
+                        className="h-5 w-5 accent-[var(--guitar)]"
+                      />
+                      propre
+                    </label>
                   </div>
                   {goal !== undefined && (
                     <p className="t-footnote flex items-center gap-1 pl-8.5 font-semibold text-guitar">
