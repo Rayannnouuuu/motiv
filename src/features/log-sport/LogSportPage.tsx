@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon, type IconName } from '../../design/icons'
@@ -348,7 +349,8 @@ export function LogSportPage() {
           </>
         ) : reached ? (
           <Button tone="sport" onClick={goNext}>
-            {next ? `Exo suivant : ${next.name} →` : 'Fin de séance →'}
+            {next ? `Exo suivant : ${next.name}` : 'Fin de séance'}
+            <Icon name="chevron" />
           </Button>
         ) : (
           <Button tone="sport" onClick={completeSet}>
@@ -359,7 +361,8 @@ export function LogSportPage() {
         <div className={`flex gap-2 ${edited ? 'hidden' : ''}`}>
           {index > 0 && (
             <Button variant="ghost" tone="sport" onClick={goBack}>
-              ‹ Précédent
+              <Icon name="chevron" className="rotate-180" />
+              Précédent
             </Button>
           )}
           {reached ? (
@@ -369,7 +372,8 @@ export function LogSportPage() {
             </Button>
           ) : (
             <Button variant="secondary" tone="sport" className="flex-1" onClick={goNext}>
-              {next ? 'Exo suivant →' : 'Fin de séance →'}
+              {next ? 'Exo suivant' : 'Fin de séance'}
+              <Icon name="chevron" />
             </Button>
           )}
         </div>
@@ -392,16 +396,20 @@ export function LogSportPage() {
       {cheer && (
         <>
           <Fireworks key={cheer.id} size="small" />
-          <div className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+--spacing(14))] z-40 flex justify-center px-4">
-            <div key={cheer.id} role="status" className="animate-pop material rounded-xl border border-line px-5 py-3 text-center shadow-card">
-              {cheer.lines.map((l) => (
-                <p key={l.text} className="t-headline flex items-center justify-center gap-1.5">
-                  <Icon name={l.icon} className="text-sport" />
-                  {l.text}
-                </p>
-              ))}
-            </div>
-          </div>
+          {/* Sur <body>, comme les feux d'artifice : au-dessus de l'écran animé, pas dedans. */}
+          {createPortal(
+            <div className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+--spacing(14))] z-40 flex justify-center px-4">
+              <div key={cheer.id} role="status" className="animate-pop material rounded-xl border border-line px-5 py-3 text-center shadow-card">
+                {cheer.lines.map((l) => (
+                  <p key={l.text} className="t-headline flex items-center justify-center gap-1.5">
+                    <Icon name={l.icon} className="text-sport" />
+                    {l.text}
+                  </p>
+                ))}
+              </div>
+            </div>,
+            document.body,
+          )}
         </>
       )}
     </div>
@@ -513,7 +521,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      {onBack ? <ModalBar tone="sport" onCancel={onBack} cancelLabel="‹ Dernier exo" cancelAria="Revenir au dernier exo" /> : <div className="h-11" />}
+      {onBack ? <ModalBar tone="sport" onCancel={onBack} back cancelLabel="Dernier exo" cancelAria="Revenir au dernier exo" /> : <div className="h-11" />}
       <div className="animate-rise">
         <h1 className="t-title1">Séance terminée</h1>
         <p className="t-body text-muted">

@@ -154,7 +154,8 @@ export function LogGuitarPage() {
       <ModalBar
         tone="guitar"
         onCancel={() => (step === 0 ? navigate('/') : setStep(step - 1))}
-        cancelLabel={step === 0 ? 'Annuler' : '‹ Retour'}
+        cancelLabel={step === 0 ? 'Annuler' : 'Retour'}
+        back={step > 0}
         cancelAria={step === 0 ? 'Fermer' : 'Retour'}
         title={<StepBar count={3} current={step} tone="guitar" />}
       />

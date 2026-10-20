@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Icon } from '../design/icons'
 import { TONE, type Tone } from '../design/tone'
 
 /**
@@ -12,6 +13,7 @@ export function ModalBar({
   cancelAria,
   trailing,
   tone = 'accent',
+  back = false,
 }: {
   title?: ReactNode
   onCancel: () => void
@@ -20,6 +22,8 @@ export function ModalBar({
   trailing?: ReactNode
   /** Couleur de « Annuler » : celle de la discipline de l'écran. */
   tone?: Tone
+  /** Retour à l'étape d'avant : chevron devant le libellé, comme sur iPhone. */
+  back?: boolean
 }) {
   // Opaque et collée en haut (zone de l'heure comprise) : le contenu défile dessous sans s'y mêler,
   // et un toucher sur le haut de l'écran ne tombe pas par erreur sur « Annuler ».
@@ -29,8 +33,9 @@ export function ModalBar({
         type="button"
         aria-label={cancelAria}
         onClick={onCancel}
-        className={`hit tap t-body justify-self-start py-2 whitespace-nowrap ${TONE.text[tone]}`}
+        className={`hit tap t-body flex items-center justify-self-start py-2 whitespace-nowrap ${back ? '-ml-2' : ''} ${TONE.text[tone]}`}
       >
+        {back && <Icon name="chevron" size="1.4em" className="rotate-180" />}
         {cancelLabel}
       </button>
       <div className="t-headline truncate text-center">{title}</div>

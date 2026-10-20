@@ -15,10 +15,11 @@ test('animations réduites : rien affiché, fin immédiate', () => {
   expect(onDone).toHaveBeenCalled()
 })
 
-test('canvas plein écran, sans bloquer les clics', () => {
+test('canvas plein écran sur <body> (hors de l’écran animé), sans bloquer les clics', () => {
   mockMotion(false)
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
   const { container } = render(<Fireworks size="small" />)
-  const canvas = container.querySelector('canvas[data-fireworks="small"]')!
+  expect(container.querySelector('canvas')).toBeNull()
+  const canvas = document.body.querySelector(':scope > canvas[data-fireworks="small"]')!
   expect(canvas).toHaveClass('pointer-events-none', 'fixed', 'inset-0')
 })

@@ -38,8 +38,8 @@ test('les écrans de log n’ont pas de navigation basse', () => {
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
 })
 
-test('le chrono guitare n’a pas de navigation basse', () => {
+test('le chrono guitare n’a pas de navigation basse', async () => {
   renderWithData(<AppRoutes />, { route: '/jouer' })
-  expect(icon(screen.getByRole('button', { name: 'Démarrer' }), 'play')).toBeInTheDocument()
+  expect(icon(await screen.findByRole('button', { name: 'Démarrer' }), 'play')).toBeInTheDocument()
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
 })

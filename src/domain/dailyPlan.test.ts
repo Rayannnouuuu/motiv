@@ -45,3 +45,10 @@ describe('dailyPlan', () => {
     expect(thirds.size).toBeGreaterThan(1)
   })
 })
+
+test('à niveau égal, les variantes tournent selon le jour (gammes 1 et 11 pour un compte neuf)', () => {
+  const firsts = new Set(Array.from({ length: 20 }, (_, i) => dailyPlan({ guitarSessions: [], challenges: [] }, addDays('2026-10-01', i))[0]))
+  const ids = [...firsts].map((e) => e.id).sort()
+  expect(ids).toEqual(['scales-1', 'scales-11'])
+  expect(getExercise('scales-11')!.difficulty).toBe(getExercise('scales-1')!.difficulty)
+})

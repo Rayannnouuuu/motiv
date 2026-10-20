@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useEffect, useRef } from 'react'
 
 export type FireworksSize = 'small' | 'big'
@@ -124,5 +125,6 @@ export function Fireworks({ size, onDone }: { size: FireworksSize; onDone?: () =
   }, [])
 
   if (reduced) return null
-  return <canvas ref={ref} aria-hidden data-fireworks={size} className="pointer-events-none fixed inset-0 z-50 h-full w-full" />
+  // Sur <body> : un écran en cours d'animation (transform) piégerait le `fixed` dans sa boîte.
+  return createPortal(<canvas ref={ref} aria-hidden data-fireworks={size} className="pointer-events-none fixed inset-0 z-50 h-full w-full" />, document.body)
 }

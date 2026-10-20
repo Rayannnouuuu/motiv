@@ -1,25 +1,30 @@
-import type { ReactNode } from 'react'
+import { lazy, Suspense, type ComponentType, type ReactNode } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { BottomNav } from '../ui/BottomNav'
-import { LogGuitarPage } from '../features/log-guitar/LogGuitarPage'
-import { LogSportPage } from '../features/log-sport/LogSportPage'
-import { ProgressPage } from '../features/progress/ProgressPage'
-import { SettingsPage } from '../features/settings/SettingsPage'
-import { LibraryPage } from '../features/library/LibraryPage'
 import { StartButton } from '../features/start/StartButton'
-import { EditLogPage } from '../features/edit-log/EditLogPage'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
-import { ExercisePage } from '../features/exercise/ExercisePage'
-import { PracticePage } from '../features/practice/PracticePage'
-import { QuickLogPage } from '../features/quick-log/QuickLogPage'
 import { TodayPage } from '../features/today/TodayPage'
-import { XpResultPage } from '../features/xp/XpResultPage'
+
+/** Un écran chargé à la demande (un fichier JS par écran) ; Aujourd'hui reste dans le premier chargement. */
+const page = <K extends string>(load: () => Promise<Record<K, ComponentType>>, name: K) => lazy(() => load().then((m) => ({ default: m[name] })))
+const LogGuitarPage = page(() => import('../features/log-guitar/LogGuitarPage'), 'LogGuitarPage')
+const LogSportPage = page(() => import('../features/log-sport/LogSportPage'), 'LogSportPage')
+const ProgressPage = page(() => import('../features/progress/ProgressPage'), 'ProgressPage')
+const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'SettingsPage')
+const LibraryPage = page(() => import('../features/library/LibraryPage'), 'LibraryPage')
+const EditLogPage = page(() => import('../features/edit-log/EditLogPage'), 'EditLogPage')
+const ExercisePage = page(() => import('../features/exercise/ExercisePage'), 'ExercisePage')
+const PracticePage = page(() => import('../features/practice/PracticePage'), 'PracticePage')
+const QuickLogPage = page(() => import('../features/quick-log/QuickLogPage'), 'QuickLogPage')
+const XpResultPage = page(() => import('../features/xp/XpResultPage'), 'XpResultPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
     <>
       {/* La place du bouton « Commencer » et de la barre d'onglets en fin de page. */}
-      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(9rem+env(safe-area-inset-bottom))]">{children}</main>
+      <main className="mx-auto max-w-md px-4 pt-[env(safe-area-inset-top)] pb-[calc(9rem+env(safe-area-inset-bottom))]">
+        <Suspense fallback={null}>{children}</Suspense>
+      </main>
       <StartButton />
       <BottomNav />
     </>
@@ -30,7 +35,7 @@ function Shell({ children }: { children: ReactNode }) {
 function Focus({ children }: { children: ReactNode }) {
   return (
     <main className="animate-present mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-[env(safe-area-inset-top)] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-      {children}
+      <Suspense fallback={null}>{children}</Suspense>
     </main>
   )
 }

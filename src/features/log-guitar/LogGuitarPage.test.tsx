@@ -146,7 +146,7 @@ describe('LogGuitarPage', () => {
     const { actions } = renderLog({ route: { pathname: '/log/guitare', state }, data: { songs: [paranoid] } })
     expect(screen.getByRole('heading', { name: "Comment c'était ?" })).toBeInTheDocument()
 
-    // « ‹ Retour » : le contenu pré-rempli, puis la durée.
+    // « Retour » : le contenu pré-rempli, puis la durée.
     await userEvent.click(screen.getByRole('button', { name: 'Retour' }))
     const content = screen.getByRole('list', { name: 'Travaillé pendant la séance' })
     expect(within(content).getAllByRole('listitem')).toHaveLength(2)

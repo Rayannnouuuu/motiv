@@ -16,11 +16,15 @@ const suffix = (id: string) => Number(id.slice(id.lastIndexOf('-') + 1))
 const ordered = (category: ExerciseCategory) =>
   EXERCISES.filter((e) => e.category === category).sort((a, b) => a.difficulty - b.difficulty || suffix(a.id) - suffix(b.id))
 
-/** Prochain exo d'une catégorie : le plus facile au-dessus du max déjà travaillé, sinon le plus dur. */
-function nextFor(category: ExerciseCategory, maxDone: number | undefined): Exercise {
+/**
+ * Prochain exo d'une catégorie : le niveau juste au-dessus du max déjà travaillé (sinon le plus dur). À niveau
+ * égal, la variante change selon le jour : « Gamme majeure 11 » sort aussi, pas seulement « Gamme majeure 1 ».
+ */
+function nextFor(category: ExerciseCategory, maxDone: number | undefined, today: Day): Exercise {
   const list = ordered(category)
-  if (maxDone === undefined) return list[0]
-  return list.find((e) => e.difficulty > maxDone) ?? list.at(-1)!
+  const first = maxDone === undefined ? list[0] : (list.find((e) => e.difficulty > maxDone) ?? list.at(-1)!)
+  const variants = list.filter((e) => e.difficulty === first.difficulty)
+  return variants[hash(`${today}:${category}`) % variants.length]
 }
 
 /**
@@ -55,13 +59,13 @@ export function dailyPlan(data: Pick<AppData, 'guitarSessions' | 'challenges'>, 
         break outer
       }
     }
-  add(nextFor(lastCategory, maxDone[lastCategory]))
+  add(nextFor(lastCategory, maxDone[lastCategory], today))
 
   const used = new Set(plan.map((p) => p.category))
   const others = CATEGORIES.filter((c) => !used.has(c))
   for (let i = 0; plan.length < DAILY_PLAN_SIZE && i < others.length; i++) {
     const c = others[(hash(today) + i) % others.length]
-    add(nextFor(c, maxDone[c]))
+    add(nextFor(c, maxDone[c], today))
   }
   return plan
 }

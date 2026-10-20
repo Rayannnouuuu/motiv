@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../design/icons'
-import { TONE, type Tone } from '../design/tone'
 
 /**
  * Liste groupée façon Réglages iOS : un en-tête discret, des lignes dans une carte arrondie séparées
@@ -93,10 +92,4 @@ export function Row({
       </button>
     )
   return <div className={`${ROW} ${className}`}>{body}</div>
-}
-
-/** Pastille d'icône colorée en tête de ligne (comme dans Réglages). */
-export function RowIcon({ children, color = 'accent' }: { children: ReactNode; color?: Tone | 'muted' }) {
-  const bg = color === 'muted' ? 'bg-fill-strong text-ink' : TONE.solid[color]
-  return <span className={`t-callout flex size-7.5 shrink-0 items-center justify-center rounded-sm ${bg}`}>{children}</span>
 }
