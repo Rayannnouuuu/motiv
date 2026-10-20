@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { EXERCISES, getExercise } from '../../content/exercises'
-import { clampBpm, clickKind, MAX_BPM, MIN_BPM, resubdivide, schedule, startBpm, subdivisionOf } from './metronome'
+import { clampBpm, clickKind, initialBpm, MAX_BPM, MIN_BPM, resubdivide, schedule, subdivisionOf } from './metronome'
 
 test('subdivision du motif : croches pour rhythm-9, noires pour scales-1', () => {
   expect(subdivisionOf(getExercise('rhythm-9')!.pattern)).toBe(2)
@@ -14,11 +14,11 @@ test('tout le contenu tombe sur des noires ou des croches', () => {
   for (const e of EXERCISES) expect([1, 2]).toContain(subdivisionOf(e.pattern))
 })
 
-test('tempo de départ : record, sinon 70 % de la cible arrondi pair', () => {
-  expect(startBpm(null, 66)).toBe(46)
-  expect(startBpm(76, 102)).toBe(76)
-  expect(startBpm(null, 20)).toBe(MIN_BPM)
-  expect(startBpm(400, 102)).toBe(MAX_BPM)
+test('tempo à l’ouverture : record, sinon le tempo de départ de l’exo, borné', () => {
+  expect(initialBpm(null, 46)).toBe(46)
+  expect(initialBpm(76, 72)).toBe(76)
+  expect(initialBpm(null, 20)).toBe(MIN_BPM)
+  expect(initialBpm(400, 72)).toBe(MAX_BPM)
 })
 
 test('bornes du tempo', () => {

@@ -3,7 +3,7 @@ import type { TabNote } from '../../content/exercises'
 import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
-import { clampBpm, resubdivide, schedule, startBpm, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
+import { clampBpm, initialBpm, resubdivide, schedule, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
 
 /** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
 export type AudioContextLike = Pick<AudioContext, 'currentTime' | 'destination' | 'state' | 'resume' | 'suspend' | 'close' | 'createOscillator' | 'createGain'>
@@ -136,17 +136,18 @@ class Engine {
   }
 }
 
-/** Métronome de la fiche exo : réglé sur ton record, il remonte au log le tempo réellement joué. */
-export function Metronome({ pattern, best, targetBpm, challengeBpm, onPlayed, createContext = defaultContext }: {
+/** Métronome de la fiche exo : réglé sur ton record (sinon le tempo de départ de l'exo), il remonte au log le tempo réellement joué. */
+export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, onPlayed, createContext = defaultContext }: {
   pattern: TabNote[]
   best: number | null
+  startBpm: number
   targetBpm: number
   challengeBpm: number | null
   onPlayed?: (bpm: number) => void
   createContext?: () => AudioContextLike
 }) {
   const patternSub = subdivisionOf(pattern)
-  const [bpm, setBpm] = useState(() => startBpm(best, targetBpm))
+  const [bpm, setBpm] = useState(() => initialBpm(best, startBpm))
   const [sub, setSub] = useState<number>(patternSub)
   const [playing, setPlaying] = useState(false)
   const [beat, setBeat] = useState(-1)
