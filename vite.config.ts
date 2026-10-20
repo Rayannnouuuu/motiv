@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 
 // Version d'essai de la refonte : MOTIV_BASE=/motiv/essai/ (voir .github/workflows/deploy.yml).
 const BASE = process.env.MOTIV_BASE ?? '/motiv/'
@@ -49,5 +49,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: 'src/test/setup.ts',
+    // Les worktrees des agents vivent dans .claude/ : leurs tests ne sont pas ceux de cette copie.
+    exclude: [...configDefaults.exclude, '.claude/**'],
   },
 })
