@@ -10,7 +10,7 @@ import { activeSetChallenge, isNewRecord, meetsChallenge } from '../../domain/se
 import type { Program, Rating, SportSet } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
-import { RatingPicker } from '../../ui/RatingPicker'
+import { noteOf, SessionFeedback } from '../../ui/SessionFeedback'
 import { WeightInput } from '../../ui/WeightInput'
 import { ModalBar } from '../../ui/ModalBar'
 import { SessionTitle } from '../../ui/SessionTitle'
@@ -478,6 +478,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
   })
   const [flow, setFlow] = useState<Rating | null>(null)
   const [desire, setDesire] = useState<Rating | null>(null)
+  const [note, setNote] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmAbandon, setConfirmAbandon] = useState(false)
@@ -499,6 +500,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
         sets: live.sets,
         flowRating: flow,
         desireRating: desire,
+        ...noteOf(note),
       })
       onDone()
       navigate('/xp', { replace: true, state: { result, domain: 'sport', logId: live.id, momentDay: todayParis(new Date(live.startedAt)) } })
@@ -532,8 +534,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
         />
         <span className="t-body text-muted">min</span>
       </label>
-      <RatingPicker tone="sport" label="Temps oublié" value={flow} onChange={setFlow} />
-      <RatingPicker tone="sport" label="Envie d'y retourner" value={desire} onChange={setDesire} />
+      <SessionFeedback tone="sport" flow={flow} desire={desire} note={note} onFlow={setFlow} onDesire={setDesire} onNote={setNote} />
       {error && (
         <p role="alert" className="t-subhead text-danger">
           {error}

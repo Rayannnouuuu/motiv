@@ -351,6 +351,7 @@ describe('LogSportPage', () => {
     expect(screen.getByLabelText('Durée en minutes')).toHaveValue(1)
     await user.click(screen.getAllByRole('radio', { name: '4' })[0])
     await user.click(screen.getAllByRole('radio', { name: '5' })[1])
+    await user.type(screen.getByRole('textbox', { name: /Note/ }), '  Épaule raide.  ')
     await click('Terminer')
     expect(actions.saveSportSession).toHaveBeenCalledWith({
       id: expect.any(String),
@@ -360,6 +361,7 @@ describe('LogSportPage', () => {
       sets: [set(0, 8, 'bench', 1)],
       flowRating: 4,
       desireRating: 5,
+      note: 'Épaule raide.',
     })
     expect(
       await screen.findByText(

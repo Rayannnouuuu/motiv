@@ -10,7 +10,7 @@ import type { Domain, GuitarItem, GuitarSession, Rating, Song, SportSession, Spo
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
-import { RatingPicker } from '../../ui/RatingPicker'
+import { noteOf, SessionFeedback } from '../../ui/SessionFeedback'
 import { WeightInput } from '../../ui/WeightInput'
 import { StepContent, type Entry } from '../log-guitar/StepContent'
 
@@ -26,11 +26,13 @@ function Common({
   duration,
   flow,
   desire,
+  note,
   today,
   onDay,
   onDuration,
   onFlow,
   onDesire,
+  onNote,
 }: {
   domain: Domain
   day: string
@@ -42,6 +44,8 @@ function Common({
   onDuration: (d: string) => void
   onFlow: (r: Rating) => void
   onDesire: (r: Rating) => void
+  note: string
+  onNote: (s: string) => void
 }) {
   return (
     <>
@@ -69,8 +73,7 @@ function Common({
           />
         </label>
       </div>
-      <RatingPicker tone={domain} label="Temps oublié" value={flow} onChange={onFlow} />
-      <RatingPicker tone={domain} label="Envie d'y retourner" value={desire} onChange={onDesire} />
+      <SessionFeedback tone={domain} flow={flow} desire={desire} note={note} onFlow={onFlow} onDesire={onDesire} onNote={onNote} />
     </>
   )
 }
@@ -157,6 +160,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
   const [duration, setDuration] = useState(String(session.durationMin))
   const [flow, setFlow] = useState(session.flowRating)
   const [desire, setDesire] = useState(session.desireRating)
+  const [note, setNote] = useState(session.note ?? '')
   const [entries, setEntries] = useState<Entry[]>(() => session.items.map(toEntry))
   const [newSongs, setNewSongs] = useState<Song[]>([])
 
@@ -188,6 +192,7 @@ function EditGuitar({ session }: { session: GuitarSession }) {
           newSongs: newSongs.filter((s) => used.has(s.id)),
           flowRating: flow,
           desireRating: desire,
+          ...noteOf(note),
         })
       },
       'guitar',
@@ -207,6 +212,8 @@ function EditGuitar({ session }: { session: GuitarSession }) {
         onDuration={setDuration}
         onFlow={setFlow}
         onDesire={setDesire}
+        note={note}
+        onNote={setNote}
       />
       <StepContent
         entries={entries}
@@ -260,6 +267,7 @@ function EditSport({ session }: { session: SportSession }) {
   const [duration, setDuration] = useState(String(session.durationMin))
   const [flow, setFlow] = useState(session.flowRating)
   const [desire, setDesire] = useState(session.desireRating)
+  const [note, setNote] = useState(session.note ?? '')
   const [sets, setSets] = useState<SportSet[]>(session.sets)
   const min = validDuration(duration)
 
@@ -283,6 +291,8 @@ function EditSport({ session }: { session: SportSession }) {
         onDuration={setDuration}
         onFlow={setFlow}
         onDesire={setDesire}
+        note={note}
+        onNote={setNote}
       />
       {groups.length === 0 && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
       {groups.map((pe) => {
@@ -348,6 +358,7 @@ function EditSport({ session }: { session: SportSession }) {
                 sets,
                 flowRating: flow,
                 desireRating: desire,
+                ...noteOf(note),
               }),
             'sport',
             session.id,

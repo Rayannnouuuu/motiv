@@ -1,22 +1,18 @@
 import type { Rating } from '../../domain/types'
-import { RatingPicker } from '../../ui/RatingPicker'
+import { SessionFeedback } from '../../ui/SessionFeedback'
 
-export function StepRatings({
-  flow,
-  desire,
-  onFlow,
-  onDesire,
-}: {
+export function StepRatings(props: {
   flow: Rating | null
   desire: Rating | null
+  note: string
   onFlow: (r: Rating) => void
   onDesire: (r: Rating) => void
+  onNote: (s: string) => void
 }) {
   return (
     <div className="flex flex-col gap-7">
       <h1 className="t-title1">Comment c'était ?</h1>
-      <RatingPicker tone="guitar" label="Temps oublié" hint="As-tu perdu la notion du temps ?" value={flow} onChange={onFlow} />
-      <RatingPicker tone="guitar" label="Envie d'y retourner" hint="As-tu hâte de rejouer ?" value={desire} onChange={onDesire} />
+      <SessionFeedback tone="guitar" {...props} />
     </div>
   )
 }

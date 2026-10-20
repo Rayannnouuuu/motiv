@@ -16,6 +16,7 @@ import { StepContent, type Entry } from './StepContent'
 import { PRESETS, parseDuration, type DurationChoice } from './duration'
 import { StepDuration } from './StepDuration'
 import { StepRatings } from './StepRatings'
+import { noteOf } from '../../ui/SessionFeedback'
 
 /** État de navigation accepté (accueil, chrono, fiche exo et son métronome). */
 interface NavState {
@@ -103,6 +104,7 @@ export function LogGuitarPage() {
   const [newSongs, setNewSongs] = useState<Song[]>(() => (preSong && !data.songs.includes(preSong) ? [preSong] : []))
   const [flow, setFlow] = useState<Rating | null>(null)
   const [desire, setDesire] = useState<Rating | null>(null)
+  const [note, setNote] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -131,6 +133,7 @@ export function LogGuitarPage() {
         newSongs: newSongs.filter((s) => usedSongs.has(s.id)),
         flowRating: flow,
         desireRating: desire,
+        ...noteOf(note),
       })
       // Le chrono de cette séance est terminé.
       if (loadPractice()?.id === id) savePractice(null)
@@ -169,7 +172,7 @@ export function LogGuitarPage() {
             onCreateSong={createSong}
           />
         )}
-        {step === 2 && <StepRatings flow={flow} desire={desire} onFlow={setFlow} onDesire={setDesire} />}
+        {step === 2 && <StepRatings flow={flow} desire={desire} note={note} onFlow={setFlow} onDesire={setDesire} onNote={setNote} />}
       </div>
 
       {error && (

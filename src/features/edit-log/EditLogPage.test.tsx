@@ -37,7 +37,12 @@ describe('EditLogPage', () => {
 
   test('guitare : corrige le dernier log (durée, tempo, exo retiré), même id', async () => {
     const older = { ...g('2026-10-14', 60), createdAt: '2026-10-14T20:00:00Z' }
-    const last = { ...g(today, 45, [ex('legato-4', 140), ex('scales-1', 70)]), createdAt: '2026-10-15T20:00:00Z', flowRating: 4 as const }
+    const last = {
+      ...g(today, 45, [ex('legato-4', 140), ex('scales-1', 70)]),
+      createdAt: '2026-10-15T20:00:00Z',
+      flowRating: 4 as const,
+      note: 'Doigts froids.',
+    }
     const result = { total: 30, lines: [] }
     const { actions } = renderEdit({
       data: { guitarSessions: [older, last] },
@@ -51,6 +56,10 @@ describe('EditLogPage', () => {
     await userEvent.clear(tempo)
     await userEvent.type(tempo, '104')
     await click('Retirer Gamme majeure 1')
+    // La note libre est reprise et se corrige aussi.
+    const note = screen.getByRole('textbox', { name: /Note/ })
+    expect(note).toHaveValue('Doigts froids.')
+    await userEvent.type(note, ' Mieux après 10 min.')
     await click('Enregistrer la correction')
     expect(actions.saveGuitarSession).toHaveBeenCalledWith({
       id: last.id,
@@ -60,6 +69,7 @@ describe('EditLogPage', () => {
       newSongs: [],
       flowRating: 4,
       desireRating: 3,
+      note: 'Doigts froids. Mieux après 10 min.',
     })
     expect(await screen.findByText(`at /xp ${JSON.stringify({ result, domain: 'guitar', logId: last.id, edited: true })}`)).toBeInTheDocument()
   })
