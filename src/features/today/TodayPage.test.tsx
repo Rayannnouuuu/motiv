@@ -120,7 +120,7 @@ describe('TodayPage', () => {
     const bench = pe({ id: 'bench', programId: 'b', name: 'Squat', targetSets: 4, targetReps: 8 })
     const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1, exercises: [bench] })]
     renderToday({ data: { programs, sportSessions: [ss([set(80, 8, 'bench')], '2026-10-12', 'b'), ss([], '2026-10-14', 'a')] } })
-    expect(screen.getByText('2/3')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Cette semaine' })).getByText('2/3')).toBeInTheDocument()
     expect(screen.getByText(/Encore 1 séance cette semaine/)).toBeInTheDocument()
     expect(screen.getByRole('listitem', { name: 'L : Bas' })).toBeInTheDocument()
     expect(within(screen.getByRole('region', { name: 'Sport' })).getByText('Séance du jour')).toBeInTheDocument()
@@ -203,5 +203,23 @@ describe('TodayPage', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reprendre Bas' }))
     expect(screen.getByText('at /log/sport null')).toBeInTheDocument()
     saveLive(null)
+  })
+
+  test('ordre : la semaine en haut, puis les séances, les morceaux à entretenir (14 j), les défis', () => {
+    const songs = [
+      { id: 'm1', title: 'Wonderwall', artist: '', status: 'maintain' as const, masteredOn: '2026-09-01' },
+      { id: 'm2', title: 'Zombie', artist: '', status: 'maintain' as const, masteredOn: '2026-10-10' },
+    ]
+    renderToday({ data: { challenges: [challenge({ status: 'active', level: 1 })] }, v1: { songs } })
+    const titles = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
+    const at = (t: string) => titles.findIndex((x) => x?.includes(t))
+    expect(at('Cette semaine')).toBe(0)
+    expect(at('Guitare')).toBeLessThan(at('À entretenir'))
+    expect(at('À entretenir')).toBeLessThan(at('Défis en cours'))
+    const maintain = screen.getByRole('region', { name: 'À entretenir' })
+    expect(within(maintain).getByText('Wonderwall')).toBeInTheDocument()
+    expect(within(maintain).getByText('Pas joué depuis 44 jours')).toBeInTheDocument()
+    // Maîtrisé il y a 5 jours : pas encore.
+    expect(within(maintain).queryByText('Zombie')).not.toBeInTheDocument()
   })
 })

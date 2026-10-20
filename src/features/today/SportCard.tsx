@@ -4,11 +4,10 @@ import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { upcomingPrograms } from '../../domain/progression'
-import { SPORT_WEEKLY_SESSIONS, sportStreak } from '../../domain/streak'
+import { sportStreak } from '../../domain/streak'
 import { sportWeek } from '../../domain/sportWeek'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
-import { Gauge } from '../../ui/Gauge'
 import { WeekStrip } from '../../ui/WeekStrip'
 import { activeExercises, formatWeight, loadLive, prefillFor, resolveIndex, tracking } from '../log-sport/liveSession'
 
@@ -52,11 +51,7 @@ export function SportCard() {
 
       <div className="flex flex-col gap-2">
         <p className="t-subhead">
-          <span className="font-semibold tabular-nums">
-            {week.done}/{SPORT_WEEKLY_SESSIONS}
-          </span>{' '}
           <span className="text-muted">
-            ·{' '}
             {week.remaining === 0 ? (
               <>
                 Semaine validée <Icon name="check" className="text-sport" />
@@ -66,7 +61,6 @@ export function SportCard() {
             )}
           </span>
         </p>
-        <Gauge value={week.done} max={SPORT_WEEKLY_SESSIONS} color="sport" label="Séances de sport cette semaine" className="h-1.5" />
       </div>
 
       {live && liveProgram ? (

@@ -6,12 +6,15 @@ import { ActionsContext, AppDataContext, DbContext, type Actions } from '../data
 import { EMPTY_DATA, type AppData, type Day } from '../domain/types'
 import { testDb } from './testDb'
 import { migrateV0toV1 } from '../data/migrations/v0ToV1'
+import type { DataV1 } from '../domain/model'
 
 /** Le modèle v1 que la base aurait pour ces données (même migration qu'à l'import). */
 export const v1Of = (data: AppData) => migrateV0toV1({ app: 'motiv', schemaVersion: 0, exportedAt: '', data }).data
 
 export interface RenderWithDataOptions {
   data?: Partial<AppData>
+  /** Parties du modèle v1 que l'ancienne forme ne dit pas (statuts fins des morceaux…). */
+  v1?: Partial<DataV1>
   actions?: Partial<Actions>
   today?: Day
   route?: string | { pathname: string; state?: unknown }
@@ -23,6 +26,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     saveSportSession: vi.fn(async () => ({ total: 0, lines: [] })),
     saveBodyMetric: vi.fn(async () => {}),
     saveSong: vi.fn(async () => {}),
+    setSongStatus: vi.fn(async () => {}),
     saveProgram: vi.fn(async () => {}),
     rerollChallenge: vi.fn(async () => {}),
     acceptEasier: vi.fn(async () => {}),
@@ -35,7 +39,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
 export function renderWithData(ui: ReactElement, opts: RenderWithDataOptions = {}): RenderResult & { actions: Actions } {
   const actions = fakeActions(opts.actions)
   const data = { ...EMPTY_DATA, ...opts.data }
-  const value = { data, v1: v1Of(data), today: opts.today ?? '2026-10-15' }
+  const value = { data, v1: { ...v1Of(data), ...opts.v1 }, today: opts.today ?? '2026-10-15' }
   const result = render(
     <MemoryRouter initialEntries={[opts.route ?? '/']}>
       <DbContext.Provider value={testDb()}>

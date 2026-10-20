@@ -6,10 +6,13 @@ import type { Tone } from '../../design/tone'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels } from '../../domain/levels'
 import { nextAction, type NextAction } from '../../domain/nextAction'
+import { songsToMaintain } from '../../domain/repertoire'
 import { bestGuitarStreak, guitarStreak } from '../../domain/streak'
+import { weekGoals } from '../../domain/weekGoals'
 import type { Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
+import { Group, Row } from '../../ui/List'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { Screen } from '../../ui/Screen'
 import { LevelSheet } from '../levels/LevelSheet'
@@ -33,9 +36,11 @@ const ACTION_LOOK: Record<Exclude<NextAction['kind'], 'done'>, { tone: Tone; ico
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 export function TodayPage() {
-  const { data, today } = useAppData()
+  const { data, v1, today } = useAppData()
   const navigate = useNavigate()
   const [showLevels, setShowLevels] = useState(false)
+  const week = weekGoals(data, today)
+  const maintain = songsToMaintain(v1.songs, v1.sessions, today)
 
   const streak = guitarStreak(data.guitarSessions, today)
   const levels = allLevels(data)
@@ -87,6 +92,29 @@ export function TodayPage() {
     <Screen title="Aujourd'hui" trailing={ring}>
       <div className="flex flex-col gap-6">
         <StorageNotices />
+        <section className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="week-title">
+          <h2 id="week-title" className="t-headline">
+            Cette semaine
+          </h2>
+          {(['guitar', 'sport'] as const).map((d) => (
+            <div key={d} className="flex flex-col gap-1.5">
+              <p className="t-subhead flex items-center gap-1.5">
+                <Icon name={d} className={d === 'guitar' ? 'text-guitar' : 'text-sport'} />
+                <span className="flex-1">{d === 'guitar' ? 'Guitare · séances de 30 min' : 'Sport · séances'}</span>
+                <span className="font-semibold tabular-nums">
+                  {week[d].done}/{week[d].goal}
+                </span>
+              </p>
+              <Gauge
+                value={week[d].done}
+                max={week[d].goal}
+                color={d}
+                label={d === 'guitar' ? 'Séances de guitare cette semaine' : 'Séances de sport cette semaine'}
+                className="h-1.5"
+              />
+            </div>
+          ))}
+        </section>
         <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-label="Série">
           <div className="flex items-center gap-4">
             {/* La série est celle de la guitare : son icône, dans sa couleur. */}
@@ -118,6 +146,27 @@ export function TodayPage() {
           )}
         </section>
 
+        <section className="flex flex-col gap-4" aria-labelledby="today-title">
+          <h2 id="today-title" className="sr-only">
+            Aujourd'hui
+          </h2>
+          <GuitarCard />
+          <SportCard />
+        </section>
+
+        {maintain.length > 0 && (
+          <Group header="À entretenir" footer="Pas joués depuis 14 jours ou plus. Touche un morceau pour le noter dans un log." labelledBy="maintain-title">
+            {maintain.map(({ song, since }) => (
+              <Row
+                key={song.id}
+                title={song.title}
+                subtitle={since === null ? 'Pas encore joué depuis sa maîtrise' : `Pas joué depuis ${since} jours`}
+                onClick={() => navigate('/log/guitare', { state: { songTitle: song.title } })}
+              />
+            ))}
+          </Group>
+        )}
+
         {challenges.length > 0 && (
           <section className="flex flex-col" aria-labelledby="challenges-title">
             <h2 id="challenges-title" className={`${SECTION_TITLE} flex items-center gap-1.5`}>
@@ -132,18 +181,11 @@ export function TodayPage() {
           </section>
         )}
 
-        <section className="flex flex-col gap-4" aria-labelledby="today-title">
-          <h2 id="today-title" className="sr-only">
-            Aujourd'hui
-          </h2>
-          <GuitarCard />
-          <SportCard />
-          {lastLog(data) && (
-            <Link to="/log/corriger" className="hit tap t-subhead self-center py-2 text-accent">
-              Corriger le dernier log
-            </Link>
-          )}
-        </section>
+        {lastLog(data) && (
+          <Link to="/log/corriger" className="hit tap t-subhead self-center py-2 text-accent">
+            Corriger le dernier log
+          </Link>
+        )}
       </div>
 
       {showLevels && <LevelSheet onClose={() => setShowLevels(false)} />}
