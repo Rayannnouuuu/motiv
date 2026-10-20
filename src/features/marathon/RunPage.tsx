@@ -10,7 +10,7 @@ import type { Rating } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
 import { SessionFeedback } from '../../ui/SessionFeedback'
-import { SessionTitle } from '../../ui/SessionTitle'
+import { SessionBar, Segments } from '../../ui/SessionBar'
 import { beep, primeBeep } from '../log-sport/beep'
 import { elapsedMs, formatClock } from '../practice/practiceSession'
 import { km, paceText, runLabel } from './format'
@@ -172,13 +172,21 @@ export function RunPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <ModalBar
-        tone="sport"
-        onCancel={() => (run ? navigate(-1) : abandon())}
-        cancelLabel="Fermer"
-        cancelAria="Fermer"
-        title={run ? <SessionTitle name={title} elapsedMs={(t) => elapsedMs(run, t)} /> : title}
+      <SessionBar
+        name={title}
+        step={segments.length > 0 && seg ? `Bloc ${seg.index + 1} sur ${segments.length}` : 'Course'}
+        quitLabel="Fermer"
+        onQuit={() => (run ? navigate(-1) : abandon())}
+        elapsedMs={run ? (t) => elapsedMs(run, t) : undefined}
       />
+      {segments.length > 1 && (
+        <Segments
+          tone="sport"
+          parts={segments.map((_, i) => (seg ? (i < seg.index ? 1 : i === seg.index ? 0.5 : 0) : run ? 1 : 0))}
+          current={seg?.index}
+          label={seg ? `Bloc ${seg.index + 1} sur ${segments.length}` : `${segments.length} blocs`}
+        />
+      )}
       <div className="flex flex-col gap-1">
         <h1 className="t-title1">{title}</h1>
         {planned && (

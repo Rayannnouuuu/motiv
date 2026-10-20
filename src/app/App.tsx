@@ -37,7 +37,7 @@ function Shell({ children }: { children: ReactNode }) {
 /** Écran de saisie, présenté par-dessus (monte en se posant) : pas de navigation basse. */
 function Focus({ children }: { children: ReactNode }) {
   return (
-    <main className="animate-present mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-[env(safe-area-inset-top)] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+    <main className="animate-present mx-auto flex min-h-dvh max-w-md flex-col px-5 pt-[env(safe-area-inset-top)] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
       <Suspense fallback={null}>{children}</Suspense>
     </main>
   )

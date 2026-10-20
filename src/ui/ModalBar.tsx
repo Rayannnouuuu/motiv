@@ -28,7 +28,7 @@ export function ModalBar({
   // Opaque et collée en haut (zone de l'heure comprise) : le contenu défile dessous sans s'y mêler,
   // et un toucher sur le haut de l'écran ne tombe pas par erreur sur « Annuler ».
   return (
-    <div className="sticky top-0 z-10 -mx-4 -mt-[env(safe-area-inset-top)] mb-2 box-content grid h-11 grid-cols-[1fr_auto_1fr] items-center bg-bg px-4 pt-[env(safe-area-inset-top)]">
+    <div className="sticky top-0 z-10 -mx-5 -mt-[env(safe-area-inset-top)] mb-2 box-content grid h-11 grid-cols-[1fr_auto_1fr] items-center bg-bg px-5 pt-[env(safe-area-inset-top)]">
       <button
         type="button"
         aria-label={cancelAria}

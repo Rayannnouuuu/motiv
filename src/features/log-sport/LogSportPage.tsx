@@ -15,7 +15,7 @@ import { noteOf } from '../../domain/note'
 import { SessionFeedback } from '../../ui/SessionFeedback'
 import { WeightInput } from '../../ui/WeightInput'
 import { ModalBar } from '../../ui/ModalBar'
-import { SessionTitle } from '../../ui/SessionTitle'
+import { SessionBar, Segments } from '../../ui/SessionBar'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
 import {
@@ -187,34 +187,35 @@ export function LogSportPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-5">
-      <ModalBar
-        tone="sport"
-        onCancel={() => {
+      <SessionBar
+        name="Séance sport"
+        step={program?.name}
+        quitLabel="Fermer"
+        onQuit={() => {
           // Aucune série faite : rien à garder (ouverte par erreur ou juste pour regarder). Sinon elle
           // occuperait le bouton principal de l'accueil.
           if (live.sets.length === 0) clear()
           navigate('/')
         }}
-        cancelLabel="Fermer"
-        cancelAria="Fermer"
-        trailing={
-          live.sets.length === 0 ? (
-            <button type="button" onClick={clear} className="hit tap t-body py-2 text-sport">
-              Changer
-            </button>
-          ) : undefined
-        }
-        title={
-          <SessionTitle
-            name={program?.name}
-            step={`exo ${index + 1}/${exercises.length}`}
-            elapsedMs={(now) => Math.max(0, now.getTime() - new Date(live.startedAt).getTime())}
-          />
-        }
+        elapsedMs={(now) => Math.max(0, now.getTime() - new Date(live.startedAt).getTime())}
+      />
+      <Segments
+        tone="sport"
+        parts={exercises.map((e) => live.sets.filter((x) => x.programExerciseId === e.id).length / Math.max(1, e.targetSets))}
+        current={index}
+        label={`Exercice ${index + 1} sur ${exercises.length}`}
       />
 
       <div key={current.id} className="animate-rise flex flex-col gap-1.5">
         <div>
+          <p className="t-overline flex items-center justify-between gap-2 text-sport">
+            Exercice {index + 1} sur {exercises.length}
+            {live.sets.length === 0 && (
+              <button type="button" onClick={clear} className="hit tap t-subhead tracking-normal normal-case">
+                Changer
+              </button>
+            )}
+          </p>
           <h1 className="t-title1">{current.name}</h1>
           <p className="t-body text-muted tabular-nums">
             {reached ? (
@@ -237,7 +238,7 @@ export function LogSportPage() {
       </div>
 
       {recent.length > 0 ? (
-        <section className="flex flex-col gap-2 rounded-xl bg-surface px-4 py-3 shadow-card" aria-label="Tes dernières fois">
+        <section className="flex flex-col gap-2 rounded-xl border border-line bg-surface px-4 py-3 shadow-card" aria-label="Tes dernières fois">
           <p className="t-footnote font-semibold text-muted uppercase">Tes dernières fois</p>
           {recent.map((r) => (
             <div key={r.day} className="t-subhead flex items-baseline gap-2">
@@ -257,7 +258,7 @@ export function LogSportPage() {
         <p className="t-subhead text-muted">Première fois sur cet exo : choisis une charge confortable.</p>
       )}
 
-      <div className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card">
+      <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface px-5 py-4 shadow-card">
         <Stepper tone="sport" label="Charge" onMinus={() => dispatch({ type: 'weight', delta: -2.5 })} onPlus={() => dispatch({ type: 'weight', delta: 2.5 })}>
           <WeightInput
             aria-label="Charge (kg)"

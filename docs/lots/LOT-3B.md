@@ -22,6 +22,8 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
   - Le cercle de niveau et les défis passent dans Moi.
 - **Semaine** (nouvel onglet) : le plan marathon en héros (J-N, phase, km de la semaine), sinon les objectifs de la semaine. « Jour par jour » : ce qui est fait se corrige d'un toucher, ce qui est prévu aujourd'hui se lance.
 - **Moi** : la pastille « Niveau N » ouvre la progression ; les défis en cours en héros, en attendant le cycle du lot 4 ; l'objectif daté ; les outils (Bibliothèque, Profil sportif et santé, Sauvegarde et réglages).
+- **Séances** (guitare, sport, course) : la même barre du haut (quitter, nom et bloc en cours, chrono), des segments par exo ou par bloc, la carte de mesure avec ses steppers, le bouton principal en bas.
+  - Le déroulé par blocs de l'artefact (échauffement, technique, répertoire, créativité ; course puis renfo dans une seule séance) n'est pas fait : il demande de changer le déroulé des séances, pas seulement leur dessin. À reprendre au lot 4 ou 5.
 - **Progrès** : surtitre de la période et sélecteur 30 j / 90 j / 1 an en haut. La refonte du contenu reste au lot 4.
 
 ## Étapes
@@ -33,5 +35,5 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
 - [x] E. Semaine : héros du plan ou de la semaine, « Jour par jour ».
 - [x] F. Moi : niveau, objectif daté, outils.
 - [x] G. Progrès : en-tête et période.
-- [ ] H. Séances guitare et sport : même gabarit.
+- [x] H. Séances guitare et sport : même gabarit (barre du haut, segments, carte de mesure, bouton en bas).
 - [ ] I. Vérification, captures, essai, démo.

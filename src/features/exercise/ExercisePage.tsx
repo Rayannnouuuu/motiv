@@ -11,8 +11,7 @@ import { bestBpm } from '../../domain/records'
 import { guitarTarget } from '../../domain/targets'
 import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
-import { ModalBar } from '../../ui/ModalBar'
-import { SessionTitle } from '../../ui/SessionTitle'
+import { SessionBar, Segments } from '../../ui/SessionBar'
 import { TabView } from '../../ui/TabView'
 import { elapsedMs, isStale, loadPractice, practiceReducer, savePractice } from '../practice/practiceSession'
 import { Metronome } from './Metronome'
@@ -89,15 +88,24 @@ export function ExercisePage() {
   return (
     <div className="animate-page flex flex-col gap-6 pb-4">
       {practice ? (
-        <ModalBar
-          tone="guitar"
-          onCancel={() => navigate('/jouer')}
-          cancelLabel="Séance"
-          cancelAria="Retour à la séance"
-          title={
-            <SessionTitle name="Guitare" step={index >= 0 ? `exo ${index + 1}/${plan.length}` : undefined} elapsedMs={(now) => elapsedMs(practice, now)} />
-          }
-        />
+        <>
+          <SessionBar
+            name="Séance guitare"
+            step={index >= 0 ? `Exo ${index + 1} sur ${plan.length}` : undefined}
+            back
+            quitLabel="Retour à la séance"
+            onQuit={() => navigate('/jouer')}
+            elapsedMs={(now) => elapsedMs(practice, now)}
+          />
+          {index >= 0 && (
+            <Segments
+              tone="guitar"
+              parts={plan.map((e) => (practice.exercises.includes(e.id) ? 1 : 0))}
+              current={index}
+              label={`Exo ${index + 1} sur ${plan.length}`}
+            />
+          )}
+        </>
       ) : (
         <button type="button" className="hit tap t-body -ml-2.5 flex items-center self-start pt-2.5 pb-1 text-guitar" onClick={() => navigate(-1)}>
           <Icon name="chevron" size="1.5em" className="rotate-180" />

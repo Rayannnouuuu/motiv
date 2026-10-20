@@ -12,7 +12,7 @@ import { guitarStreak } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
 import { RowChevron } from '../../ui/List'
-import { ModalBar } from '../../ui/ModalBar'
+import { SessionBar, Segments } from '../../ui/SessionBar'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { haptic } from '../../ui/spring'
 import type { Entry } from '../log-guitar/StepContent'
@@ -142,20 +142,7 @@ export function PracticePage() {
     toLog(paused, { durationMin: logMinutes(paused, at), step: 2 })
   }
 
-  const bar = (
-    <ModalBar
-      tone="guitar"
-      onCancel={() => navigate('/')}
-      cancelLabel="Fermer"
-      cancelAria="Fermer"
-      title={
-        <span className="flex items-center justify-center gap-1.5">
-          <Icon name="guitar" className="text-guitar" />
-          Guitare
-        </span>
-      }
-    />
-  )
+  const bar = <SessionBar name="Séance guitare" step="Technique et répertoire" quitLabel="Fermer" onQuit={() => navigate('/')} />
 
   if (!session)
     return (
@@ -212,6 +199,11 @@ export function PracticePage() {
   return (
     <div className="flex flex-1 flex-col gap-6">
       {bar}
+      <Segments
+        tone="guitar"
+        parts={plan.map((e) => (session.exercises.includes(e.id) ? 1 : 0))}
+        label={`${plan.filter((e) => session.exercises.includes(e.id)).length} exo sur ${plan.length} fait`}
+      />
 
       <div className="flex flex-col items-center">
         <ProgressRing value={total} max={targetMin} size={220} stroke={14} color="guitar">
@@ -242,7 +234,7 @@ export function PracticePage() {
         <h2 id="practice-plan" className="t-footnote px-1 font-semibold text-muted uppercase">
           Séance du jour
         </h2>
-        <ul className="rows overflow-hidden rounded-lg bg-surface">
+        <ul className="rows overflow-hidden rounded-xl border border-line bg-surface">
           {plan.map((ex) => {
             const done = session.exercises.includes(ex.id)
             const record = best(ex.id)
