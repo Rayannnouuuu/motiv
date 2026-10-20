@@ -47,6 +47,15 @@ const PATHS = {
     </>
   ),
   sport: <path d="M21.5 12h-4l-3 8.5-5-17-3 8.5h-4" />,
+  // Muscu, dans l'univers sport : l'haltère
+  muscu: (
+    <>
+      <path d="M8 12h8" />
+      <rect x="4.5" y="7" width="3.5" height="10" rx="1.2" />
+      <rect x="16" y="7" width="3.5" height="10" rx="1.2" />
+      <path d="M2.5 10v4M21.5 10v4" />
+    </>
+  ),
   // Contenu
   target: (
     <>

@@ -6,7 +6,6 @@ import { TONE } from '../../design/tone'
 import { addDays, isoWeek, shortDate, weekStart } from '../../domain/date'
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
-import { RUNNER_TEMPLATE_ID } from '../../domain/marathon/strength'
 import type { Domain } from '../../domain/types'
 import { weekGoals } from '../../domain/weekGoals'
 import { Gauge } from '../../ui/Gauge'
@@ -17,7 +16,7 @@ import { Screen } from '../../ui/Screen'
 import { km, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
-import { currentWeek, planWeekLabel, planWeekProgress } from './planWeek'
+import { currentWeek, planWeekCount, planWeekLabel, planWeekProgress } from './planWeek'
 
 const PHASES: Phase[] = ['base', 'development', 'specific', 'taper']
 const WEEKDAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
@@ -95,6 +94,7 @@ export function WeekPage() {
   const plan = mk?.plan ?? null
   const planWeek = currentWeek(plan)
   const race = mk?.m.race.kind ?? 'marathon'
+  const sportGoal = planWeek ? planWeekCount(planWeek, v1.sessions) : goals.sport
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
 
   const chipsOf = (day: string): Chip[] => {
@@ -102,20 +102,20 @@ export function WeekPage() {
     const sessions = v1.sessions.filter((s) => s.day === day).sort((a, b) => a.createdAt.localeCompare(b.createdAt))
     for (const s of sessions) {
       const run = runOf(s)
-      const text =
-        s.discipline === 'guitar'
-          ? `Guitare ${s.durationMin} min`
-          : run
-            ? `Course ${km(run.km)}`
-            : s.templateId === RUNNER_TEMPLATE_ID
-              ? 'Renfo'
-              : (names.get(s.templateId ?? '') ?? 'Sport')
-      chips.push({ key: s.id, tone: s.discipline, icon: s.discipline, text, done: true, to: `/log/corriger/${s.id}` })
+      const text = s.discipline === 'guitar' ? `Guitare ${s.durationMin} min` : run ? `Course ${km(run.km)}` : (names.get(s.templateId ?? '') ?? 'Muscu')
+      chips.push({
+        key: s.id,
+        tone: s.discipline,
+        icon: s.discipline === 'sport' && !run ? 'muscu' : s.discipline,
+        text,
+        done: true,
+        to: `/log/corriger/${s.id}`,
+      })
     }
     // Le prévu du plan, d'aujourd'hui à dimanche, tant qu'il n'est pas fait.
     if (planWeek && day >= today) {
       const ran = sessions.some((s) => runOf(s))
-      const strong = sessions.some((s) => s.templateId === RUNNER_TEMPLATE_ID)
+      const lifted = sessions.some((s) => s.discipline === 'sport' && !runOf(s))
       for (const r of planWeek.runs.filter((x) => x.day === day && !ran))
         chips.push({
           key: `run-${r.kind}`,
@@ -125,14 +125,14 @@ export function WeekPage() {
           done: false,
           onClick: day === today && r.kind !== 'cross' ? () => start.run(r) : undefined,
         })
-      for (const st of planWeek.strength.filter((x) => x.day === day && !strong))
+      for (const st of planWeek.strength.filter((x) => x.day === day && !lifted))
         chips.push({
-          key: 'renfo',
+          key: `muscu-${st.programId}`,
           tone: 'sport',
-          icon: 'sport',
-          text: `Renfo${st.light ? ' léger' : ''}`,
+          icon: 'muscu',
+          text: `${st.name}${st.light ? ' léger' : ''}`,
           done: false,
-          onClick: day === today ? start.strength : undefined,
+          onClick: day === today ? () => start.strength(st.programId) : undefined,
         })
     }
     return chips
@@ -144,7 +144,7 @@ export function WeekPage() {
       overline={`Semaine ${isoWeek(today)} · ${monday.slice(5, 7) === days[6].slice(5, 7) ? Number(monday.slice(8)) : shortDate(monday)} – ${shortDate(days[6])}`}
       pill={
         <Pill>
-          {goals.guitar.done + goals.sport.done} / {goals.guitar.goal + goals.sport.goal} séances
+          {goals.guitar.done + sportGoal.done} / {goals.guitar.goal + sportGoal.goal} séances
         </Pill>
       }
     >
@@ -152,10 +152,11 @@ export function WeekPage() {
         {mk && plan && planWeek ? (
           <Hero
             tone="sport"
-            overline={`Sport · plan ${race === 'marathon' ? 'marathon' : 'semi'}`}
+            overline={`Sport · ${race === 'marathon' ? 'marathon' : 'semi'} + muscu`}
             aside={mk.daysLeft >= 0 ? `J-${mk.daysLeft}` : undefined}
             titleId="plan-title"
             title={planWeekLabel(plan)}
+            subtitle="Un seul plan : tes sorties et ta muscu placées ensemble."
           >
             <PhaseBar plan={plan} />
             {plan.frozen && <p className="t-subhead rounded-lg bg-record/15 px-3 py-2">{plan.frozen}</p>}

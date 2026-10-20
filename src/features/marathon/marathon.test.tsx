@@ -6,6 +6,7 @@ import { profile } from '../../domain/marathon/fixtures'
 import { generatePlan } from '../../domain/marathon/plan'
 import type { MarathonProfile } from '../../domain/marathon/profile'
 import { EMPTY_PROFILE } from '../../domain/model'
+import { program } from '../../test/factories'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { TodayPage } from '../today/TodayPage'
 import { WeekPage } from '../week/WeekPage'
@@ -108,7 +109,7 @@ describe('plan', () => {
     const week = screen.getByRole('region', { name: 'Cette semaine' })
     expect(within(week).getByText("Aujourd'hui")).toBeInTheDocument()
     expect(within(week).getByRole('button', { name: 'Commencer : Footing facile' })).toBeInTheDocument()
-    expect(within(week).getByRole('button', { name: 'Commencer : renfo coureur' })).toBeInTheDocument()
+    expect(within(week).getByRole('button', { name: 'Commencer : Renfo coureur' })).toBeInTheDocument()
     expect(within(screen.getByRole('region', { name: 'Tes allures' })).getByText('Allure marathon')).toBeInTheDocument()
     expect(screen.getByText(/la musculation sert la course/)).toBeInTheDocument()
   })
@@ -133,12 +134,22 @@ describe('plan', () => {
     expect(actions.setSickWeek).toHaveBeenCalledWith('2026-10-19', true)
   })
 
-  test('Aujourd’hui : la sortie du plan après la guitare, dans « Aussi aujourd’hui », lancée d’un toucher', async () => {
+  test('Aujourd’hui : la carte sport montre la sortie du plan, lancée d’un toucher', async () => {
     render(<TodayPage />, '/', '/', base)
-    expect(within(screen.getByRole('region', { name: /Technique et répertoire/ })).getByText('Prochaine séance · Guitare')).toBeInTheDocument()
-    const also = screen.getByRole('region', { name: "Aussi aujourd'hui" })
-    await userEvent.click(within(also).getByRole('button', { name: /^Sport · Footing facile/ }))
+    const sport = screen.getByRole('region', { name: /^Footing facile/ })
+    expect(within(sport).getByText(/^Plan marathon · Base · semaine 1 sur/)).toBeInTheDocument()
+    await userEvent.click(within(sport).getAllByRole('button')[0])
+    await userEvent.click(within(sport).getByRole('button', { name: 'Commencer' }))
     expect(screen.getByText(`at /course {"day":"${TODAY}","kind":"easy"}`)).toBeInTheDocument()
+  })
+
+  test('plan complet : ta muscu Push / Pull / Legs placée dans la semaine avec les sorties', async () => {
+    const programs = ['Push', 'Pull', 'Legs'].map((name, i) => program({ id: name.toLowerCase(), name, position: i }))
+    render(<WeekPage />, '/semaine', '/semaine', base, { data: { programs } })
+    const days = within(screen.getByRole('region', { name: 'Jour par jour' })).getAllByRole('listitem')
+    const text = days.map((d) => d.textContent).join(' | ')
+    for (const name of ['Push', 'Pull', 'Legs']) expect(text).toContain(name)
+    expect(within(screen.getByRole('region', { name: /^Base · semaine 1 sur/ })).getByText(/muscu 0 \/ /)).toBeInTheDocument()
   })
 
   test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {

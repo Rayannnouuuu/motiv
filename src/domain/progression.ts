@@ -109,7 +109,8 @@ export function acceptEasier(data: AppData, id: string, today: Day, deps: Deps):
 }
 
 /** Programmes de la rotation : actifs, hors renfo coureur du plan marathon (il a ses propres jours). */
-const rotation = (programs: Program[]) => programs.filter((p) => !p.archived && p.id !== RUNNER_TEMPLATE_ID).sort((a, b) => a.position - b.position)
+/** Ta rotation de muscu (Push / Pull / Legs…), dans l'ordre ; le renfo coureur n'en fait pas partie. */
+export const rotation = (programs: Program[]) => programs.filter((p) => !p.archived && p.id !== RUNNER_TEMPLATE_ID).sort((a, b) => a.position - b.position)
 
 export function nextProgram(programs: Program[], sessions: SportSession[]): Program | undefined {
   const active = rotation(programs)

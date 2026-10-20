@@ -56,6 +56,8 @@ export interface Step {
   to?: string
   state?: object
   done?: boolean
+  /** Bloc de la séance (« Course », « Muscu · Push ») : un intertitre quand il change. */
+  group?: string
 }
 
 /** Les étapes d'une séance, numérotées, dans un bloc posé dans la carte ; une étape peut ouvrir sa fiche. */
@@ -79,8 +81,10 @@ export function StepList({ tone, steps, label }: { tone: Domain; steps: Step[]; 
           </>
         )
         const row = 'flex min-h-12 items-center gap-3 px-3 py-1.5'
+        const header = s.group && s.group !== steps[i - 1]?.group
         return (
           <li key={`${i}-${s.title}`}>
+            {header && <p className={`t-overline px-3 pt-2.5 pb-0.5 ${TONE.text[tone]}`}>{s.group}</p>}
             {s.to ? (
               <Link to={s.to} state={s.state} className={`tap-row ${row}`}>
                 {body}

@@ -44,7 +44,8 @@ export function WeekSessions({ week, mk, today }: { week: PlanWeek; mk: Marathon
             {runs.map((r) => (
               <div key={r.kind} className="flex items-start gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="t-headline">
+                  <p className="t-headline flex items-center gap-1.5">
+                    <Icon name="sport" className="text-sport" />
                     {runLabel(r, mk.m.race.kind)}
                     {r.km > 0 && <span className="font-normal text-muted"> · {km(r.km)}</span>}
                   </p>
@@ -61,12 +62,22 @@ export function WeekSessions({ week, mk, today }: { week: PlanWeek; mk: Marathon
             ))}
             {strength && (
               <div className="flex items-center gap-3">
-                <p className="t-headline flex-1">
-                  Renfo coureur{strength.light && <span className="font-normal text-muted"> · léger</span>}
-                  {runs.length > 0 && <span className="t-subhead font-normal text-muted"> · après la course</span>}
+                <p className="t-headline flex flex-1 items-center gap-1.5">
+                  <Icon name="muscu" className="text-sport" />
+                  <span>
+                    {strength.name}
+                    {strength.light && <span className="font-normal text-muted"> · léger</span>}
+                    {runs.length > 0 && <span className="t-subhead font-normal text-muted"> · après la course</span>}
+                  </span>
                 </p>
                 {isToday && (
-                  <Button tone="sport" variant="secondary" className="shrink-0 px-4 py-2" aria-label="Commencer : renfo coureur" onClick={start.strength}>
+                  <Button
+                    tone="sport"
+                    variant="secondary"
+                    className="shrink-0 px-4 py-2"
+                    aria-label={`Commencer : ${strength.name}`}
+                    onClick={() => start.strength(strength.programId)}
+                  >
                     Go
                   </Button>
                 )}
@@ -202,6 +213,16 @@ function PlanView({ mk }: { mk: Marathon }) {
           ))}
         </ul>
       )}
+
+      <Group
+        header="Muscu dans le plan"
+        footer="Ta rotation (Push, Pull, Legs…) est placée autour des sorties : jambes jamais la veille d'une sortie longue ou d'une séance dure, ni le lendemain de la sortie longue ; haut du corps de préférence un jour sans course."
+      >
+        <Row title="Base et développement" detail="3 par semaine" />
+        <Row title="Semaine allégée" detail="une de moins" />
+        <Row title="Spécifique" detail="2, jambes → renfo coureur" />
+        <Row title="Affûtage" detail="1 légère, puis rien" />
+      </Group>
 
       <Group header={`Renfo coureur · ${m.constraints.gym ? 'salle' : 'maison'}`} footer={`${STRENGTH_PURPOSE} Modifiable dans Bibliothèque › Modèles.`}>
         {runnerMoves(m.constraints.gym).map((x) => (

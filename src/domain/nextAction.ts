@@ -10,7 +10,7 @@ export interface NextAction {
   state?: object
 }
 
-/** Séance du plan marathon prévue aujourd'hui et pas encore faite (sortie, ou renfo coureur). */
+/** Séance du plan sport complet prévue aujourd'hui et pas encore faite (sortie de course, ou muscu). */
 export type PlannedToday = Required<Pick<NextAction, 'label' | 'to' | 'state'>>
 
 interface Input {
@@ -20,8 +20,10 @@ interface Input {
   guitarLiveMin: number | null
   /** Nom du programme de la séance de sport en cours, null sans séance. */
   sportLiveProgram: string | null
-  /** Séance du plan marathon du jour, pas encore faite. */
+  /** Séance du plan sport complet du jour (sortie ou muscu), pas encore faite. */
   planned?: PlannedToday | null
+  /** Plan marathon en cours : le sport du jour vient du plan, pas de la rotation seule. */
+  planActive?: boolean
 }
 
 /**
@@ -29,7 +31,7 @@ interface Input {
  * minutes qui manquent), puis le sport (la séance du plan marathon, sinon le programme dû). Le libellé est du
  * texte seul : l'écran choisit l'icône et la couleur selon `kind`.
  */
-export function todayQueue({ data, today, guitarLiveMin, sportLiveProgram, planned = null }: Input): NextAction[] {
+export function todayQueue({ data, today, guitarLiveMin, sportLiveProgram, planned = null, planActive = false }: Input): NextAction[] {
   const queue: NextAction[] = []
   if (sportLiveProgram !== null) queue.push({ kind: 'resumeSport', label: `Reprendre ${sportLiveProgram}`, to: '/log/sport' })
 
@@ -39,6 +41,7 @@ export function todayQueue({ data, today, guitarLiveMin, sportLiveProgram, plann
 
   if (sportLiveProgram !== null) return queue
   if (planned) return [...queue, { kind: 'startPlanned', ...planned }]
+  if (planActive) return queue
   const [next] = upcomingPrograms(data.programs, data.sportSessions, 1)
   const week = sportWeek(data.sportSessions, today)
   const sportToday = data.sportSessions.some((s) => s.day === today)

@@ -5,6 +5,7 @@
 import { addDays, daysBetween, weekStart } from '../date'
 import type { Day } from '../types'
 import { paces, type PaceKind, type Paces } from './paces'
+import { RUNNER_TEMPLATE_ID } from './strength'
 import { isCautious, RACE_KM, runnerLevel, weekdayOf, type MarathonProfile, type RunnerLevel, type Weekday } from './profile'
 
 export type Phase = 'base' | 'development' | 'specific' | 'taper'
@@ -45,9 +46,13 @@ export interface PlannedRun {
 
 type Draft = Omit<PlannedRun, 'fastKm'>
 
+/** Une séance de muscu du plan : le renfo coureur, ou une séance de ta rotation une fois combinée (combined.ts). */
 export interface PlannedStrength {
   day: Day
   light: boolean
+  /** Modèle de séance à lancer. */
+  programId: string
+  name: string
 }
 
 export interface PlanWeek {
@@ -397,7 +402,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   for (const d of order) {
     if (strength.length >= want) break
     if (eve(d) || isLong(d) || strength.some((s) => s.day === d)) continue
-    strength.push({ day: d, light: w.phase === 'taper' || w.deload })
+    strength.push({ day: d, light: w.phase === 'taper' || w.deload, programId: RUNNER_TEMPLATE_ID, name: 'Renfo coureur' })
   }
   strength.sort((a, b) => (a.day < b.day ? -1 : 1))
   return { runs: runs.map((r) => ({ ...r, fastKm: round05(hardKm(r, r.kind === 'long' ? longMp : 0)) })), strength }

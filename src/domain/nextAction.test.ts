@@ -67,6 +67,11 @@ describe('todayQueue', () => {
     expect(nextAction({ data, today, guitarLiveMin: null, sportLiveProgram: null, planned }).kind).toBe('startPlanned')
   })
 
+  test('plan en cours, rien de prévu aujourd’hui : pas de séance de la rotation à côté du plan', () => {
+    const data = base({ guitarSessions: [g(today, 60)] })
+    expect(nextAction({ data, today, guitarLiveMin: null, sportLiveProgram: null, planned: null, planActive: true }).kind).toBe('done')
+  })
+
   test('séance de sport en cours : pas d’autre séance de sport proposée', () => {
     const q = todayQueue({ data: base(), today, guitarLiveMin: null, sportLiveProgram: 'Bas', planned })
     expect(q.map((a) => a.kind)).toEqual(['resumeSport', 'playGuitar'])

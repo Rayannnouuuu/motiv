@@ -89,6 +89,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Aujourd'hui, Semaine (nouvel onglet) et Moi refaits sur le même gabarit ; Progrès reçoit l'en-tête et la période.
   - Les trois séances (guitare, sport, course) partagent la même barre du haut et les segments.
   - Aucun changement de stockage. 621 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3b/`.
+- 20 oct. 2026 : lot 3b refusé (« la partie sport est trop petite »). 2e version : Aujourd'hui en deux cartes qui se déplient (Guitare, Sport) ; plan sport complet, ta muscu placée dans le plan marathon (`combined.ts`). 630 tests verts. Strava : plus tard, dans un lot à part.
 
 ## Décidé (détails, option la plus simple)
 
@@ -137,6 +138,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] 183 cm le 13 oct. : c'est ta hauteur.
 - [x] Lot 2 — La séance unifiée : en ligne.
 - [x] Lot 3 — Plan marathon : en ligne.
-- [ ] Lot 3b — Refonte visuelle : sur l'essai, à valider.
+- [ ] Lot 3b — Refonte visuelle et plan sport complet : 2e version sur l'essai, à valider.
+- [ ] Strava : lot à part. L'échange de jetons Strava demande le secret client, que le navigateur ne peut pas garder : soit import d'un fichier d'export, soit un petit relais. À décider.
 - [ ] Lot 4 — Progrès et rythme
 - [ ] Lot 5 — Preuves et anti-stagnation

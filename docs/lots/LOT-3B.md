@@ -2,7 +2,21 @@
 
 _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'artefact [MOTIV — Refonte visuelle](https://claude.ai/artifact/KXWWKDbUXrhH3swfux4ztV), qui fait foi pour la disposition et le design._
 
-**État : prêt sur la version d'essai (`/motiv/essai/`), en attente de validation.**
+**État : 2e version sur l'essai (`/motiv/essai/`), en attente de validation.**
+
+## Retour du 20 oct. (1re version refusée)
+
+« La partie sport est trop petite. » Il faut que ce soit « déroulant » pour la guitare et le sport (choix : deux cartes qui s'ouvrent), et que le marathon et la muscu fassent un seul plan, bien visible. Strava : plus tard, dans un lot à part.
+
+- **Aujourd'hui** : deux cartes de même taille, Guitare et Sport. Un toucher sur l'en-tête déplie la carte (étapes, bouton). La prochaine séance est en premier et ouverte ; l'autre est fermée.
+- **Plan sport complet** (`src/domain/marathon/combined.ts`) : les créneaux de renfo du plan marathon deviennent ta rotation de muscu (Push, Pull, Legs…).
+  - Combien : 3 en base et développement (une de moins en semaine allégée), 2 en spécifique, 1 légère au début de l'affûtage, rien les 10 derniers jours ni en semaine malade.
+  - Où : jamais le jour de la sortie longue ; jambes jamais la veille d'une sortie longue, d'une séance dure ou de la course, ni le lendemain de la sortie longue ; jambes de préférence le jour d'une séance dure, haut du corps un jour sans course. L'ordre de la rotation est gardé, les séances sont étalées.
+  - En spécifique et en affûtage, la séance jambes devient le renfo coureur.
+  - Sans rotation de muscu, le renfo coureur du lot 3 reste.
+  - Pendant le plan, « Commencer » ne propose pas de muscu hors plan.
+- **Visible** : la carte Sport montre la sortie et la muscu du jour (« Footing 6 km + Push », avec les exos et les charges). Semaine : « marathon + muscu », course (pouls) et muscu (haltère) jour par jour, compteur « muscu 1 / 3 ». Le plan complet liste la muscu de chaque semaine et ses règles.
+- Rien de stocké en plus : le plan combiné se recalcule comme le plan marathon.
 
 ## Décisions (option la plus simple)
 
@@ -37,3 +51,5 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
 - [x] G. Progrès : en-tête et période.
 - [x] H. Séances guitare et sport : même gabarit (barre du haut, segments, carte de mesure, bouton en bas).
 - [x] I. Vérification, captures (`docs/lots/lot3b/`), essai, démo.
+- [x] J. Retour du 20 oct. : deux cartes qui se déplient, plan sport complet marathon + muscu.
+- [ ] Strava : lot à part (l'échange de jetons demande un secret et un petit serveur ; à décider).
