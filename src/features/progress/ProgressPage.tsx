@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useAppData } from '../../data/AppDataContext'
 import { getExercise } from '../../content/exercises'
+import { Icon } from '../../design/icons'
+import { TONE } from '../../design/tone'
 import { addDays, shortDate } from '../../domain/date'
 import {
   bodySeries,
@@ -13,7 +15,7 @@ import {
   type Period,
   type Point,
 } from '../../domain/series'
-import type { AppData, BodyField } from '../../domain/types'
+import type { AppData, BodyField, Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { LineChart } from '../../ui/LineChart'
 import { Group, Row } from '../../ui/List'
@@ -25,13 +27,14 @@ import { BODY_FIELDS } from './bodyFields'
 
 type Metric = 'hours' | 'tempo' | 'songs' | 'strength' | 'body' | 'measures'
 
-const METRICS: { id: Metric; label: string }[] = [
-  { id: 'hours', label: 'Heures guitare' },
-  { id: 'tempo', label: 'Tempo' },
-  { id: 'songs', label: 'Morceaux maîtrisés' },
-  { id: 'strength', label: 'Force' },
-  { id: 'body', label: 'Poids' },
-  { id: 'measures', label: 'Mensurations' },
+/** `domain` : la couleur de la courbe et de ce qui s'y rapporte. */
+const METRICS: { id: Metric; label: string; domain: Domain }[] = [
+  { id: 'hours', label: 'Heures guitare', domain: 'guitar' },
+  { id: 'tempo', label: 'Tempo', domain: 'guitar' },
+  { id: 'songs', label: 'Morceaux maîtrisés', domain: 'guitar' },
+  { id: 'strength', label: 'Force', domain: 'sport' },
+  { id: 'body', label: 'Poids', domain: 'sport' },
+  { id: 'measures', label: 'Mensurations', domain: 'sport' },
 ]
 const PERIODS: Period[] = [30, 90, 365]
 const MEASURES = BODY_FIELDS.filter((f) => f.field !== 'weightKg')
@@ -177,6 +180,7 @@ export function ProgressPage() {
   const win = windowPoints(view.points, today, period)
   const formatDelta = view.formatDelta ?? view.format
   const list = view.list.slice(0, 10)
+  const domain = METRICS.find((m) => m.id === metric)!.domain
 
   return (
     <Screen title="Progrès">
@@ -189,7 +193,7 @@ export function ProgressPage() {
               role="tab"
               aria-selected={metric === m.id}
               onClick={() => setMetric(m.id)}
-              className={`tap-scale t-subhead min-h-9 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
+              className={`hit tap-scale t-subhead min-h-9 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
                 metric === m.id ? 'bg-ink text-bg' : 'bg-surface text-ink shadow-card'
               }`}
             >
@@ -198,7 +202,7 @@ export function ProgressPage() {
           ))}
         </div>
 
-        <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Courbe">
+        <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-label="Courbe">
           {options.length > 0 && (
             <label className="t-subhead flex items-center justify-between gap-3">
               <span className="text-muted">{metric === 'measures' ? 'Mesure' : 'Exo'}</span>
@@ -206,7 +210,7 @@ export function ProgressPage() {
                 aria-label={metric === 'measures' ? 'Mesure' : 'Exo'}
                 value={sub}
                 onChange={(e) => setChoice({ ...choice, [metric]: e.target.value })}
-                className="tap t-callout min-w-0 max-w-[65%] appearance-none truncate bg-transparent text-right font-semibold text-accent"
+                className={`tap t-callout min-h-11 max-w-[65%] min-w-0 appearance-none truncate bg-transparent text-right font-semibold ${TONE.text[domain]}`}
               >
                 {options.map((o) => (
                   <option key={o.id} value={o.id}>
@@ -226,14 +230,14 @@ export function ProgressPage() {
           <div>
             <p className="t-large tabular-nums">{win.current === null ? '—' : view.format(win.current)}</p>
             {win.delta !== null && win.points.length > 1 && (
-              <p className={`t-subhead font-semibold ${win.delta > 0 ? 'text-guitar' : 'text-muted'}`} data-testid="delta">
+              <p className={`t-subhead font-semibold ${win.delta > 0 ? TONE.text[domain] : 'text-muted'}`} data-testid="delta">
                 {win.delta > 0 ? '+' : win.delta < 0 ? '−' : '±'}
                 {formatDelta(Math.abs(win.delta))} sur {period} j
               </p>
             )}
           </div>
 
-          <LineChart points={win.points} format={view.format} highlights={view.records} />
+          <LineChart points={win.points} format={view.format} highlights={view.records} tone={domain} />
 
           <Segmented
             label="Période"
@@ -246,8 +250,9 @@ export function ProgressPage() {
         </section>
 
         {(metric === 'body' || metric === 'measures') && (
-          <Button variant="secondary" onClick={() => setAdding(true)}>
-            + mesure
+          <Button variant="secondary" tone="sport" onClick={() => setAdding(true)}>
+            <Icon name="plus" />
+            Ajouter une mesure
           </Button>
         )}
         {adding && (

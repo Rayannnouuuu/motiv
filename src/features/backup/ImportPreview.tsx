@@ -101,7 +101,7 @@ export function ImportPreview({ prepared: p, onConfirm, onCancel }: { prepared: 
 
       <div className="flex flex-col gap-2">
         {!p.identical && (
-          <Button onClick={() => void confirm()} disabled={busy} className={sure ? 'bg-danger' : ''}>
+          <Button onClick={() => void confirm()} disabled={busy} tone={sure ? 'danger' : 'accent'}>
             {busy ? 'Import…' : sure ? `Oui, remplacer et perdre ${plural(losing, 'séance', 'séances')}` : 'Importer'}
           </Button>
         )}

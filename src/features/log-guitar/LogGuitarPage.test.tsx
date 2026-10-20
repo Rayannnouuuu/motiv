@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test, vi } from 'vitest'
 import { addDays } from '../../domain/date'
 import { challenge, ex, g, mkSong } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { loadPractice, savePractice, startPractice } from '../practice/practiceSession'
 import { LogGuitarPage } from './LogGuitarPage'
@@ -39,14 +40,14 @@ describe('LogGuitarPage', () => {
     await next()
 
     await userEvent.type(screen.getByRole('searchbox'), 'legato 4')
-    await userEvent.click(screen.getByRole('button', { name: '+ Legato 4' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter Legato 4' }))
     const tempo = screen.getByLabelText('Tempo max · Legato 4')
     expect(tempo).toHaveValue(100)
     await userEvent.clear(tempo)
     await userEvent.type(tempo, '104')
 
     await userEvent.type(screen.getByRole('searchbox'), 'para')
-    await userEvent.click(screen.getByRole('button', { name: '+ Paranoid' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter Paranoid' }))
     await userEvent.click(screen.getByLabelText('Maîtrisé · Paranoid'))
     await next()
 
@@ -180,12 +181,12 @@ describe('LogGuitarPage', () => {
     renderLog({ data: { guitarSessions: [g('2026-10-14', 30, [ex('ghost-1', 90), ex('sweep-3', 80)])] } })
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
-    const results = screen.getAllByRole('button', { name: /^\+ / }).map((b) => b.textContent)
+    const results = screen.getAllByRole('button', { name: /^Ajouter / }).map((b) => b.textContent)
     // Plan : suite de la dernière catégorie (sweep 4), puis 2 autres ; deux morceaux proposés ; ensuite les récents.
-    expect(results[0]).toMatch(/^\+ Sweep.*4du jour$/)
+    expect(results[0]).toMatch(/^Sweep.*4du jour$/)
     expect(results.filter((r) => r?.endsWith('du jour'))).toHaveLength(3)
-    expect(results[3]).toBe('+ Seven Nation Army · The White Stripes')
-    expect(results[5]).toBe('+ Sweep picking ascendant 3')
+    expect(results[3]).toBe('Seven Nation Army · The White Stripes')
+    expect(results[5]).toBe('Sweep picking ascendant 3')
     expect(screen.queryByText(/ghost/)).not.toBeInTheDocument()
   })
 
@@ -195,7 +196,7 @@ describe('LogGuitarPage', () => {
     renderLog({ data: { guitarSessions: [played, g('2026-10-14', 30, many)], songs: [mkSong({ id: 's1', title: 'Smells Like Teen Spirit' })] } })
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
-    expect(screen.getByRole('button', { name: /^\+ Smells Like Teen Spirit/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^Ajouter Smells Like Teen Spirit/ })).toBeInTheDocument()
   })
 
   test('morceau ajouté mais jamais joué : pas dans la liste « en cours », proposé du catalogue sans doublon', async () => {
@@ -203,7 +204,7 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     // Le plus facile du catalogue : il est déjà dans la liste (jamais joué), on reprend ce morceau.
-    await userEvent.click(screen.getByRole('button', { name: '+ Seven Nation Army · The White Stripes' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter Seven Nation Army · The White Stripes' }))
     await next()
     await finish()
     expect(actions.saveGuitarSession).toHaveBeenCalledWith(expect.objectContaining({ newSongs: [], items: [{ kind: 'song', songId: 'sna', markedMastered: false }] }))
@@ -245,7 +246,7 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     await userEvent.type(screen.getByRole('searchbox'), 'sabbath')
-    await userEvent.click(screen.getByRole('button', { name: '+ Iron Man · Black Sabbath' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter Iron Man · Black Sabbath' }))
     expect(screen.queryByRole('button', { name: /Nouveau morceau/ })).not.toBeInTheDocument()
     await next()
     await finish()
@@ -258,7 +259,7 @@ describe('LogGuitarPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
     await userEvent.type(screen.getByRole('searchbox'), 'Ma compo')
-    await userEvent.click(screen.getByRole('button', { name: '+ Nouveau morceau « Ma compo »' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Nouveau morceau « Ma compo »' }))
     await next()
     await finish()
     const draft = vi.mocked(actions.saveGuitarSession).mock.calls[0][0]
@@ -271,13 +272,15 @@ describe('LogGuitarPage', () => {
     renderLog({ data: { challenges: [c] } })
     await userEvent.click(screen.getByRole('button', { name: '30' }))
     await next()
-    const first = screen.getAllByRole('button', { name: /^\+ / })[0]
+    const first = screen.getAllByRole('button', { name: /^Ajouter / })[0]
     expect(first).toHaveTextContent('Legato sur une corde 6')
-    expect(first).toHaveTextContent('🎯 défi')
+    expect(first).toHaveTextContent(/défi$/)
+    expect(icon(first, 'target')).toBeInTheDocument()
     await userEvent.click(first)
-    expect(screen.getByText('🎯 Défi : note ton tempo max, objectif 96 bpm')).toBeInTheDocument()
+    const goal = screen.getByText('Défi : note ton tempo max, objectif 96 bpm')
+    expect(icon(goal, 'target')).toBeInTheDocument()
     await userEvent.type(screen.getByLabelText('Tempo max · Legato sur une corde 6'), '96')
-    expect(screen.getByText('🎯 Défi réussi : 96 bpm atteint ✓')).toBeInTheDocument()
+    expect(icon(screen.getByText('Défi réussi : 96 bpm atteint'), 'check')).toBeInTheDocument()
   })
 
   test('« Logger sans durée » (durationMin: null) : aucune durée présélectionnée', () => {

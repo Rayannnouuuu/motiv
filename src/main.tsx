@@ -10,7 +10,7 @@ import { createDb } from './data/db'
 import { WelcomePage } from './features/backup/WelcomePage'
 import './index.css'
 import { Splash } from './ui/Splash'
-import { followSystemTheme } from './ui/theme'
+import { followSystemTheme } from './design/theme'
 
 // Sur iPhone, :active (retour visuel à l'appui) ne s'applique que si la page écoute les touchers.
 document.addEventListener('touchstart', () => {}, { passive: true })

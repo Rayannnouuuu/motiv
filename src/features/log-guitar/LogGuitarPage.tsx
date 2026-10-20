@@ -145,10 +145,11 @@ export function LogGuitarPage() {
   return (
     <div className="flex flex-1 flex-col gap-5">
       <ModalBar
+        tone="guitar"
         onCancel={() => (step === 0 ? navigate('/') : setStep(step - 1))}
         cancelLabel={step === 0 ? 'Annuler' : '‹ Retour'}
         cancelAria={step === 0 ? 'Fermer' : 'Retour'}
-        title={<StepBar count={3} current={step} />}
+        title={<StepBar count={3} current={step} tone="guitar" />}
       />
 
       <div key={step} className="animate-rise flex-1">
@@ -175,11 +176,11 @@ export function LogGuitarPage() {
         </p>
       )}
       {step < 2 ? (
-        <Button disabled={!canNext} onClick={() => setStep(step + 1)}>
+        <Button tone="guitar" disabled={!canNext} onClick={() => setStep(step + 1)}>
           Suivant
         </Button>
       ) : (
-        <Button disabled={flow === null || desire === null || saving} onClick={save}>
+        <Button tone="guitar" disabled={flow === null || desire === null || saving} onClick={save}>
           Enregistrer
         </Button>
       )}

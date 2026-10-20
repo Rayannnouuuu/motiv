@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon, type IconName } from '../../design/icons'
+import type { Tone } from '../../design/tone'
 import { lastLog } from '../../domain/lastLog'
 import { allLevels } from '../../domain/levels'
-import { nextAction } from '../../domain/nextAction'
+import { nextAction, type NextAction } from '../../domain/nextAction'
 import { bestGuitarStreak, guitarStreak } from '../../domain/streak'
 import type { Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
@@ -20,6 +22,14 @@ import { StorageNotices } from '../backup/StorageNotices'
 
 const SECTION_TITLE = 't-footnote px-4 pb-1.5 text-muted uppercase'
 
+/** Couleur de la discipline, et même icône dans les deux : lancer, ou reprendre une séance en cours. */
+const ACTION_LOOK: Record<Exclude<NextAction['kind'], 'done'>, { tone: Tone; icon: IconName }> = {
+  resumeSport: { tone: 'sport', icon: 'timer' },
+  resumeGuitar: { tone: 'guitar', icon: 'timer' },
+  playGuitar: { tone: 'guitar', icon: 'play' },
+  startSport: { tone: 'sport', icon: 'play' },
+}
+
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
 
 export function TodayPage() {
@@ -33,7 +43,7 @@ export function TodayPage() {
   const done = r === 0
   const best = streak.days === 0 ? bestGuitarStreak(data.guitarSessions) : 0
   const subtitle = done
-    ? "Série tenue aujourd'hui ✓"
+    ? "Série tenue aujourd'hui"
     : streak.days > 0
       ? `Encore ${r} min pour tenir la série`
       : best > 0
@@ -50,6 +60,7 @@ export function TodayPage() {
   })
   // Seul « done » n'a pas de destination.
   const to = action.kind === 'done' ? undefined : action.to
+  const look = action.kind === 'done' ? null : ACTION_LOOK[action.kind]
   const active = (domain: Domain) => data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
   // Défis bloquants en premier.
   const challenges = (['guitar', 'sport'] as const)
@@ -63,11 +74,11 @@ export function TodayPage() {
     <button
       type="button"
       aria-label={`Niveau ${levels.global.level}, voir la progression`}
-      className="tap-scale rounded-full"
+      className="hit tap-scale rounded-full"
       onClick={() => setShowLevels(true)}
     >
       <ProgressRing value={levels.global.xpInLevel} max={levels.global.perLevel} size={36} stroke={4}>
-        <span className="text-[0.8125rem] font-bold tabular-nums">{levels.global.level}</span>
+        <span className="t-footnote font-bold tabular-nums">{levels.global.level}</span>
       </ProgressRing>
     </button>
   )
@@ -76,35 +87,44 @@ export function TodayPage() {
     <Screen title="Aujourd'hui" trailing={ring}>
       <div className="flex flex-col gap-6">
         <StorageNotices />
-        <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-label="Série">
+        <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-label="Série">
           <div className="flex items-center gap-4">
+            {/* La série est celle de la guitare : son icône, dans sa couleur. */}
             <span
-              className="animate-pop flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-accent/25 to-accent/5 text-[2.25rem] leading-none [animation-delay:250ms]"
+              className="animate-pop flex size-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-guitar/25 to-guitar/5 text-guitar [animation-delay:250ms]"
               aria-hidden
             >
-              🔥
+              <Icon name="guitar" size="2.125em" />
             </span>
             <div className="min-w-0">
               <p className="t-title1 tabular-nums">{streak.days === 0 ? 'Nouvelle série' : plural(streak.days, 'jour', 'jours')}</p>
-              <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>{subtitle}</p>
+              <p className={`t-subhead ${done ? 'font-semibold text-guitar' : 'text-muted'}`}>
+                {subtitle}
+                {done && <Icon name="check" className="ml-1" />}
+              </p>
             </div>
           </div>
           <Gauge value={streak.todayMin} max={streak.targetMin} color="guitar" label="Minutes de guitare aujourd'hui" className="h-1.5" />
-          {to ? (
-            <Button className="w-full" onClick={() => navigate(to, { state: action.state })}>
-              {action.label}
-            </Button>
-          ) : (
-            <p className="t-subhead text-center font-semibold text-guitar">Journée bouclée ✓ · à demain</p>
-          )}
+          {to && look ? (
+              <Button tone={look.tone} className="w-full" onClick={() => navigate(to, { state: action.state })}>
+                <Icon name={look.icon} />
+                {action.label}
+              </Button>
+            ) : (
+              <p className="t-subhead flex items-center justify-center gap-1 font-semibold text-accent">
+                <Icon name="check" />
+                {action.label} · à demain
+              </p>
+            )}
         </section>
 
         {challenges.length > 0 && (
           <section className="flex flex-col" aria-labelledby="challenges-title">
-            <h2 id="challenges-title" className={SECTION_TITLE}>
-              🎯 Défis en cours
+            <h2 id="challenges-title" className={`${SECTION_TITLE} flex items-center gap-1.5`}>
+              <Icon name="target" />
+              Défis en cours
             </h2>
-            <div className="rows overflow-hidden rounded-[1.25rem] bg-surface shadow-card">
+            <div className="rows overflow-hidden rounded-2xl bg-surface shadow-card">
               {challenges.map(({ c, d }) => (
                 <ChallengeCard key={c.id} challenge={c} level={levels[d]} />
               ))}
@@ -119,7 +139,7 @@ export function TodayPage() {
           <GuitarCard />
           <SportCard />
           {lastLog(data) && (
-            <Link to="/log/corriger" className="tap t-subhead self-center py-2 text-accent">
+            <Link to="/log/corriger" className="hit tap t-subhead self-center py-2 text-accent">
               Corriger le dernier log
             </Link>
           )}

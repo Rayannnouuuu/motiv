@@ -15,10 +15,13 @@ const onDay = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: 
  */
 export function StorageNotices() {
   const db = useDb()
-  const meta = useLiveQuery(() => db.meta.get('device'), [db])
+  // Calculé dans la lecture (pas au rendu) : l'heure courante n'a rien à faire dans le rendu.
+  const due = useLiveQuery(async () => {
+    const m = await db.meta.get('device')
+    return m && backupDue(m, new Date()) ? m : null
+  }, [db])
   const [busy, setBusy] = useState(false)
   const [installHidden, setInstallHidden] = useState(false)
-  const due = meta ? backupDue(meta, new Date()) : false
   const install = !installHidden && !isStandalone()
   if (!due && !install) return null
 
@@ -31,7 +34,7 @@ export function StorageNotices() {
   return (
     <div className="flex flex-col gap-3">
       {install && (
-        <section aria-label="Installer MOTIV" className="flex flex-col gap-2 rounded-[1rem] bg-surface p-4 shadow-card">
+        <section aria-label="Installer MOTIV" className="flex flex-col gap-2 rounded-2xl bg-surface p-4 shadow-card">
           <p className="t-subhead">
             Ajoute MOTIV à l’écran d’accueil (Partager › Sur l’écran d’accueil) : dans Safari, tes données peuvent être effacées après quelques jours sans visite.
           </p>
@@ -40,10 +43,10 @@ export function StorageNotices() {
           </Button>
         </section>
       )}
-      {due && meta && (
-        <section aria-label="Sauvegarde" className="flex flex-col gap-3 rounded-[1rem] bg-surface p-4 shadow-card">
+      {due && (
+        <section aria-label="Sauvegarde" className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-card">
           <p className="t-subhead">
-            {meta.lastBackupAt ? `Ta dernière sauvegarde date du ${onDay(meta.lastBackupAt)}.` : 'Tu n’as pas encore de sauvegarde au nouveau format.'} Un tap pour la
+            {due.lastBackupAt ? `Ta dernière sauvegarde date du ${onDay(due.lastBackupAt)}.` : 'Tu n’as pas encore de sauvegarde au nouveau format.'} Un tap pour la
             mettre à jour, à garder dans Fichiers.
           </p>
           <div className="flex gap-2">

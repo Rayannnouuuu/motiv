@@ -1,9 +1,10 @@
 export type Theme = 'light' | 'dark' | 'auto'
 
 const KEY = 'motiv.theme.v1'
-export const DEFAULT_THEME: Theme = 'light'
+// Sombre par défaut ; clair et auto restent au choix dans Réglages.
+export const DEFAULT_THEME: Theme = 'dark'
 
-// Fond de l'appli (--bg dans index.css), repris par la barre d'état et le manifeste. Mêmes valeurs dans index.html.
+// Fond de l'appli (--bg dans tokens.css), repris par la barre d'état et le manifeste. Mêmes valeurs dans index.html.
 const LIGHT_BAR = '#f2f2f7'
 const DARK_BAR = '#000000'
 
@@ -40,7 +41,7 @@ function applyThemeColor(t: Theme): void {
   meta.content = themeColor(t, prefersDark())
 }
 
-/** Applique le thème (attribut `data-theme` lu par index.css, meta `theme-color`) et le mémorise sur cet appareil. */
+/** Applique le thème (attribut `data-theme` lu par tokens.css, meta `theme-color`) et le mémorise sur cet appareil. */
 export function setTheme(t: Theme): void {
   document.documentElement.dataset.theme = t
   applyThemeColor(t)

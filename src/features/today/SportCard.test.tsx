@@ -56,7 +56,7 @@ describe('SportCard', () => {
   test('« Commencer » : bouton secondaire qui lance directement la séance', async () => {
     renderCard({ data: { programs: [haut] } })
     const start = screen.getByRole('button', { name: 'Commencer Haut' })
-    expect(start).toHaveClass('bg-accent/12')
+    expect(start).toHaveClass('bg-sport/12')
     await userEvent.click(start)
     expect(screen.getByText('at /log/sport {"programId":"haut"}')).toBeInTheDocument()
   })

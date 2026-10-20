@@ -34,9 +34,10 @@ describe('BackupSection', () => {
     await mount()
     expect(await screen.findByText('Jamais')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
-    expect(click).toHaveBeenCalledOnce()
+    // L'export relit d'abord la base : le téléchargement part après un aller-retour asynchrone.
+    await waitFor(() => expect(click).toHaveBeenCalledOnce())
     expect((click.mock.contexts[0] as HTMLAnchorElement).download).toMatch(/^motiv-sauvegarde-\d{4}-\d{2}-\d{2}-\d{4}\.json$/)
-    expect(await screen.findByText('À jour ✓')).toBeInTheDocument()
+    expect(await screen.findByText('À jour')).toBeInTheDocument()
   })
 
   test('import d’une ancienne sauvegarde : aperçu, confirmation, puis annulation possible', async () => {

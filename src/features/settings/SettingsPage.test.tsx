@@ -11,9 +11,9 @@ const click = (name: string | RegExp) => userEvent.click(screen.getByRole('butto
 describe('SettingsPage', () => {
   test('nouvelle séance « Haut » avec « Développé couché » 4×8', async () => {
     const { actions } = renderWithData(<SettingsPage />, { today })
-    await click('+ Nouvelle séance')
+    await click('Nouvelle séance')
     await userEvent.type(screen.getByLabelText('Nom de la séance'), 'Haut')
-    await click('+ Ajouter un exo')
+    await click('Ajouter un exo')
     await userEvent.type(screen.getByLabelText('Nom · exo 1'), 'Développé couché')
     const sets = screen.getByLabelText('Séries · Développé couché')
     await userEvent.clear(sets)
@@ -27,7 +27,7 @@ describe('SettingsPage', () => {
     expect(saved.exercises).toEqual([
       { id: expect.any(String), programId: saved.id, name: 'Développé couché', targetSets: 4, targetReps: 8, position: 0, archived: false },
     ])
-    expect(await screen.findByText('« Haut » enregistrée ✓')).toBeInTheDocument()
+    expect(await screen.findByText('« Haut » enregistrée')).toBeInTheDocument()
   })
 
   test('modifier : séries et reps modifiables, rien n’est enregistré avant « Enregistrer »', async () => {
@@ -116,14 +116,14 @@ describe('SettingsPage', () => {
     await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Programmes tout faits' })).not.toBeInTheDocument())
   })
 
-  test('thème : clair par défaut, choix appliqué et mémorisé', async () => {
+  test('thème : sombre par défaut, choix appliqué et mémorisé', async () => {
     localStorage.clear()
     renderWithData(<SettingsPage />, { today })
-    expect(screen.getByRole('button', { name: 'Clair' })).toHaveAttribute('aria-pressed', 'true')
-    await click('Sombre')
-    expect(document.documentElement.dataset.theme).toBe('dark')
-    expect(localStorage.getItem('motiv.theme.v1')).toBe('dark')
     expect(screen.getByRole('button', { name: 'Sombre' })).toHaveAttribute('aria-pressed', 'true')
+    await click('Clair')
+    expect(document.documentElement.dataset.theme).toBe('light')
+    expect(localStorage.getItem('motiv.theme.v1')).toBe('light')
+    expect(screen.getByRole('button', { name: 'Clair' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   test('« Version » : date du build et commit, en dernier', () => {

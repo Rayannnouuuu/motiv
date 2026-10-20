@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { getExercise } from '../../content/exercises'
+import { icon } from '../../test/icon'
 import { Metronome, type AudioContextLike } from './Metronome'
 
 const QUARTERS = getExercise('scales-1')!.pattern
@@ -76,9 +77,11 @@ test('pastilles de raccourci : record, cible, défi', async () => {
   await user.click(screen.getByRole('button', { name: 'Cible 66' }))
   expect(tempo()).toHaveTextContent('66')
   expect(screen.getByRole('button', { name: 'Cible 66' })).toHaveAttribute('aria-pressed', 'true')
-  await user.click(screen.getByRole('button', { name: 'Défi 58' }))
+  const challenge = screen.getByRole('button', { name: 'Défi 58' })
+  expect(icon(challenge, 'target')).toBeInTheDocument()
+  await user.click(challenge)
   expect(tempo()).toHaveTextContent('58')
-  expect(screen.getByText('🎯 58')).toBeInTheDocument()
+  expect(challenge).toHaveAttribute('aria-pressed', 'true')
 })
 
 test('sans record ni défi : seule la pastille cible', () => {
@@ -188,11 +191,11 @@ test('les points de temps s’allument quand le clic sonne', async () => {
   const audio = fakeAudio()
   const user = setup()
   const { container } = render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
-  const dots = () => [...container.querySelectorAll('[aria-hidden] > span')].map((d) => d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-accent') ? 'A' : 'G')
+  const dots = () => [...container.querySelectorAll('[aria-hidden] > span')].map((d) => d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G')
   expect(dots()).toEqual(['·', '·', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await audio.play(100)
-  expect(dots()).toEqual(['A', '·', '·', '·'])
+  expect(dots()).toEqual(['F', '·', '·', '·'])
   await audio.play(1000)
   expect(dots()).toEqual(['·', 'G', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))

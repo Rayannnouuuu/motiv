@@ -26,7 +26,7 @@ export function BackupSection() {
   }, [])
 
   const upToDate = meta?.lastBackupAt && meta.lastWriteAt && meta.lastBackupAt >= meta.lastWriteAt
-  const status = !meta?.lastBackupAt ? 'Jamais' : upToDate ? 'À jour ✓' : `Dernière : ${onDay(meta.lastBackupAt)}`
+  const status = !meta?.lastBackupAt ? 'Jamais' : upToDate ? 'À jour' : `Dernière : ${onDay(meta.lastBackupAt)}`
   const storage = [
     isStandalone() ? 'Appli installée sur l’écran d’accueil' : 'Ouverte dans Safari : installe-la sur l’écran d’accueil pour protéger tes données',
     persist === 'persisted' ? 'stockage protégé' : persist === 'not-persisted' ? 'stockage non protégé par le téléphone' : null,

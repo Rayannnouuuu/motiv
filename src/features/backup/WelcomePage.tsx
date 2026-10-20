@@ -26,7 +26,7 @@ export function WelcomePage() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 px-4 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
       <header className="flex flex-col items-center gap-3 text-center">
-        <img src={LOGO} alt="" width={96} height={96} className="rounded-[1.5rem]" />
+        <img src={LOGO} alt="" width={96} height={96} className="rounded-2xl" />
         <h1 className="t-large">{imp.prepared ? 'Avant d’importer' : 'Bienvenue dans MOTIV'}</h1>
         {essai && <p className="t-subhead text-muted">Version d’essai : ce que tu fais ici reste ici. Tes vraies données ne bougent pas.</p>}
       </header>

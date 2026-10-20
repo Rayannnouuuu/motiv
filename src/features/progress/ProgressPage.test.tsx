@@ -98,11 +98,11 @@ describe('ProgressPage', () => {
     expect(screen.getByText(/Estimation d'Epley/)).toBeInTheDocument()
   })
 
-  test('Poids : « + mesure », Enregistrer désactivé si tout est vide', async () => {
+  test('Poids : « Ajouter une mesure », Enregistrer désactivé si tout est vide', async () => {
     const { actions } = renderWithData(<ProgressPage />, { today, data: { bodyMetrics: [metric('2026-10-01', 72)] } })
     await tab('Poids')
     expect(screen.getAllByText('72 kg').length).toBeGreaterThan(0)
-    await userEvent.click(screen.getByRole('button', { name: '+ mesure' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Ajouter une mesure' }))
     const save = screen.getByRole('button', { name: 'Enregistrer' })
     expect(save).toBeDisabled()
     await userEvent.type(screen.getByLabelText('Taille (cm)'), '81,5')

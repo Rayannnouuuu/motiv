@@ -31,8 +31,9 @@ export default defineConfig({
         start_url: BASE,
         scope: BASE,
         display: 'standalone',
-        background_color: '#f2f2f7',
-        theme_color: '#f2f2f7',
+        // Thème sombre par défaut (src/design/theme.ts).
+        background_color: '#000000',
+        theme_color: '#000000',
       },
       // injectRegister: false désactive l'activation automatique du plugin : on la remet, sinon une nouvelle
       // version attendrait que toutes les fenêtres soient fermées et le rechargement ne viendrait jamais.
@@ -50,5 +51,7 @@ export default defineConfig({
     setupFiles: 'src/test/setup.ts',
     // Les worktrees des agents vivent dans .claude/ : leurs tests ne sont pas ceux de cette copie.
     exclude: [...configDefaults.exclude, '.claude/**'],
+    // Les CSS sont vidés en test, sauf les jetons : tokens.test.ts lit leurs valeurs (contrastes).
+    css: { include: [/src\/design\/tokens\.css/] },
   },
 })

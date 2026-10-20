@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { TabNote } from '../../content/exercises'
+import { Icon } from '../../design/icons'
 import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
@@ -201,11 +202,11 @@ export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, on
   const shortcuts = [
     best !== null && { key: 'record', label: `Record ${best}`, value: best },
     { key: 'target', label: `Cible ${targetBpm}`, value: targetBpm },
-    challengeBpm !== null && { key: 'challenge', label: `🎯 ${challengeBpm}`, aria: `Défi ${challengeBpm}`, value: challengeBpm },
+    challengeBpm !== null && { key: 'challenge', label: `Défi ${challengeBpm}`, value: challengeBpm },
   ].filter((s) => s !== false)
 
   return (
-    <section className="flex flex-col gap-4 rounded-[1.25rem] bg-surface p-4 shadow-card" aria-labelledby="metronome-title">
+    <section className="flex flex-col gap-4 rounded-2xl bg-surface p-4 shadow-card" aria-labelledby="metronome-title">
       <div className="flex min-h-8 items-center justify-between gap-3">
         <h2 id="metronome-title" className="t-headline">
           Métronome
@@ -225,7 +226,7 @@ export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, on
         )}
       </div>
 
-      <Stepper label="Tempo" onMinus={() => changeBpm(bpm - BPM_STEP)} onPlus={() => changeBpm(bpm + BPM_STEP)}>
+      <Stepper tone="guitar" label="Tempo" onMinus={() => changeBpm(bpm - BPM_STEP)} onPlus={() => changeBpm(bpm + BPM_STEP)}>
         <p className="tabular-nums">
           <span className="t-large">{bpm}</span> <span className="t-footnote text-muted">bpm</span>
         </p>
@@ -236,11 +237,11 @@ export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, on
           <button
             key={s.key}
             type="button"
-            aria-label={'aria' in s ? s.aria : undefined}
             aria-pressed={bpm === clampBpm(s.value)}
             onClick={() => changeBpm(s.value)}
-            className={`tap t-footnote rounded-full px-3 py-1.5 tabular-nums ${bpm === clampBpm(s.value) ? 'bg-accent/12 font-semibold text-accent' : 'bg-fill'}`}
+            className={`hit tap t-footnote flex items-center gap-1 rounded-full px-3 py-1.5 tabular-nums ${bpm === clampBpm(s.value) ? 'bg-guitar/12 font-semibold text-guitar' : 'bg-fill'}`}
           >
+            {s.key === 'challenge' && <Icon name="target" />}
             {s.label}
           </button>
         ))}
@@ -251,7 +252,7 @@ export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, on
           {Array.from({ length: BEATS }, (_, i) => (
             <span
               key={i}
-              className={`h-3 w-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-accent' : 'bg-guitar'}` : 'bg-fill-strong'}`}
+              className={`size-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-ink' : 'bg-guitar'}` : 'bg-fill-strong'}`}
             />
           ))}
         </div>
@@ -259,17 +260,9 @@ export function Metronome({ pattern, best, startBpm, targetBpm, challengeBpm, on
           type="button"
           onClick={toggle}
           aria-label={playing ? 'Arrêter le métronome' : 'Lancer le métronome'}
-          className="tap-scale flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent text-white shadow-card"
+          className="tap-scale flex size-16 shrink-0 items-center justify-center rounded-full bg-guitar text-on-guitar shadow-card"
         >
-          {playing ? (
-            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
-              <rect x="3" y="3" width="16" height="16" rx="2.5" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden className="ml-1">
-              <path d="M7 4.7v16.6a1.2 1.2 0 0 0 1.8 1L22.4 14a1.2 1.2 0 0 0 0-2L8.8 3.7A1.2 1.2 0 0 0 7 4.7Z" fill="currentColor" />
-            </svg>
-          )}
+          <Icon name={playing ? 'stop' : 'play'} size="1.65em" className={playing ? '' : 'ml-0.5'} />
         </button>
       </div>
 

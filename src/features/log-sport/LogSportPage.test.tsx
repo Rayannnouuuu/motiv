@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { ActionsContext, AppDataContext } from '../../data/AppDataContext'
 import { EMPTY_DATA, type AppData } from '../../domain/types'
 import { challenge, pe, program, set, ss } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { fakeActions, renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { beep, primeBeep } from './beep'
 import { loadLive, saveLive, type LiveState } from './liveSession'
@@ -87,12 +88,12 @@ describe('LogSportPage', () => {
     expect(screen.getByLabelText('Charge (kg)')).toHaveValue('62,5')
     expect(screen.getByLabelText('Reps')).toHaveTextContent('8')
     await click('Charge +')
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     unmount()
 
     renderSport({ data: { programs: [haut], sportSessions: history } })
     expect(screen.getByRole('heading', { name: 'Développé couché' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '✓ Série 2 faite' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Série 2 faite' })).toBeInTheDocument()
     expect(screen.getByText('65 kg × 8')).toBeInTheDocument()
     expect(loadLive()?.sets).toEqual([set(65, 8, 'bench', 1)])
   })
@@ -110,29 +111,29 @@ describe('LogSportPage', () => {
     renderSport({ data: { programs: [haut] } })
     await click('Commencer')
     expect(seriesCount()).toBe(4)
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     expect(screen.queryByRole('button', { name: 'Changer' })).not.toBeInTheDocument()
-    await click('✓ Série 2 faite')
-    await click('✓ Série 3 faite')
+    await click('Série 2 faite')
+    await click('Série 3 faite')
     expect(screen.getByRole('button', { name: 'Exo suivant →' })).toBeInTheDocument()
-    await click('✓ Série 4 faite')
+    await click('Série 4 faite')
 
-    expect(screen.getByText('4/4 séries ✓')).toBeInTheDocument()
+    expect(icon(screen.getByText('4/4 séries'), 'check')).toBeInTheDocument()
     expect(seriesCount()).toBe(4) // plus de case vide en trop
     expect(screen.queryByRole('button', { name: /Série 5 faite/ })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Exo suivant : Rowing →' })).toBeInTheDocument()
 
-    await click('+ Série en plus')
+    await click('Série en plus')
     expect(seriesCount()).toBe(5)
     expect(loadLive()!.sets).toHaveLength(5)
     expect(loadLive()!.sets[4]).toEqual(set(0, 8, 'bench', 5))
 
     await click('Exo suivant : Rowing →')
     expect(screen.getByRole('heading', { name: 'Rowing' })).toBeInTheDocument()
-    for (const n of [1, 2, 3]) await click(`✓ Série ${n} faite`)
+    for (const n of [1, 2, 3]) await click(`Série ${n} faite`)
     expect(screen.getByRole('button', { name: 'Fin de séance →' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '‹ Précédent' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '+ Série en plus' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Série en plus' })).toBeInTheDocument()
   })
 
   describe('repos', () => {
@@ -140,7 +141,7 @@ describe('LogSportPage', () => {
       renderSport({ data: { programs: [haut] } })
       await click('Commencer')
       expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-      await click('✓ Série 1 faite')
+      await click('Série 1 faite')
       expect(primeBeep).toHaveBeenCalledTimes(1)
       const timer = screen.getByRole('timer', { name: 'Repos' })
       expect(timer).toHaveTextContent('2:00')
@@ -156,7 +157,7 @@ describe('LogSportPage', () => {
     test('à 0 : « C’est reparti », un seul bip, puis plus rien après une minute', async () => {
       renderSport({ data: { programs: [haut] } })
       await click('Commencer')
-      await click('✓ Série 1 faite')
+      await click('Série 1 faite')
       await advance(119_000)
       expect(screen.getByRole('timer')).toHaveTextContent('0:01')
       expect(beep).not.toHaveBeenCalled()
@@ -196,56 +197,58 @@ describe('LogSportPage', () => {
     })
   })
 
-  test('record : pastille 🏆 et « Record ! », une seule fête par exo', async () => {
+  test('record : pastille trophée et « Record ! », une seule fête par exo', async () => {
     renderSport({ data: { programs: [haut], sportSessions: history } })
     await click('Commencer')
     await click('Charge +')
-    await click('✓ Série 1 faite')
-    expect(screen.getByRole('status')).toHaveTextContent('🏆 Record ! 65 kg × 8')
+    await click('Série 1 faite')
+    expect(screen.getByRole('status')).toHaveTextContent('Record ! 65 kg × 8')
+    expect(icon(screen.getByRole('status'), 'trophy')).toBeInTheDocument()
     const pill = screen.getByRole('button', { name: 'Modifier la série 1' })
-    expect(pill).toHaveTextContent('🏆')
-    expect(pill).toHaveClass('bg-amber-400')
+    expect(icon(pill, 'trophy')).toBeInTheDocument()
+    expect(pill).toHaveClass('bg-record')
     await advance(2_500)
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
 
-    await click('✓ Série 2 faite')
+    await click('Série 2 faite')
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Modifier la série 2' })).toHaveTextContent('🏆')
+    expect(icon(screen.getByRole('button', { name: 'Modifier la série 2' }), 'trophy')).toBeInTheDocument()
 
     await click('Charge −')
     await click('Charge −')
-    await click('✓ Série 3 faite')
-    expect(screen.getByRole('button', { name: 'Modifier la série 3' })).not.toHaveTextContent('🏆')
+    await click('Série 3 faite')
+    expect(icon(screen.getByRole('button', { name: 'Modifier la série 3' }), 'trophy')).not.toBeInTheDocument()
   })
 
   test('défi de charge sur l’exo : bandeau, puis réussi avec le record dans le même message', async () => {
     const ch = challenge({ domain: 'sport', target: { kind: 'weight', programExerciseId: 'bench', reps: 8, weightKg: 67.5, baseline: 62.5 } })
     renderSport({ data: { programs: [haut], sportSessions: history, challenges: [ch] } })
     await click('Commencer')
-    expect(screen.getByText('🎯 Défi : 8 reps à 67,5 kg')).toBeInTheDocument()
+    expect(icon(screen.getByText('Défi : 8 reps à 67,5 kg'), 'target')).toBeInTheDocument()
     await click('Charge +')
     await click('Charge +')
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     const toast = screen.getByRole('status')
-    expect(within(toast).getByText('🏆 Record ! 67,5 kg × 8')).toBeInTheDocument()
-    expect(within(toast).getByText('🎯 Défi réussi !')).toBeInTheDocument()
-    expect(screen.getByText("🎯 Défi réussi ! Validé à l'enregistrement")).toBeInTheDocument()
+    expect(icon(within(toast).getByText('Record ! 67,5 kg × 8'), 'trophy')).toBeInTheDocument()
+    expect(icon(within(toast).getByText('Défi réussi !'), 'target')).toBeInTheDocument()
+    expect(icon(screen.getByText("Défi réussi ! Validé à l'enregistrement"), 'check')).toBeInTheDocument()
   })
 
   test('défi de reps au poids du corps : « Défi réussi ! » seul', async () => {
     const ch = challenge({ domain: 'sport', target: { kind: 'reps', programExerciseId: 'bench', weightKg: 0, reps: 10, baseline: 8 } })
     renderSport({ data: { programs: [haut], challenges: [ch] } })
     await click('Commencer')
-    expect(screen.getByText('🎯 Défi : 10 reps au poids du corps')).toBeInTheDocument()
-    await click('✓ Série 1 faite')
+    expect(icon(screen.getByText('Défi : 10 reps au poids du corps'), 'target')).toBeInTheDocument()
+    await click('Série 1 faite')
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
     await click('Reps +')
     await click('Reps +')
-    await click('✓ Série 2 faite')
-    expect(screen.getByRole('status')).toHaveTextContent(/^🎯 Défi réussi !$/)
-    expect(screen.getByText("🎯 Défi réussi ! Validé à l'enregistrement")).toBeInTheDocument()
+    await click('Série 2 faite')
+    expect(screen.getByRole('status')).toHaveTextContent(/^Défi réussi !$/)
+    expect(icon(screen.getByRole('status'), 'target')).toBeInTheDocument()
+    expect(icon(screen.getByText("Défi réussi ! Validé à l'enregistrement"), 'check')).toBeInTheDocument()
     await advance(2_500)
-    await click('✓ Série 3 faite')
+    await click('Série 3 faite')
     expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 
@@ -324,7 +327,7 @@ describe('LogSportPage', () => {
     const result = { total: 75, lines: [{ label: 'Séance terminée', xp: 60 }] }
     const { actions } = renderSport({ data: { programs: [haut] }, actions: { saveSportSession: vi.fn(async () => result) } })
     await click('Commencer')
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     await click('Exo suivant →')
     expect(screen.getByRole('heading', { name: 'Rowing' })).toBeInTheDocument()
     await click('Fin de séance →')
@@ -375,28 +378,28 @@ describe('LogSportPage', () => {
   test('corriger ou supprimer une série déjà faite', async () => {
     renderSport({ data: { programs: [haut] } })
     await click('Commencer')
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     await click('Reps +')
-    await click('✓ Série 2 faite')
+    await click('Série 2 faite')
     expect(loadLive()!.sets).toEqual([set(0, 8, 'bench', 1), set(0, 9, 'bench', 2)])
 
     await click('Modifier la série 1')
     expect(screen.getByLabelText('Reps')).toHaveTextContent('8')
     await click('Charge +')
-    await click('✓ Enregistrer la série 1')
+    await click('Enregistrer la série 1')
     expect(loadLive()!.sets).toEqual([set(2.5, 8, 'bench', 1), set(0, 9, 'bench', 2)])
     expect(screen.getByLabelText('Reps')).toHaveTextContent('9') // valeurs d'avant la correction
 
     await click('Modifier la série 1')
     await click('Supprimer la série')
     expect(loadLive()!.sets).toEqual([set(0, 9, 'bench', 1)])
-    expect(screen.getByRole('button', { name: '✓ Série 2 faite' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Série 2 faite' })).toBeInTheDocument()
   })
 
   test('abandonner pendant la séance, avec confirmation', async () => {
     const { actions } = renderSport({ data: { programs: [haut] } })
     await click('Commencer')
-    await click('✓ Série 1 faite')
+    await click('Série 1 faite')
     await click('Abandonner la séance')
     await click('Continuer')
     expect(loadLive()).not.toBeNull()

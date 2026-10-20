@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { ex, g, mkSong } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { PracticePage } from './PracticePage'
 import { loadPractice, savePractice, startPractice } from './practiceSession'
@@ -68,7 +69,8 @@ describe('PracticePage', () => {
   test('sans séance ni autostart : bouton Démarrer', () => {
     renderPractice({ route: '/jouer' })
     expect(screen.queryByRole('timer')).not.toBeInTheDocument()
-    click('▶︎ Démarrer')
+    expect(icon(screen.getByRole('button', { name: 'Démarrer' }), 'play')).toBeInTheDocument()
+    click('Démarrer')
     expect(screen.getByRole('timer')).toHaveTextContent('0:00')
     expect(loadPractice()).not.toBeNull()
   })
@@ -102,7 +104,8 @@ describe('PracticePage', () => {
     renderPractice({ data: { songs, guitarSessions: [g(today, 10, [ex(first.id, 72)])] } })
     expect(screen.getByText(`Cible ${first.targetBpm} bpm · record 72`)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: `Fait : ${first.title}` }))
-    click('🎵 Paranoid')
+    expect(icon(screen.getByRole('button', { name: 'Paranoid' }), 'song')).toBeInTheDocument()
+    click('Paranoid')
     tick(25 * 60_000 + 20_000)
     const id = loadPractice()!.id
     click('Terminer')
@@ -135,7 +138,7 @@ describe('PracticePage', () => {
     tick(9 * 60_000)
     expect(screen.getByText("59/60 min aujourd'hui")).toBeInTheDocument()
     tick(60_000)
-    expect(screen.getByText('Série tenue ✓')).toBeInTheDocument()
+    expect(icon(screen.getByText('Série tenue'), 'check')).toBeInTheDocument()
     expect(loadPractice()?.goalCelebrated).toBe(true)
   })
 
@@ -197,6 +200,6 @@ describe('PracticePage', () => {
     savePractice(startPractice(start, 'late'))
     vi.setSystemTime(new Date('2026-10-15T22:10:00Z'))
     renderPractice({ today: '2026-10-16', route: '/jouer', data: { guitarSessions: [g('2026-10-15', 30)] } })
-    expect(screen.getByText('Série tenue ✓')).toBeInTheDocument() // 30 + 30 sur le 15
+    expect(screen.getByText('Série tenue')).toBeInTheDocument() // 30 + 30 sur le 15
   })
 })

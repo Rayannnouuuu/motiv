@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
-import { getTheme, setTheme, type Theme } from '../../ui/theme'
+import { getTheme, setTheme, type Theme } from '../../design/theme'
 import { BackupSection } from './BackupSection'
 import { ProgramEditor } from './ProgramEditor'
 
