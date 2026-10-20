@@ -27,6 +27,15 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
 - Le plan suit ce que tu as fait : la rotation repart de la séance faite, et le plan se recalcule.
 - **Ouverture** : fini les grains sur fond vert. « MOTIV » monte lettre par lettre sur le fond de l'appli, puis deux traits (ambre et bleu) se tracent dessous ; environ 1,5 s, un toucher la passe, rien si les animations sont réduites.
 
+## Validé, avec un ajout (20 oct.)
+
+« Certaines semaines, je veux pouvoir mettre des jours d'indisponibilité. »
+
+- **Semaine › Jour par jour › « Mes dispos »** : un interrupteur par jour à venir. Un jour décoché devient « Indisponible ».
+- Des flèches passent aux semaines suivantes, jusqu'à la course, pour poser ses indisponibilités à l'avance.
+- Le plan se recalcule sans ces jours : les sorties vont sur les autres jours libres (la sortie longue sur le dernier jour libre), la muscu aussi, en gardant ses règles. Une semaine raccourcie ne fait pas baisser les suivantes.
+- Stockage : une liste de dates dans le profil marathon (`offDays`, facultative), comme les semaines malades. Pas de migration ; la sauvegarde l'emporte.
+
 ## Décisions (option la plus simple)
 
 - **Couleurs**

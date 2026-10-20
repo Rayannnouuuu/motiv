@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { useAppData } from '../../data/AppDataContext'
+import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon, type IconName } from '../../design/icons'
 import { TONE } from '../../design/tone'
-import { addDays, isoWeek, shortDate, weekStart } from '../../domain/date'
+import { addDays, daysBetween, isoWeek, shortDate, weekStart } from '../../domain/date'
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import type { Domain } from '../../domain/types'
@@ -13,7 +13,8 @@ import { Hero } from '../../ui/Hero'
 import { SectionHeader } from '../../ui/List'
 import { Pill } from '../../ui/Pill'
 import { Screen } from '../../ui/Screen'
-import { km, runLabel } from '../marathon/format'
+import { Switch } from '../../ui/Switch'
+import { dayLabel, km, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
 import { currentWeek, planWeekCount, planWeekLabel, planWeekProgress } from './planWeek'
@@ -88,14 +89,25 @@ export function WeekPage() {
   const { data, v1, today } = useAppData()
   const mk = useMarathon()
   const start = useStartPlanned()
+  const { setOffDay } = useActions()
   const monday = weekStart(today)
   const days = Array.from({ length: 7 }, (_, i) => addDays(monday, i))
+  // Semaine affichée dans « Jour par jour » : celle-ci, ou une des suivantes (jusqu'à la course) pour y poser ses indisponibilités.
+  const [shift, setShift] = useState(0)
+  const [editing, setEditing] = useState(false)
+  const lastShift = mk ? Math.max(0, daysBetween(monday, weekStart(mk.m.race.day)) / 7) : 0
+  const shownMonday = addDays(monday, 7 * shift)
+  const shownDays = Array.from({ length: 7 }, (_, i) => addDays(shownMonday, i))
+  const off = new Set(mk?.m.offDays ?? [])
   const goals = weekGoals(data, today)
   const plan = mk?.plan ?? null
   const planWeek = currentWeek(plan)
   const race = mk?.m.race.kind ?? 'marathon'
   const sportGoal = planWeek ? planWeekCount(planWeek, v1.sessions) : goals.sport
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
+
+  const shownWeek = plan?.weeks.find((w) => w.start === shownMonday) ?? null
+  const weekName = shift === 0 ? 'Cette semaine' : shift === 1 ? 'Semaine prochaine' : `Semaine du ${shortDate(shownMonday)}`
 
   const chipsOf = (day: string): Chip[] => {
     const chips: Chip[] = []
@@ -112,11 +124,11 @@ export function WeekPage() {
         to: `/log/corriger/${s.id}`,
       })
     }
-    // Le prévu du plan, d'aujourd'hui à dimanche, tant qu'il n'est pas fait.
-    if (planWeek && day >= today) {
+    // Le prévu du plan, à partir d'aujourd'hui, tant qu'il n'est pas fait.
+    if (shownWeek && day >= today) {
       const ran = sessions.some((s) => runOf(s))
       const lifted = sessions.some((s) => s.discipline === 'sport' && !runOf(s))
-      for (const r of planWeek.runs.filter((x) => x.day === day && !ran))
+      for (const r of shownWeek.runs.filter((x) => x.day === day && !ran))
         chips.push({
           key: `run-${r.kind}`,
           tone: 'sport',
@@ -125,7 +137,7 @@ export function WeekPage() {
           done: false,
           onClick: day === today && r.kind !== 'cross' ? () => start.run(r) : undefined,
         })
-      for (const st of planWeek.strength.filter((x) => x.day === day && !lifted))
+      for (const st of shownWeek.strength.filter((x) => x.day === day && !lifted))
         chips.push({
           key: `muscu-${st.programId}`,
           tone: 'sport',
@@ -213,10 +225,51 @@ export function WeekPage() {
         )}
 
         <section aria-labelledby="days-title">
-          <SectionHeader id="days-title" title="Jour par jour" action={planWeek ? 'Recalculé chaque lundi' : undefined} />
+          <SectionHeader
+            id="days-title"
+            title="Jour par jour"
+            action={
+              mk ? (
+                <button type="button" aria-pressed={editing} className="hit tap" onClick={() => setEditing(!editing)}>
+                  {editing ? 'OK' : 'Mes dispos'}
+                </button>
+              ) : undefined
+            }
+          />
+          {mk && (
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                aria-label="Semaine d'avant"
+                disabled={shift === 0}
+                onClick={() => setShift(shift - 1)}
+                className="tap flex size-11 items-center justify-center rounded-full disabled:opacity-30"
+              >
+                <Icon name="chevron" className="rotate-180" />
+              </button>
+              <p className="t-subhead font-semibold" aria-live="polite">
+                {weekName}
+              </p>
+              <button
+                type="button"
+                aria-label="Semaine d'après"
+                disabled={shift >= lastShift}
+                onClick={() => setShift(shift + 1)}
+                className="tap flex size-11 items-center justify-center rounded-full disabled:opacity-30"
+              >
+                <Icon name="chevron" />
+              </button>
+            </div>
+          )}
+          {editing && (
+            <p className="t-footnote pb-2 text-muted">
+              Décoche les jours où tu n'es pas disponible : le plan replace tes sorties et ta muscu sur les autres jours.
+            </p>
+          )}
           <ol className="rows overflow-hidden rounded-xl border border-line bg-surface shadow-card">
-            {days.map((day, i) => {
-              const chips = chipsOf(day)
+            {shownDays.map((day, i) => {
+              const isOff = off.has(day)
+              const chips = isOff ? [] : chipsOf(day)
               const isToday = day === today
               return (
                 <li
@@ -229,12 +282,18 @@ export function WeekPage() {
                     <span className="t-title3 font-display font-bold">{Number(day.slice(8))}</span>
                   </span>
                   <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                    {chips.length > 0 ? (
+                    {isOff ? (
+                      <span className="t-footnote inline-flex items-center gap-1 text-muted">
+                        <Icon name="close" />
+                        Indisponible
+                      </span>
+                    ) : chips.length > 0 ? (
                       chips.map((c) => <ChipView key={c.key} c={c} />)
                     ) : (
                       <span className="t-footnote text-muted">{day < today ? 'Repos' : isToday ? "Rien d'enregistré" : '—'}</span>
                     )}
                   </span>
+                  {editing && day >= today && <Switch label={`Disponible le ${dayLabel(day)}`} checked={!isOff} onChange={(v) => void setOffDay(day, !v)} />}
                 </li>
               )
             })}

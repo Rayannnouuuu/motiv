@@ -259,6 +259,16 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.profile.put({ ...v1.profile, marathon: { ...m, sickWeeks } })
         })
       },
+      async setOffDay(day, off) {
+        const { v1 } = state()
+        const m = v1.profile.marathon
+        if (!m) return
+        const before = m.offDays ?? []
+        const offDays = off ? [...new Set([...before, day])].sort() : before.filter((d) => d !== day)
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, marathon: { ...m, offDays } })
+        })
+      },
       async saveProgram(p) {
         const { v1 } = state()
         const movements = v1.exercises.map((m) => ({ ...m }))

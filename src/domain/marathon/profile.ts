@@ -55,6 +55,8 @@ export interface MarathonProfile {
   startedOn: Day
   /** Lundis des semaines déclarées « malade ». */
   sickWeeks: Day[]
+  /** Jours précis où tu n'es pas disponible (ni course ni muscu). Facultatif : absent des profils d'avant. */
+  offDays?: Day[]
 }
 
 export type RunnerLevel = 'experienced' | 'regular' | 'beginner'

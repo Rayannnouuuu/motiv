@@ -260,9 +260,12 @@ const hardKm = (r: Omit<Draft, 'day'>, longMp: number) =>
 /** Les séances d'une semaine : jours, types, km, puis le renfo. */
 function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: PlannedStrength[] } {
   const { p, level, walkRun, cautious } = c
-  const days = [...new Set(p.constraints.days)].sort((a, b) => a - b)
-  const longDay = days.includes(p.constraints.longRunDay) ? p.constraints.longRunDay : days[days.length - 1]
   const dayOf = (d: Weekday) => addDays(w.start, d)
+  // Jours indisponibles de cette semaine : ni course ni renfo ; la sortie longue va sur le dernier jour libre.
+  const off = new Set(p.offDays ?? [])
+  const days = [...new Set(p.constraints.days)].filter((d) => !off.has(dayOf(d)) || dayOf(d) === p.race.day).sort((a, b) => a - b)
+  if (days.length === 0) return { runs: [], strength: [] }
+  const longDay = days.includes(p.constraints.longRunDay) ? p.constraints.longRunDay : days[days.length - 1]
   const raceDay = p.race.day
   const minEasy = walkRun ? 2 : 3
   const longPace = c.paces.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : level]
@@ -519,7 +522,9 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
     const longKm = Math.max(0, ...runs.filter((r) => r.kind === 'long').map((r) => r.km))
     if (phase !== 'taper' && !deload && !sick) {
       // La suite progresse depuis ce qui est vraiment prévu (jours disponibles, footings plafonnés).
-      if (!frozen) build = Math.min(build, km)
+      // Une semaine raccourcie par des jours indisponibles ne fait pas baisser la suite.
+      const limited = (p.offDays ?? []).some((d) => d >= wStart && d <= addDays(wStart, 6))
+      if (!frozen && !limited) build = Math.min(build, km)
       topKm = Math.max(topKm, km)
       if (i <= peakWeek || peakWeek < 0) topLong = Math.max(topLong, longKm)
     }

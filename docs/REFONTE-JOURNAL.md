@@ -91,6 +91,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Aucun changement de stockage. 621 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3b/`.
 - 20 oct. 2026 : lot 3b refusé (« la partie sport est trop petite »). 2e version : Aujourd'hui en deux cartes qui se déplient (Guitare, Sport) ; plan sport complet, ta muscu placée dans le plan marathon (`combined.ts`). 630 tests verts. Strava : plus tard, dans un lot à part.
 - 20 oct. 2026 : séance de sport au choix depuis la carte Sport (autre séance, course seule, course à la fin enchaînée après la muscu) ; nouvelle animation d'ouverture.
+- 20 oct. 2026 : lot 3b validé sous réserve d'un ajout, fait : jours d'indisponibilité dans Semaine (« Mes dispos », semaines suivantes), le plan se recalcule sans eux.
 
 ## Décidé (détails, option la plus simple)
 

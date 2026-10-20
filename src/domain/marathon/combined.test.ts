@@ -78,3 +78,24 @@ describe('combineMuscu', () => {
     expect(wk.strength.every((s) => s.day > today)).toBe(true)
   })
 })
+
+describe('jours indisponibles', () => {
+  const week2 = base.weeks[1]
+  const longDay = week2.runs.find((r) => r.kind === 'long')!.day
+
+  test('plan : aucune sortie un jour indisponible, la sortie longue va sur un jour libre', () => {
+    const off = [longDay]
+    const plan2 = generatePlan(profile({ offDays: off }), 78, [], TODAY)
+    const w = plan2.weeks[1]
+    expect(w.runs.some((r) => r.day === longDay)).toBe(false)
+    expect(w.runs.some((r) => r.kind === 'long')).toBe(true)
+    // La semaine d'après n'est pas pénalisée par la semaine raccourcie.
+    expect(plan2.weeks[2].km).toBe(base.weeks[2].km)
+  })
+
+  test('muscu : rien un jour indisponible', () => {
+    const offDays = Array.from({ length: 4 }, (_, i) => addDays(week2.start, i))
+    const w = combineMuscu(base, input({ offDays })).weeks[1]
+    expect(w.strength.every((s) => !offDays.includes(s.day))).toBe(true)
+  })
+})

@@ -35,6 +35,7 @@ export function useMarathon() {
           doneToday: muscu.some((s) => s.day === today),
           runner: runner ? { ...toMuscu(runner), lower: true } : null,
           raceDay: m.race.day,
+          offDays: m.offDays,
           today,
         })
       : null

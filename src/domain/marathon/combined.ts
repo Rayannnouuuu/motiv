@@ -38,6 +38,8 @@ export interface MuscuInput {
   runner: MuscuProgram | null
   raceDay: Day
   today: Day
+  /** Jours indisponibles : pas de muscu ces jours-là. */
+  offDays?: Day[]
 }
 
 /** Une séance de ta rotation telle que le plan la place : jambes si au moins la moitié des exos sont en bas du corps. */
@@ -82,9 +84,9 @@ function dayRules(w: PlanWeek, raceDay: Day) {
  * Place les séances de la semaine dans l'ordre de la rotation, en respectant les règles : on garde la combinaison
  * de jours qui en place le plus, puis la mieux répartie (au plus 3 séances sur 7 jours : on essaie tout).
  */
-function placeWeek(w: PlanWeek, programs: MuscuProgram[], from: Day, raceDay: Day, light: boolean): PlannedStrength[] {
+function placeWeek(w: PlanWeek, programs: MuscuProgram[], from: Day, raceDay: Day, light: boolean, off: Set<Day>): PlannedStrength[] {
   const last = addDays(raceDay, -(RULES.noStrengthDays + 1))
-  const days = Array.from({ length: 7 }, (_, i) => addDays(w.start, i)).filter((d) => d >= from && d <= last)
+  const days = Array.from({ length: 7 }, (_, i) => addDays(w.start, i)).filter((d) => d >= from && d <= last && !off.has(d))
   const rules = dayRules(w, raceDay)
   let best: { days: Day[]; score: number } = { days: [], score: 0 }
   const search = (k: number, chosen: Day[], score: number) => {
@@ -108,6 +110,7 @@ export function combineMuscu(plan: Plan, input: MuscuInput): Plan {
   const { rotation, runner, raceDay, today } = input
   if (rotation.length === 0) return plan
   let pointer = input.next
+  const off = new Set(input.offDays ?? [])
   const weeks = plan.weeks.map((w, i) => {
     if (i < plan.current) return { ...w, strength: [] }
     const current = i === plan.current
@@ -119,7 +122,7 @@ export function combineMuscu(plan: Plan, input: MuscuInput): Plan {
       return late && p.lower && runner ? runner : p
     })
     const from = current ? (input.doneToday ? addDays(today, 1) : today) : w.start
-    const strength = placeWeek(w, programs, from, raceDay, w.phase === 'taper' || w.deload)
+    const strength = placeWeek(w, programs, from, raceDay, w.phase === 'taper' || w.deload, off)
     // La rotation avance du nombre de séances placées (la suivante reprend où on s'est arrêté).
     pointer += strength.length
     return { ...w, strength }

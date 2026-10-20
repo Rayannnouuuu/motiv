@@ -143,6 +143,7 @@ export function fromForm(f: ProfileForm, today: Day, previous: MarathonProfile |
       // Date de course changée : plan régénéré à partir d'aujourd'hui, historique conservé.
       startedOn: raceChanged ? today : previous.startedOn,
       sickWeeks: previous?.sickWeeks ?? [],
+      offDays: previous?.offDays ?? [],
     },
   }
 }

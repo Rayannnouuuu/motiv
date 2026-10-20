@@ -59,6 +59,8 @@ export interface Actions {
   saveRun(d: RunDraft): Promise<XpResult & { chrono: Chrono | null }>
   /** Semaine déclarée « malade » (lundi), ou plus. */
   setSickWeek(monday: Day, sick: boolean): Promise<void>
+  /** Un jour où tu n'es pas disponible (plan marathon + muscu) : le plan se recalcule sans lui. */
+  setOffDay(day: Day, off: boolean): Promise<void>
 }
 
 export interface AppDataValue {
