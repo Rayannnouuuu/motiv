@@ -252,7 +252,7 @@ export function ProgressPage() {
         {(metric === 'body' || metric === 'measures') && (
           <Button variant="secondary" tone="sport" onClick={() => setAdding(true)}>
             <Icon name="plus" />
-            Mesure
+            Ajouter une mesure
           </Button>
         )}
         {adding && (

@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
 import { addDays } from '../../domain/date'
 import { challenge, g, pe, program, set, ss } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { saveLive } from '../log-sport/liveSession'
 import { savePractice, startPractice } from '../practice/practiceSession'
@@ -45,7 +46,11 @@ describe('TodayPage', () => {
 
   test('compte neuf : « Jouer » lance le chrono', async () => {
     renderToday({})
-    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 30 min' }))
+    // Action guitare : couleur et icône de la guitare.
+    const play = screen.getByRole('button', { name: 'Jouer · encore 30 min' })
+    expect(play).toHaveClass('bg-guitar')
+    expect(icon(play, 'play')).toBeInTheDocument()
+    await userEvent.click(play)
     expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
   })
 
@@ -55,7 +60,7 @@ describe('TodayPage', () => {
     expect(screen.getByText('12 jours')).toBeInTheDocument()
     expect(screen.getByText('Encore 25 min pour tenir la série')).toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: "Minutes de guitare aujourd'hui" })).toHaveAttribute('aria-valuenow', '35')
-    await userEvent.click(screen.getByRole('button', { name: '▶︎ Jouer · encore 25 min' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Jouer · encore 25 min' }))
     expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()
   })
 
@@ -68,38 +73,43 @@ describe('TodayPage', () => {
 
   test('60 min aujourd’hui, sans programme : série tenue, journée bouclée', () => {
     renderToday({ data: { guitarSessions: [g(today, 60)] } })
-    expect(screen.getByText("Série tenue aujourd'hui ✓")).toBeInTheDocument()
+    expect(icon(screen.getByText("Série tenue aujourd'hui"), 'check')).toBeInTheDocument()
     expect(screen.getByText('1 jour')).toBeInTheDocument()
-    expect(screen.getByText('Journée bouclée ✓ · à demain')).toBeInTheDocument()
+    expect(icon(screen.getByText('Journée bouclée · à demain'), 'check')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Logger sans chrono' })).toBeInTheDocument()
   })
 
   test('60 min faites et séance de sport due : « Commencer » la prochaine séance', async () => {
     const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1 })]
     renderToday({ data: { programs, guitarSessions: [g(today, 60)], sportSessions: [ss([], '2026-10-14', 'a')] } })
-    await userEvent.click(screen.getByRole('button', { name: '🏋️ Commencer Bas' }))
+    // Action sport en haut de l'accueil : couleur du sport (la carte Sport a aussi son bouton « Commencer Bas »).
+    const start = within(screen.getByRole('region', { name: 'Série' })).getByRole('button', { name: 'Commencer Bas' })
+    expect(start).toHaveClass('bg-sport')
+    await userEvent.click(start)
     expect(screen.getByText('at /log/sport {"programId":"b"}')).toBeInTheDocument()
   })
 
   test('guitare et sport faits aujourd’hui : journée bouclée', () => {
     const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1 })]
     renderToday({ data: { programs, guitarSessions: [g(today, 60)], sportSessions: [ss([], today, 'a')] } })
-    expect(screen.getByText(/Journée bouclée ✓/)).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /^🏋️/ })).not.toBeInTheDocument()
+    expect(screen.getByText(/Journée bouclée/)).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Série' })).queryByRole('button')).not.toBeInTheDocument()
   })
 
   test('chrono guitare en cours : le reprendre', async () => {
     savePractice(startPractice(new Date(Date.now() - 12 * 60_000), 'p'))
     renderToday({ data: { guitarSessions: [g(today, 60)] } })
-    expect(screen.queryByRole('button', { name: '▶︎ Rejouer avec le chrono' })).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '⏱ Reprendre la guitare · 12 min' }))
+    expect(screen.queryByRole('button', { name: 'Rejouer avec le chrono' })).not.toBeInTheDocument()
+    const resume = screen.getByRole('button', { name: 'Reprendre la guitare · 12 min' })
+    expect(icon(resume, 'timer')).toBeInTheDocument()
+    await userEvent.click(resume)
     expect(screen.getByText('at /jouer null')).toBeInTheDocument()
   })
 
   test('chrono guitare oublié depuis plus de 12 h : pas proposé', () => {
     savePractice(startPractice(new Date(Date.now() - 13 * 3_600_000), 'p'))
     renderToday({})
-    expect(screen.getByRole('button', { name: '▶︎ Jouer · encore 30 min' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Jouer · encore 30 min' })).toBeInTheDocument()
   })
 
   test('pendant le chargement : pas de bouton d’action', () => {
@@ -115,7 +125,7 @@ describe('TodayPage', () => {
     expect(screen.getByText('2/3')).toBeInTheDocument()
     expect(screen.getByText(/Encore 1 séance cette semaine/)).toBeInTheDocument()
     expect(screen.getByRole('listitem', { name: 'L : Bas' })).toBeInTheDocument()
-    expect(within(screen.getByRole('region', { name: '🏋️ Sport' })).getByText('Séance du jour')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Sport' })).getByText('Séance du jour')).toBeInTheDocument()
     expect(screen.getByText('4×8 · 80 kg')).toBeInTheDocument()
     expect(screen.getByText('Ensuite : Haut')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Commencer Bas' }))
@@ -125,7 +135,7 @@ describe('TodayPage', () => {
   test('sport : 3 séances faites, semaine validée', () => {
     const p = program({ id: 'a', name: 'Haut' })
     renderToday({ data: { programs: [p], sportSessions: ['2026-10-12', '2026-10-13', '2026-10-14'].map((d) => ss([], d, 'a')) } })
-    expect(screen.getByText(/Semaine validée ✓/)).toBeInTheDocument()
+    expect(icon(screen.getByText(/Semaine validée/), 'check')).toBeInTheDocument()
   })
 
   test('niveau guitare bloqué : défi requis, réserve, relance', async () => {
@@ -169,7 +179,10 @@ describe('TodayPage', () => {
     saveLive({ id: 'live', programId: 'p', startedAt: new Date().toISOString(), exerciseIndex: 1, exerciseId: 'b', weightKg: 20, reps: 10, sets: [set(80, 8, 'a', 1), set(80, 8, 'a', 2), set(80, 8, 'a', 3), set(20, 10, 'b', 1)] })
     renderToday({ data: { programs: [program({ id: 'p', name: 'Bas', exercises: [a, b] })] } })
     const list = screen.getByRole('list', { name: 'Exos de la séance en cours' })
-    expect(within(list).getAllByRole('listitem').map((li) => li.textContent)).toEqual(['✓ Squat3/3 séries', '▸ Fentes1/3 séries'])
+    const items = within(list).getAllByRole('listitem')
+    expect(items.map((li) => li.textContent)).toEqual(['Squat3/3 séries', 'Fentes1/3 séries'])
+    expect(icon(items[0], 'check')).toBeInTheDocument()
+    expect(icon(items[1], 'chevron')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Reprendre la séance' }))
     expect(screen.getByText(/at \/log\/sport/)).toBeInTheDocument()
     saveLive(null)
@@ -180,7 +193,7 @@ describe('TodayPage', () => {
     savePractice(startPractice(new Date(), 'g'))
     renderToday({ data: { programs: [program({ id: 'p', name: 'Bas', exercises: [pe({ id: 'a', programId: 'p' })] })] } })
     expect(screen.queryByRole('button', { name: /Reprendre la guitare/ })).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '🏋️ Reprendre Bas' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Reprendre Bas' }))
     expect(screen.getByText('at /log/sport null')).toBeInTheDocument()
     saveLive(null)
   })

@@ -70,7 +70,8 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
           {blocked ? (
             <div className={`rounded-md px-3 py-2.5 ${TONE.tint[d]}`}>
               <p className="font-semibold">Défi requis : ta jauge est pleine, réussis-le pour passer au niveau {challenge.level + 1}.</p>
-              <p className="text-muted">
+              {/* Texte normal, pas atténué : le gris sur la teinte n'atteint pas 4,5:1 en clair. */}
+              <p className="text-ink">
                 {level.reserve > 0 ? `+${level.reserve} XP en réserve, versés dès la réussite` : "L'XP gagnée part en réserve en attendant"}
                 {blockedDays > 0 && ` · bloqué depuis ${blockedDays} j`}
               </p>
@@ -80,7 +81,7 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
           )}
           <Link
             to={challengeRoute(challenge)}
-            className={`tap-scale t-headline rounded-md px-4 py-2.5 text-center ${blocked ? TONE.solid[d] : TONE.tint[d]}`}
+            className={`tap-scale t-headline flex min-h-11 items-center justify-center rounded-md px-4 py-2.5 ${blocked ? TONE.solid[d] : TONE.tint[d]}`}
           >
             S'entraîner →
           </Link>

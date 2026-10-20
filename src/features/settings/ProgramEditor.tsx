@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useActions, useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import type { Program, ProgramExercise } from '../../domain/types'
 import { Group, Row } from '../../ui/List'
 import { Sheet } from '../../ui/Sheet'
@@ -7,8 +8,8 @@ import { PresetPicker } from './PresetPicker'
 import { useRun } from './useRun'
 
 const byPosition = (a: { position: number }, b: { position: number }) => a.position - b.position
-const field = 'min-w-0 bg-transparent outline-none placeholder:text-faint'
-const num = 'w-11 rounded-[0.5rem] bg-fill py-1.5 text-center tabular-nums outline-none'
+const field = 'min-w-0 bg-transparent outline-none placeholder:text-muted'
+const num = 'size-11 rounded-sm bg-fill text-center tabular-nums outline-none'
 
 /** Échange l'élément `i` avec son voisin et renvoie ceux dont la position a changé. */
 function move<T extends { position: number }>(items: T[], i: number, dir: -1 | 1): T[] {
@@ -72,11 +73,11 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
       onClose={onClose}
       title={(close) => (
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-          <button type="button" className="tap t-body justify-self-start text-accent" onClick={close}>
+          <button type="button" className="hit tap t-body justify-self-start text-sport" onClick={close}>
             Annuler
           </button>
           <h2 className="t-headline truncate">{isNew ? 'Nouvelle séance' : initial.name}</h2>
-          <button type="button" className="tap t-headline justify-self-end text-accent disabled:text-faint" disabled={!dirty || !valid || busy} onClick={() => void save(close)}>
+          <button type="button" className="hit tap t-headline justify-self-end text-sport disabled:text-faint" disabled={!dirty || !valid || busy} onClick={() => void save(close)}>
             Enregistrer
           </button>
         </div>
@@ -108,7 +109,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     placeholder="Nom de l'exo"
                     value={ex.name}
                     onChange={(e) => setExercise(ex.id, { name: e.target.value })}
-                    className={`${field} t-body basis-full py-1`}
+                    className={`${field} t-body min-h-11 basis-full`}
                   />
                   <input
                     aria-label={`Séries · ${label}`}
@@ -130,16 +131,16 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
                     className={`t-callout ${num}`}
                   />
                   <div className="ml-auto flex shrink-0 items-center text-muted">
-                    <button type="button" aria-label={`Monter ${label}`} disabled={i === 0} className="tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, -1)}>
+                    <button type="button" aria-label={`Monter ${label}`} disabled={i === 0} className="hit tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, -1)}>
                       <Arrow up />
                     </button>
-                    <button type="button" aria-label={`Descendre ${label}`} disabled={i === visible.length - 1} className="tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, 1)}>
+                    <button type="button" aria-label={`Descendre ${label}`} disabled={i === visible.length - 1} className="hit tap px-1.5 py-1 disabled:opacity-25" onClick={() => reorder(i, 1)}>
                       <Arrow />
                     </button>
-                    <button type="button" aria-label={`Retirer ${label}`} className="tap py-1 pl-1.5" onClick={() => remove(ex)}>
+                    <button type="button" aria-label={`Retirer ${label}`} className="hit tap py-1 pl-1.5" onClick={() => remove(ex)}>
                       <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
                         <circle cx="10" cy="10" r="9" className="fill-danger" />
-                        <path d="M6 10h8" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M6 10h8" className="stroke-on-danger" strokeWidth="2" strokeLinecap="round" />
                       </svg>
                     </button>
                   </div>
@@ -147,7 +148,10 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
               )
             })}
             <Row onClick={addExercise} chevron={false}>
-              <span className="t-body text-accent">+ Ajouter un exo</span>
+              <span className="t-body flex items-center gap-1.5 text-sport">
+                <Icon name="plus" />
+                Ajouter un exo
+              </span>
             </Row>
           </Group>
 
@@ -155,7 +159,7 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
             <Group footer={confirmDelete ? `Supprimer « ${initial.name} » ? L'historique est gardé.` : undefined}>
               {confirmDelete ? (
                 <div className="flex">
-                  <button type="button" className="tap-row t-body flex-1 py-3 text-accent" onClick={() => setConfirmDelete(false)}>
+                  <button type="button" className="tap-row t-body flex-1 py-3 text-sport" onClick={() => setConfirmDelete(false)}>
                     Non
                   </button>
                   <button type="button" className="tap-row t-headline flex-1 py-3 text-danger" onClick={() => void onDelete().then((ok) => ok && close())}>
@@ -175,12 +179,9 @@ function SessionEditor({ initial, isNew, onSave, onClose, onDelete }: {
   )
 }
 
+/** Monter / descendre : le chevron du design system, tourné. */
 function Arrow({ up }: { up?: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden className={up ? '' : 'rotate-180'}>
-      <path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
+  return <Icon name="chevron" className={up ? '-rotate-90' : 'rotate-90'} />
 }
 
 export function ProgramEditor() {
@@ -228,7 +229,10 @@ export function ProgramEditor() {
           }}
           chevron={false}
         >
-          <span className="t-body text-accent">+ Nouvelle séance</span>
+          <span className="t-body flex items-center gap-1.5 text-sport">
+            <Icon name="plus" />
+            Nouvelle séance
+          </span>
         </Row>
         {programs.length > 1 && (
           <div className="flex flex-wrap items-center gap-2 px-4 py-2" aria-label="Ordre des séances">
@@ -236,10 +240,10 @@ export function ProgramEditor() {
             {programs.map((p, i) => (
               <span key={p.id} className="t-footnote flex items-center rounded-full bg-fill pl-2.5">
                 {p.name}
-                <button type="button" aria-label={`Monter ${p.name}`} disabled={i === 0 || busy} className="tap px-1 py-1 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, -1))}>
+                <button type="button" aria-label={`Monter ${p.name}`} disabled={i === 0 || busy} className="hit tap px-1 py-1 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, -1))}>
                   <Arrow up />
                 </button>
-                <button type="button" aria-label={`Descendre ${p.name}`} disabled={i === programs.length - 1 || busy} className="tap py-1 pr-1.5 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, 1))}>
+                <button type="button" aria-label={`Descendre ${p.name}`} disabled={i === programs.length - 1 || busy} className="hit tap py-1 pr-1.5 text-muted disabled:opacity-25" onClick={() => save(...move(programs, i, 1))}>
                   <Arrow />
                 </button>
               </span>
@@ -252,7 +256,11 @@ export function ProgramEditor() {
           </Row>
         )}
       </Group>
-      {saved && !editing && <p className="t-footnote -mt-6 px-4 text-guitar">« {saved} » enregistrée ✓</p>}
+      {saved && !editing && (
+        <p className="t-footnote -mt-6 px-4 text-sport">
+          « {saved} » enregistrée <Icon name="check" />
+        </p>
+      )}
       {error && (
         <p role="alert" className="t-footnote -mt-6 px-4 text-danger">
           {error}
@@ -282,7 +290,7 @@ export function ProgramEditor() {
           <div className="grid grid-cols-[1fr_auto_1fr] items-center">
             <span />
             <h2 className="t-headline">Programmes tout faits</h2>
-            <button type="button" className="tap t-headline justify-self-end text-accent" onClick={close}>
+            <button type="button" className="hit tap t-headline justify-self-end text-sport" onClick={close}>
               OK
             </button>
           </div>

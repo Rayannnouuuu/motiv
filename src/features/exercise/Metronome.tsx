@@ -261,7 +261,7 @@ export function Metronome({ pattern, best, targetBpm, challengeBpm, onPlayed, cr
           aria-label={playing ? 'Arrêter le métronome' : 'Lancer le métronome'}
           className="tap-scale flex size-16 shrink-0 items-center justify-center rounded-full bg-guitar text-on-guitar shadow-card"
         >
-          <Icon name={playing ? 'stop' : 'play'} size={28} className={playing ? '' : 'ml-0.5'} />
+          <Icon name={playing ? 'stop' : 'play'} size="1.65em" className={playing ? '' : 'ml-0.5'} />
         </button>
       </div>
 

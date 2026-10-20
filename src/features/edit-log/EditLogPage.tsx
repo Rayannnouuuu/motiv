@@ -241,7 +241,7 @@ function EditSport({ session }: { session: SportSession }) {
                     aria-label={`Charge · ${name} · série ${s.setIndex}`}
                     value={s.weightKg}
                     onChange={(kg) => update(i, { weightKg: kg })}
-                    className={`${input} t-body ml-auto w-20 text-right`}
+                    className={`${input} t-body ml-auto min-h-11 w-20 text-right`}
                   />
                   <span className="t-subhead text-muted">kg ×</span>
                   <input
@@ -251,7 +251,7 @@ function EditSport({ session }: { session: SportSession }) {
                     aria-label={`Reps · ${name} · série ${s.setIndex}`}
                     value={s.reps}
                     onChange={(e) => update(i, { reps: Number(e.target.value) })}
-                    className={`${input} t-body w-14 text-right`}
+                    className={`${input} t-body min-h-11 w-14 text-right`}
                   />
                   <button
                     type="button"
@@ -261,7 +261,7 @@ function EditSport({ session }: { session: SportSession }) {
                   >
                     <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
                       <circle cx="11" cy="11" r="10" className="fill-danger" />
-                      <path d="M6.5 11h9" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+                      <path d="M6.5 11h9" className="stroke-on-danger" strokeWidth="2.2" strokeLinecap="round" />
                     </svg>
                   </button>
                 </div>

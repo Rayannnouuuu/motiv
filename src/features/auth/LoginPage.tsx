@@ -42,27 +42,27 @@ export function LoginPage() {
     } else setState('sent')
   }
 
-  const input = 't-body min-w-0 flex-1 bg-transparent py-1.5 text-right outline-none placeholder:text-faint'
+  const input = 't-body min-h-11 min-w-0 flex-1 bg-transparent text-right outline-none placeholder:text-muted'
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-4">
       <div className="animate-rise flex flex-col items-center gap-3 text-center">
-        <img src={`${import.meta.env.BASE_URL}logo-512.png`} alt="" width={96} height={96} className="h-24 w-24 rounded-[1.375rem] shadow-lg" />
+        <img src={`${import.meta.env.BASE_URL}logo-512.png`} alt="" width={96} height={96} className="size-24 rounded-2xl shadow-raised" />
         <h1 className="t-large">Motiv</h1>
         <p className="t-body -mt-2 text-muted">Guitare + sport, le progrès visible chaque jour.</p>
       </div>
       {state === 'sent' ? (
-        <p className="animate-rise t-headline rounded-[1rem] bg-surface p-4 text-center">Lien envoyé, ouvre ton email</p>
+        <p className="animate-rise t-headline rounded-xl bg-surface p-4 text-center">Lien envoyé, ouvre ton email</p>
       ) : (
         <form onSubmit={signIn} className="animate-rise flex flex-col gap-4" style={{ animationDelay: '80ms' }}>
-          <div className="rows overflow-hidden rounded-[0.75rem] bg-surface">
-            <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+          <div className="rows overflow-hidden rounded-md bg-surface">
+            <div className="flex min-h-11 items-center gap-3 px-4">
               <label htmlFor="email" className="t-body w-28 shrink-0">
                 Email
               </label>
               <input id="email" type="email" required autoComplete="email" placeholder="toi@exemple.fr" value={email} onChange={(e) => setEmail(e.target.value)} className={input} />
             </div>
-            <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+            <div className="flex min-h-11 items-center gap-3 px-4">
               <label htmlFor="password" className="t-body w-28 shrink-0">
                 Mot de passe
               </label>

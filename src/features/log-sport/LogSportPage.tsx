@@ -281,7 +281,7 @@ export function LogSportPage() {
           aria-label="Charge (kg)"
           value={live.weightKg}
           onChange={(kg) => dispatch({ type: 'setWeight', weightKg: kg })}
-          className="t-large w-full bg-transparent text-center tabular-nums outline-none"
+          className="t-large min-h-11 w-full bg-transparent text-center tabular-nums outline-none"
         />
         <p className="t-footnote text-muted">{live.weightKg === 0 ? 'PDC' : 'kg'}</p>
       </Stepper>

@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react'
 import { expect, test } from 'vitest'
+import { icon } from '../test/icon'
 import { renderWithData } from '../test/renderWithData'
 import { AppRoutes } from './App'
 
@@ -17,6 +18,6 @@ test('les écrans de log n’ont pas de navigation basse', () => {
 
 test('le chrono guitare n’a pas de navigation basse', () => {
   renderWithData(<AppRoutes />, { route: '/jouer' })
-  expect(screen.getByRole('button', { name: '▶︎ Démarrer' })).toBeInTheDocument()
+  expect(icon(screen.getByRole('button', { name: 'Démarrer' }), 'play')).toBeInTheDocument()
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
 })

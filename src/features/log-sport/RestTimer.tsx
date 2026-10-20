@@ -63,7 +63,7 @@ export function RestTimer({ startedAt, restSec, nextLabel, onAdd, onSkip }: {
   return (
     <section role="timer" aria-label="Repos" className="animate-rise flex items-center gap-3.5 rounded-xl bg-surface px-4 py-3 shadow-card">
       <ProgressRing value={over ? restSec : left} max={restSec} size={56} stroke={5} color="sport" transitionMs={300}>
-        {over ? <Icon name="check" size={24} className="text-sport" /> : <span className="t-subhead font-semibold tabular-nums">{clock(left)}</span>}
+        {over ? <Icon name="check" size="1.4em" className="text-sport" /> : <span className="t-subhead font-semibold tabular-nums">{clock(left)}</span>}
       </ProgressRing>
       {over ? (
         <p className="t-headline font-semibold text-sport">C'est reparti : {nextLabel}</p>

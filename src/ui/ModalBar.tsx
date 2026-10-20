@@ -21,7 +21,7 @@ export function ModalBar({ title, onCancel, cancelLabel = 'Annuler', cancelAria,
       <button type="button" aria-label={cancelAria} onClick={onCancel} className={`hit tap t-body justify-self-start py-2 whitespace-nowrap ${TONE.text[tone]}`}>
         {cancelLabel}
       </button>
-      <p className="t-headline truncate text-center">{title}</p>
+      <div className="t-headline truncate text-center">{title}</div>
       <div className="justify-self-end">{trailing}</div>
     </div>
   )

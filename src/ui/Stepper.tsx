@@ -8,14 +8,14 @@ export function Stepper({ label, onMinus, onPlus, tone, children }: { label: str
   return (
     <div className="flex items-center gap-3">
       <button type="button" aria-label={`${label} −`} onClick={onMinus} className={btn}>
-        <Icon name="minus" size={24} />
+        <Icon name="minus" size="1.4em" />
       </button>
       <div className="min-w-0 flex-1 text-center">
         <p className="t-footnote text-muted">{label}</p>
         {children}
       </div>
       <button type="button" aria-label={`${label} +`} onClick={onPlus} className={btn}>
-        <Icon name="plus" size={24} />
+        <Icon name="plus" size="1.4em" />
       </button>
     </div>
   )

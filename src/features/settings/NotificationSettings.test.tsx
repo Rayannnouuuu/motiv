@@ -25,7 +25,7 @@ test('activer, envoyer un test, désactiver', async () => {
   render(<NotificationSettings />)
   await userEvent.click(await screen.findByRole('switch', { name: 'Notifications' }))
   expect(push.enablePush).toHaveBeenCalled()
-  expect(await screen.findByText('Notifications activées sur cet appareil ✓')).toBeInTheDocument()
+  expect(await screen.findByText('Notifications activées sur cet appareil')).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Envoyer une notification de test' }))
   expect(push.sendTestPush).toHaveBeenCalled()
   expect(await screen.findByText(/elle doit arriver dans quelques secondes/)).toBeInTheDocument()

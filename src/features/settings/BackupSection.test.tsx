@@ -26,7 +26,7 @@ describe('BackupSection', () => {
     expect(backup.data.guitarSessions.map((s: { id: string }) => s.id)).toEqual(['g1'])
     expect(backup.data.songs[0].title).toBe('Iron Man')
     expect(Object.keys(backup.data).sort()).toEqual(['bodyMetrics', 'challenges', 'guitarSessions', 'programs', 'songs', 'sportSessions'])
-    expect(await screen.findByText('Sauvegarde prête ✓')).toBeInTheDocument()
+    expect(await screen.findByText('Sauvegarde prête')).toBeInTheDocument()
   })
 
   test('passe par la feuille de partage quand elle accepte les fichiers', async () => {
@@ -35,14 +35,14 @@ describe('BackupSection', () => {
     renderWithData(<BackupSection />, { data })
     await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
     expect(share).toHaveBeenCalledOnce()
-    expect(await screen.findByText('Sauvegarde prête ✓')).toBeInTheDocument()
+    expect(await screen.findByText('Sauvegarde prête')).toBeInTheDocument()
   })
 
   test('feuille de partage refermée : rien n’est annoncé', async () => {
     vi.stubGlobal('navigator', { ...navigator, canShare: () => true, share: vi.fn(async () => Promise.reject(new DOMException('x', 'AbortError'))) })
     renderWithData(<BackupSection />, { data })
     await userEvent.click(screen.getByRole('button', { name: 'Exporter mes données' }))
-    expect(screen.queryByText('Sauvegarde prête ✓')).not.toBeInTheDocument()
+    expect(screen.queryByText('Sauvegarde prête')).not.toBeInTheDocument()
     expect(screen.getByText(/Garde-le dans Fichiers/)).toBeInTheDocument()
   })
 

@@ -97,7 +97,7 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
     <button type="button" aria-label={`Retirer ${title}`} className="hit tap shrink-0 py-1" onClick={() => remove(i)}>
       <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden>
         <circle cx="11" cy="11" r="10" className="fill-danger" />
-        <path d="M6.5 11h9" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
+        <path d="M6.5 11h9" className="stroke-on-danger" strokeWidth="2.2" strokeLinecap="round" />
       </svg>
     </button>
   )
@@ -125,7 +125,7 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
                       placeholder="—"
                       value={e.bpm}
                       onChange={(ev) => update(i, { ...e, bpm: ev.target.value })}
-                      className="t-body w-16 rounded-sm bg-fill px-2 py-1.5 text-right tabular-nums outline-none placeholder:text-muted"
+                      className="t-body min-h-11 w-16 rounded-sm bg-fill px-2 py-1.5 text-right tabular-nums outline-none placeholder:text-muted"
                     />
                     <span className="t-footnote text-muted">bpm</span>
                   </div>
@@ -176,7 +176,7 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
       )}
 
       <div className="flex flex-col gap-2">
-        <label className="flex items-center gap-2 rounded-md bg-fill px-2.5 py-2">
+        <label className="flex min-h-11 items-center gap-2 rounded-md bg-fill px-2.5 py-2">
           <Icon name="search" className="text-muted" />
           <input
             type="search"
@@ -189,7 +189,7 @@ export function StepContent({ entries, songs, sessions, planned, challenges = []
         {(results.length > 0 || canCreate) && (
           <div className="rows overflow-hidden rounded-md bg-surface">
             {results.map((r) => (
-              <button key={r.key} type="button" onClick={r.add} className="tap-row flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left">
+              <button key={r.key} type="button" aria-label={`Ajouter ${r.label}`} onClick={r.add} className="tap-row flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left">
                 <span className="t-body flex min-w-0 flex-1 items-center gap-1.5">
                   <Icon name="plus" className="text-guitar" />
                   {r.label}

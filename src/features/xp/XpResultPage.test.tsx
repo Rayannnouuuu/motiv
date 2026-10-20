@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { addDays } from '../../domain/date'
 import { challenge, ex, g, ss } from '../../test/factories'
+import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { XpResultPage } from './XpResultPage'
 
@@ -35,7 +36,7 @@ test('défi atteint par ce log : « Défi réussi ! »', () => {
     route: { pathname: '/xp', state: { result, domain: 'guitar' } },
     data: { challenges: [c], guitarSessions: [g('2026-10-15', 30, [ex('legato-6', 96)])] },
   })
-  expect(screen.getByText('🎯 Défi réussi !')).toBeInTheDocument()
+  expect(icon(screen.getByText('Défi réussi !'), 'target')).toBeInTheDocument()
   expect(screen.getByText('Legato sur une corde 6 à 96 bpm')).toBeInTheDocument()
 })
 
@@ -70,7 +71,8 @@ describe('objectif : série guitare et semaine de sport', () => {
   test('7e jour : palier et grands feux', () => {
     const log = g(today, 60)
     show('guitar', log.id, { guitarSessions: [...fullDays(6), log] })
-    expect(screen.getByText('Série tenue · palier de 7 jours 🎉')).toBeInTheDocument()
+    expect(screen.getByText('Série tenue · palier de 7 jours')).toBeInTheDocument()
+    expect(icon(screen.getByRole('region', { name: 'Objectif' }), 'trophy')).toBeInTheDocument()
     expect(fireworks()).toHaveAttribute('data-fireworks', 'big')
   })
 
@@ -93,21 +95,21 @@ describe('objectif : série guitare et semaine de sport', () => {
   test('« Hier » qui recolle : série réparée', () => {
     const log = g(addDays(today, -1), 60)
     show('guitar', log.id, { guitarSessions: [g(addDays(today, -2), 60), g(today, 60), log] })
-    expect(screen.getByText('Série réparée ✓')).toBeInTheDocument()
+    expect(screen.getByText('Série réparée')).toBeInTheDocument()
     expect(fireworks()).toHaveAttribute('data-fireworks', 'small')
   })
 
   test('série déjà tenue : bonus discret, pas de feux', () => {
     const log = g(today, 20)
     show('guitar', log.id, { guitarSessions: [g(today, 60), log] })
-    expect(screen.getByText("Série déjà tenue aujourd'hui · 1 jour ✓")).toBeInTheDocument()
+    expect(screen.getByText("Série déjà tenue aujourd'hui · 1 jour")).toBeInTheDocument()
     expect(fireworks()).toBeNull()
   })
 
-  test('3e séance de sport : « Semaine validée ✓ »', () => {
+  test('3e séance de sport : « Semaine validée »', () => {
     const log = ss([], today)
     show('sport', log.id, { sportSessions: [ss([], '2026-10-12'), ss([], '2026-10-13'), log] })
-    expect(screen.getByText('Semaine validée ✓')).toBeInTheDocument()
+    expect(screen.getByText('Semaine validée')).toBeInTheDocument()
     expect(screen.getByText('Première semaine validée')).toBeInTheDocument()
     expect(fireworks()).toHaveAttribute('data-fireworks', 'small')
   })
@@ -122,7 +124,7 @@ describe('objectif : série guitare et semaine de sport', () => {
   test('4e séance de sport : séance bonus', () => {
     const log = ss([], today)
     show('sport', log.id, { sportSessions: [ss([], '2026-10-12'), ss([], '2026-10-13'), ss([], '2026-10-14'), log] })
-    expect(screen.getByText('Séance bonus · 4 cette semaine 💪')).toBeInTheDocument()
+    expect(screen.getByText('Séance bonus · 4 cette semaine')).toBeInTheDocument()
   })
 
   test('log corrigé : aucun bloc « Objectif », pas de feux', () => {

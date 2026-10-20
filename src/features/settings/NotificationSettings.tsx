@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { currentSubscription, disablePush, enablePush, pushSupport, sendTestPush } from '../../data/push'
+import { Icon } from '../../design/icons'
 import { Group, Row } from '../../ui/List'
 import { Switch } from '../../ui/Switch'
 import { useRun } from './useRun'
@@ -51,7 +52,13 @@ export function NotificationSettings() {
       {support === 'ok' && (
         <Row
           title="Rappels sur cet appareil"
-          subtitle={enabled ? <span className="text-guitar">Notifications activées sur cet appareil ✓</span> : undefined}
+          subtitle={
+            enabled ? (
+              <>
+                Notifications activées sur cet appareil <Icon name="check" />
+              </>
+            ) : undefined
+          }
           accessory={<Switch label="Notifications" checked={enabled ?? false} disabled={busy || enabled === null} onChange={toggle} />}
         />
       )}

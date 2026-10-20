@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useActions } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import { useRun } from './useRun'
 
 const MIN_LENGTH = 8
@@ -14,7 +15,7 @@ export function PasswordForm() {
 
   return (
     <>
-      <div className="flex min-h-11 items-center gap-3 px-4 py-1.5">
+      <div className="flex min-h-11 items-center gap-3 px-4">
         <label htmlFor="new-password" className="t-body shrink-0">
           Mot de passe
         </label>
@@ -29,7 +30,7 @@ export function PasswordForm() {
             setValue(e.target.value)
             setDone(false)
           }}
-          className="t-body min-w-0 flex-1 bg-transparent py-1.5 text-right outline-none placeholder:text-faint"
+          className="t-body min-h-11 min-w-0 flex-1 bg-transparent text-right outline-none placeholder:text-muted"
         />
         <span id="password-hint" className="sr-only">
           Pour te reconnecter sans email, {MIN_LENGTH} caractères min.
@@ -50,8 +51,12 @@ export function PasswordForm() {
         Enregistrer le mot de passe
       </button>
       {(done || error) && (
-        <p role={error ? 'alert' : undefined} className={`t-subhead px-4 py-2.5 ${error ? 'text-danger' : 'text-guitar'}`}>
-          {error ?? 'Mot de passe enregistré ✓'}
+        <p role={error ? 'alert' : undefined} className={`t-subhead px-4 py-2.5 ${error ? 'text-danger' : ''}`}>
+          {error ?? (
+            <>
+              Mot de passe enregistré <Icon name="check" />
+            </>
+          )}
         </p>
       )}
     </>

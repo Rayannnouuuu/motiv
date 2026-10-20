@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { backupFileName, makeBackup, saveFile } from '../../data/backup'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import { Group, Row } from '../../ui/List'
 import { useRun } from './useRun'
 
@@ -29,7 +30,15 @@ export function BackupSection() {
       }
     >
       <Row
-        title={done ? 'Sauvegarde prête ✓' : 'Exporter mes données'}
+        title={
+          done ? (
+            <>
+              Sauvegarde prête <Icon name="check" />
+            </>
+          ) : (
+            'Exporter mes données'
+          )
+        }
         detail={`${sessions} séance${sessions > 1 ? 's' : ''}`}
         onClick={busy || !fresh ? undefined : () => void exportAll()}
         chevron={false}
