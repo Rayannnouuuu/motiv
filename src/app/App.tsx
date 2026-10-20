@@ -17,6 +17,9 @@ const ExercisePage = page(() => import('../features/exercise/ExercisePage'), 'Ex
 const PracticePage = page(() => import('../features/practice/PracticePage'), 'PracticePage')
 const QuickLogPage = page(() => import('../features/quick-log/QuickLogPage'), 'QuickLogPage')
 const XpResultPage = page(() => import('../features/xp/XpResultPage'), 'XpResultPage')
+const MarathonPage = page(() => import('../features/marathon/MarathonPage'), 'MarathonPage')
+const MarathonForm = page(() => import('../features/marathon/MarathonForm'), 'MarathonForm')
+const RunPage = page(() => import('../features/marathon/RunPage'), 'RunPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -106,6 +109,30 @@ export function AppRoutes() {
             <Shell>
               <ExercisePage />
             </Shell>
+          }
+        />
+        <Route
+          path="/marathon"
+          element={
+            <Shell>
+              <MarathonPage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/marathon/profil"
+          element={
+            <Focus>
+              <MarathonForm />
+            </Focus>
+          }
+        />
+        <Route
+          path="/course"
+          element={
+            <Focus>
+              <RunPage />
+            </Focus>
           }
         />
         {/* L'exo en cours d'une séance guitare : plein écran, sans onglets. */}

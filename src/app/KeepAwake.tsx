@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 // oxlint-disable-next-line react/only-export-components -- fonction pure exportée pour les tests, comme le prévoit la spec
 export function shouldKeepAwake(pathname: string): boolean {
   const p = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
-  return p === '/log/sport' || p === '/jouer' || p.startsWith('/exo/') || p.startsWith('/jouer/exo/')
+  return p === '/log/sport' || p === '/jouer' || p === '/course' || p.startsWith('/exo/') || p.startsWith('/jouer/exo/')
 }
 
 /**

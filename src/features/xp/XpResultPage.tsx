@@ -103,7 +103,8 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
 }
 
 export function XpResultPage() {
-  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean; momentDay?: string } | null
+  // `notice` : une phrase en plus (ex. un nouveau chrono de référence après une sortie).
+  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean; momentDay?: string; notice?: string } | null
   const { data, today } = useAppData()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
@@ -144,6 +145,11 @@ export function XpResultPage() {
           <p className="t-subhead text-ink">{describeTarget(c.target, data)}</p>
         </div>
       ))}
+      {state.notice && (
+        <p role="status" className="t-headline animate-rise text-center">
+          {state.notice}
+        </p>
+      )}
       <ul className="rows animate-rise overflow-hidden rounded-md bg-surface" style={{ animationDelay: '80ms' }}>
         {result.lines.map((l) => (
           <li key={l.label} className="t-body flex min-h-11 items-center justify-between gap-3 px-4 py-2.5">

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
  * Écran principal : grand titre en haut ; quand il sort de l'écran au défilement, une barre translucide
  * prend le relais avec le titre en petit (le contenu passe flouté dessous).
  */
-export function Screen({ title, trailing, children }: { title: string; trailing?: ReactNode; children: ReactNode }) {
+export function Screen({ title, leading, trailing, children }: { title: string; leading?: ReactNode; trailing?: ReactNode; children: ReactNode }) {
   const heading = useRef<HTMLHeadingElement>(null)
   const [compact, setCompact] = useState(false)
 
@@ -28,6 +28,7 @@ export function Screen({ title, trailing, children }: { title: string; trailing?
           <p aria-hidden className={`t-headline transition-opacity duration-200 ${compact ? 'opacity-100' : 'opacity-0'}`}>
             {title}
           </p>
+          {leading && <div className="absolute left-4 flex items-center">{leading}</div>}
           {trailing && <div className="absolute right-4 flex items-center">{trailing}</div>}
         </div>
       </div>

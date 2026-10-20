@@ -68,7 +68,7 @@ export function practiceReducer(s: PracticeState, a: PracticeAction): PracticeSt
 }
 
 /** Temps joué, pauses déduites ; figé pendant une pause. */
-export function elapsedMs(s: PracticeState, now: Date): number {
+export function elapsedMs(s: Pick<PracticeState, 'startedAt' | 'pausedAt' | 'pausedMs'>, now: Date): number {
   const end = s.pausedAt !== null ? new Date(s.pausedAt).getTime() : now.getTime()
   return Math.max(0, end - new Date(s.startedAt).getTime() - s.pausedMs)
 }

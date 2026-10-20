@@ -6,6 +6,8 @@ import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { lastLog, type LastLog } from '../../domain/lastLog'
+import { formatDuration } from '../../domain/marathon/paces'
+import { runOf } from '../../domain/marathon/runs'
 import type { Domain, GuitarItem, GuitarSession, Rating, Song, SportSession, SportSet } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
@@ -261,7 +263,10 @@ function EditGuitar({ session }: { session: GuitarSession }) {
 }
 
 function EditSport({ session }: { session: SportSession }) {
-  const { data, today } = useAppData()
+  const { data, v1, today } = useAppData()
+  // Une sortie de course (lot 3) : sa distance et sa durée restent telles quelles à la correction.
+  const stored = v1.sessions.find((s) => s.id === session.id)
+  const outing = stored ? runOf(stored) : null
   const actions = useActions()
   const { saving, error, run } = useSave()
   const [day, setDay] = useState(session.day)
@@ -280,7 +285,11 @@ function EditSport({ session }: { session: SportSession }) {
 
   return (
     <>
-      <p className="t-subhead -mt-2 text-muted">Séance {program?.name ?? 'inconnue'}</p>
+      <p className="t-subhead -mt-2 text-muted">
+        {outing
+          ? `Sortie de course : ${outing.km.toLocaleString('fr-FR')} km en ${formatDuration(outing.sec)}${stored?.pain !== undefined ? `, douleur ${stored.pain}/10` : ''}`
+          : `Séance ${program?.name ?? 'inconnue'}`}
+      </p>
       <Common
         domain="sport"
         day={day}
@@ -295,7 +304,7 @@ function EditSport({ session }: { session: SportSession }) {
         note={note}
         onNote={setNote}
       />
-      {groups.length === 0 && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
+      {groups.length === 0 && !outing && <p className="t-subhead text-muted">Aucune série enregistrée.</p>}
       {groups.map((pe) => {
         const name = names.get(pe) ?? 'Exo inconnu'
         return (

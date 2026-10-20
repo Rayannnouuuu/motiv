@@ -20,6 +20,7 @@ import { loadLive } from '../log-sport/liveSession'
 import { runningPracticeMinutes } from '../practice/practiceSession'
 import { ChallengeCard } from './ChallengeCard'
 import { GuitarCard } from './GuitarCard'
+import { MarathonCard } from './MarathonCard'
 import { SportCard } from './SportCard'
 import { StorageNotices } from '../backup/StorageNotices'
 
@@ -152,6 +153,7 @@ export function TodayPage() {
           </h2>
           <GuitarCard />
           <SportCard />
+          <MarathonCard />
         </section>
 
         {maintain.length > 0 && (

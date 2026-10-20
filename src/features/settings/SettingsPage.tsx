@@ -37,6 +37,9 @@ export function SettingsPage() {
   return (
     <Screen title="Moi">
       <div className="flex flex-col gap-8 pb-4">
+        <Group footer="Un plan construit à rebours depuis ta date de course, recalculé chaque lundi.">
+          <Row title="Marathon" to="/marathon" />
+        </Group>
         <ThemePicker />
         <BackupSection />
         <Group>
