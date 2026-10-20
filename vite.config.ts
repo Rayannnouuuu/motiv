@@ -43,6 +43,8 @@ export default defineConfig({
         navigateFallbackDenylist: ESSAI ? [] : [/^\/motiv\/essai\//],
         skipWaiting: true,
         clientsClaim: true,
+        // Les polices Barlow aussi : hors ligne (en salle), l'appli garde sa typo.
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,woff2}'],
       },
     }),
   ],

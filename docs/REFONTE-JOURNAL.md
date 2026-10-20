@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Prochain : lot 4 — Progrès et rythme.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle) prêt sur la version d'essai, en attente de validation. Ensuite : lot 4 — Progrès et rythme.
 
 ## Fait
 
@@ -82,6 +82,13 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Un nouvel écran s'ouvre désormais en haut de page.
   - 625 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3/`. Questionnaire rempli → plan en quelques secondes.
 - 20 oct. 2026 : **« Push tout »** : les lots 2 et 3 passent sur `main` et sur `/motiv/`. Le schéma de stockage n'a pas changé depuis le lot 1 : pas de migration, données intactes.
+- 20 oct. 2026 : le prompt est resynchronisé avec sa dernière version (marathon, deux univers, onglets par horizon de temps). L'artefact « MOTIV — Refonte visuelle » fait foi pour la disposition et le design (REFONTE §7).
+- 20 oct. 2026 : **lot 3b — Refonte visuelle** (détails dans `docs/lots/LOT-3B.md`).
+  - Palette de l'artefact, guitare en ambre, sport en bleu, global neutre ; Barlow et Barlow Condensed auto-hébergées. Contrastes AA vérifiés dans les deux thèmes.
+  - Onglets Aujourd'hui · Semaine · « Commencer » · Progrès · Moi. « Commencer » lance la prochaine séance prévue, plan marathon compris.
+  - Aujourd'hui, Semaine (nouvel onglet) et Moi refaits sur le même gabarit ; Progrès reçoit l'en-tête et la période.
+  - Les trois séances (guitare, sport, course) partagent la même barre du haut et les segments.
+  - Aucun changement de stockage. 621 tests verts. Captures 390 px, sombre et clair, dans `docs/lots/lot3b/`.
 
 ## Décidé (détails, option la plus simple)
 
@@ -102,6 +109,9 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - Lot 2 : un morceau « à entretenir » jamais joué compte depuis sa date de maîtrise.
 - Lot 2 : à niveau égal, la variante d'un exo guitare change selon le jour.
 - Lot 3 marathon : le sport couvre maintenant la course à pied en plus de la musculation. Dès le lot 1, le modèle de données prévoit la distance, la durée et la douleur (0-10) d'une sortie, pour ne pas avoir à migrer plus tard.
+- Écart au §5 mis à jour (`Session.kind`, `paceSecPerKm`, `avgHr`, entités `AthleteProfile` / `TrainingPlan`) : le lot 3 range une sortie comme une séance sport avec le mouvement `course` (distance, durée) et la douleur sur la séance ; l'allure se déduit de la distance et de la durée. Le profil est dans la ligne `profile` et le plan est recalculé, jamais stocké. Même information, sans migration. `avgHr` n'est pas saisi : à ajouter si une montre est branchée un jour.
+- Lot 3b : l'orange global disparaît (trop proche de l'ambre de la guitare). Le global prend la couleur du texte, comme le « Commencer » central de l'artefact.
+- Lot 3b : en clair, l'ambre et le bleu sont assombris (`#8F5300`, `#1C5EB5`) pour tenir 4,5:1 avec du texte blanc.
 
 ## Réponses aux questions de l'audit (validées le 19 oct.)
 
@@ -127,5 +137,6 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] 183 cm le 13 oct. : c'est ta hauteur.
 - [x] Lot 2 — La séance unifiée : en ligne.
 - [x] Lot 3 — Plan marathon : en ligne.
+- [ ] Lot 3b — Refonte visuelle : sur l'essai, à valider.
 - [ ] Lot 4 — Progrès et rythme
 - [ ] Lot 5 — Preuves et anti-stagnation

@@ -2,7 +2,7 @@
 
 _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'artefact [MOTIV — Refonte visuelle](https://claude.ai/artifact/KXWWKDbUXrhH3swfux4ztV), qui fait foi pour la disposition et le design._
 
-**État : en cours.**
+**État : prêt sur la version d'essai (`/motiv/essai/`), en attente de validation.**
 
 ## Décisions (option la plus simple)
 
@@ -36,4 +36,4 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
 - [x] F. Moi : niveau, objectif daté, outils.
 - [x] G. Progrès : en-tête et période.
 - [x] H. Séances guitare et sport : même gabarit (barre du haut, segments, carte de mesure, bouton en bas).
-- [ ] I. Vérification, captures, essai, démo.
+- [x] I. Vérification, captures (`docs/lots/lot3b/`), essai, démo.
