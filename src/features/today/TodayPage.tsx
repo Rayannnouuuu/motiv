@@ -1,4 +1,4 @@
-import { useId, useState } from 'react'
+import { useId, useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
@@ -25,11 +25,11 @@ const UNIVERSE = { guitar: 'Guitare', sport: 'Sport' } as const
 const STATE = { todo: 'À faire', live: 'En cours', done: 'Faite', rest: 'Repos' } as const
 
 /** Carte d'une discipline, de même taille pour la guitare et le sport ; un toucher sur l'en-tête la déplie. */
-function DayCardView({ card, next, open, onToggle }: { card: DayCard; next: boolean; open: boolean; onToggle: () => void }) {
+function DayCardView({ card, next, open, onToggle, extra }: { card: DayCard; next: boolean; open: boolean; onToggle: () => void; extra?: ReactNode }) {
   const navigate = useNavigate()
   const id = useId()
   const label = card.state === 'todo' && next ? 'Prochaine séance' : card.state === 'done' && card.tone === 'sport' ? 'Fait' : STATE[card.state]
-  const canOpen = card.steps.length > 0 || card.cta !== null
+  const canOpen = card.steps.length > 0 || card.cta !== null || Boolean(extra)
   return (
     <section aria-labelledby={`${id}-title`} className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
       <button
@@ -58,6 +58,7 @@ function DayCardView({ card, next, open, onToggle }: { card: DayCard; next: bool
       </button>
       {canOpen && open && (
         <div id={`${id}-body`} className="animate-rise flex flex-col gap-3 px-5 pb-5">
+          {extra}
           {card.steps.length > 0 && <StepList tone={card.tone} steps={card.steps} label={`Étapes · ${UNIVERSE[card.tone]}`} />}
           {card.cta && (
             <Button
@@ -76,6 +77,47 @@ function DayCardView({ card, next, open, onToggle }: { card: DayCard; next: bool
   )
 }
 
+const chip = (on: boolean) =>
+  `hit tap-scale t-footnote inline-flex h-8 items-center gap-1 rounded-full px-3 font-semibold whitespace-nowrap ${on ? 'bg-sport text-on-sport' : 'border border-line text-ink'}`
+
+/** Composer la séance de sport du jour : une autre séance de muscu, ou la course seule ; la course à la fin en option. */
+function SportChooser({
+  choices,
+  programId,
+  withRun,
+  onChange,
+}: {
+  choices: { id: string; name: string }[]
+  programId: string | null
+  withRun: boolean
+  onChange: (programId: string | null, withRun: boolean) => void
+}) {
+  // Rien de choisi (jour de repos) : aucune pastille allumée.
+  const runOnly = programId === null && withRun
+  return (
+    <div className="flex flex-col gap-2">
+      <div role="group" aria-label="Séance de sport du jour" className="flex flex-wrap gap-1.5">
+        {choices.map((c) => (
+          <button key={c.id} type="button" aria-pressed={programId === c.id} className={chip(programId === c.id)} onClick={() => onChange(c.id, withRun)}>
+            <Icon name="muscu" />
+            {c.name}
+          </button>
+        ))}
+        <button type="button" aria-pressed={runOnly} className={chip(runOnly)} onClick={() => onChange(null, true)}>
+          <Icon name="sport" />
+          Course seule
+        </button>
+      </div>
+      {programId !== null && (
+        <button type="button" aria-pressed={withRun} className={`${chip(withRun)} self-start`} onClick={() => onChange(programId, !withRun)}>
+          <Icon name={withRun ? 'check' : 'plus'} />
+          Course à la fin
+        </button>
+      )}
+    </div>
+  )
+}
+
 /**
  * Aujourd'hui : le jour (REFONTE §7). La guitare et le sport en deux cartes de même poids qui se déplient ; la
  * prochaine séance est ouverte. Puis les morceaux à entretenir et la semaine en deux tuiles.
@@ -83,7 +125,11 @@ function DayCardView({ card, next, open, onToggle }: { card: DayCard; next: bool
 export function TodayPage() {
   const { data, v1, today } = useAppData()
   const navigate = useNavigate()
-  const { queue, guitar, sport, streak, mk } = useToday()
+  const { queue, guitar, sport: planned, streak, mk, choices, pick, custom } = useToday()
+  // Séance de sport composée à la main (autre séance, course à la fin) : remplace celle prévue.
+  const [compose, setCompose] = useState<{ programId: string | null; withRun: boolean } | null>(null)
+  const sport = compose ? custom(compose.programId, compose.withRun) : planned
+  const chosen = compose ?? pick
   const [sheet, setSheet] = useState(false)
   const first = queue[0]?.tone
   const [open, setOpen] = useState<Record<string, boolean>>({})
@@ -105,7 +151,23 @@ export function TodayPage() {
 
         <div className="flex flex-col gap-3">
           {cards.map((c) => (
-            <DayCardView key={c.tone} card={c} next={c.tone === first} open={isOpen(c)} onToggle={() => toggle(c)} />
+            <DayCardView
+              key={c.tone}
+              card={c}
+              next={c.tone === first}
+              open={isOpen(c)}
+              onToggle={() => toggle(c)}
+              extra={
+                c.tone === 'sport' && c.state !== 'live' && choices.length > 0 ? (
+                  <SportChooser
+                    choices={choices}
+                    programId={chosen.programId}
+                    withRun={chosen.withRun}
+                    onChange={(programId, withRun) => setCompose({ programId, withRun })}
+                  />
+                ) : undefined
+              }
+            />
           ))}
         </div>
 

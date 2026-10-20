@@ -19,6 +19,8 @@ export interface LiveState {
   restStartedAt?: string | null
   /** Durée du repos en cours, en secondes. */
   restSec?: number
+  /** Course à enchaîner à la fin (état passé à la séance de course), absente sinon. */
+  thenRun?: object
 }
 
 export type LiveAction =
@@ -144,6 +146,7 @@ export function loadLive(): LiveState | null {
       exerciseId: s.exerciseId ?? null,
       restStartedAt: typeof s.restStartedAt === 'string' ? s.restStartedAt : null,
       restSec: typeof s.restSec === 'number' ? s.restSec : 0,
+      thenRun: s.thenRun && typeof s.thenRun === 'object' ? s.thenRun : undefined,
     }
   } catch {
     return null

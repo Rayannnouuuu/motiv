@@ -5,7 +5,8 @@ import { historyOf } from '../../domain/history'
 import { plannedOn, type PlannedRun } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import { todayQueue, type NextAction, type PlannedToday } from '../../domain/nextAction'
-import { upcomingPrograms } from '../../domain/progression'
+import { rotation, upcomingPrograms } from '../../domain/progression'
+import { RUNNER_TEMPLATE_ID } from '../../domain/marathon/strength'
 import { bestBpm } from '../../domain/records'
 import { songsOfTheDay } from '../../domain/songSuggestion'
 import { sportWeek } from '../../domain/sportWeek'
@@ -237,5 +238,44 @@ export function useToday() {
     }
   })()
 
-  return { queue, guitar, sport, streak, mk }
+  // Séance au choix : une autre séance de muscu, et/ou une course à la fin (celle du plan s'il y en a une aujourd'hui).
+  const runner = plan ? data.programs.find((p) => p.id === RUNNER_TEMPLATE_ID) : undefined
+  const choices = [...rotation(data.programs), ...(runner ? [runner] : [])].filter((p) => activeExercises(p).length > 0)
+  const runState = run ? { day: run.day, kind: run.kind } : {}
+  const runStep = (group: string): Step =>
+    run
+      ? {
+          title: `Course · ${runLabel(run, race).toLowerCase()}`,
+          detail: [run.km > 0 ? km(run.km) : '', run.pace && plan ? paceText(plan.paces, run.pace) : ''].filter(Boolean).join(' · '),
+          group,
+        }
+      : { title: 'Course libre', detail: 'À ton rythme, distance au choix', group }
+  /** La séance que tu composes : une séance de muscu (ou aucune), puis la course si tu la veux. */
+  const custom = (programId: string | null, withRun: boolean): DayCard => {
+    const p = choices.find((x) => x.id === programId)
+    if (!p)
+      return {
+        tone: 'sport',
+        state: 'todo',
+        title: run ? runName(run) : 'Course libre',
+        subtitle: sport.subtitle,
+        steps: [runStep('Course')],
+        cta: { label: 'Commencer', icon: 'play', to: '/course', state: runState },
+      }
+    return {
+      tone: 'sport',
+      state: 'todo',
+      title: withRun ? `${p.name} + course` : p.name,
+      subtitle: withRun ? 'Muscu, puis la course' : sport.subtitle,
+      steps: [...programSteps(p, `Muscu · ${p.name}`), ...(withRun ? [runStep('Course à la fin')] : [])],
+      cta: { label: 'Commencer', icon: 'play', to: '/log/sport', state: { programId: p.id, ...(withRun ? { thenRun: runState } : {}) } },
+    }
+  }
+  /** Ce que la carte Sport propose par défaut : la muscu prévue (ou due), avec la course prévue aujourd'hui. */
+  const pick = {
+    programId: lift?.programId ?? (sportAction?.kind === 'startSport' ? (sportAction.state as { programId: string }).programId : null),
+    withRun: run !== undefined,
+  }
+
+  return { queue, guitar, sport, streak, mk, choices: choices.map((p) => ({ id: p.id, name: p.name })), pick, custom }
 }

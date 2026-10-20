@@ -131,17 +131,24 @@ body {
   animation: symbol-bounce 600ms ease-out;
 }
 
-/* Ouverture : le logo reconstitué se pose avec un léger rebond. */
-@keyframes splash-logo {
-  0% {
-    transform: scale(0.97);
-  }
-  45% {
-    transform: scale(1.06);
+/* Ouverture : les lettres montent, puis les deux traits (guitare, sport) se tracent. */
+@keyframes splash-letter {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
   }
 }
-.splash-logo {
-  animation: splash-logo var(--duration-enter) ease-out both;
+.splash-letter {
+  animation: splash-letter 500ms var(--ease-spring) both;
+}
+@keyframes splash-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+.splash-bar {
+  transform-origin: left;
+  animation: splash-bar 450ms var(--ease-spring) both;
 }
 
 /* Montée de niveau */

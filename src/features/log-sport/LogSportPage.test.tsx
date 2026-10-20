@@ -340,6 +340,23 @@ describe('LogSportPage', () => {
     expect(screen.getByLabelText('Durée en minutes')).toHaveValue(null)
   })
 
+  test('course à enchaîner : gardée avec la séance, puis passée à la fin', async () => {
+    const result = { total: 40, lines: [] }
+    renderSport({
+      data: { programs: [haut] },
+      route: { pathname: '/log/sport', state: { programId: 'haut', thenRun: { day: '2026-10-15', kind: 'easy' } } },
+      actions: { saveSportSession: vi.fn(async () => result) },
+    })
+    await click('Série 1 faite')
+    expect(loadLive()?.thenRun).toEqual({ day: '2026-10-15', kind: 'easy' })
+    await click('Exo suivant')
+    await click('Fin de séance')
+    await user.click(screen.getAllByRole('radio', { name: '4' })[0])
+    await user.click(screen.getAllByRole('radio', { name: '4' })[1])
+    await click('Terminer')
+    expect(await screen.findByText(/"thenRun":\{"day":"2026-10-15","kind":"easy"\}/)).toBeInTheDocument()
+  })
+
   test('fin : durée pré-remplie, notes, Terminer enregistre et vide l’état', async () => {
     const result = { total: 75, lines: [{ label: 'Séance terminée', xp: 60 }] }
     const { actions } = renderSport({ data: { programs: [haut] }, actions: { saveSportSession: vi.fn(async () => result) } })

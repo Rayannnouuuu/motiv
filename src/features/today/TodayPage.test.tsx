@@ -113,6 +113,29 @@ describe('TodayPage', () => {
     expect(screen.getByText('at /log/sport {"programId":"a"}')).toBeInTheDocument()
   })
 
+  test('séance au choix : Legs au lieu de la séance prévue, avec une course à la fin', async () => {
+    const programs = ['Push', 'Pull', 'Legs'].map((name, i) =>
+      program({ id: name.toLowerCase(), name, position: i, exercises: [pe({ id: `${name}-1`, programId: name.toLowerCase(), name: `${name} exo` })] }),
+    )
+    renderToday({ data: { programs, guitarSessions: [g(today, 60)] } })
+    const sport = card('Push')
+    await userEvent.click(within(sport).getByRole('button', { name: 'Legs' }))
+    await userEvent.click(within(card('Legs')).getByRole('button', { name: 'Course à la fin' }))
+    const legs = card('Legs + course')
+    expect(within(legs).getByText('Legs exo')).toBeInTheDocument()
+    expect(within(legs).getByText('Course libre')).toBeInTheDocument()
+    await userEvent.click(within(legs).getByRole('button', { name: 'Commencer' }))
+    expect(screen.getByText('at /log/sport {"programId":"legs","thenRun":{}}')).toBeInTheDocument()
+  })
+
+  test('séance au choix : la course seule', async () => {
+    const programs = [program({ id: 'push', name: 'Push', exercises: [pe({ id: 'p1', programId: 'push' })] })]
+    renderToday({ data: { programs, guitarSessions: [g(today, 60)] } })
+    await userEvent.click(within(card('Push')).getByRole('button', { name: 'Course seule' }))
+    await userEvent.click(within(card('Course libre')).getByRole('button', { name: 'Commencer' }))
+    expect(screen.getByText('at /course {}')).toBeInTheDocument()
+  })
+
   test('guitare et sport faits aujourd’hui : deux cartes faites', () => {
     const programs = [program({ id: 'a', name: 'Haut', position: 0 }), program({ id: 'b', name: 'Bas', position: 1 })]
     renderToday({ data: { programs, guitarSessions: [g(today, 60)], sportSessions: [ss([], today, 'a')] } })

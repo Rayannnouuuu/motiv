@@ -140,3 +140,10 @@ describe('objectif : série guitare et semaine de sport', () => {
     expect(fireworks()).toBeNull()
   })
 })
+
+test('course prévue à la fin de la muscu : « Enchaîner la course »', () => {
+  const result = { total: 40, lines: [] }
+  renderWithData(routes, { route: { pathname: '/xp', state: { result, domain: 'sport', thenRun: { day: '2026-10-15', kind: 'easy' } } } })
+  expect(screen.getByRole('link', { name: 'Enchaîner la course' })).toHaveAttribute('href', '/course')
+  expect(screen.getByRole('link', { name: "Pas de course aujourd'hui" })).toHaveAttribute('href', '/')
+})

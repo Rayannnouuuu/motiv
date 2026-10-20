@@ -104,7 +104,16 @@ function GoalBlock({ moment }: { moment: GoalMoment }) {
 
 export function XpResultPage() {
   // `notice` : une phrase en plus (ex. un nouveau chrono de référence après une sortie).
-  const state = useLocation().state as { result: XpResult; domain: Domain; logId?: string; edited?: boolean; momentDay?: string; notice?: string } | null
+  const state = useLocation().state as {
+    result: XpResult
+    domain: Domain
+    logId?: string
+    edited?: boolean
+    momentDay?: string
+    notice?: string
+    /** Course prévue à la fin de la muscu : on l'enchaîne. */
+    thenRun?: object
+  } | null
   const { data, today } = useAppData()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
@@ -177,9 +186,20 @@ export function XpResultPage() {
         />
         {lvl.blocked && <p className={`t-subhead mt-2 font-semibold ${TONE.text[domain]}`}>Défi requis pour passer au niveau suivant</p>}
       </div>
-      <Link to="/" className={`tap-scale t-headline mt-2 rounded-lg px-4 py-3.5 text-center ${TONE.solid[domain]}`}>
-        Continuer
-      </Link>
+      {state.thenRun ? (
+        <>
+          <Link to="/course" state={state.thenRun} className={`tap-scale t-headline mt-2 rounded-lg px-4 py-3.5 text-center ${TONE.solid[domain]}`}>
+            Enchaîner la course
+          </Link>
+          <Link to="/" className={`hit tap t-subhead -mt-2 self-center py-2 ${TONE.text[domain]}`}>
+            Pas de course aujourd'hui
+          </Link>
+        </>
+      ) : (
+        <Link to="/" className={`tap-scale t-headline mt-2 rounded-lg px-4 py-3.5 text-center ${TONE.solid[domain]}`}>
+          Continuer
+        </Link>
+      )}
       <Link to={state.logId ? `/log/corriger/${state.logId}` : '/log/corriger'} className={`hit tap t-subhead -mt-2 self-center py-2 ${TONE.text[domain]}`}>
         Une erreur ? Corriger ce log
       </Link>

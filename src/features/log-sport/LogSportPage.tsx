@@ -66,14 +66,15 @@ export function LogSportPage() {
   const { data, v1 } = useAppData()
   const track = useMemo(() => tracking(v1), [v1])
   const navigate = useNavigate()
-  const navState = useLocation().state as { programId?: unknown } | null
+  const navState = useLocation().state as { programId?: unknown; thenRun?: unknown } | null
   const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
+  const thenRun = navState?.thenRun && typeof navState.thenRun === 'object' ? navState.thenRun : undefined
   // « Commencer X » sur l'accueil : la séance démarre directement sur son premier exo.
   const [live, setLive] = useState<LiveState | null>(() => {
     const saved = loadLive()
     if (saved) return saved
     const p = startable(data.programs, requestedId)
-    return p ? newLive(p, track) : null
+    return p ? { ...newLive(p, track), thenRun } : null
   })
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
@@ -513,7 +514,10 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
         ...noteOf(note),
       })
       onDone()
-      navigate('/xp', { replace: true, state: { result, domain: 'sport', logId: live.id, momentDay: todayParis(new Date(live.startedAt)) } })
+      navigate('/xp', {
+        replace: true,
+        state: { result, domain: 'sport', logId: live.id, momentDay: todayParis(new Date(live.startedAt)), thenRun: live.thenRun },
+      })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Enregistrement impossible')
       setSaving(false)

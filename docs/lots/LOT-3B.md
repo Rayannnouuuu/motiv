@@ -18,6 +18,15 @@ _20 oct. 2026. Point de départ : REFONTE §7 (mis à jour le 20 oct.) et l'arte
 - **Visible** : la carte Sport montre la sortie et la muscu du jour (« Footing 6 km + Push », avec les exos et les charges). Semaine : « marathon + muscu », course (pouls) et muscu (haltère) jour par jour, compteur « muscu 1 / 3 ». Le plan complet liste la muscu de chaque semaine et ses règles.
 - Rien de stocké en plus : le plan combiné se recalcule comme le plan marathon.
 
+## Retour suivant (20 oct.)
+
+« Je ne peux pas modifier les séances : aujourd'hui je voudrais faire jambes et un peu de course à la fin. » Et l'animation d'ouverture est moche.
+
+- **Séance au choix** dans la carte Sport : une pastille par séance de muscu (Push, Pull, Legs, renfo coureur pendant le plan), « Course seule », et « Course à la fin ». La carte montre alors les exos puis la course, et « Commencer » lance la muscu.
+- **Course enchaînée** : la séance de sport garde la course à faire (même si l'appli est fermée entre-temps). À la fin, « Enchaîner la course » ouvre la séance de course (celle du plan s'il y en a une aujourd'hui, sinon une course libre).
+- Le plan suit ce que tu as fait : la rotation repart de la séance faite, et le plan se recalcule.
+- **Ouverture** : fini les grains sur fond vert. « MOTIV » monte lettre par lettre sur le fond de l'appli, puis deux traits (ambre et bleu) se tracent dessous ; environ 1,5 s, un toucher la passe, rien si les animations sont réduites.
+
 ## Décisions (option la plus simple)
 
 - **Couleurs**
