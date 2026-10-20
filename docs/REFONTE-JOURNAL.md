@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lot 1 livré sur `refonte/lot-1`, en attente de ta validation.** La version d'essai est sur `/motiv/essai/`, avec sa propre base. L'appli actuelle reste sur `/motiv/`.
+**Lot 1 validé et en ligne sur `/motiv/` (20 oct.). Lot 2 en cours sur `refonte/lot-2`** (version d'essai sur `/motiv/essai/`).
 
 ## Fait
 
@@ -42,6 +42,12 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - 558 tests verts.
   - Captures 390 px, sombre et clair, dans `docs/lots/lot1/`.
 
+- 20 oct. 2026 : **bascule du lot 1** (validé : « ça me convient »).
+  - Une sauvegarde complète et à jour a été recalculée depuis Supabase : 8 séances guitare, dont 2 du 19 oct. au soir, faites après l'export. Elle a été vérifiée par la migration (aller-retour identique) et envoyée à l'utilisateur. Elle n'est pas dans le dépôt.
+  - `main` = lot 1. Au premier lancement, l'appli propose de reprendre les données laissées sur le téléphone par l'ancienne version, ou d'importer la sauvegarde.
+  - Le cron `motiv-notify` de Supabase est coupé. Supabase reste actif, en lecture seule, comme copie de secours. Sa mise en pause et le retrait de `supabase/` du dépôt viendront une fois l'import confirmé.
+  - 183 cm dans « Taille » le 13 oct. = la hauteur. Ce sera corrigé avec le profil du lot 3 (taille, poids), sans toucher à l'historique avant.
+
 ## Décidé (détails, option la plus simple)
 
 - Les ids des exos guitare ne changent pas (`scales-3`…), pour garder l'historique valide.
@@ -74,7 +80,8 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 1 : base d'exos guitare normalisée, bibliothèque sport.
 - [x] Lot 1 : stockage Dexie versionné, import avec aperçu (format 0 migré), export format 1, migration testée sur une copie.
 - [x] Lot 1 : design system, navigation à 4 onglets, Prettier, captures, version d'essai.
-- [ ] Lot 1 : ta validation, puis la bascule (voir `docs/lots/LOT-1-DONNEES.md`, section « Bascule »).
+- [x] Lot 1 : validé et basculé sur `/motiv/` (20 oct.).
+- [ ] Après la bascule : confirmer que tes données sont bien dans la nouvelle appli, puis mettre Supabase en pause et retirer `supabase/` du dépôt.
 - [ ] Suites notées pour le lot 2 :
   - l'historique sport suit le mouvement dans l'écran séance ;
   - les variantes guitare `-11` à `-15` dans le plan du jour ;
@@ -82,7 +89,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - les flèches en texte dans `ModalBar` ;
   - les tailles fixes des graphiques ;
   - `RowIcon` et `Chip` inutilisés.
-- [ ] Réponse attendue : 183 cm dans « Taille » le 13 oct., c'était ta hauteur ?
+- [x] 183 cm le 13 oct. : c'est ta hauteur.
 - [ ] Lot 2 — La séance unifiée
 - [ ] Lot 3 — Plan marathon
 - [ ] Lot 4 — Progrès et rythme
