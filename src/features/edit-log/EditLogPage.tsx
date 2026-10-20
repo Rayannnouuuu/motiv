@@ -10,7 +10,8 @@ import type { Domain, GuitarItem, GuitarSession, Rating, Song, SportSession, Spo
 import type { XpResult } from '../../domain/xp'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
-import { noteOf, SessionFeedback } from '../../ui/SessionFeedback'
+import { noteOf } from '../../domain/note'
+import { SessionFeedback } from '../../ui/SessionFeedback'
 import { WeightInput } from '../../ui/WeightInput'
 import { StepContent, type Entry } from '../log-guitar/StepContent'
 

@@ -16,7 +16,7 @@ import { StepContent, type Entry } from './StepContent'
 import { PRESETS, parseDuration, type DurationChoice } from './duration'
 import { StepDuration } from './StepDuration'
 import { StepRatings } from './StepRatings'
-import { noteOf } from '../../ui/SessionFeedback'
+import { noteOf } from '../../domain/note'
 
 /** État de navigation accepté (accueil, chrono, fiche exo et son métronome). */
 interface NavState {

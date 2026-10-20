@@ -7,7 +7,8 @@ import type { Domain, Rating } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
 import { Segmented } from '../../ui/Segmented'
-import { noteOf, SessionFeedback } from '../../ui/SessionFeedback'
+import { noteOf } from '../../domain/note'
+import { SessionFeedback } from '../../ui/SessionFeedback'
 
 const MAX_DURATION = 600
 const DEFAULT_MIN: Record<Domain, string> = { guitar: '30', sport: '60' }
