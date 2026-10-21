@@ -137,13 +137,13 @@ describe('PracticePage', () => {
     expect(screen.getByText(/^at \/ /)).toBeInTheDocument()
   })
 
-  test('hier court, 50 min déjà loggées + 10 min de chrono : série tenue à 60, fête mémorisée', () => {
-    renderPractice({ data: { guitarSessions: [g('2026-10-14', 40), g(today, 50)] } })
-    expect(screen.getByText("50/60 min aujourd'hui")).toBeInTheDocument()
+  test('20 min déjà loggées + 10 min de chrono : la séance du jour compte, fête mémorisée', () => {
+    renderPractice({ data: { guitarSessions: [g('2026-10-14', 40), g(today, 20)] } })
+    expect(screen.getByText("20/30 min aujourd'hui")).toBeInTheDocument()
     tick(9 * 60_000)
-    expect(screen.getByText("59/60 min aujourd'hui")).toBeInTheDocument()
+    expect(screen.getByText("29/30 min aujourd'hui")).toBeInTheDocument()
     tick(60_000)
-    expect(icon(screen.getByText('Série tenue'), 'check')).toBeInTheDocument()
+    expect(icon(screen.getByText('Séance comptée'), 'check')).toBeInTheDocument()
     expect(loadPractice()?.goalCelebrated).toBe(true)
   })
 
@@ -205,6 +205,6 @@ describe('PracticePage', () => {
     savePractice(startPractice(start, 'late'))
     vi.setSystemTime(new Date('2026-10-15T22:10:00Z'))
     renderPractice({ today: '2026-10-16', route: '/jouer', data: { guitarSessions: [g('2026-10-15', 30)] } })
-    expect(screen.getByText('Série tenue')).toBeInTheDocument() // 30 + 30 sur le 15
+    expect(screen.getByText('Séance comptée')).toBeInTheDocument() // 30 + 30 sur le 15
   })
 })

@@ -7,8 +7,6 @@ import { longDate } from '../../domain/date'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { lastLog } from '../../domain/lastLog'
 import { songsToMaintain } from '../../domain/repertoire'
-import { sportWeek } from '../../domain/sportWeek'
-import { weekGoals } from '../../domain/weekGoals'
 import { Button } from '../../ui/Button'
 import { StepList } from '../../ui/Hero'
 import { SectionHeader } from '../../ui/List'
@@ -17,7 +15,8 @@ import { Screen } from '../../ui/Screen'
 import { GoalTile, TileRow } from '../../ui/Tile'
 import { StorageNotices } from '../backup/StorageNotices'
 import { StartSheet } from '../start/StartSheet'
-import { currentWeek, planWeekCount, planWeekProgress } from '../week/planWeek'
+import { currentWeek, planWeekProgress } from '../week/planWeek'
+import { useRhythm } from '../week/useRhythm'
 import { useToday, type DayCard } from './useToday'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
@@ -125,7 +124,8 @@ function SportChooser({
 export function TodayPage() {
   const { data, v1, today } = useAppData()
   const navigate = useNavigate()
-  const { queue, guitar, sport: planned, streak, mk, choices, pick, custom } = useToday()
+  const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
+  const rhythm = useRhythm()
   // Séance de sport composée à la main (autre séance, course à la fin) : remplace celle prévue.
   const [compose, setCompose] = useState<{ programId: string | null; withRun: boolean } | null>(null)
   const sport = compose ? custom(compose.programId, compose.withRun) : planned
@@ -137,15 +137,19 @@ export function TodayPage() {
   const toggle = (c: DayCard) => setOpen({ ...open, [c.tone]: !isOpen(c) })
   const maintain = songsToMaintain(v1.songs, v1.sessions, today)
 
-  const goals = weekGoals(data, today)
+  const goals = rhythm.week
   const minutes = guitarWeek(data.guitarSessions, today).days.reduce((n, d) => n + d.minutes, 0)
-  const remaining = sportWeek(data.sportSessions, today).remaining
+  const remaining = Math.max(0, goals.sport.goal - goals.sport.done)
   const planWeek = currentWeek(mk?.plan)
-  const sportGoal = planWeek ? planWeekCount(planWeek, v1.sessions) : goals.sport
+  const sportGoal = goals.sport
   const cards = first === 'sport' ? [sport, guitar] : [guitar, sport]
 
   return (
-    <Screen title="Aujourd'hui" overline={longDate(today)} pill={streak.days > 0 && <Pill>{plural(streak.days, 'jour', 'jours')} d'affilée</Pill>}>
+    <Screen
+      title="Aujourd'hui"
+      overline={longDate(today)}
+      pill={rhythm.streak.weeks > 0 && <Pill>{plural(rhythm.streak.weeks, 'semaine', 'semaines')} d'affilée</Pill>}
+    >
       <div className="flex flex-col gap-6">
         <StorageNotices />
 

@@ -4,9 +4,9 @@ import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { describeTarget, isChallengeMet } from '../../domain/challenges'
-import { guitarMoment, sportMoment, type GoalMoment } from '../../domain/goalMoment'
+import { guitarMoment, sportMoment, WEEK_MILESTONES, type GoalMoment } from '../../domain/goalMoment'
 import { allLevels } from '../../domain/levels'
-import { SPORT_WEEKLY_SESSIONS } from '../../domain/streak'
+import { useRhythm } from '../week/useRhythm'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
 import { Fireworks, type FireworksSize } from '../../ui/Fireworks'
@@ -14,86 +14,83 @@ import { Gauge } from '../../ui/Gauge'
 
 const LABEL: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
 
-const jours = (n: number) => `${n} jour${n > 1 ? 's' : ''}`
-
-/** Grands feux pour un palier, petits pour un objectif atteint (série, semaine, défi). Un simple log : le +XP et la jauge suffisent. */
-function fireworksFor(moment: GoalMoment | null, challengeMet: boolean): FireworksSize | null {
+/** Grands feux pour un palier de semaines réussies, petits pour un objectif atteint (semaine, séance comptée, défi). */
+function fireworksFor(moment: GoalMoment | null, challengeMet: boolean, milestone: boolean): FireworksSize | null {
   switch (moment?.kind) {
-    case 'streakKept':
-    case 'streakRepaired':
     case 'weekDone':
-      return moment.milestone ? 'big' : 'small'
+      return milestone ? 'big' : 'small'
+    case 'guitarCounted':
+      return 'small'
     default:
       return challengeMet ? 'small' : null
   }
 }
 
-/** Où en sont les deux vrais objectifs après ce log : la série guitare et la semaine de sport (3 séances). */
-function GoalBlock({ moment }: { moment: GoalMoment }) {
+/** Où en sont les objectifs de la semaine après ce log : 5 séances de guitare, les séances de sport. */
+function GoalBlock({ moment, weeks }: { moment: GoalMoment; weeks: number }) {
   switch (moment.kind) {
-    case 'streakKept':
-    case 'streakRepaired': {
-      const what = moment.kind === 'streakKept' ? 'Série tenue' : 'Série réparée'
-      return (
-        <div className="flex flex-col items-center text-center">
-          <Icon name={moment.milestone ? 'trophy' : 'guitar'} size="3.25em" className="text-guitar" />
-          <p className="t-title1 mt-2 tabular-nums">{jours(moment.days)}</p>
-          <p className="t-headline text-guitar">
-            {moment.milestone ? `${what} · palier de ${moment.days} jours` : moment.kind === 'streakKept' ? 'Série tenue !' : 'Série réparée'}
-          </p>
-        </div>
-      )
-    }
     case 'guitarRemaining':
       return (
-        <div className="rounded-xl bg-surface p-4 shadow-card">
-          <p className="t-subhead font-semibold tabular-nums">
-            {moment.todayMin}/{moment.targetMin} min aujourd'hui
-          </p>
+        <div className="rounded-xl border border-line bg-surface p-4 shadow-card">
+          <p className="t-subhead font-semibold tabular-nums">{moment.todayMin}/30 min aujourd'hui</p>
           <Gauge
             from={moment.beforeMin}
             value={moment.todayMin}
-            max={moment.targetMin}
+            max={30}
             color="guitar"
-            label={`Objectif du jour : ${moment.todayMin} / ${moment.targetMin} min`}
-            className="mt-2.5 h-2.5"
+            label={`Séance du jour : ${moment.todayMin} / 30 min`}
+            className="mt-2 h-2.5"
           />
-          <p className="t-subhead mt-2 text-muted">
-            {moment.days > 0
-              ? `Encore ${moment.remainingMin} min pour garder ta série de ${jours(moment.days)}`
-              : `Encore ${moment.remainingMin} min pour lancer ta série`}
+          <p className="t-subhead mt-2 text-muted">Encore {moment.remainingMin} min pour que la séance du jour compte</p>
+        </div>
+      )
+    case 'guitarCounted':
+      return (
+        <div className="rounded-xl border border-line bg-surface p-4 shadow-card">
+          <p className="t-subhead flex items-center gap-1.5 font-semibold">
+            <Icon name="check" className="text-guitar" />
+            Séance comptée
+          </p>
+          <Gauge
+            from={moment.done - 1}
+            value={moment.done}
+            max={moment.goal}
+            color="guitar"
+            label={`Guitare cette semaine : ${moment.done} / ${moment.goal}`}
+            className="mt-2 h-2.5"
+          />
+          <p className="t-subhead mt-2 tabular-nums">
+            {moment.done}/{moment.goal} cette semaine
           </p>
         </div>
       )
     case 'guitarBonus':
-      return <p className="t-subhead text-center text-muted">Série déjà tenue aujourd'hui · {jours(moment.days)}</p>
+      return (
+        <p className="t-subhead text-center text-muted">
+          Séance du jour déjà comptée · {moment.done}/{moment.goal} cette semaine
+        </p>
+      )
     case 'weekDone':
       return (
         <div className="flex flex-col items-center text-center">
-          <Icon name={moment.milestone ? 'trophy' : 'sport'} size="3.25em" className="text-sport" />
-          <p className="t-title2 mt-2">Semaine validée</p>
-          <p className="t-headline text-sport">
-            {moment.weeks === 1
-              ? moment.firstEver
-                ? 'Première semaine validée'
-                : "C'est reparti · 1 semaine d'affilée"
-              : `${moment.weeks} semaines d'affilée`}
-          </p>
+          <Icon name={WEEK_MILESTONES.includes(weeks) ? 'trophy' : moment.discipline} size="3.25em" className={TONE.text[moment.discipline]} />
+          <p className="t-title2 mt-2">Objectif {moment.discipline === 'guitar' ? 'guitare' : 'sport'} de la semaine tenu</p>
+          {weeks > 0 && <p className={`t-headline ${TONE.text[moment.discipline]}`}>Semaine réussie · {weeks} d'affilée</p>}
         </div>
       )
     case 'weekProgress':
       return (
-        <div className="rounded-xl bg-surface p-4 shadow-card">
+        <div className="rounded-xl border border-line bg-surface p-4 shadow-card">
           <Gauge
             from={moment.done - 1}
             value={moment.done}
-            max={SPORT_WEEKLY_SESSIONS}
+            max={moment.goal}
             color="sport"
-            label={`Séances de la semaine : ${moment.done} / ${SPORT_WEEKLY_SESSIONS}`}
+            label={`Séances de la semaine : ${moment.done} / ${moment.goal}`}
             className="h-2.5"
           />
           <p className="t-subhead mt-2 tabular-nums">
-            {moment.done}/{SPORT_WEEKLY_SESSIONS} cette semaine · {moment.remaining === 1 ? "plus qu'une" : `plus que ${moment.remaining}`}
+            {moment.done}/{moment.goal} cette semaine · {moment.remaining === 1 ? "plus qu'une" : `plus que ${moment.remaining}`}
           </p>
         </div>
       )
@@ -115,6 +112,7 @@ export function XpResultPage() {
     thenRun?: object
   } | null
   const { data, today } = useAppData()
+  const rhythm = useRhythm()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
   // Figé aussi : la série ou la semaine que ce log vient de faire avancer. Une correction ne refête rien.
@@ -124,21 +122,21 @@ export function XpResultPage() {
     !state?.edited && state?.logId
       ? state.domain === 'guitar'
         ? guitarMoment(data.guitarSessions, state.logId, state.momentDay ?? today)
-        : sportMoment(data.sportSessions, state.logId, state.momentDay ?? today)
+        : sportMoment(data.sportSessions, state.logId, state.momentDay ?? today, rhythm.week.sport.goal)
       : null,
   )
   if (!state?.result) return <Navigate to="/" replace />
 
   const { result, domain } = state
   const lvl = allLevels(data)[domain]
-  const fireworks = fireworksFor(moment, met.length > 0)
+  const fireworks = fireworksFor(moment, met.length > 0, WEEK_MILESTONES.includes(rhythm.streak.weeks))
 
   return (
     <div className="flex flex-1 flex-col justify-center gap-6">
       {fireworks && <Fireworks size={fireworks} />}
       {moment && (
         <section aria-label="Objectif" className="animate-pop">
-          <GoalBlock moment={moment} />
+          <GoalBlock moment={moment} weeks={rhythm.streak.weeks} />
         </section>
       )}
       <div className="animate-pop text-center">

@@ -1,7 +1,6 @@
 import { screen, within } from '@testing-library/react'
 import { Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { addDays } from '../../domain/date'
 import { challenge, ex, g, ss } from '../../test/factories'
 import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
@@ -46,12 +45,10 @@ test('défi atteint par ce log : « Défi réussi ! »', () => {
   expect(screen.getByText('Legato sur une corde 6 à 96 bpm')).toBeInTheDocument()
 })
 
-describe('objectif : série guitare et semaine de sport', () => {
+describe('objectifs de la semaine', () => {
   const today = '2026-10-15' // jeudi
   const result = { total: 25, lines: [] }
   const fireworks = () => document.querySelector('canvas[data-fireworks]')
-  /** `n` jours de 60 min jusqu'à hier. */
-  const fullDays = (n: number) => Array.from({ length: n }, (_, i) => g(addDays(today, -1 - i), 60))
   const show = (domain: 'guitar' | 'sport', logId: string, data: RenderWithDataOptions['data'], edited?: boolean) =>
     renderWithData(routes, { today, data, route: { pathname: '/xp', state: { result, domain, logId, edited } } })
 
@@ -65,58 +62,35 @@ describe('objectif : série guitare et semaine de sport', () => {
     vi.restoreAllMocks()
   })
 
-  test('série tenue : « Série tenue ! » et petits feux', () => {
+  test('séance du jour comptée : jauge de la semaine et petits feux', () => {
     const log = g(today, 15)
-    show('guitar', log.id, { guitarSessions: [...fullDays(12), g(today, 20), log] })
+    show('guitar', log.id, { guitarSessions: [g('2026-10-12', 30), g(today, 20), log] })
     const goal = screen.getByRole('region', { name: 'Objectif' })
-    expect(within(goal).getByText('13 jours')).toBeInTheDocument()
-    expect(within(goal).getByText('Série tenue !')).toBeInTheDocument()
+    expect(within(goal).getByText('Séance comptée')).toBeInTheDocument()
+    expect(within(goal).getByText('2/5 cette semaine')).toBeInTheDocument()
     expect(fireworks()).toHaveAttribute('data-fireworks', 'small')
   })
 
-  test('7e jour : palier et grands feux', () => {
-    const log = g(today, 60)
-    show('guitar', log.id, { guitarSessions: [...fullDays(6), log] })
-    expect(screen.getByText('Série tenue · palier de 7 jours')).toBeInTheDocument()
-    expect(icon(screen.getByRole('region', { name: 'Objectif' }), 'trophy')).toBeInTheDocument()
-    expect(fireworks()).toHaveAttribute('data-fireworks', 'big')
-  })
-
-  test('log de 20 min : minutes restantes, pas de feux', () => {
+  test('log de 20 min : minutes qui manquent, pas de feux', () => {
     const log = g(today, 20)
     show('guitar', log.id, { guitarSessions: [log] })
     expect(screen.getByText("20/30 min aujourd'hui")).toBeInTheDocument()
-    expect(screen.getByText('Encore 10 min pour lancer ta série')).toBeInTheDocument()
-    expect(screen.getByRole('progressbar', { name: 'Objectif du jour : 20 / 30 min' })).toBeInTheDocument()
+    expect(screen.getByText('Encore 10 min pour que la séance du jour compte')).toBeInTheDocument()
+    expect(screen.getByRole('progressbar', { name: 'Séance du jour : 20 / 30 min' })).toBeInTheDocument()
     expect(fireworks()).toBeNull()
   })
 
-  test('minutes restantes avec une série en cours, hier court : objectif 60', () => {
-    const log = g(today, 20)
-    show('guitar', log.id, { guitarSessions: [2, 3, 4].map((n) => g(addDays(today, -n), 60)).concat(g(addDays(today, -1), 40), log) })
-    expect(screen.getByText("20/60 min aujourd'hui")).toBeInTheDocument()
-    expect(screen.getByText('Encore 40 min pour garder ta série de 4 jours')).toBeInTheDocument()
-  })
-
-  test('« Hier » qui recolle : série réparée', () => {
-    const log = g(addDays(today, -1), 60)
-    show('guitar', log.id, { guitarSessions: [g(addDays(today, -2), 60), g(today, 60), log] })
-    expect(screen.getByText('Série réparée')).toBeInTheDocument()
-    expect(fireworks()).toHaveAttribute('data-fireworks', 'small')
-  })
-
-  test('série déjà tenue : bonus discret, pas de feux', () => {
+  test('séance du jour déjà comptée : bonus discret, pas de feux', () => {
     const log = g(today, 20)
     show('guitar', log.id, { guitarSessions: [g(today, 60), log] })
-    expect(screen.getByText("Série déjà tenue aujourd'hui · 1 jour")).toBeInTheDocument()
+    expect(screen.getByText('Séance du jour déjà comptée · 1/5 cette semaine')).toBeInTheDocument()
     expect(fireworks()).toBeNull()
   })
 
-  test('3e séance de sport : « Semaine validée »', () => {
+  test('3e séance de sport : objectif sport de la semaine tenu', () => {
     const log = ss([], today)
     show('sport', log.id, { sportSessions: [ss([], '2026-10-12'), ss([], '2026-10-13'), log] })
-    expect(screen.getByText('Semaine validée')).toBeInTheDocument()
-    expect(screen.getByText('Première semaine validée')).toBeInTheDocument()
+    expect(screen.getByText('Objectif sport de la semaine tenu')).toBeInTheDocument()
     expect(fireworks()).toHaveAttribute('data-fireworks', 'small')
   })
 
@@ -135,7 +109,7 @@ describe('objectif : série guitare et semaine de sport', () => {
 
   test('log corrigé : aucun bloc « Objectif », pas de feux', () => {
     const log = g(today, 60)
-    show('guitar', log.id, { guitarSessions: [...fullDays(6), log] }, true)
+    show('guitar', log.id, { guitarSessions: [log] }, true)
     expect(screen.queryByRole('region', { name: 'Objectif' })).toBeNull()
     expect(fireworks()).toBeNull()
   })

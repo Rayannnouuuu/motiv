@@ -10,7 +10,7 @@ import { RUNNER_TEMPLATE_ID } from '../../domain/marathon/strength'
 import { bestBpm } from '../../domain/records'
 import { songsOfTheDay } from '../../domain/songSuggestion'
 import { sportWeek } from '../../domain/sportWeek'
-import { bestGuitarStreak, guitarStreak } from '../../domain/streak'
+import { guitarToday, weekGoals } from '../../domain/streak'
 import { guitarTarget } from '../../domain/targets'
 import type { Domain, Program } from '../../domain/types'
 import type { Step } from '../../ui/Hero'
@@ -38,8 +38,6 @@ export interface QueueItem {
   resume: boolean
 }
 
-const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
-
 /**
  * Aujourd'hui, en deux cartes de même poids : la guitare (exos et morceaux du jour) et le sport (la séance du plan
  * complet : sortie de course et muscu ensemble, ou la séance due de ta rotation sans plan marathon).
@@ -50,7 +48,8 @@ export function useToday() {
   const guitarLiveMin = runningPracticeMinutes()
   const live = loadLive()
   const liveProgram = live ? data.programs.find((p) => p.id === live.programId) : undefined
-  const streak = guitarStreak(data.guitarSessions, today)
+  const guitarDay = guitarToday(data.guitarSessions, today)
+  const guitarWeekGoal = weekGoals(data, today).guitar
   const track = tracking(v1)
   const plan = mk?.plan ?? null
   const race = mk?.m.race.kind ?? 'marathon'
@@ -111,10 +110,9 @@ export function useToday() {
     return [...exos, ...songs]
   }
   const guitarSubtitle = () => {
-    const r = streak.remainingMin
-    if (streak.days > 0) return `Encore ${r} min pour tenir la série de ${plural(streak.days, 'jour', 'jours')}`
-    const best = bestGuitarStreak(data.guitarSessions)
-    return best > 0 ? `Encore ${r} min · record : ${plural(best, 'jour', 'jours')}` : `${r} min aujourd'hui pour lancer ta série`
+    const { done, goal } = guitarWeekGoal
+    const left = `encore ${guitarDay.remainingMin} min pour qu'elle compte`
+    return done >= goal ? `Objectif de la semaine atteint (${done}/${goal}) · ${left}` : `Séance ${done + 1} sur ${goal} cette semaine · ${left}`
   }
   const guitar: DayCard =
     guitarAction?.kind === 'resumeGuitar'
@@ -139,7 +137,7 @@ export function useToday() {
             tone: 'guitar',
             state: 'done',
             title: 'Guitare faite',
-            subtitle: `${streak.todayMin} min aujourd'hui · série de ${plural(streak.days, 'jour', 'jours')}`,
+            subtitle: `${guitarDay.todayMin} min aujourd'hui · ${guitarWeekGoal.done}/${guitarWeekGoal.goal} cette semaine`,
             steps: guitarSteps(),
             cta: { label: 'Rejouer avec le chrono', icon: 'play', to: '/jouer', state: { autostart: true }, secondary: true },
           }
@@ -277,5 +275,5 @@ export function useToday() {
     withRun: run !== undefined,
   }
 
-  return { queue, guitar, sport, streak, mk, choices: choices.map((p) => ({ id: p.id, name: p.name })), pick, custom }
+  return { queue, guitar, sport, mk, choices: choices.map((p) => ({ id: p.id, name: p.name })), pick, custom }
 }

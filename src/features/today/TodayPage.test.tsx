@@ -2,7 +2,6 @@ import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
-import { addDays } from '../../domain/date'
 import { g, pe, program, set, ss } from '../../test/factories'
 import { icon } from '../../test/icon'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
@@ -43,7 +42,7 @@ describe('TodayPage', () => {
     renderToday({})
     const guitar = card('Technique et répertoire')
     expect(within(guitar).getByText('Guitare · Prochaine séance')).toBeInTheDocument()
-    expect(within(guitar).getByText("30 min aujourd'hui pour lancer ta série")).toBeInTheDocument()
+    expect(within(guitar).getByText("Séance 1 sur 5 cette semaine · encore 30 min pour qu'elle compte")).toBeInTheDocument()
     expect(within(guitar).getAllByRole('listitem').length).toBeGreaterThanOrEqual(3)
     expect(card('Pas encore de programme')).toBeInTheDocument()
     const start = within(guitar).getByRole('button', { name: 'Commencer' })
@@ -68,22 +67,19 @@ describe('TodayPage', () => {
     expect(within(card('Technique et répertoire')).queryByRole('button', { name: 'Commencer' })).not.toBeInTheDocument()
   })
 
-  test('hier court (40 min), 35 min aujourd’hui, série de 12 : pastille et minutes qui manquent', () => {
-    const past = Array.from({ length: 12 }, (_, i) => g(addDays(today, -(i + 1)), i === 0 ? 40 : 60))
-    renderToday({ data: { guitarSessions: [...past, g(today, 35)] } })
-    expect(screen.getByText("12 jours d'affilée")).toBeInTheDocument()
-    expect(within(card('Technique et répertoire')).getByText('Encore 25 min pour tenir la série de 12 jours')).toBeInTheDocument()
-  })
-
-  test('série cassée : le record est rappelé', () => {
-    const past = Array.from({ length: 5 }, (_, i) => g(addDays('2026-10-10', -i), 60))
-    renderToday({ data: { guitarSessions: past } })
-    expect(within(card('Technique et répertoire')).getByText('Encore 30 min · record : 5 jours')).toBeInTheDocument()
+  test('rythme : séance du jour à 30 min, pastille des semaines réussies d’affilée', () => {
+    // Semaine du 5 oct. réussie : 5 jours de guitare, 3 séances de sport.
+    const guitar = ['05', '06', '07', '08', '09'].map((d) => g(`2026-10-${d}`, 30))
+    const sport = ['05', '06', '07'].map((d) => ss([], `2026-10-${d}`))
+    renderToday({ data: { guitarSessions: [...guitar, g('2026-10-12', 30), g(today, 10)], sportSessions: sport } })
+    expect(screen.getByText("1 semaine d'affilée")).toBeInTheDocument()
+    expect(within(card('Technique et répertoire')).getByText("Séance 2 sur 5 cette semaine · encore 20 min pour qu'elle compte")).toBeInTheDocument()
   })
 
   test('60 min aujourd’hui : guitare faite, rejouer reste possible', async () => {
     renderToday({ data: { guitarSessions: [g(today, 60)] } })
     const guitar = await unfold('Guitare faite')
+    expect(within(guitar).getByText("60 min aujourd'hui · 1/5 cette semaine")).toBeInTheDocument()
     expect(within(guitar).getByText('Guitare · Faite')).toBeInTheDocument()
     await userEvent.click(within(guitar).getByRole('button', { name: 'Rejouer avec le chrono' }))
     expect(screen.getByText('at /jouer {"autostart":true}')).toBeInTheDocument()

@@ -6,7 +6,7 @@ import { useActions, useAppData } from '../../data/AppDataContext'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { addDays } from '../../domain/date'
 import { bestBpm } from '../../domain/records'
-import { guitarStreak } from '../../domain/streak'
+import { guitarToday } from '../../domain/streak'
 import type { GuitarItem, Rating, Song } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
@@ -77,7 +77,7 @@ export function LogGuitarPage() {
   // Un chrono tourne et ce log n'en vient pas (ex. « Logger cet exo ») : pas de minutes du jour présélectionnées,
   // elles seront comptées par le chrono.
   const [chronoElsewhere] = useState(() => typeof nav?.practiceId !== 'string' && runningPracticeMinutes() !== null)
-  const remainingMin = chronoElsewhere ? 0 : guitarStreak(data.guitarSessions, today).remainingMin
+  const remainingMin = chronoElsewhere ? 0 : guitarToday(data.guitarSessions, today).remainingMin
   const [init] = useState(() => initialDuration(nav?.durationMin, remainingMin))
 
   const [choice, setChoice] = useState<DurationChoice>(init.choice)

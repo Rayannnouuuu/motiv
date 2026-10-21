@@ -8,7 +8,7 @@ import { todayParis } from '../../domain/date'
 import { historyOf } from '../../domain/history'
 import { bestBpm } from '../../domain/records'
 import { guitarTarget } from '../../domain/targets'
-import { guitarStreak } from '../../domain/streak'
+import { GUITAR_SESSION_MIN, guitarToday } from '../../domain/streak'
 import { Button } from '../../ui/Button'
 import { Fireworks } from '../../ui/Fireworks'
 import { RowChevron } from '../../ui/List'
@@ -105,7 +105,8 @@ export function PracticePage() {
   // Une séance commencée avant minuit compte pour son jour de départ (c'est là qu'elle sera enregistrée).
   const sessionDay = session ? todayParis(new Date(session.startedAt)) : today
   // Objectif du jour de la séance : 60 min si la veille était un jour court, sinon 30.
-  const { todayMin: loggedMin, targetMin } = guitarStreak(data.guitarSessions, sessionDay)
+  const { todayMin: loggedMin } = guitarToday(data.guitarSessions, sessionDay)
+  const targetMin = GUITAR_SESSION_MIN
   const elapsed = session ? elapsedMs(session, now) : 0
   const total = Math.min(targetMin, loggedMin + Math.floor(elapsed / 60_000))
   // L'objectif franchi pendant cette séance (pas avant) : une seule fête, mémorisée avec la séance.
@@ -150,7 +151,7 @@ export function PracticePage() {
         {bar}
         <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
           <p className="t-body text-muted">
-            {loggedMin >= targetMin ? 'Objectif du jour atteint. Encore un peu ?' : `${targetMin - loggedMin} min aujourd'hui pour tenir la série`}
+            {loggedMin >= targetMin ? 'Séance du jour comptée. Encore un peu ?' : `${targetMin - loggedMin} min pour que la séance du jour compte`}
           </p>
           <button
             type="button"
@@ -217,7 +218,7 @@ export function PracticePage() {
             </span>
             {total >= targetMin ? (
               <span className="t-footnote flex items-center gap-0.5 font-semibold text-guitar">
-                Série tenue
+                Séance comptée
                 <Icon name="check" />
               </span>
             ) : (

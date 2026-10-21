@@ -6,7 +6,7 @@ import { addDays, daysBetween, todayParis, weekStart } from './date'
 import { allLevels } from './levels'
 import { upcomingPrograms } from './progression'
 import { sportWeek } from './sportWeek'
-import { GUITAR_SHORT_MIN, SPORT_WEEKLY_SESSIONS, guitarStreak } from './streak'
+import { GUITAR_SESSION_MIN, SPORT_WEEKLY_SESSIONS, guitarToday } from './streak'
 import type { AppData, Day } from './types'
 
 export type NotificationKind = 'plan' | 'sport' | 'challenge' | 'streak' | 'week'
@@ -62,7 +62,7 @@ const msg = (kind: NotificationKind, title: string, body: string, url: string): 
 
 /** Message d'un type de rappel, ou null s'il n'a pas lieu d'être aujourd'hui. */
 export function buildMessage(kind: NotificationKind, data: AppData, today: Day): PushMessage | null {
-  const streak = guitarStreak(data.guitarSessions, today)
+  const guitar = guitarToday(data.guitarSessions, today)
   const week = sportWeek(data.sportSessions, today)
   const [next] = upcomingPrograms(data.programs, data.sportSessions, 1)
   const sportToday = data.sportSessions.some((s) => s.day === today)
@@ -74,9 +74,8 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
       return msg(kind, '☀️ Ton plan du jour', `🎸 ${exos.join(' · ')}${sport}`, '/motiv/')
     }
     case 'streak': {
-      if (streak.remainingMin === 0) return null
-      const head = streak.days > 0 ? `🔥 Série de ${plural(streak.days, 'jour', 'jours')} en jeu` : '🔥 Lance ta série aujourd’hui'
-      return msg(kind, head, `Encore ${streak.remainingMin} min de guitare 🎸`, '/motiv/log/guitare')
+      if (guitar.remainingMin === 0) return null
+      return msg(kind, '🎸 Ta séance de guitare du jour', `Encore ${guitar.remainingMin} min pour qu'elle compte`, '/motiv/log/guitare')
     }
     case 'sport': {
       // Seulement quand il faut s'y mettre : autant de séances à faire que de jours restants (ou moins de jours).
@@ -99,9 +98,9 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
     case 'week': {
       if (daysBetween(weekStart(today), today) !== 6) return null
       const days = guitarWeek(data.guitarSessions, today).days
-      const played = days.filter((d) => d.minutes >= GUITAR_SHORT_MIN).length
+      const played = days.filter((d) => d.minutes >= GUITAR_SESSION_MIN).length
       const total = days.reduce((n, d) => n + d.minutes, 0)
-      const series = streak.days > 0 ? ` · série de ${plural(streak.days, 'jour', 'jours')}` : ''
+      const series = ''
       return msg(
         kind,
         '📊 Ta semaine',

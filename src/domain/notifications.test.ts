@@ -24,16 +24,14 @@ describe('créneaux aléatoires', () => {
 })
 
 describe('messages', () => {
-  test('série : seulement si l’objectif n’est pas atteint', () => {
-    const past = [g('2026-10-13', 60), g('2026-10-14', 60)]
-    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 20)] }), today)).toMatchObject({
-      title: '🔥 Série de 2 jours en jeu',
-      body: 'Encore 10 min de guitare 🎸',
+  test('guitare du jour : seulement tant que la séance du jour ne compte pas (30 min)', () => {
+    expect(buildMessage('streak', data({ guitarSessions: [g(today, 20)] }), today)).toMatchObject({
+      title: '🎸 Ta séance de guitare du jour',
+      body: "Encore 10 min pour qu'elle compte",
     })
-    expect(buildMessage('streak', data({ guitarSessions: [...past, g(today, 30)] }), today)).toBeNull()
-    expect(buildMessage('streak', data(), today)).toMatchObject({ title: '🔥 Lance ta série aujourd’hui', body: 'Encore 30 min de guitare 🎸' })
-    // Hier court (40 min) : il faut une heure aujourd'hui.
-    expect(buildMessage('streak', data({ guitarSessions: [g('2026-10-14', 40), g(today, 30)] }), today)).toMatchObject({ body: 'Encore 30 min de guitare 🎸' })
+    expect(buildMessage('streak', data({ guitarSessions: [g(today, 30)] }), today)).toBeNull()
+    // Plus de règle 30/60 : hier court ne change rien.
+    expect(buildMessage('streak', data({ guitarSessions: [g('2026-10-14', 40), g(today, 30)] }), today)).toBeNull()
   })
 
   test('résumé de la semaine : le dimanche seulement', () => {
@@ -45,7 +43,7 @@ describe('messages', () => {
     expect(buildMessage('week', d, sunday)).toEqual({
       kind: 'week',
       title: '📊 Ta semaine',
-      body: '🎸 3 jours de guitare (3 h 15) · série de 1 jour\n🏋️ 2/3 séances de sport',
+      body: '🎸 3 jours de guitare (3 h 15)\n🏋️ 2/3 séances de sport',
       url: '/motiv/progres',
     })
     expect(buildMessage('week', d, today)).toBeNull()

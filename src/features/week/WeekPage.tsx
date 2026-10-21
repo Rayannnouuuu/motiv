@@ -7,7 +7,6 @@ import { addDays, daysBetween, isoWeek, shortDate, weekStart } from '../../domai
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import type { Domain } from '../../domain/types'
-import { weekGoals } from '../../domain/weekGoals'
 import { Gauge } from '../../ui/Gauge'
 import { Hero } from '../../ui/Hero'
 import { SectionHeader } from '../../ui/List'
@@ -17,7 +16,8 @@ import { Switch } from '../../ui/Switch'
 import { dayLabel, km, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
-import { currentWeek, planWeekCount, planWeekLabel, planWeekProgress } from './planWeek'
+import { currentWeek, planWeekLabel, planWeekProgress } from './planWeek'
+import { useRhythm } from './useRhythm'
 
 const PHASES: Phase[] = ['base', 'development', 'specific', 'taper']
 const WEEKDAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
@@ -99,11 +99,11 @@ export function WeekPage() {
   const shownMonday = addDays(monday, 7 * shift)
   const shownDays = Array.from({ length: 7 }, (_, i) => addDays(shownMonday, i))
   const off = new Set(mk?.m.offDays ?? [])
-  const goals = weekGoals(data, today)
+  const { week: goals, streak } = useRhythm()
   const plan = mk?.plan ?? null
   const planWeek = currentWeek(plan)
   const race = mk?.m.race.kind ?? 'marathon'
-  const sportGoal = planWeek ? planWeekCount(planWeek, v1.sessions) : goals.sport
+  const sportGoal = goals.sport
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
 
   const shownWeek = plan?.weeks.find((w) => w.start === shownMonday) ?? null
@@ -195,6 +195,11 @@ export function WeekPage() {
             overline="Objectifs de la semaine"
             titleId="plan-title"
             title={`${goals.guitar.done + goals.sport.done} séances sur ${goals.guitar.goal + goals.sport.goal}`}
+            subtitle={
+              streak.weeks > 0
+                ? `${streak.weeks} semaine${streak.weeks > 1 ? 's' : ''} réussie${streak.weeks > 1 ? 's' : ''} d'affilée`
+                : 'Semaine réussie : les deux objectifs tenus. Repos et jours légers ne cassent rien.'
+            }
           >
             {(['guitar', 'sport'] as const).map((d) => (
               <div key={d}>

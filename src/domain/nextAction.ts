@@ -1,6 +1,6 @@
 import { upcomingPrograms } from './progression'
 import { sportWeek } from './sportWeek'
-import { guitarStreak } from './streak'
+import { guitarToday } from './streak'
 import type { AppData, Day } from './types'
 
 export interface NextAction {
@@ -35,7 +35,7 @@ export function todayQueue({ data, today, guitarLiveMin, sportLiveProgram, plann
   const queue: NextAction[] = []
   if (sportLiveProgram !== null) queue.push({ kind: 'resumeSport', label: `Reprendre ${sportLiveProgram}`, to: '/log/sport' })
 
-  const { remainingMin } = guitarStreak(data.guitarSessions, today)
+  const { remainingMin } = guitarToday(data.guitarSessions, today)
   if (guitarLiveMin !== null) queue.push({ kind: 'resumeGuitar', label: `Reprendre la guitare · ${guitarLiveMin} min`, to: '/jouer' })
   else if (remainingMin > 0) queue.push({ kind: 'playGuitar', label: `Jouer · encore ${remainingMin} min`, to: '/jouer', state: { autostart: true } })
 
