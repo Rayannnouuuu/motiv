@@ -14,6 +14,10 @@ export interface RunDone {
   sec: number
 }
 
+/** Valeur de départ de la période : la dernière d'avant, sinon la première de la période (historique récent). */
+const baseline = (points: { day: Day; value: number }[], start: Day) =>
+  points.filter((p) => p.day < start).at(-1)?.value ?? points.find((p) => p.day >= start)?.value
+
 const maxOrNull = (values: number[]) => (values.length > 0 ? Math.max(...values) : null)
 
 /** Ce qui a bougé entre avant la période et maintenant. null quand rien n'est comparable. */
@@ -33,7 +37,7 @@ export function gains(data: AppData, runs: RunDone[], today: Day, days: number):
   const exercises = new Set(data.guitarSessions.flatMap((s) => s.items.flatMap((it) => (it.kind === 'exercise' ? [it.exerciseId] : []))))
   for (const id of exercises) {
     const points = tempoSeries(data.guitarSessions, id)
-    const before = points.filter((p) => p.day < start).at(-1)?.value
+    const before = baseline(points, start)
     const now = points.filter((p) => p.day <= today).at(-1)?.value
     if (before === undefined || now === undefined || now <= before) continue
     if (!tempo || now - before > tempo.to - tempo.from) tempo = { name: getExercise(id)?.title ?? 'Exo', from: before, to: now }
@@ -45,7 +49,7 @@ export function gains(data: AppData, runs: RunDone[], today: Day, days: number):
   for (const id of ids) {
     const { unit, points } = strengthSeries(data.sportSessions, id)
     if (unit !== 'kg') continue
-    const before = points.filter((p) => p.day < start).at(-1)?.value
+    const before = baseline(points, start)
     const now = points.filter((p) => p.day <= today).at(-1)?.value
     if (before === undefined || now === undefined || now <= before) continue
     if (!strength || now - before > strength.to - strength.from) strength = { name: names.get(id) ?? 'Exo', from: before, to: now }

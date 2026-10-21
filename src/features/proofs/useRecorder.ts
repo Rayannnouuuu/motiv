@@ -30,14 +30,14 @@ export function useRecorder(onDone: (bytes: ArrayBuffer, mime: string, sec: numb
       const mime = pickMime()
       const r = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
       const chunks: Blob[] = []
-      const began = Date.now()
+      const began = performance.now()
       r.ondataavailable = (e) => chunks.push(e.data)
       r.onstop = () => {
         stream.getTracks().forEach((t) => t.stop())
         rec.current = null
         setSec(null)
         const blob = new Blob(chunks, { type: r.mimeType || mime || 'audio/mp4' })
-        void blob.arrayBuffer().then((bytes) => done.current(bytes, blob.type, Math.round((Date.now() - began) / 1000)))
+        void blob.arrayBuffer().then((bytes) => done.current(bytes, blob.type, Math.round((performance.now() - began) / 1000)))
       }
       r.start()
       rec.current = r

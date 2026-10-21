@@ -51,6 +51,12 @@ describe('progress', () => {
     expect(r.longest).toBeNull()
   })
 
+  test('gains : historique tout entier dans la période, la première valeur sert de départ', () => {
+    const d = data({ guitarSessions: [g('2026-09-01', 30, [ex('legato-4', 80)]), g('2026-10-01', 30, [ex('legato-4', 92)])] })
+    expect(gains(d, [], today, 90).tempo).toMatchObject({ from: 80, to: 92 })
+    expect(gains(data({ guitarSessions: [g('2026-10-01', 30, [ex('legato-4', 92)])] }), [], today, 90).tempo).toBeNull()
+  })
+
   test('répartition guitare : durée partagée entre les exos et morceaux, séance sans détail à part', () => {
     const d = data({ guitarSessions: [g('2026-10-05', 30, [ex('legato-4', 90)]), g('2026-10-06', 20), g('2026-01-01', 99)] })
     const split = guitarSplit(d, '2026-10-01', today)
