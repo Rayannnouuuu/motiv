@@ -20,9 +20,20 @@ const metric = (day: string, weightKg: number | null, waistCm: number | null = n
 })
 
 describe('ProgressPage', () => {
-  test('les 6 onglets', () => {
+  test('les onglets', () => {
     renderWithData(<ProgressPage />, { today })
-    for (const name of ['Heures guitare', 'Tempo', 'Morceaux maîtrisés', 'Force', 'Poids', 'Mensurations'])
+    for (const name of [
+      'Heures guitare',
+      'Tempo',
+      'Morceaux maîtrisés',
+      'Répartition guitare',
+      'Force',
+      'Volume muscu',
+      'Km par semaine',
+      'Allure',
+      'Poids',
+      'Mensurations',
+    ])
       expect(screen.getByRole('tab', { name })).toBeInTheDocument()
     expect(screen.queryByRole('tab', { name: 'Charges' })).not.toBeInTheDocument()
   })
@@ -39,7 +50,6 @@ describe('ProgressPage', () => {
     await userEvent.click(screen.getByRole('button', { name: '1 an' }))
     expect(screen.getByTestId('delta')).toHaveTextContent('+12 h sur 1 an')
     expect(screen.getByText('La dernière année')).toBeInTheDocument()
-    expect(screen.getByText('10 h de guitare')).toBeInTheDocument()
   })
 
   test('Tempo : seulement les exos loggés, records datés', async () => {
@@ -52,9 +62,9 @@ describe('ProgressPage', () => {
     await tab('Tempo')
     const options = screen.getAllByRole('option').map((o) => o.textContent)
     expect(options).toEqual(['Legato 4'])
-    expect(screen.getByText('Records')).toBeInTheDocument()
     expect(screen.getAllByText('96 bpm').length).toBeGreaterThan(0)
-    expect(screen.getByText('90 bpm')).toBeInTheDocument()
+    expect(screen.getByText('Records récents')).toBeInTheDocument()
+    expect(screen.getByText('Legato 4 · 96 bpm')).toBeInTheDocument()
   })
 
   test('Force : exos avec séries, archivés compris', async () => {
@@ -98,9 +108,36 @@ describe('ProgressPage', () => {
     expect(screen.getByText('Force estimée (1RM)')).toBeInTheDocument()
     expect(screen.getByText('≈ 82,3 kg')).toBeInTheDocument()
     expect(screen.getByTestId('delta')).toHaveTextContent('+3,1 kg sur 90 j')
-    expect(screen.getByText('65 kg × 8 → ≈ 82,3 kg')).toBeInTheDocument()
-    expect(screen.getByText('62,5 kg × 8 → ≈ 79,2 kg')).toBeInTheDocument()
+    expect(screen.getByText('Développé couché · 65 kg × 8 (≈ 82,3 kg)')).toBeInTheDocument()
     expect(screen.getByText(/Estimation d'Epley/)).toBeInTheDocument()
+  })
+
+  test('Gagné sur la période : ce qui a bougé, sinon un message honnête', async () => {
+    renderWithData(<ProgressPage />, { today })
+    expect(screen.getByRole('heading', { name: 'Gagné en 90 j' })).toBeInTheDocument()
+    expect(screen.getByText(/Pas encore de progrès sur la période/)).toBeInTheDocument()
+  })
+
+  test('Gagné : tempo battu sur la période', () => {
+    const sessions = [g('2026-06-01', 30, [ex('legato-4', 80)]), g('2026-10-05', 30, [ex('legato-4', 96)])]
+    renderWithData(<ProgressPage />, { today, data: { guitarSessions: sessions } })
+    expect(screen.getByText('+16 bpm · Legato 4')).toBeInTheDocument()
+  })
+
+  test('Répartition guitare : temps par catégorie', async () => {
+    renderWithData(<ProgressPage />, { today, data: { guitarSessions: [g('2026-10-05', 40, [ex('legato-4', 90), ex('scales-1', null)])] } })
+    await tab('Répartition guitare')
+    expect(screen.getByRole('list', { name: 'Temps de guitare par catégorie' })).toBeInTheDocument()
+    expect(screen.getAllByText('20 min')).toHaveLength(2)
+  })
+
+  test('Mur des records : 10 puis « Tout voir »', async () => {
+    const sessions = Array.from({ length: 12 }, (_, i) => g(`2026-09-${String(i + 10)}`, 30, [ex('legato-4', 80 + i)]))
+    renderWithData(<ProgressPage />, { today, data: { guitarSessions: sessions } })
+    const wall = () => screen.getAllByText(/^Legato 4 · \d+ bpm$/)
+    expect(wall()).toHaveLength(10)
+    await userEvent.click(screen.getByRole('button', { name: 'Tout voir (11)' }))
+    expect(wall()).toHaveLength(11)
   })
 
   test('Poids : « Ajouter une mesure », Enregistrer désactivé si tout est vide', async () => {
