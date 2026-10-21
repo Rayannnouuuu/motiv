@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Prochain : lot 4 — Progrès et rythme.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme) sur l'essai, en attente de validation.
 
 ## Fait
 
@@ -92,6 +92,12 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - 20 oct. 2026 : lot 3b refusé (« la partie sport est trop petite »). 2e version : Aujourd'hui en deux cartes qui se déplient (Guitare, Sport) ; plan sport complet, ta muscu placée dans le plan marathon (`combined.ts`). 630 tests verts. Strava : plus tard, dans un lot à part.
 - 20 oct. 2026 : séance de sport au choix depuis la carte Sport (autre séance, course seule, course à la fin enchaînée après la muscu) ; nouvelle animation d'ouverture.
 - 20 oct. 2026 : lot 3b validé sous réserve d'un ajout, fait : jours d'indisponibilité dans Semaine (« Mes dispos », semaines suivantes), le plan se recalcule sans eux.
+- 21 oct. 2026 : **lot 4 — Progrès et rythme** (détails dans `docs/lots/LOT-4.md`).
+  - Objectifs de la semaine (5 guitare, 3 sport ou le plan) et série en semaines ; fin de la règle 30/60.
+  - XP de progression, niveaux qui ne baissent jamais, plus de défi bloquant.
+  - Cycles de 6 semaines avec un objectif phare par discipline et un bilan de fin de cycle ; bilan du dimanche en 3 questions.
+  - Écran Progrès : « Gagné en … », courbes force, volume, km, allure, répartition guitare, mur des records.
+  - Aucune migration (champs facultatifs du profil). Captures dans `docs/lots/lot4/`.
 
 ## Décidé (détails, option la plus simple)
 
