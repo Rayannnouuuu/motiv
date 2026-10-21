@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { challenge, data, ex, g, program, ss } from '../test/factories'
-import { acceptEasier, applyChallengeUpdates, nextProgram, planChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate } from './progression'
+import { acceptEasier, nextProgram, planChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate } from './progression'
 import type { Challenge, ChallengeTarget } from './types'
 
 const today = '2026-10-15'
@@ -9,45 +9,22 @@ const deps = { rng: () => 0, newId: () => `new-${++n}` }
 const creates = (u: ChallengeUpdate[]) => u.flatMap((x) => (x.type === 'create' ? [x.challenge] : []))
 
 describe('planChallengeUpdates', () => {
-  test('compte neuf : crée le défi niveau 1 pour guitare et sport', () => {
-    const c = creates(planChallengeUpdates(data(), today, deps))
-    expect(c.map((x) => x.domain).sort()).toEqual(['guitar', 'sport'])
-    expect(c.every((x) => x.level === 1 && x.status === 'active' && x.createdOn === today && x.rerolls === 0)).toBe(true)
+  test('compte neuf : aucun défi créé tout seul (les objectifs naissent avec les cycles)', () => {
+    expect(planChallengeUpdates(data(), today)).toEqual([])
   })
 
-  test('défi atteint → markDone ; puis niveau suivant → nouveau défi niveau 2', () => {
+  test('objectif atteint → réussi ce jour-là, rien d’autre', () => {
     const c1 = challenge({ id: 'c1', createdOn: '2026-10-01', target: { kind: 'bpm', exerciseId: 'legato-10', bpm: 110, baseline: 100 } })
-    const sport = challenge({ id: 'cs', domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })
-    const d = data({ challenges: [c1, sport], guitarSessions: [g(today, 60, [ex('legato-10', 110)], 1300)] })
-    const all = settleChallenges(d, today, deps)
-    expect(all).toContainEqual({ type: 'markDone', id: 'c1', doneOn: today })
-    const lvl2 = creates(all).find((x) => x.domain === 'guitar')!
-    expect(lvl2.level).toBe(2)
-    expect(lvl2.blockedSince).toBeNull()
+    const d = data({ challenges: [c1], guitarSessions: [g(today, 60, [ex('legato-10', 110)], 1300)] })
+    expect(settleChallenges(d, today)).toEqual([{ type: 'markDone', id: 'c1', doneOn: today }])
   })
 
-  test('bloqué sans blockedSince → setBlockedSince(today), une seule fois', () => {
-    const c1 = challenge({ id: 'c1', target: { kind: 'song', songId: 's1' } })
-    const sport = challenge({ id: 'cs', domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })
-    const d = data({ challenges: [c1, sport], guitarSessions: [g(today, 60, [], 1250)] })
-    expect(planChallengeUpdates(d, today, deps)).toEqual([{ type: 'setBlockedSince', id: 'c1', day: today }])
-    const after = { ...d, challenges: applyChallengeUpdates(d.challenges, [{ type: 'setBlockedSince', id: 'c1', day: today }]) }
-    expect(planChallengeUpdates(after, today, deps)).toEqual([])
-  })
-
-  test('un seul défi actif par domaine et niveau', () => {
-    const d = data({
-      challenges: [challenge({ target: { kind: 'song', songId: 's1' } }), challenge({ domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })],
-    })
-    expect(planChallengeUpdates(d, today, deps)).toEqual([])
-  })
-
-  test('défi réussi en avance sans assez d’XP : pas de nouveau défi', () => {
-    const d = data({
-      challenges: [challenge({ status: 'done', doneOn: today }), challenge({ domain: 'sport', target: { kind: 'sessionsInWeek', count: 3 } })],
-      guitarSessions: [g(today, 60)],
-    })
-    expect(planChallengeUpdates(d, today, deps)).toEqual([])
+  test('sortie longue : réussie avec une sortie assez longue depuis le début de l’objectif', () => {
+    const c = challenge({ id: 'run', domain: 'sport', createdOn: '2026-10-01', target: { kind: 'longRun', km: 16 } })
+    expect(planChallengeUpdates(data({ challenges: [c] }), today, [{ day: '2026-10-10', km: 15, pain: null }])).toEqual([])
+    expect(planChallengeUpdates(data({ challenges: [c] }), today, [{ day: '2026-10-10', km: 16.2, pain: null }])).toEqual([
+      { type: 'markDone', id: 'run', doneOn: today },
+    ])
   })
 })
 

@@ -81,6 +81,8 @@ export type ChallengeTarget =
   | { kind: 'weight'; programExerciseId: string; reps: number; weightKg: number; baseline: number }
   | { kind: 'reps'; programExerciseId: string; weightKg: number; reps: number; baseline: number }
   | { kind: 'sessionsInWeek'; count: number }
+  /** Objectif de cycle pendant un plan marathon : une sortie d'au moins `km` (lot 4). */
+  | { kind: 'longRun'; km: number }
 
 export interface Challenge {
   id: string

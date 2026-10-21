@@ -33,37 +33,25 @@ describe('MePage', () => {
     expect(screen.getByRole('button', { name: /Préparer une course/ })).toBeInTheDocument()
   })
 
-  test('niveau guitare bloqué : défi requis, réserve, relance', async () => {
-    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-10' })
-    const { actions } = renderMe({ data: { guitarSessions: [g('2026-10-14', 60, [], 1540)], challenges: [blocked, lvl1[1]] } })
-    expect(screen.getByText('Bloquant')).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 84 bpm/ }))
-    expect(screen.queryByRole('button', { name: 'Défi plus facile' })).not.toBeInTheDocument()
-    await userEvent.click(screen.getAllByRole('button', { name: /^Relancer/ })[0])
-    expect(actions.rerollChallenge).toHaveBeenCalledWith('cg')
-  })
-
-  test('bloqué depuis 14 jours : version plus facile proposée', async () => {
-    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 96, baseline: 80 }, blockedSince: '2026-10-01' })
-    const { actions } = renderMe({ data: { guitarSessions: [g('2026-10-14', 60, [], 1300)], challenges: [blocked] } })
+  test('objectif ouvert depuis 14 jours : version plus facile proposée', async () => {
+    const old = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 96, baseline: 80 }, blockedSince: '2026-10-01' })
+    const { actions } = renderMe({ data: { challenges: [old] } })
     await userEvent.click(screen.getByRole('button', { name: /Legato 4 à 96 bpm/ }))
-    await userEvent.click(screen.getByRole('button', { name: 'Défi plus facile' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Objectif plus facile' }))
     expect(actions.acceptEasier).toHaveBeenCalledWith('cg')
   })
 
   test('relances épuisées : bouton absent', () => {
     renderMe({ data: { challenges: [challenge({ rerolls: 2 })] } })
-    expect(screen.queryByRole('button', { name: /^Relancer/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Changer d'objectif/ })).not.toBeInTheDocument()
   })
 
   test('cercle de niveau : ouvre le détail, se ferme', async () => {
-    const blocked = challenge({ id: 'cg', target: { kind: 'bpm', exerciseId: 'legato-4', bpm: 84, baseline: 80 }, blockedSince: '2026-10-10' })
-    renderMe({ data: { guitarSessions: [g('2026-10-14', 60, [], 1540)], challenges: [blocked] } })
+    renderMe({ data: { guitarSessions: [g('2026-10-14', 60, [], 640)] } })
     await userEvent.click(screen.getByRole('button', { name: 'Niveau 1, voir la progression' }))
     const sheet = screen.getByRole('dialog', { name: 'Progression' })
-    expect(within(sheet).getByText('Défi requis pour passer au niveau 2')).toBeInTheDocument()
-    expect(within(sheet).getByText('+340 XP en réserve')).toBeInTheDocument()
-    expect(within(sheet).getByText('1200 / 1200 XP')).toBeInTheDocument()
+    expect(within(sheet).getByText('40 / 600 XP')).toBeInTheDocument()
+    expect(within(sheet).getByText(/L'XP récompense ta progression/)).toBeInTheDocument()
     await userEvent.click(within(sheet).getByRole('button', { name: 'Fermer' }))
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
   })

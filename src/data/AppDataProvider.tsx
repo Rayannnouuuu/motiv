@@ -5,11 +5,13 @@ import { todayParis } from '../domain/date'
 import { EMPTY_DATA_V1 } from '../domain/model'
 import { betterChrono } from '../domain/marathon/paces'
 import { isRunEntry, RUN_MOVEMENT_ID } from '../domain/marathon/runs'
+import { doneRuns } from '../domain/marathon/runs'
 import { RUNNER_TEMPLATE_ID, runnerMoves, runnerTemplateName } from '../domain/marathon/strength'
 import type * as V1 from '../domain/model'
 import { acceptEasier, applyChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate, type Deps } from '../domain/progression'
 import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from '../domain/types'
-import { guitarSessionXp, sportSessionXp } from '../domain/xp'
+import { WEEK_XP_FROM } from '../domain/levels'
+import { guitarSessionXp, runXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from './AppDataContext'
 import { loadAll, write, type DeviceMeta, type MotivDb } from './db'
 import { sportByMovement, toAppData } from './migrations/project'
@@ -113,7 +115,8 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const songs = data.songs.map((s) =>
           masteredByOriginal.has(s.id) && s.masteredOn === original?.day ? { ...s, status: 'learning' as const, masteredOn: null } : s,
         )
-        const xp = guitarSessionXp(d, history, [...songs, ...d.newSongs])
+        // Log d'avant le lot 4 corrigé : son XP reste celle d'origine (acquise).
+        const xp = original && original.day < WEEK_XP_FROM ? { total: original.xp, lines: [] } : guitarSessionXp(d, history, [...songs, ...d.newSongs])
         const session: GuitarSession = {
           id: d.id,
           day: d.day,
@@ -150,7 +153,10 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const names = new Map(v1.exercises.map((m) => [m.id, m.name] as const))
         const history = sportByMovement(v1).filter((s) => s.id !== d.id && isBefore(s, d.day, createdAt))
         const sets = d.sets.map((x) => ({ ...x, programExerciseId: r.exerciseOf(x.programExerciseId) }))
-        const xp = sportSessionXp({ sets }, history, (id) => names.get(id) ?? 'Exo inconnu')
+        const xp =
+          original && original.day < WEEK_XP_FROM
+            ? { total: original.xp, lines: [] }
+            : sportSessionXp({ sets }, history, (id) => names.get(id) ?? 'Exo inconnu')
         const session: SportSession = { ...d, xp: xp.total, createdAt }
         const row = keepLight(sportSessionToV1(session, r.exerciseOf), v1)
         await write(db, now(), async () => {
@@ -225,7 +231,8 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       async saveRun(d) {
         const { v1 } = state()
         const stored = v1.sessions.find((s) => s.id === d.id)
-        const xp = sportSessionXp({ sets: [] }, [])
+        const before = doneRuns(v1.sessions.filter((s) => s.id !== d.id && s.day <= d.day)).map((r) => r.km)
+        const xp = stored && stored.day < WEEK_XP_FROM ? { total: stored.xp, lines: [] } : runXp(d.km, before)
         const row: V1.Session = {
           id: d.id,
           discipline: 'sport',
@@ -310,11 +317,11 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
     return { actions, settle: writeChallenges }
   }, [db])
 
-  // Défis : à chaque nouvelle version des données, réussite / blocage / création. Jamais avant le premier import.
+  // Objectifs : à chaque nouvelle version des données, ceux qui sont atteints passent « réussis ». Jamais avant le premier import.
   const settling = useRef(false)
   useEffect(() => {
     if (!initialized || settling.current) return
-    const updates = settleChallenges(data, today, deps)
+    const updates = settleChallenges(data, today, v1 ? doneRuns(v1.sessions) : [])
     if (updates.length === 0) return
     settling.current = true
     settle(updates)
@@ -322,7 +329,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       .finally(() => {
         settling.current = false
       })
-  }, [data, initialized, today, settle])
+  }, [data, v1, initialized, today, settle])
 
   const value = useMemo(() => ({ data, v1: v1 ?? EMPTY_DATA_V1, today }), [data, v1, today])
 

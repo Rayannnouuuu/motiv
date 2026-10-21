@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAppData } from '../../data/AppDataContext'
 import { levelUps, snapshot } from '../../domain/levelUp'
-import { allLevels } from '../../domain/levels'
+import { useLevels } from './useLevels'
 import { LevelUpOverlay, type LevelUpInfo } from './LevelUpOverlay'
 import { loadSeen, saveSeen } from './seenLevels'
 
@@ -10,10 +9,9 @@ const DELAY_MS = 1200 // laisse voir l'écran « +N XP » et ses petits feux d'a
 
 /** Affiche l'animation de montée de niveau une fois par niveau gagné (hors écrans de saisie). */
 export function LevelUpWatcher() {
-  const { data } = useAppData()
   const { pathname } = useLocation()
   const [info, setInfo] = useState<LevelUpInfo | null>(null)
-  const now = snapshot(allLevels(data))
+  const now = snapshot(useLevels())
   const key = `${now.global}/${now.guitar}/${now.sport}`
 
   useEffect(() => {

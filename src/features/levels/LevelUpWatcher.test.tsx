@@ -18,7 +18,8 @@ test('premier passage : niveaux mémorisés, pas d’animation', async () => {
   renderWithData(<LevelUpWatcher />, { data: { guitarSessions: [g('2026-10-14', 60, [], 1200)], sportSessions: [ss([], '2026-10-14', 'p1', 600)] } })
   await advance(3000)
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  expect(loadSeen()).toEqual({ global: 2, guitar: 1, sport: 1 })
+  // XP acquise gardée, 600 XP par niveau : guitare 3, sport 2, global 1 800 / 1 200 → 2.
+  expect(loadSeen()).toEqual({ global: 2, guitar: 3, sport: 2 })
 })
 
 test('niveau gagné : grand cercle, nouveau niveau, Continuer mémorise', async () => {

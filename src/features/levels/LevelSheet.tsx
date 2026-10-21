@@ -1,7 +1,8 @@
-import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
-import { allLevels, GLOBAL_XP_PER_LEVEL, XP_PER_LEVEL, type DomainLevel } from '../../domain/levels'
+import { GLOBAL_XP_PER_LEVEL, XP_CYCLE_GOAL, XP_PER_LEVEL, XP_WEEK_GOAL, type DomainLevel } from '../../domain/levels'
+import { XP_DIFFICULTY_UP, XP_LONGEST_RUN, XP_SONG_MASTERED, XP_SPORT_RECORD, XP_TEMPO_RECORD } from '../../domain/xp'
+import { useLevels } from './useLevels'
 import type { Domain } from '../../domain/types'
 import { ProgressRing } from '../../ui/ProgressRing'
 import { Sheet } from '../../ui/Sheet'
@@ -20,8 +21,6 @@ function DomainRow({ domain, label, lvl }: { domain: Domain; label: string; lvl:
         <p className="t-subhead text-muted tabular-nums">
           {lvl.xpInLevel} / {lvl.perLevel} XP
         </p>
-        {lvl.blocked && <p className={`t-subhead font-semibold ${TONE.text[domain]}`}>Défi requis pour passer au niveau {lvl.level + 1}</p>}
-        {lvl.reserve > 0 && <p className="t-footnote text-muted">+{lvl.reserve} XP en réserve</p>}
       </div>
     </div>
   )
@@ -29,8 +28,7 @@ function DomainRow({ domain, label, lvl }: { domain: Domain; label: string; lvl:
 
 /** Détail des niveaux, en feuille qu'on peut glisser vers le bas pour la fermer. */
 export function LevelSheet({ onClose }: { onClose: () => void }) {
-  const { data } = useAppData()
-  const levels = allLevels(data)
+  const levels = useLevels()
 
   return (
     <Sheet
@@ -66,8 +64,10 @@ export function LevelSheet({ onClose }: { onClose: () => void }) {
           </div>
 
           <p className="t-footnote px-4 text-muted">
-            Guitare : {XP_PER_LEVEL.guitar} XP par niveau · Sport : {XP_PER_LEVEL.sport} · Global : {GLOBAL_XP_PER_LEVEL} (XP des deux réunies, hors réserve).
-            Chaque niveau guitare ou sport demande de réussir un défi.
+            L'XP récompense ta progression, pas le temps passé : record de tempo +{XP_TEMPO_RECORD}, difficulté en hausse +{XP_DIFFICULTY_UP}, morceau maîtrisé
+            +{XP_SONG_MASTERED}, record de muscu +{XP_SPORT_RECORD}, plus longue sortie +{XP_LONGEST_RUN}, objectif de la semaine tenu +{XP_WEEK_GOAL} par
+            discipline, objectif de cycle atteint +{XP_CYCLE_GOAL}. L'XP déjà gagnée reste acquise. Guitare et sport : {XP_PER_LEVEL.guitar} XP par niveau ;
+            global : {GLOBAL_XP_PER_LEVEL} (les deux réunies).
           </p>
         </div>
       )}

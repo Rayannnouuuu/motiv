@@ -125,8 +125,9 @@ export type ChallengeTarget =
   | { kind: 'weight'; exerciseId: string; templateEntryId: string; reps: number; weightKg: number; baseline: number }
   | { kind: 'reps'; exerciseId: string; templateEntryId: string; weightKg: number; reps: number; baseline: number }
   | { kind: 'sessionsInWeek'; count: number }
+  | { kind: 'longRun'; km: number }
 
-/** Défis bloquants : gardés tels quels jusqu'au lot 4 (remplacés par les objectifs de cycle). */
+/** Objectifs : défis des niveaux jusqu'au lot 3, objectifs phares des cycles de 6 semaines depuis le lot 4 (`level` = numéro du cycle). */
 export interface Challenge {
   id: string
   domain: Discipline

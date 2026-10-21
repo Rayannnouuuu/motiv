@@ -1,5 +1,5 @@
 import { canOfferEasier, canReroll, easierTarget, generateGuitarTarget, generateSportTarget, isChallengeMet, sameTarget } from './challenges'
-import { domainLevel, totalXp } from './levels'
+import type { DoneRun } from './marathon/plan'
 import { RUNNER_TEMPLATE_ID } from './marathon/strength'
 import type { AppData, Challenge, ChallengeTarget, Day, Domain, Program, SportSession } from './types'
 
@@ -13,11 +13,6 @@ export interface Deps {
   rng: () => number
   newId: () => string
 }
-
-const DOMAINS: Domain[] = ['guitar', 'sport']
-const MAX_SETTLE_ROUNDS = 5
-
-const sessionsOf = (data: AppData, domain: Domain) => (domain === 'guitar' ? data.guitarSessions : data.sportSessions)
 
 const generate = (domain: Domain, data: AppData, today: Day, rng: () => number, exclude: ChallengeTarget[]) =>
   domain === 'guitar' ? generateGuitarTarget(data, today, rng, exclude) : generateSportTarget(data, today, rng, exclude)
@@ -37,52 +32,16 @@ export function applyChallengeUpdates(challenges: Challenge[], updates: Challeng
   return out
 }
 
-export function planChallengeUpdates(data: AppData, today: Day, deps: Deps): ChallengeUpdate[] {
-  const updates: ChallengeUpdate[] = data.challenges
-    .filter((c) => c.status === 'active' && isChallengeMet(c, data))
-    .map((c) => ({ type: 'markDone', id: c.id, doneOn: today }))
-  const challenges = applyChallengeUpdates(data.challenges, updates)
-
-  for (const domain of DOMAINS) {
-    const lvl = domainLevel(domain, totalXp(sessionsOf(data, domain)), challenges)
-    const atLevel = challenges.filter((c) => c.domain === domain && c.level === lvl.level && c.status !== 'replaced')
-    if (atLevel.length === 0) {
-      // Pas deux fois le même défi : les cibles déjà réussies dans ce domaine sont exclues.
-      const done = challenges.filter((c) => c.domain === domain && c.status === 'done').map((c) => c.target)
-      updates.push({
-        type: 'create',
-        challenge: {
-          id: deps.newId(),
-          domain,
-          level: lvl.level,
-          target: generate(domain, data, today, deps.rng, done),
-          easier: false,
-          status: 'active',
-          createdOn: today,
-          blockedSince: lvl.blocked ? today : null,
-          doneOn: null,
-          rerolls: 0,
-        },
-      })
-      continue
-    }
-    const active = atLevel.find((c) => c.status === 'active')
-    if (lvl.blocked && active && active.blockedSince === null) updates.push({ type: 'setBlockedSince', id: active.id, day: today })
-  }
-  return updates
+/**
+ * Objectifs atteints (lot 4) : un objectif actif rempli passe « réussi » ce jour-là. Plus de défi par niveau ni de
+ * blocage : les objectifs naissent avec les cycles de 6 semaines.
+ */
+export function planChallengeUpdates(data: AppData, today: Day, runs: DoneRun[] = []): ChallengeUpdate[] {
+  return data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data, runs)).map((c) => ({ type: 'markDone', id: c.id, doneOn: today }))
 }
 
-/** Applique plan/apply jusqu'à stabilité (un défi réussi peut débloquer un niveau, qui crée un défi). */
-export function settleChallenges(data: AppData, today: Day, deps: Deps): ChallengeUpdate[] {
-  const all: ChallengeUpdate[] = []
-  let current = data
-  for (let round = 0; round < MAX_SETTLE_ROUNDS; round++) {
-    const updates = planChallengeUpdates(current, today, deps)
-    if (updates.length === 0) break
-    all.push(...updates)
-    current = { ...current, challenges: applyChallengeUpdates(current.challenges, updates) }
-  }
-  return all
+export function settleChallenges(data: AppData, today: Day, runs: DoneRun[] = []): ChallengeUpdate[] {
+  return planChallengeUpdates(data, today, runs)
 }
 
 /** Le nouveau défi part d'aujourd'hui : les logs d'avant ne le valident pas d'office. */

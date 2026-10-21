@@ -5,7 +5,8 @@ import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { describeTarget, isChallengeMet } from '../../domain/challenges'
 import { guitarMoment, sportMoment, WEEK_MILESTONES, type GoalMoment } from '../../domain/goalMoment'
-import { allLevels } from '../../domain/levels'
+import { XP_WEEK_GOAL } from '../../domain/levels'
+import { useLevels } from '../levels/useLevels'
 import { useRhythm } from '../week/useRhythm'
 import type { Domain } from '../../domain/types'
 import type { XpResult } from '../../domain/xp'
@@ -113,6 +114,7 @@ export function XpResultPage() {
   } | null
   const { data, today } = useAppData()
   const rhythm = useRhythm()
+  const levels = useLevels()
   // Figé à l'arrivée : juste après le log, le défi est encore « actif » mais déjà atteint.
   const [met] = useState(() => data.challenges.filter((c) => c.status === 'active' && isChallengeMet(c, data)))
   // Figé aussi : la série ou la semaine que ce log vient de faire avancer. Une correction ne refête rien.
@@ -127,8 +129,13 @@ export function XpResultPage() {
   )
   if (!state?.result) return <Navigate to="/" replace />
 
-  const { result, domain } = state
-  const lvl = allLevels(data)[domain]
+  const { domain } = state
+  // Objectif de la semaine tenu par ce log : son bonus (calculé, pas stocké sur la séance) s'affiche avec le reste.
+  const result: XpResult =
+    moment?.kind === 'weekDone'
+      ? { total: state.result.total + XP_WEEK_GOAL, lines: [...state.result.lines, { label: 'Objectif de la semaine tenu', xp: XP_WEEK_GOAL }] }
+      : state.result
+  const lvl = levels[domain]
   const fireworks = fireworksFor(moment, met.length > 0, WEEK_MILESTONES.includes(rhythm.streak.weeks))
 
   return (
@@ -182,7 +189,6 @@ export function XpResultPage() {
           label={`${LABEL[domain]} : ${lvl.xpInLevel} / ${lvl.perLevel} XP`}
           className="mt-2.5 h-2.5"
         />
-        {lvl.blocked && <p className={`t-subhead mt-2 font-semibold ${TONE.text[domain]}`}>Défi requis pour passer au niveau suivant</p>}
       </div>
       {state.thenRun ? (
         <>

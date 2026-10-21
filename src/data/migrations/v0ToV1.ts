@@ -5,7 +5,6 @@
  */
 import { catalogSong } from '../../content/songCatalog'
 import { movementKey, SPORT_MOVEMENTS } from '../../content/sportLibrary'
-import { allLevels } from '../../domain/levels'
 import type * as V1 from '../../domain/model'
 import type { AppData, BodyMetric, Challenge, GuitarItem, GuitarSession, Program, Song, SportSession } from '../../domain/types'
 
@@ -250,7 +249,7 @@ export function migrateV0toV1(backup: BackupV0, warnings: string[] = []): { data
   const songs = v0.songs.map((s) => songToV1(s, playedSongs.has(s.id))).sort(byId)
   const templates = v0.programs.map((p) => programToTemplate(p, exerciseOf)).sort(byId)
   const challenges = v0.challenges.map((c) => challengeToV1(c, exerciseOf)).sort(byId)
-  const levels = allLevels(v0)
+  const levels = legacyLevels(v0)
 
   const data: V1.DataV1 = {
     exercises: movements.sort(byId),
@@ -295,4 +294,27 @@ export function migrateV0toV1(backup: BackupV0, warnings: string[] = []): { data
       warnings,
     },
   }
+}
+
+/**
+ * Niveaux tels que calculés au format 0 (XP stockée, défis bloquants), recopiés ici : une migration publiée ne
+ * change jamais de résultat, même quand le calcul des niveaux de l'appli évolue (lot 4).
+ */
+function legacyLevels(v0: AppData) {
+  const per = { guitar: 1200, sport: 600 } as const
+  const level = (domain: 'guitar' | 'sport', total: number) => {
+    const done = new Set(v0.challenges.filter((c) => c.domain === domain && c.status === 'done').map((c) => c.level))
+    let l = 1
+    while (total >= l * per[domain] && done.has(l)) l++
+    return { level: l, unlocked: total - Math.max(0, total - l * per[domain]) }
+  }
+  const guitar = level(
+    'guitar',
+    v0.guitarSessions.reduce((t, s) => t + s.xp, 0),
+  )
+  const sport = level(
+    'sport',
+    v0.sportSessions.reduce((t, s) => t + s.xp, 0),
+  )
+  return { guitar, sport, global: { level: 1 + Math.floor((guitar.unlocked + sport.unlocked) / 1800) } }
 }

@@ -1,6 +1,7 @@
 import { EXERCISES, getExercise } from '../content/exercises'
 import { addDays, daysBetween, weekStart } from './date'
 import { bestBpm, maxDifficultyByCategory, setsForExercise } from './records'
+import type { DoneRun } from './marathon/plan'
 import type { ExerciseCategory } from '../content/exercises'
 import type { AppData, Challenge, ChallengeTarget, Day } from './types'
 
@@ -111,7 +112,8 @@ export function generateSportTarget(data: AppData, today: Day, rng: () => number
   return pick([candidates], exclude, rng, FALLBACK_SPORT)
 }
 
-export function isChallengeMet(ch: Challenge, data: AppData): boolean {
+/** `runs` : les sorties de course faites (objectif « sortie longue » d'un cycle pendant le plan marathon). */
+export function isChallengeMet(ch: Challenge, data: AppData, runs: DoneRun[] = []): boolean {
   const t = ch.target
   switch (t.kind) {
     case 'bpm':
@@ -130,6 +132,8 @@ export function isChallengeMet(ch: Challenge, data: AppData): boolean {
       for (const s of data.sportSessions) if (s.day >= ch.createdOn) perWeek.set(weekStart(s.day), (perWeek.get(weekStart(s.day)) ?? 0) + 1)
       return [...perWeek.values()].some((n) => n >= t.count)
     }
+    case 'longRun':
+      return runs.some((r) => r.day >= ch.createdOn && r.km >= t.km)
   }
 }
 
@@ -145,6 +149,8 @@ export function easierTarget(t: ChallengeTarget): ChallengeTarget | null {
       return { ...t, weightKg: t.baseline + Math.max(1.25, Math.round((t.weightKg - t.baseline) / 2 / 1.25) * 1.25) }
     case 'reps':
       return { ...t, reps: t.baseline + Math.max(1, Math.ceil((t.reps - t.baseline) / 2)) }
+    case 'longRun':
+      return t.km > 6 ? { ...t, km: t.km - 2 } : null
     default:
       return null
   }
@@ -180,5 +186,7 @@ export function describeTarget(t: ChallengeTarget, data: AppData): string {
       return `${exoName(t.programExerciseId)} : ${t.reps} reps ${t.weightKg === 0 ? 'au poids du corps' : `à ${formatKg(t.weightKg)} kg`}`
     case 'sessionsInWeek':
       return `${t.count} séances de sport dans la même semaine`
+    case 'longRun':
+      return `Sortie longue de ${formatKg(t.km)} km`
   }
 }

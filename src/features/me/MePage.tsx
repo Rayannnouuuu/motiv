@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
-import { allLevels } from '../../domain/levels'
 import { RACE_LABELS } from '../../domain/marathon/profile'
 import { Hero } from '../../ui/Hero'
 import { Group, Row, SectionHeader } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { TileRow } from '../../ui/Tile'
 import { LevelSheet } from '../levels/LevelSheet'
+import { useLevels } from '../levels/useLevels'
 import { dayLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { ChallengeCard } from '../today/ChallengeCard'
@@ -22,14 +22,8 @@ export function MePage() {
   const navigate = useNavigate()
   const mk = useMarathon()
   const [showLevels, setShowLevels] = useState(false)
-  const levels = allLevels(data)
-  const active = (['guitar', 'sport'] as const)
-    .flatMap((d) => {
-      const c = data.challenges.find((x) => x.domain === d && x.status === 'active' && x.level === levels[d].level)
-      return c ? [{ c, d }] : []
-    })
-    // Défis bloquants en premier.
-    .sort((a, b) => Number(levels[b.d].blocked) - Number(levels[a.d].blocked))
+  const levels = useLevels()
+  const active = data.challenges.filter((x) => x.status === 'active')
 
   return (
     <Screen
@@ -50,8 +44,8 @@ export function MePage() {
         {active.length > 0 && (
           <Hero tone="accent" icon="target" overline="En cours" titleId="challenges-title" title="Défis en cours">
             <div className="rows -mx-1 overflow-hidden rounded-lg bg-inset">
-              {active.map(({ c, d }) => (
-                <ChallengeCard key={c.id} challenge={c} level={levels[d]} />
+              {active.map((c) => (
+                <ChallengeCard key={c.id} challenge={c} />
               ))}
             </div>
           </Hero>

@@ -12,17 +12,17 @@ export interface XpResult {
   lines: XpLine[]
 }
 
-export const XP_TEMPO_RECORD = 10
+/** Lot 4 : l'XP récompense la progression, pas le temps passé ni la séance faite. */
+export const XP_TEMPO_RECORD = 20
 export const XP_DIFFICULTY_UP = 50
 export const XP_SONG_MASTERED = 100
-export const XP_SPORT_SESSION = 60
-export const XP_SPORT_RECORD = 15
+export const XP_SPORT_RECORD = 20
+export const XP_LONGEST_RUN = 20
 
 const result = (lines: XpLine[]): XpResult => ({ total: lines.reduce((t, l) => t + l.xp, 0), lines })
 
-export function guitarSessionXp(draft: Pick<GuitarSession, 'durationMin' | 'items'>, history: GuitarSession[], songs: Song[]): XpResult {
+export function guitarSessionXp(draft: Pick<GuitarSession, 'items'>, history: GuitarSession[], songs: Song[]): XpResult {
   const lines: XpLine[] = []
-  if (draft.durationMin > 0) lines.push({ label: `${draft.durationMin} min jouées`, xp: draft.durationMin })
 
   // Exos connus du brouillon, dédoublonnés en gardant le plus grand tempo.
   const exercises = new Map<string, { ex: Exercise; maxBpm: number | null }>()
@@ -63,7 +63,7 @@ export function sportSessionXp(
   history: SportSession[],
   exerciseName: (programExerciseId: string) => string = () => 'exo',
 ): XpResult {
-  const lines: XpLine[] = [{ label: 'Séance terminée', xp: XP_SPORT_SESSION }]
+  const lines: XpLine[] = []
   const exerciseIds = [...new Set(draft.sets.map((s) => s.programExerciseId))]
   for (const id of exerciseIds) {
     const previous = setsForExercise(history, id)
@@ -71,4 +71,11 @@ export function sportSessionXp(
       lines.push({ label: `Record · ${exerciseName(id)}`, xp: XP_SPORT_RECORD })
   }
   return result(lines)
+}
+
+/** Sortie de course : plus longue sortie jamais faite. */
+export function runXp(km: number, previousKm: number[]): XpResult {
+  return result(
+    previousKm.length > 0 && km > Math.max(...previousKm) ? [{ label: `Plus longue sortie · ${String(km).replace('.', ',')} km`, xp: XP_LONGEST_RUN }] : [],
+  )
 }

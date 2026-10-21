@@ -76,9 +76,10 @@ test('log guitare : séance écrite avec son XP, morceau joué « en cours », m
     flowRating: 4,
     desireRating: 5,
   })
-  expect(xp.total).toBe(40 + 10 + 100)
+  // Lot 4 : plus d'XP pour les minutes ; record de tempo +20, morceau maîtrisé +100.
+  expect(xp.total).toBe(20 + 100)
   const row = await db.sessions.get('new-g')
-  expect(row).toMatchObject({ discipline: 'guitar', xp: 150, flowScore: 4, desireScore: 5 })
+  expect(row).toMatchObject({ discipline: 'guitar', xp: 120, flowScore: 4, desireScore: 5 })
   expect(row!.blocks.map((b) => b.type)).toEqual(['technique', 'repertoire'])
   expect(await db.songs.get('song-00')).toMatchObject({ status: 'learning' })
   expect(await db.songs.get('song-01')).toMatchObject({ status: 'mastered', masteredOn: '2026-10-20' })
@@ -159,7 +160,7 @@ test('records sport comptés par mouvement : un nouveau programme garde l’hist
     sets: [{ programExerciseId: 'x-squat', setIndex: 1, reps: 8, weightKg: 205 }],
   })
   // Sans suivi par mouvement, ce serait une « première fois » : pas de record.
-  expect(second.lines.map((l) => l.label)).toEqual(['Séance terminée', 'Record · Squat'])
+  expect(second.lines.map((l) => l.label)).toEqual(['Record · Squat'])
 })
 
 test('programme : nom inconnu → mouvement à moi ; exo renommé → il suit son nouveau nom', async () => {
@@ -189,13 +190,13 @@ test('supprimer un log', async () => {
   expect(await db.sessions.get('g-1')).toBeUndefined()
 })
 
-test('défis : créés une fois les données prêtes, pas avant', async () => {
+test('objectifs : plus aucun défi créé tout seul (lot 4)', async () => {
   const db = testDb()
   mount(db)
   await screen.findByText('bienvenue')
-  expect(await db.challenges.count()).toBe(0)
   await startEmpty(db, '2026-10-20T08:00:00.000Z')
-  await waitFor(async () => expect((await db.challenges.toArray()).map((c) => c.domain).sort()).toEqual(['guitar', 'sport']))
+  await screen.findByText('appli')
+  expect(await db.challenges.count()).toBe(0)
 })
 
 test('lecture impossible : message, rien d’effacé, pas d’écran d’accueil', async () => {

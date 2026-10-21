@@ -5,18 +5,17 @@ import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { challengeProgress, challengeRoute } from '../../domain/challengeProgress'
 import { canOfferEasier, canReroll, describeTarget } from '../../domain/challenges'
-import { daysBetween } from '../../domain/date'
-import type { DomainLevel } from '../../domain/levels'
+import { doneRuns } from '../../domain/marathon/runs'
 import type { Challenge } from '../../domain/types'
 import { Gauge } from '../../ui/Gauge'
 
-const DOMAIN_LABEL = { guitar: 'Défi guitare', sport: 'Défi sport' }
+const DOMAIN_LABEL = { guitar: 'Objectif guitare', sport: 'Objectif sport' }
 const MAX_REROLLS = 2
 
 const num = (v: number) => v.toLocaleString('fr-FR', { maximumFractionDigits: 2 })
 
-export function ChallengeCard({ challenge, level }: { challenge: Challenge; level: DomainLevel }) {
-  const { data, today } = useAppData()
+export function ChallengeCard({ challenge }: { challenge: Challenge }) {
+  const { data, v1, today } = useAppData()
   const actions = useActions()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -34,11 +33,8 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
     }
   }
 
-  const blocked = level.blocked
-  const blockedDays = challenge.blockedSince ? daysBetween(challenge.blockedSince, today) : 0
-  const p = challengeProgress(challenge, data, today)
+  const p = challengeProgress(challenge, data, today, doneRuns(v1.sessions))
   const progressText = p.unit === 'morceau' ? (p.current >= 1 ? 'Maîtrisé' : 'Pas encore maîtrisé') : `${num(p.current)} / ${num(p.target)} ${p.unit}`
-  const xpLeft = level.perLevel - level.xpInLevel
   const d = challenge.domain
 
   return (
@@ -50,10 +46,9 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
         <span className="flex min-w-0 flex-1 flex-col gap-1.5">
           <span className="flex items-center gap-2">
             <span className="t-headline line-clamp-2 min-w-0 flex-1">{describeTarget(challenge.target, data)}</span>
-            {blocked && <span className={`t-caption shrink-0 rounded-full px-2 py-0.5 font-semibold ${TONE.solid[d]}`}>Bloquant</span>}
           </span>
           <span className="flex items-center gap-2.5">
-            <Gauge value={p.current} max={p.target} color={d} label={`Progression du défi : ${progressText}`} className="h-1.5" />
+            <Gauge value={p.current} max={p.target} color={d} label={`Progression de l'objectif : ${progressText}`} className="h-1.5" />
             <span className="t-caption shrink-0 font-semibold text-muted tabular-nums">{progressText}</span>
           </span>
         </span>
@@ -62,25 +57,10 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
 
       {open && (
         <div className="animate-rise t-subhead flex flex-col gap-3 px-4 pb-4 pl-15">
-          <p className="text-muted">
-            Défi du niveau {challenge.level} → {challenge.level + 1}
-            {challenge.easier && ' · version facile'} · seuls les logs faits depuis le début du défi comptent.
-          </p>
-          {blocked ? (
-            <div className={`rounded-md px-3 py-2.5 ${TONE.tint[d]}`}>
-              <p className="font-semibold">Défi requis : ta jauge est pleine, réussis-le pour passer au niveau {challenge.level + 1}.</p>
-              {/* Texte normal, pas atténué : le gris sur la teinte n'atteint pas 4,5:1 en clair. */}
-              <p className="text-ink">
-                {level.reserve > 0 ? `+${level.reserve} XP en réserve, versés dès la réussite` : "L'XP gagnée part en réserve en attendant"}
-                {blockedDays > 0 && ` · bloqué depuis ${blockedDays} j`}
-              </p>
-            </div>
-          ) : (
-            <p className="text-muted">Réussis-le avant les {xpLeft} XP restants du niveau pour passer sans attendre.</p>
-          )}
+          <p className="text-muted">{challenge.easier ? 'Version plus facile · ' : ''}Seules les séances faites depuis le début de l'objectif comptent.</p>
           <Link
             to={challengeRoute(challenge)}
-            className={`tap-scale t-headline flex min-h-11 items-center justify-center rounded-md px-4 py-2.5 ${blocked ? TONE.solid[d] : TONE.tint[d]}`}
+            className={`tap-scale t-headline flex min-h-11 items-center justify-center rounded-md px-4 py-2.5 ${TONE.tint[d]}`}
           >
             S'entraîner →
           </Link>
@@ -92,7 +72,7 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
                 className={`hit tap py-1 disabled:opacity-35 ${TONE.text[d]}`}
                 onClick={() => run(() => actions.rerollChallenge(challenge.id))}
               >
-                Relancer ({MAX_REROLLS - challenge.rerolls} restante{MAX_REROLLS - challenge.rerolls > 1 ? 's' : ''})
+                Changer d'objectif ({MAX_REROLLS - challenge.rerolls} restant{MAX_REROLLS - challenge.rerolls > 1 ? 's' : ''})
               </button>
             )}
             {canOfferEasier(challenge, today) && (
@@ -102,7 +82,7 @@ export function ChallengeCard({ challenge, level }: { challenge: Challenge; leve
                 className={`hit tap py-1 font-semibold disabled:opacity-35 ${TONE.text[d]}`}
                 onClick={() => run(() => actions.acceptEasier(challenge.id))}
               >
-                Défi plus facile
+                Objectif plus facile
               </button>
             )}
           </div>

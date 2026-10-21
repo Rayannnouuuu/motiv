@@ -1,9 +1,6 @@
-import { describeTarget } from './challenges'
-import { challengeProgress } from './challengeProgress'
 import { dailyPlan } from './dailyPlan'
 import { guitarWeek } from './guitarWeek'
 import { addDays, daysBetween, todayParis, weekStart } from './date'
-import { allLevels } from './levels'
 import { upcomingPrograms } from './progression'
 import { sportWeek } from './sportWeek'
 import { GUITAR_SESSION_MIN, SPORT_WEEKLY_SESSIONS, guitarToday } from './streak'
@@ -28,8 +25,6 @@ export const WINDOWS: Record<NotificationKind, [number, number]> = {
   week: [19 * 60, 21 * 60],
 }
 const SLOT_STEP = 5 // minutes
-/** Rappel de défi bloquant : un jour sur trois. */
-const CHALLENGE_EVERY_DAYS = 3
 
 function hash(s: string): number {
   let h = 2166136261
@@ -83,18 +78,9 @@ export function buildMessage(kind: NotificationKind, data: AppData, today: Day):
       if (!next || week.remaining === 0 || sportToday || week.remaining < daysLeft) return null
       return msg(kind, `💪 Plus que ${plural(week.remaining, 'séance', 'séances')} cette semaine`, `Prochaine : ${next.name}`, '/motiv/log/sport')
     }
-    case 'challenge': {
-      const levels = allLevels(data)
-      for (const domain of ['guitar', 'sport'] as const) {
-        if (!levels[domain].blocked) continue
-        const ch = data.challenges.find((c) => c.domain === domain && c.status === 'active' && c.level === levels[domain].level)
-        if (!ch?.blockedSince || daysBetween(ch.blockedSince, today) % CHALLENGE_EVERY_DAYS !== 0) continue
-        const p = challengeProgress(ch, data, today)
-        const progress = p.unit === 'morceau' ? '' : ` · ${p.current}/${p.target} ${p.unit}`
-        return msg(kind, `🎯 Défi requis pour le niveau ${ch.level + 1}`, `${describeTarget(ch.target, data)}${progress}`, '/motiv/')
-      }
+    case 'challenge':
+      // Plus de défi bloquant depuis le lot 4 : les objectifs de cycle n'envoient pas de rappel.
       return null
-    }
     case 'week': {
       if (daysBetween(weekStart(today), today) !== 6) return null
       const days = guitarWeek(data.guitarSessions, today).days

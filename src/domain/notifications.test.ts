@@ -69,20 +69,14 @@ describe('messages', () => {
     expect(buildMessage('sport', d, sat)).toMatchObject({ title: '💪 Plus que 2 séances cette semaine', body: 'Prochaine : Push' })
   })
 
-  test('défi bloquant : un jour sur trois depuis le blocage', () => {
+  test('plus de rappel de défi bloquant (lot 4)', () => {
     const ch = challenge({
       id: 'c',
       createdOn: '2026-10-01',
       blockedSince: '2026-10-12',
       target: { kind: 'bpm', exerciseId: 'legato-6', bpm: 96, baseline: null },
     })
-    const d = data({ guitarSessions: [g('2026-10-11', 60, [], 1300)], challenges: [ch] })
-    expect(buildMessage('challenge', d, '2026-10-15')).toMatchObject({
-      title: '🎯 Défi requis pour le niveau 2',
-      body: 'Legato sur une corde 6 à 96 bpm · 0/96 bpm',
-    })
-    expect(buildMessage('challenge', d, '2026-10-14')).toBeNull()
-    expect(buildMessage('challenge', data({ challenges: [ch] }), '2026-10-15')).toBeNull() // pas bloqué
+    expect(buildMessage('challenge', data({ challenges: [ch] }), '2026-10-15')).toBeNull()
   })
 })
 
