@@ -2,7 +2,7 @@
 
 _21 oct. 2026. Point de départ : REFONTE §6. Critère : « je vois et j'entends mon progrès sur un mois, en un seul écran »._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push tout », 21 oct.).**
 
 ## Ce qui change
 
