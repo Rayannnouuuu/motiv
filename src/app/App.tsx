@@ -11,6 +11,7 @@ const LogSportPage = page(() => import('../features/log-sport/LogSportPage'), 'L
 const ProgressPage = page(() => import('../features/progress/ProgressPage'), 'ProgressPage')
 const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'SettingsPage')
 const MePage = page(() => import('../features/me/MePage'), 'MePage')
+const HistoryPage = page(() => import('../features/history/HistoryPage'), 'HistoryPage')
 const LibraryPage = page(() => import('../features/library/LibraryPage'), 'LibraryPage')
 const EditLogPage = page(() => import('../features/edit-log/EditLogPage'), 'EditLogPage')
 const ExercisePage = page(() => import('../features/exercise/ExercisePage'), 'ExercisePage')
@@ -193,6 +194,14 @@ export function AppRoutes() {
           element={
             <Shell>
               <MePage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/seances"
+          element={
+            <Shell>
+              <HistoryPage />
             </Shell>
           }
         />

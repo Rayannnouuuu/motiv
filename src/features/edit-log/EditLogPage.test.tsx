@@ -123,7 +123,7 @@ describe('EditLogPage', () => {
     const old = { ...g('2026-10-10', 40, [ex('legato-4', 300)]), createdAt: '2026-10-10T20:00:00Z' }
     const last = { ...g(today, 30), createdAt: '2026-10-15T20:00:00Z' }
     const { actions } = renderEdit({ route: `/log/corriger/${old.id}`, data: { guitarSessions: [old, last] } })
-    expect(screen.getByRole('heading', { name: 'Corriger ce log' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Ta séance' })).toBeInTheDocument()
     const tempo = screen.getByLabelText('Tempo max · Legato 4')
     await userEvent.clear(tempo)
     await userEvent.type(tempo, '100')

@@ -437,7 +437,7 @@ function EditLog({ id }: { id: string | undefined }) {
   return (
     <div className="flex flex-col gap-5 pb-4">
       <ModalBar tone={target.kind} onCancel={() => navigate(-1)} cancelAria="Fermer" />
-      <h1 className="t-title1 -mt-2">{id ? 'Corriger ce log' : 'Corriger le dernier log'}</h1>
+      <h1 className="t-title1 -mt-2">{id ? 'Ta séance' : 'Corriger le dernier log'}</h1>
       <p className="t-subhead -mt-3 text-muted">
         <Icon name={target.kind} className={`mr-1 ${TONE.text[target.kind]}`} />
         {what} · {longDate(target.session.day)} · {target.session.xp} XP

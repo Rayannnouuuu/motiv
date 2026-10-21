@@ -98,6 +98,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Cycles de 6 semaines avec un objectif phare par discipline et un bilan de fin de cycle ; bilan du dimanche en 3 questions.
   - Écran Progrès : « Gagné en … », courbes force, volume, km, allure, répartition guitare, mur des records.
   - Aucune migration (champs facultatifs du profil). Captures dans `docs/lots/lot4/`.
+- 21 oct. 2026 : lot 4 validé avec un ajout, fait : « Mes séances » (Moi › Outils), l'historique de toutes les séances, chacune s'ouvre et se corrige.
 
 ## Décidé (détails, option la plus simple)
 

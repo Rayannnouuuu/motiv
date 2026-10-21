@@ -78,6 +78,7 @@ export function MePage() {
         </section>
 
         <Group header="Outils" labelledBy="tools-title">
+          <Row icon={<Icon name="week" className="text-muted" />} title="Mes séances" subtitle="Tout ce que tu as fait, à revoir ou corriger" to="/seances" />
           <Row
             icon={<Icon name="library" className="text-muted" />}
             title="Bibliothèque"
