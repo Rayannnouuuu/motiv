@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'react'
 import { movementKey } from '../content/sportLibrary'
-import { todayParis } from '../domain/date'
+import { todayParis, weekStart } from '../domain/date'
 import { EMPTY_DATA_V1 } from '../domain/model'
 import { betterChrono } from '../domain/marathon/paces'
 import { isRunEntry, RUN_MOVEMENT_ID } from '../domain/marathon/runs'
@@ -10,6 +10,7 @@ import { RUNNER_TEMPLATE_ID, runnerMoves, runnerTemplateName } from '../domain/m
 import type * as V1 from '../domain/model'
 import { acceptEasier, applyChallengeUpdates, rerollChallenge, settleChallenges, type ChallengeUpdate, type Deps } from '../domain/progression'
 import { EMPTY_DATA, type AppData, type GuitarSession, type SportSession } from '../domain/types'
+import { objective, type Cycle } from '../domain/cycles'
 import { WEEK_XP_FROM } from '../domain/levels'
 import { guitarSessionXp, runXp, sportSessionXp } from '../domain/xp'
 import { ActionsContext, AppDataContext, DbContext, type Actions } from './AppDataContext'
@@ -302,6 +303,35 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
       },
       async acceptEasier(id) {
         await writeChallenges(acceptEasier(state().data, id, todayParis(), deps))
+      },
+      async startCycle(targets) {
+        const { v1, data } = state()
+        const today = todayParis()
+        const cycles = v1.profile.cycles ?? []
+        const number = cycles.length + 1
+        const created = (['guitar', 'sport'] as const).map((d) => objective(deps.newId(), d, targets[d], number, today))
+        // Les objectifs encore ouverts (défis d'avant, cycle précédent) laissent la place : remplacés, jamais effacés.
+        const updates: ChallengeUpdate[] = [
+          ...data.challenges.filter((c) => c.status === 'active').map((c): ChallengeUpdate => ({ type: 'replace', id: c.id })),
+          ...created.map((challenge): ChallengeUpdate => ({ type: 'create', challenge })),
+        ]
+        const r = exerciseResolver(v1)
+        const next = applyChallengeUpdates(data.challenges, updates).map((c) => challengeToV1(c, r.exerciseOf))
+        const cycle: Cycle = { start: weekStart(today), guitar: created[0].id, sport: created[1].id }
+        await write(db, now(), async () => {
+          await db.challenges.bulkPut(next)
+          await db.exercises.bulkPut(r.created())
+          await db.profile.put({ ...v1.profile, cycles: [...cycles, cycle] })
+        })
+      },
+      async saveCycleReview(keep) {
+        const { v1 } = state()
+        const cycles = v1.profile.cycles ?? []
+        const last = cycles.at(-1)
+        if (!last) return
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, cycles: [...cycles.slice(0, -1), { ...last, review: { at: todayParis(), keep: keep.trim() } }] })
+        })
       },
       async deleteLog(_kind, id) {
         await write(db, now(), async () => {

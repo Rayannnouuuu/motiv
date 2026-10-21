@@ -26,7 +26,7 @@ function recentExerciseIds(sessions: GuitarSession[]): string[] {
   return ids
 }
 
-type Result = { key: string; label: string; add: () => void; tag?: 'défi' | 'du jour' }
+type Result = { key: string; label: string; add: () => void; tag?: 'objectif' | 'du jour' }
 
 export function StepContent({
   entries,
@@ -71,7 +71,7 @@ export function StepContent({
   const challengeSongs = new Set(challenges.flatMap((c) => (c.target.kind === 'song' ? [c.target.songId] : [])))
   const challengeResults: Result[] = [...challengeBpm.keys()]
     .filter((id) => getExercise(id) && !usedEx.has(id) && matches(getExercise(id)!.title))
-    .map((id) => ({ ...exResult(id), tag: 'défi' }))
+    .map((id) => ({ ...exResult(id), tag: 'objectif' }))
   const plannedResults: Result[] = planned
     .filter((id) => getExercise(id) && !usedEx.has(id) && !challengeBpm.has(id) && matches(getExercise(id)!.title))
     .map((id) => ({ ...exResult(id), tag: 'du jour' }))
@@ -159,7 +159,7 @@ export function StepContent({
                   {goal !== undefined && (
                     <p className="t-footnote flex items-center gap-1 pl-8.5 font-semibold text-guitar">
                       <Icon name={Number(e.bpm) >= goal ? 'check' : 'target'} />
-                      {Number(e.bpm) >= goal ? `Défi réussi : ${goal} bpm atteint` : `Défi : note ton tempo max, objectif ${goal} bpm`}
+                      {Number(e.bpm) >= goal ? `Objectif atteint : ${goal} bpm` : `Objectif du cycle : note ton tempo max, cible ${goal} bpm`}
                     </p>
                   )}
                 </li>
@@ -193,7 +193,7 @@ export function StepContent({
                 {challengeSongs.has(e.songId) && (
                   <p className="t-footnote flex items-center gap-1 pl-8.5 font-semibold text-guitar">
                     <Icon name="target" />
-                    Défi : coche « maîtrisé » quand tu le joues en entier
+                    Objectif du cycle : coche « maîtrisé » quand tu le joues en entier
                   </p>
                 )}
               </li>
@@ -229,7 +229,7 @@ export function StepContent({
                 </span>
                 {r.tag && (
                   <span aria-hidden className="t-caption flex shrink-0 items-center gap-0.5 rounded-full bg-guitar/12 px-2 py-0.5 font-semibold text-guitar">
-                    {r.tag === 'défi' && <Icon name="target" />}
+                    {r.tag === 'objectif' && <Icon name="target" />}
                     {r.tag}
                   </span>
                 )}

@@ -300,3 +300,38 @@ describe('marathon (lot 3)', () => {
     expect((await db.profile.get('profile'))!.marathon!.sickWeeks).toEqual([])
   })
 })
+
+test('cycle : lancé avec ses deux objectifs (les objectifs ouverts sont remplacés), puis bilan gardé dans le profil', async () => {
+  const db = testDb()
+  await startEmpty(db, '2026-10-20T08:00:00.000Z')
+  await db.challenges.put({
+    id: 'old',
+    domain: 'guitar',
+    level: 2,
+    target: { kind: 'song', songId: 's1' },
+    easier: false,
+    status: 'active',
+    createdOn: '2026-10-01',
+    blockedSince: null,
+    doneOn: null,
+    rerolls: 0,
+  })
+  const seen = mount(db)
+  await screen.findByText('appli')
+  await seen.actions!.startCycle({ guitar: { kind: 'song', songId: 's1' }, sport: { kind: 'longRun', km: 16 } })
+  const all = await db.challenges.toArray()
+  expect(all.find((c) => c.id === 'old')!.status).toBe('replaced')
+  const created = all.filter((c) => c.status === 'active')
+  expect(created.map((c) => c.target)).toEqual(
+    expect.arrayContaining([
+      { kind: 'song', songId: 's1' },
+      { kind: 'longRun', km: 16 },
+    ]),
+  )
+  const profile = (await db.profile.get('profile'))!
+  expect(profile.cycles).toHaveLength(1)
+  expect(profile.cycles![0]).toMatchObject({ guitar: expect.any(String), sport: expect.any(String) })
+  await waitFor(() => expect(seen.value!.v1.profile.cycles).toHaveLength(1))
+  await seen.actions!.saveCycleReview('  Jouer le matin  ')
+  expect((await db.profile.get('profile'))!.cycles![0].review).toMatchObject({ keep: 'Jouer le matin' })
+})

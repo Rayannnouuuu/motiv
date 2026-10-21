@@ -154,7 +154,7 @@ export function XpResultPage() {
         <div key={c.id} className={`animate-rise rounded-xl px-4 py-3 text-center ${TONE.tint[c.domain]}`}>
           <p className="t-headline flex items-center justify-center gap-1.5">
             <Icon name="target" />
-            Défi réussi !
+            Objectif atteint !
           </p>
           <p className="t-subhead text-ink">{describeTarget(c.target, data)}</p>
         </div>

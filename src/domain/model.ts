@@ -4,6 +4,7 @@
  * Au lot 1, les écrans lisent encore l'ancienne forme (domain/types.ts) : data/migrations/project.ts la recalcule.
  */
 import type { Equipment, MuscleGroup, RepRange, SportMetric } from '../content/sportLibrary'
+import type { Cycle } from './cycles'
 import type { MarathonProfile } from './marathon/profile'
 import type { Day, Domain, Rating } from './types'
 
@@ -149,6 +150,8 @@ export interface Profile {
   levelsAtMigration: { guitar: number; sport: number; global: number } | null
   /** Préparation marathon (lot 3) : le questionnaire. Le plan, lui, est recalculé. */
   marathon?: MarathonProfile
+  /** Cycles de 6 semaines (lot 4), du plus ancien au plus récent. Facultatif : absent des sauvegardes d'avant. */
+  cycles?: Cycle[]
 }
 
 export interface DataV1 {

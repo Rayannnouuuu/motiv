@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { RACE_LABELS } from '../../domain/marathon/profile'
-import { Hero } from '../../ui/Hero'
 import { Group, Row, SectionHeader } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { TileRow } from '../../ui/Tile'
@@ -11,19 +9,17 @@ import { LevelSheet } from '../levels/LevelSheet'
 import { useLevels } from '../levels/useLevels'
 import { dayLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
-import { ChallengeCard } from '../today/ChallengeCard'
+import { CycleHero } from './CycleHero'
 
 /**
- * Moi : le long terme (REFONTE §7). Le niveau en pastille, les défis en cours (en attendant le cycle du lot 4),
+ * Moi : le long terme (REFONTE §7). Le niveau en pastille, le cycle de 6 semaines et ses objectifs phares,
  * l'objectif daté, puis les outils : bibliothèque, profil sportif, sauvegarde et réglages.
  */
 export function MePage() {
-  const { data } = useAppData()
   const navigate = useNavigate()
   const mk = useMarathon()
   const [showLevels, setShowLevels] = useState(false)
   const levels = useLevels()
-  const active = data.challenges.filter((x) => x.status === 'active')
 
   return (
     <Screen
@@ -41,15 +37,7 @@ export function MePage() {
       }
     >
       <div className="flex flex-col gap-6 pb-4">
-        {active.length > 0 && (
-          <Hero tone="accent" icon="target" overline="En cours" titleId="challenges-title" title="Défis en cours">
-            <div className="rows -mx-1 overflow-hidden rounded-lg bg-inset">
-              {active.map((c) => (
-                <ChallengeCard key={c.id} challenge={c} />
-              ))}
-            </div>
-          </Hero>
-        )}
+        <CycleHero />
 
         <section aria-labelledby="race-title">
           <SectionHeader

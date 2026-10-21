@@ -10,7 +10,7 @@ const TABLES: { key: keyof Prepared['diff']; label: string }[] = [
   { key: 'templates', label: 'Modèles de séance' },
   { key: 'measurements', label: 'Mesures' },
   { key: 'exercises', label: 'Mouvements' },
-  { key: 'challenges', label: 'Défis' },
+  { key: 'challenges', label: 'Objectifs' },
 ]
 
 const before = (d: TableDiff) => d.same + d.changed + d.removed

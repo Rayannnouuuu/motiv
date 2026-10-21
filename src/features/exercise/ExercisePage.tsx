@@ -141,7 +141,7 @@ export function ExercisePage() {
             {challengeBpm !== null && (
               <span className="font-semibold text-guitar">
                 {' · '}
-                <Icon name="target" /> défi : {challengeBpm} bpm
+                <Icon name="target" /> objectif : {challengeBpm} bpm
               </span>
             )}
           </p>

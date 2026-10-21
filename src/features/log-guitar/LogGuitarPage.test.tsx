@@ -283,13 +283,13 @@ describe('LogGuitarPage', () => {
     await next()
     const first = screen.getAllByRole('button', { name: /^Ajouter / })[0]
     expect(first).toHaveTextContent('Legato sur une corde 6')
-    expect(first).toHaveTextContent(/défi$/)
+    expect(first).toHaveTextContent(/objectif$/)
     expect(icon(first, 'target')).toBeInTheDocument()
     await userEvent.click(first)
-    const goal = screen.getByText('Défi : note ton tempo max, objectif 96 bpm')
+    const goal = screen.getByText('Objectif du cycle : note ton tempo max, cible 96 bpm')
     expect(icon(goal, 'target')).toBeInTheDocument()
     await userEvent.type(screen.getByLabelText('Tempo max · Legato sur une corde 6'), '96')
-    expect(icon(screen.getByText('Défi réussi : 96 bpm atteint'), 'check')).toBeInTheDocument()
+    expect(icon(screen.getByText('Objectif atteint : 96 bpm'), 'check')).toBeInTheDocument()
   })
 
   test('« Logger sans durée » (durationMin: null) : aucune durée présélectionnée', () => {

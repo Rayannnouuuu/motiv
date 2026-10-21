@@ -222,7 +222,7 @@ export function Metronome({
   const shortcuts = [
     best !== null && { key: 'record', label: `Record ${best}`, value: best },
     { key: 'target', label: `Cible ${targetBpm}`, value: targetBpm },
-    challengeBpm !== null && { key: 'challenge', label: `Défi ${challengeBpm}`, value: challengeBpm },
+    challengeBpm !== null && { key: 'challenge', label: `Objectif ${challengeBpm}`, value: challengeBpm },
   ].filter((s) => s !== false)
   const jump = (sign: 1 | -1) => (
     <button

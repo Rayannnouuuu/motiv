@@ -51,7 +51,7 @@ test('historique des tempos avec lien de correction, défi en cours', () => {
   const rows = within(screen.getByRole('list', { name: 'Historique des tempos' })).getAllByRole('listitem')
   expect(rows.map((r) => r.textContent)).toEqual(['12 oct.86 bpmCorriger', '10 oct.80 bpmCorriger'])
   expect(within(rows[0]).getByRole('link', { name: /Corriger/ })).toHaveAttribute('href', `/log/corriger/${s2.id}`)
-  expect(screen.getByText(/défi : 90 bpm/)).toBeInTheDocument()
+  expect(screen.getByText(/objectif : 90 bpm/)).toBeInTheDocument()
 })
 
 test('exo inconnu', () => {

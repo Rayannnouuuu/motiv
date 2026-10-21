@@ -175,7 +175,7 @@ export function LogSportPage() {
     const set: SportSet = { programExerciseId: current.id, setIndex: done + 1, reps: live.reps, weightKg: live.weightKg }
     const lines: { icon: IconName; text: string }[] = []
     if (isNewRecord(historySets, doneSets, set)) lines.push({ icon: 'trophy', text: `Record ! ${formatWeight(set.weightKg)} × ${set.reps}` })
-    if (challenge && !challengeMet && meetsChallenge(challenge.target, set)) lines.push({ icon: 'target', text: 'Défi réussi !' })
+    if (challenge && !challengeMet && meetsChallenge(challenge.target, set)) lines.push({ icon: 'target', text: 'Objectif atteint !' })
     if (lines.length > 0) setCheer((c) => ({ id: (c?.id ?? 0) + 1, lines }))
     dispatch({ type: 'completeSet', at: nowIso() })
   }
@@ -232,8 +232,8 @@ export function LogSportPage() {
           <p className={`t-subhead mt-1 flex items-center gap-1.5 rounded-md px-3 py-2 font-semibold ${TONE.tint.sport}`}>
             <Icon name={challengeMet ? 'check' : 'target'} />
             {challengeMet
-              ? "Défi réussi ! Validé à l'enregistrement"
-              : `Défi : ${challenge.target.reps} reps ${challenge.target.weightKg === 0 ? 'au poids du corps' : `à ${formatWeight(challenge.target.weightKg)}`}`}
+              ? "Objectif atteint ! Validé à l'enregistrement"
+              : `Objectif : ${challenge.target.reps} reps ${challenge.target.weightKg === 0 ? 'au poids du corps' : `à ${formatWeight(challenge.target.weightKg)}`}`}
           </p>
         )}
       </div>

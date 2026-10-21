@@ -41,7 +41,7 @@ test('défi atteint par ce log : « Défi réussi ! »', () => {
     route: { pathname: '/xp', state: { result, domain: 'guitar' } },
     data: { challenges: [c], guitarSessions: [g('2026-10-15', 30, [ex('legato-6', 96)])] },
   })
-  expect(icon(screen.getByText('Défi réussi !'), 'target')).toBeInTheDocument()
+  expect(icon(screen.getByText('Objectif atteint !'), 'target')).toBeInTheDocument()
   expect(screen.getByText('Legato sur une corde 6 à 96 bpm')).toBeInTheDocument()
 })
 

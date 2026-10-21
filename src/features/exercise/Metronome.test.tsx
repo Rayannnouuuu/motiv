@@ -86,7 +86,7 @@ test('pastilles de raccourci : record, cible, défi', async () => {
   await user.click(screen.getByRole('button', { name: 'Cible 66' }))
   expect(tempo()).toHaveTextContent('66')
   expect(screen.getByRole('button', { name: 'Cible 66' })).toHaveAttribute('aria-pressed', 'true')
-  const challenge = screen.getByRole('button', { name: 'Défi 58' })
+  const challenge = screen.getByRole('button', { name: 'Objectif 58' })
   expect(icon(challenge, 'target')).toBeInTheDocument()
   await user.click(challenge)
   expect(tempo()).toHaveTextContent('58')
@@ -96,7 +96,7 @@ test('pastilles de raccourci : record, cible, défi', async () => {
 test('sans record ni défi : seule la pastille cible', () => {
   render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
   expect(screen.queryByRole('button', { name: /Record/ })).not.toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: /Défi/ })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: /Objectif/ })).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Cible 66' })).toBeInTheDocument()
 })
 
