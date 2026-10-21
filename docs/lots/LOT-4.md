@@ -19,7 +19,7 @@ _21 oct. 2026. Point de départ : REFONTE §6. Critère : « je vois en 10 secon
   - répartition du temps de guitare par catégorie ;
   - le mur des records, guitare et sport mélangés, du plus récent au plus ancien (10, puis « Tout voir »).
 - Le mot « Défi » devient « Objectif » partout.
-- **Mes séances** (ajout demandé à la validation, \`/seances\`, Moi › Outils) : toutes les séances faites, de la plus récente à la plus ancienne, groupées par mois, filtre Tout / Guitare / Sport, 30 à la fois puis « Voir plus ». Un toucher ouvre le détail (« Ta séance »), qu'on peut corriger.
+- **Mes séances** (ajout demandé à la validation, `/seances`, Moi › Outils) : toutes les séances faites, de la plus récente à la plus ancienne, groupées par mois, filtre Tout / Guitare / Sport, 30 à la fois puis « Voir plus ». Un toucher ouvre le détail (« Ta séance »), qu'on peut corriger.
 
 ## Décisions (option la plus simple)
 
