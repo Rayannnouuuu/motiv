@@ -5,7 +5,10 @@ import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
 import { getTheme, setTheme, type Theme } from '../../design/theme'
+import { useActions, useAppData } from '../../data/AppDataContext'
+import { Switch } from '../../ui/Switch'
 import { BackupSection } from './BackupSection'
+import { useRun } from './useRun'
 
 // Version installée (date du build + commit) : on voit d'un coup d'œil si la dernière est arrivée.
 const VERSION = `${new Date(__BUILD_DATE__).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} · ${__BUILD_SHA__}`
@@ -35,6 +38,20 @@ function ThemePicker() {
   )
 }
 
+function Rituals() {
+  const { v1 } = useAppData()
+  const { setMorningCheckin } = useActions()
+  const { run } = useRun()
+  return (
+    <Group header="Rituels" footer="Sommeil et énergie en 2 taps le matin. Ils nourrissent les observations de Progrès.">
+      <Row
+        title="Check-in du matin"
+        accessory={<Switch label="Check-in du matin" checked={v1.profile.morningCheckin !== false} onChange={(on) => void run(() => setMorningCheckin(on))} />}
+      />
+    </Group>
+  )
+}
+
 /** Moi › Sauvegarde et réglages. */
 export function SettingsPage() {
   const back = (
@@ -48,7 +65,7 @@ export function SettingsPage() {
       <div className="flex flex-col gap-6 pb-4">
         <BackupSection />
         <ThemePicker />
-        <BackupSection />
+        <Rituals />
         <Group>
           <Row title="Version" detail={VERSION} />
         </Group>

@@ -13,6 +13,7 @@ import { Hero } from '../../ui/Hero'
 import { Segments } from '../../ui/SessionBar'
 import { useMarathon } from '../marathon/useMarathon'
 import { useRun } from '../settings/useRun'
+import { Ideas } from './Ideas'
 import { ChallengeCard } from '../today/ChallengeCard'
 
 const UNIVERSE: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
@@ -102,6 +103,7 @@ export function CycleHero() {
           Records pendant le cycle : <span className="font-semibold tabular-nums">{records.guitar}</span> guitare ·{' '}
           <span className="font-semibold tabular-nums">{records.sport}</span> sport
         </p>
+        <Ideas review />
         <label className="flex flex-col gap-1.5">
           <span className="t-headline">Ce que je garde</span>
           <textarea

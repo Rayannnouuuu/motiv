@@ -7,6 +7,7 @@ import { TONE } from '../../design/tone'
 import { addDays, shortDate } from '../../domain/date'
 import { runOf } from '../../domain/marathon/runs'
 import { formatPace } from '../../domain/marathon/paces'
+import { observations } from '../../domain/observations'
 import { gains, guitarSplit, kmPerWeek, paceSeries, recordWall, volumePerWeek, type Gains, type RunDone } from '../../domain/progress'
 import {
   bodySeries,
@@ -234,6 +235,7 @@ export function ProgressPage() {
   const split = metric === 'split' ? guitarSplit(data, addDays(today, -(period - 1)), today) : []
   const splitMax = Math.max(1, ...split.map((x) => x.minutes))
   const wall = recordWall(data, runs)
+  const seen = observations(data, v1.profile.checkins ?? [], today)
   const win = windowPoints(view.points, today, period)
   const formatDelta = view.formatDelta ?? view.format
   const list = view.list.slice(0, 10)
@@ -266,6 +268,22 @@ export function ProgressPage() {
             <p className="t-subhead text-muted">Pas encore de progrès sur la période. Un record ou une sortie suffit pour lancer la liste.</p>
           )}
         </section>
+
+        {seen.length > 0 && (
+          <section className="flex flex-col gap-3 rounded-2xl border border-line bg-surface px-5 py-4.5 shadow-card" aria-labelledby="seen-title">
+            <h2 id="seen-title" className="t-headline">
+              Observations
+            </h2>
+            <ul className="flex flex-col gap-3">
+              {seen.map((o) => (
+                <li key={o.text} className="flex flex-col gap-0.5">
+                  <span className="t-callout">{o.text}</span>
+                  <span className="t-footnote text-muted">Sur {o.basis}.</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <Link to="/preuves" className="tap-row flex items-center gap-3 rounded-2xl border border-line bg-surface px-5 py-3.5 shadow-card">
           <Icon name="mic" className="text-guitar" />

@@ -18,6 +18,8 @@ import { StorageNotices } from '../backup/StorageNotices'
 import { StartSheet } from '../start/StartSheet'
 import { currentWeek, planWeekProgress } from '../week/planWeek'
 import { useRhythm } from '../week/useRhythm'
+import { MorningCheckin } from './MorningCheckin'
+import { PlateauCard } from './PlateauCard'
 import { useToday, type DayCard } from './useToday'
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`
@@ -153,6 +155,7 @@ export function TodayPage() {
     >
       <div className="flex flex-col gap-6">
         <StorageNotices />
+        <MorningCheckin />
 
         {reviewDue(v1.profile.reviews, today) && (
           <Link to="/bilan" className="tap-row flex min-h-16 items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
@@ -188,6 +191,8 @@ export function TodayPage() {
             />
           ))}
         </div>
+
+        <PlateauCard />
 
         {maintain.length > 0 && (
           <section aria-labelledby="also-title">

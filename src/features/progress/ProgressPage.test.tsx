@@ -140,6 +140,17 @@ describe('ProgressPage', () => {
     expect(wall()).toHaveLength(11)
   })
 
+  test('Observations croisées : après 4 semaines, avec le nombre de séances', () => {
+    const sport = ['2026-09-01', '2026-09-05', '2026-09-10']
+    const rest = ['2026-09-02', '2026-09-06', '2026-09-11']
+    renderWithData(<ProgressPage />, {
+      today,
+      data: { sportSessions: sport.map((d) => ss([], d)), guitarSessions: [...sport.map((d) => g(d, 45)), ...rest.map((d) => g(d, 30))] },
+    })
+    expect(screen.getByText('Tes séances guitare durent 15 min de plus les jours où tu fais du sport.')).toBeInTheDocument()
+    expect(screen.getByText('Sur 3 séances avec sport, 3 sans.')).toBeInTheDocument()
+  })
+
   test('Poids : « Ajouter une mesure », Enregistrer désactivé si tout est vide', async () => {
     const { actions } = renderWithData(<ProgressPage />, { today, data: { bodyMetrics: [metric('2026-10-01', 72)] } })
     await tab('Poids')

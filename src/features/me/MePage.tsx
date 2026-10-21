@@ -10,6 +10,7 @@ import { useLevels } from '../levels/useLevels'
 import { dayLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { CycleHero } from './CycleHero'
+import { Ideas } from './Ideas'
 
 /**
  * Moi : le long terme (REFONTE §7). Le niveau en pastille, le cycle de 6 semaines et ses objectifs phares,
@@ -76,6 +77,8 @@ export function MePage() {
             />
           )}
         </section>
+
+        <Ideas />
 
         <Group header="Outils" labelledBy="tools-title">
           <Row icon={<Icon name="week" className="text-muted" />} title="Mes séances" subtitle="Tout ce que tu as fait, à revoir ou corriger" to="/seances" />
