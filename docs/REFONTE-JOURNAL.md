@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne. Lot 6 (courses Strava par fichier) sur l'essai, en attente de validation.
 
 ## Fait
 
@@ -104,6 +104,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Plateau (carte, trois pistes, jamais d'arrêter), parking à idées, observations croisées après 4 semaines, check-in du matin désactivable.
   - Base en version 2 : une table `media` en plus, rien d'autre ne bouge ; montée testée sur une copie de tes données. Export avec ou sans photos et audio.
   - Corrigé : Sauvegarde en double dans Réglages ; « Gagné en … » vide quand tout l'historique tient dans la période.
+- 21 oct. 2026 : **lot 6 — Courses Strava** (détails dans `docs/lots/LOT-6.md`). Import par fichier (activities.csv ou .gpx), aperçu, doublons ignorés ; pas de serveur ni de secret.
 
 ## Décidé (détails, option la plus simple)
 
@@ -153,6 +154,6 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 2 — La séance unifiée : en ligne.
 - [x] Lot 3 — Plan marathon : en ligne.
 - [x] Lot 3b — Refonte visuelle, plan sport complet, indisponibilités : en ligne.
-- [ ] Strava : lot à part. L'échange de jetons Strava demande le secret client, que le navigateur ne peut pas garder : soit import d'un fichier d'export, soit un petit relais. À décider.
+- [ ] Strava : import par fichier (lot 6), sur l'essai. Le relais reste possible plus tard.
 - [x] Lot 4 — Progrès et rythme, « Mes séances » : en ligne.
 - [x] Lot 5 — Preuves et anti-stagnation : en ligne.
