@@ -82,6 +82,7 @@ export function MePage() {
 
         <Group header="Outils" labelledBy="tools-title">
           <Row icon={<Icon name="week" className="text-muted" />} title="Mes séances" subtitle="Tout ce que tu as fait, à revoir ou corriger" to="/seances" />
+          <Row icon={<Icon name="sport" className="text-muted" />} title="Courses Strava" subtitle="Importer tes sorties depuis un fichier" to="/strava" />
           <Row
             icon={<Icon name="library" className="text-muted" />}
             title="Bibliothèque"

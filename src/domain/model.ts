@@ -56,6 +56,8 @@ export interface Session {
   pain?: number
   /** Modèle de séance suivi (ancien programme sport). */
   templateId?: string
+  /** Sortie importée (lot 6) : « strava:123 » ou « gpx:… », pour ne jamais l'importer deux fois. */
+  externalId?: string
   blocks: Block[]
   /** Écart au §5 jusqu'au lot 4 : l'XP reste celle calculée à l'enregistrement, pour que les niveaux ne bougent pas. */
   xp: number

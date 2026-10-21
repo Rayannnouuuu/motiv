@@ -385,6 +385,45 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.profile.put({ ...v1.profile, checkins })
         })
       },
+      async importRuns(runs) {
+        const { v1 } = state()
+        const kms = doneRuns(v1.sessions).map((r) => ({ day: r.day, km: r.km }))
+        const m = v1.profile.marathon
+        let chrono = m?.level.chrono ?? null
+        let changed = false
+        const rows: V1.Session[] = []
+        for (const r of [...runs].sort((a, b) => a.startedAt.localeCompare(b.startedAt))) {
+          const xp =
+            r.day < WEEK_XP_FROM
+              ? { total: 0 }
+              : runXp(
+                  r.km,
+                  kms.filter((x) => x.day <= r.day).map((x) => x.km),
+                )
+          kms.push({ day: r.day, km: r.km })
+          const better = m ? betterChrono(chrono, { km: r.km, sec: r.sec, day: r.day }) : null
+          if (better) [chrono, changed] = [better, true]
+          rows.push({
+            id: deps.newId(),
+            discipline: 'sport',
+            day: r.day,
+            createdAt: r.startedAt,
+            durationMin: Math.max(1, Math.round(r.sec / 60)),
+            isLight: false,
+            flowScore: 3,
+            desireScore: 3,
+            note: r.name,
+            externalId: r.externalId,
+            blocks: [{ type: 'main', entries: [{ exerciseId: RUN_MOVEMENT_ID, sets: [{ distanceKm: r.km, durationSec: r.sec }] }] }],
+            xp: xp.total,
+          })
+        }
+        await write(db, now(), async () => {
+          await db.sessions.bulkPut(rows)
+          if (m && changed && chrono) await db.profile.put({ ...v1.profile, marathon: { ...m, level: { ...m.level, chrono } } })
+        })
+        return rows.reduce((t, x) => t + x.xp, 0)
+      },
       async setMorningCheckin(on) {
         const { v1 } = state()
         await write(db, now(), async () => {

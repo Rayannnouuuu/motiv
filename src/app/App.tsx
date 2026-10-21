@@ -24,6 +24,7 @@ const MarathonForm = page(() => import('../features/marathon/MarathonForm'), 'Ma
 const RunPage = page(() => import('../features/marathon/RunPage'), 'RunPage')
 const WeekPage = page(() => import('../features/week/WeekPage'), 'WeekPage')
 const ReviewPage = page(() => import('../features/review/ReviewPage'), 'ReviewPage')
+const StravaPage = page(() => import('../features/strava/StravaPage'), 'StravaPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -155,6 +156,14 @@ export function AppRoutes() {
           element={
             <Focus>
               <ExercisePage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/strava"
+          element={
+            <Focus>
+              <StravaPage />
             </Focus>
           }
         />

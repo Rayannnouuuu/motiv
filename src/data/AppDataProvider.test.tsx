@@ -363,3 +363,27 @@ test('preuves, idées et check-ins (lot 5) : fiche dans le profil, fichier dans 
   await seen.actions!.saveCheckin({ day: '2026-10-21', sleepHours: 8, energy: 4 })
   expect((await db.profile.get('profile'))!.checkins).toEqual([{ day: '2026-10-21', sleepHours: 8, energy: 4 }])
 })
+
+test('import Strava (lot 6) : des sorties comme les autres, avec leur identifiant ; XP de la plus longue sortie', async () => {
+  const db = testDb()
+  await startEmpty(db, '2026-10-20T08:00:00.000Z')
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const run = (id: string, day: string, km: number) => ({
+    externalId: `strava:${id}`,
+    day,
+    startedAt: `${day}T07:00:00.000Z`,
+    km,
+    sec: km * 330,
+    name: 'Footing',
+  })
+  const xp = await seen.actions!.importRuns([run('2', '2026-10-21', 12), run('1', '2026-10-20', 8)])
+  const sessions = (await db.sessions.toArray()).sort((a, b) => a.day.localeCompare(b.day))
+  expect(sessions.map((s) => [s.day, s.externalId, s.durationMin, s.note])).toEqual([
+    ['2026-10-20', 'strava:1', 44, 'Footing'],
+    ['2026-10-21', 'strava:2', 66, 'Footing'],
+  ])
+  expect(sessions[0].blocks[0].entries[0]).toEqual({ exerciseId: 'course', sets: [{ distanceKm: 8, durationSec: 2640 }] })
+  expect(sessions[1].xp).toBeGreaterThan(0)
+  expect(xp).toBe(sessions[0].xp + sessions[1].xp)
+})
