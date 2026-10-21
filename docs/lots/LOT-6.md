@@ -2,7 +2,7 @@
 
 _21 oct. 2026. Demandé au lot 3b (« lier le marathon avec Strava »), reporté dans un lot à part._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push tout », 21 oct.).**
 
 ## Choix : import par fichier
 
