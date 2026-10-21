@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { getExercise } from '../../content/exercises'
 import { Icon } from '../../design/icons'
@@ -21,7 +22,7 @@ import {
 import type { AppData, BodyField, Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { LineChart } from '../../ui/LineChart'
-import { Group, Row } from '../../ui/List'
+import { Group, Row, RowChevron } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
 import { Sheet } from '../../ui/Sheet'
@@ -265,6 +266,16 @@ export function ProgressPage() {
             <p className="t-subhead text-muted">Pas encore de progrès sur la période. Un record ou une sortie suffit pour lancer la liste.</p>
           )}
         </section>
+
+        <Link to="/preuves" className="tap-row flex items-center gap-3 rounded-2xl border border-line bg-surface px-5 py-3.5 shadow-card">
+          <Icon name="mic" className="text-guitar" />
+          <Icon name="camera" className="-ml-1.5 text-sport" />
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span className="t-headline">Avant / après</span>
+            <span className="t-subhead text-muted">Écoute et regarde ton progrès sur un mois</span>
+          </span>
+          <RowChevron />
+        </Link>
 
         <div role="tablist" aria-label="Métrique" className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none]">
           {METRICS.map((m) => (
