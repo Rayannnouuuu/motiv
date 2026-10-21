@@ -4,6 +4,7 @@ import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { longDate } from '../../domain/date'
+import { focusOf, reviewDue } from '../../domain/weeklyReview'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { lastLog } from '../../domain/lastLog'
 import { songsToMaintain } from '../../domain/repertoire'
@@ -153,6 +154,19 @@ export function TodayPage() {
       <div className="flex flex-col gap-6">
         <StorageNotices />
 
+        {reviewDue(v1.profile.reviews, today) && (
+          <Link to="/bilan" className="tap-row flex min-h-16 items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-fill text-ink">
+              <Icon name="target" />
+            </span>
+            <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+              <span className="t-subhead font-semibold">Bilan de la semaine · 2 min</span>
+              <span className="t-footnote text-muted">Ce qui a marché, ce qui a bloqué, ton focus</span>
+            </span>
+            <Icon name="chevron" className="text-faint" />
+          </Link>
+        )}
+
         <div className="flex flex-col gap-3">
           {cards.map((c) => (
             <DayCardView
@@ -204,6 +218,12 @@ export function TodayPage() {
             }
           />
           <div className="grid grid-cols-2 gap-2.5">
+            {focusOf(v1.profile.reviews, today) && (
+              <p className="t-subhead col-span-2 rounded-xl border border-line bg-surface px-4 py-3">
+                <span className="t-overline mr-2 text-muted">Focus</span>
+                {focusOf(v1.profile.reviews, today)}
+              </p>
+            )}
             <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances">
               {minutes} min jouées
             </GoalTile>

@@ -7,6 +7,7 @@ import { addDays, daysBetween, isoWeek, shortDate, weekStart } from '../../domai
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import type { Domain } from '../../domain/types'
+import { focusOf, reviewDue } from '../../domain/weeklyReview'
 import { Gauge } from '../../ui/Gauge'
 import { Hero } from '../../ui/Hero'
 import { SectionHeader } from '../../ui/List'
@@ -227,6 +228,18 @@ export function WeekPage() {
               </Link>
             )}
           </Hero>
+        )}
+
+        {(focusOf(v1.profile.reviews, today) || reviewDue(v1.profile.reviews, today)) && (
+          <div className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
+            <p className="t-subhead min-w-0 flex-1">
+              <span className="t-overline mr-2 text-muted">Focus</span>
+              {focusOf(v1.profile.reviews, today) ?? 'Pas encore choisi'}
+            </p>
+            <Link to="/bilan" className="hit tap t-footnote shrink-0 font-semibold text-accent">
+              {reviewDue(v1.profile.reviews, today) ? 'Faire le bilan' : 'Modifier'}
+            </Link>
+          </div>
         )}
 
         <section aria-labelledby="days-title">

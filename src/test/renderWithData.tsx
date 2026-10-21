@@ -31,6 +31,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     rerollChallenge: vi.fn(async () => {}),
     startCycle: vi.fn(async () => {}),
     saveCycleReview: vi.fn(async () => {}),
+    saveWeeklyReview: vi.fn(async () => {}),
     acceptEasier: vi.fn(async () => {}),
     deleteLog: vi.fn(async () => {}),
     saveMovement: vi.fn(async () => {}),

@@ -6,6 +6,7 @@
 import type { Equipment, MuscleGroup, RepRange, SportMetric } from '../content/sportLibrary'
 import type { Cycle } from './cycles'
 import type { MarathonProfile } from './marathon/profile'
+import type { WeeklyReview } from './weeklyReview'
 import type { Day, Domain, Rating } from './types'
 
 export type Discipline = Domain
@@ -152,6 +153,8 @@ export interface Profile {
   marathon?: MarathonProfile
   /** Cycles de 6 semaines (lot 4), du plus ancien au plus récent. Facultatif : absent des sauvegardes d'avant. */
   cycles?: Cycle[]
+  /** Bilans du dimanche (lot 4). Facultatif : absent des sauvegardes d'avant. */
+  reviews?: WeeklyReview[]
 }
 
 export interface DataV1 {

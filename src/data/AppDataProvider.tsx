@@ -324,6 +324,14 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.profile.put({ ...v1.profile, cycles: [...cycles, cycle] })
         })
       },
+      async saveWeeklyReview(r) {
+        const { v1 } = state()
+        const clean = { ...r, worked: r.worked.trim(), blocked: r.blocked.trim(), focus: r.focus.trim() }
+        const reviews = [...(v1.profile.reviews ?? []).filter((x) => x.week !== r.week), clean].sort((a, b) => (a.week < b.week ? -1 : 1))
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, reviews })
+        })
+      },
       async saveCycleReview(keep) {
         const { v1 } = state()
         const cycles = v1.profile.cycles ?? []

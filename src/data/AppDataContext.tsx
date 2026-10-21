@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { Chrono, MarathonProfile } from '../domain/marathon/profile'
 import type { DataV1, SongStatus } from '../domain/model'
+import type { WeeklyReview } from '../domain/weeklyReview'
 import type { AppData, BodyMetric, ChallengeTarget, Day, Domain, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
 import type { MotivDb } from './db'
@@ -55,6 +56,8 @@ export interface Actions {
   startCycle(targets: Record<Domain, ChallengeTarget>): Promise<void>
   /** Bilan de fin du dernier cycle : ce que je garde. */
   saveCycleReview(keep: string): Promise<void>
+  /** Bilan du dimanche : remplace celui de la même semaine s'il existe. */
+  saveWeeklyReview(r: WeeklyReview): Promise<void>
   deleteLog(kind: 'guitar' | 'sport', id: string): Promise<void>
   saveMovement(m: DataV1['exercises'][number]): Promise<void>
   /** Profil marathon ; crée ou met à jour le modèle « Renfo coureur ». */

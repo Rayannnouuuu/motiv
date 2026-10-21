@@ -21,6 +21,7 @@ const MarathonPage = page(() => import('../features/marathon/MarathonPage'), 'Ma
 const MarathonForm = page(() => import('../features/marathon/MarathonForm'), 'MarathonForm')
 const RunPage = page(() => import('../features/marathon/RunPage'), 'RunPage')
 const WeekPage = page(() => import('../features/week/WeekPage'), 'WeekPage')
+const ReviewPage = page(() => import('../features/review/ReviewPage'), 'ReviewPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -152,6 +153,14 @@ export function AppRoutes() {
           element={
             <Focus>
               <ExercisePage />
+            </Focus>
+          }
+        />
+        <Route
+          path="/bilan"
+          element={
+            <Focus>
+              <ReviewPage />
             </Focus>
           }
         />
