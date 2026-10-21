@@ -2,7 +2,7 @@
 
 _21 oct. 2026. Point de départ : REFONTE §6. Critère : « je vois en 10 secondes sur l'écran Progrès si j'avance »._
 
-**État : validé le 21 oct., avec un ajout (« Mes séances »).**
+**État : validé avec un ajout (« Mes séances ») et en ligne sur `/motiv/` (« Push tout », 21 oct.).**
 
 ## Ce qui change
 

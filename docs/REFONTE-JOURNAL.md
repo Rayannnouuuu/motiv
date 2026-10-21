@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme) sur l'essai, en attente de validation.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Prochain : lot 5 — Preuves et anti-stagnation.
 
 ## Fait
 
@@ -149,5 +149,5 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 3 — Plan marathon : en ligne.
 - [x] Lot 3b — Refonte visuelle, plan sport complet, indisponibilités : en ligne.
 - [ ] Strava : lot à part. L'échange de jetons Strava demande le secret client, que le navigateur ne peut pas garder : soit import d'un fichier d'export, soit un petit relais. À décider.
-- [ ] Lot 4 — Progrès et rythme
+- [x] Lot 4 — Progrès et rythme, « Mes séances » : en ligne.
 - [ ] Lot 5 — Preuves et anti-stagnation
