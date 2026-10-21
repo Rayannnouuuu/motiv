@@ -351,6 +351,46 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.exercises.put(m)
         })
       },
+      async saveProof(p, bytes) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.media.put({ id: p.id, bytes })
+          await db.profile.put({ ...v1.profile, proofs: [...(v1.profile.proofs ?? []), p] })
+        })
+      },
+      async deleteProof(id) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.media.delete(id)
+          await db.profile.put({ ...v1.profile, proofs: (v1.profile.proofs ?? []).filter((p) => p.id !== id) })
+        })
+      },
+      async saveIdea(text) {
+        const { v1 } = state()
+        const idea: V1.Idea = { id: deps.newId(), text: text.trim(), createdAt: todayParis(), status: 'parked' }
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, ideas: [...(v1.profile.ideas ?? []), idea] })
+        })
+      },
+      async setIdeaStatus(id, status) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, ideas: (v1.profile.ideas ?? []).map((i) => (i.id === id ? { ...i, status } : i)) })
+        })
+      },
+      async saveCheckin(c) {
+        const { v1 } = state()
+        const checkins = [...(v1.profile.checkins ?? []).filter((x) => x.day !== c.day), c].sort((a, b) => (a.day < b.day ? -1 : 1))
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, checkins })
+        })
+      },
+      async setMorningCheckin(on) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, morningCheckin: on })
+        })
+      },
     }
     return { actions, settle: writeChallenges }
   }, [db])

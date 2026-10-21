@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import type { Chrono, MarathonProfile } from '../domain/marathon/profile'
-import type { DataV1, SongStatus } from '../domain/model'
+import type { Checkin, DataV1, Idea, Proof, SongStatus } from '../domain/model'
 import type { WeeklyReview } from '../domain/weeklyReview'
 import type { AppData, BodyMetric, ChallengeTarget, Day, Domain, GuitarItem, Program, Rating, Song, SportSet } from '../domain/types'
 import type { XpResult } from '../domain/xp'
@@ -68,6 +68,15 @@ export interface Actions {
   setSickWeek(monday: Day, sick: boolean): Promise<void>
   /** Un jour où tu n'es pas disponible (plan marathon + muscu) : le plan se recalcule sans lui. */
   setOffDay(day: Day, off: boolean): Promise<void>
+  /** Preuve audio ou photo (lot 5) : la fiche et son fichier, écrits ensemble. */
+  saveProof(p: Proof, bytes: ArrayBuffer): Promise<void>
+  deleteProof(id: string): Promise<void>
+  /** Parking à idées : noter sans lancer. */
+  saveIdea(text: string): Promise<void>
+  setIdeaStatus(id: string, status: Idea['status']): Promise<void>
+  /** Check-in du matin : remplace celui du même jour. */
+  saveCheckin(c: Checkin): Promise<void>
+  setMorningCheckin(on: boolean): Promise<void>
 }
 
 export interface AppDataValue {

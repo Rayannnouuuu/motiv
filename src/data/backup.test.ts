@@ -2,7 +2,8 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { v0Replica } from '../test/fixtures/v0Replica'
 import { importV0, testDb } from '../test/testDb'
 import { backupDue, backupFileName, canonical, commitImport, exportAll, makeBackup, prepareImport, startEmpty, undoLastImport } from './backup'
-import { DATA_TABLES, DEVICE_TABLES, NEW_META, dbNameFor, loadAll } from './db'
+import Dexie from 'dexie'
+import { DATA_TABLES, DEVICE_TABLES, NEW_META, createDb, dbNameFor, loadAll } from './db'
 import { toAppData } from './migrations/project'
 
 const AT = '2026-10-20T09:00:00.000Z'
@@ -21,6 +22,39 @@ describe('base locale', () => {
   test('chaque table est exportée ou déclarée « appareil seulement »', () => {
     const db = testDb()
     expect(db.tables.map((t) => t.name).sort()).toEqual([...DATA_TABLES, ...DEVICE_TABLES].sort())
+  })
+})
+
+describe('version 2 de la base (lot 5)', () => {
+  test('une base en version 1 avec mes données passe en version 2 sans rien perdre', async () => {
+    const name = 'test-upgrade-v1'
+    const old = new Dexie(name)
+    old.version(1).stores({
+      meta: 'key',
+      profile: 'key',
+      exercises: 'id',
+      songs: 'id',
+      sessions: 'id, day',
+      templates: 'id',
+      measurements: 'id, day',
+      challenges: 'id',
+      snapshots: '++seq',
+    })
+    const before = testDb()
+    await importV0(before, v0Replica())
+    const { data, meta } = await loadAll(before)
+    await old.open()
+    for (const t of DATA_TABLES) await old.table(t).bulkPut(t === 'profile' ? [data.profile] : (data[t] as object[]))
+    await old.table('meta').put(meta)
+    old.close()
+
+    const db = createDb(name)
+    const after = await loadAll(db)
+    expect(db.verno).toBe(2)
+    expect(canonical(after.data)).toBe(canonical(data))
+    expect(after.meta).toEqual(meta)
+    expect(await db.media.count()).toBe(0)
+    await db.delete()
   })
 })
 
@@ -137,6 +171,40 @@ describe('export', () => {
     const file = JSON.parse(await blob!.text())
     expect(file).toMatchObject({ app: 'motiv', schemaVersion: 1, source: { db: 'motiv', build: 'abc1234' }, counts: { sessions: 7, songs: 45 } })
     expect((await loadAll(db)).meta.lastBackupAt).toBe(AT)
+  })
+
+  test('avec photos et audio : les fichiers partent dans la sauvegarde et reviennent à l’import', async () => {
+    const db = testDb()
+    await startEmpty(db, AT)
+    const proof = { id: 'p1', discipline: 'guitar' as const, kind: 'audio' as const, day: '2026-10-20', createdAt: AT, mime: 'audio/mp4', songId: 's1' }
+    const { data } = await loadAll(db)
+    await db.profile.put({ ...data.profile, proofs: [proof] })
+    await db.media.put({ id: 'p1', bytes: new Uint8Array([1, 2, 3, 250]).buffer })
+    let blob: Blob | undefined
+    vi.stubGlobal('URL', { ...URL, createObjectURL: (b: Blob) => ((blob = b), 'blob:x'), revokeObjectURL: () => {} })
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
+    await exportAll(db, AT, 'x', true)
+    const text = await blob!.text()
+    expect(JSON.parse(text).media).toEqual([{ id: 'p1', mime: 'audio/mp4', base64: 'AQID+g==' }])
+
+    const fresh = testDb()
+    const r = prepareImport(text, (await loadAll(fresh)).data)
+    if (!r.ok) throw new Error(r.error)
+    await commitImport(fresh, r.prepared, AT)
+    expect((await loadAll(fresh)).data.profile.proofs).toEqual([proof])
+    const row = await fresh.media.get('p1')
+    expect([...new Uint8Array(row!.bytes)]).toEqual([1, 2, 3, 250])
+  })
+
+  test('sans médias : la sauvegarde n’emporte pas les fichiers', async () => {
+    const db = testDb()
+    await startEmpty(db, AT)
+    await db.media.put({ id: 'p1', bytes: new Uint8Array([1]).buffer })
+    let blob: Blob | undefined
+    vi.stubGlobal('URL', { ...URL, createObjectURL: (b: Blob) => ((blob = b), 'blob:x'), revokeObjectURL: () => {} })
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
+    await exportAll(db, AT, 'x')
+    expect(JSON.parse(await blob!.text()).media).toBeUndefined()
   })
 
   test('feuille de partage refermée : pas de date de sauvegarde', async () => {

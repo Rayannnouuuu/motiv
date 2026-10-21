@@ -155,6 +155,40 @@ export interface Profile {
   cycles?: Cycle[]
   /** Bilans du dimanche (lot 4). Facultatif : absent des sauvegardes d'avant. */
   reviews?: WeeklyReview[]
+  /** Preuves audio et photo (lot 5) : la fiche ; le fichier est dans la table `media`, même id. */
+  proofs?: Proof[]
+  /** Parking à idées (lot 5). */
+  ideas?: Idea[]
+  /** Check-ins du matin (lot 5), un par jour. */
+  checkins?: Checkin[]
+  /** Check-in du matin proposé dans Aujourd'hui (désactivable). */
+  morningCheckin?: boolean
+}
+
+/** Un enregistrement ou une photo, rattaché à un exo ou un morceau (audio) ; le fichier reste sur l'appareil. */
+export interface Proof {
+  id: string
+  discipline: Domain
+  kind: 'audio' | 'photo'
+  day: Day
+  createdAt: string
+  mime: string
+  exerciseId?: string
+  songId?: string
+  durationSec?: number
+}
+
+export interface Idea {
+  id: string
+  text: string
+  createdAt: Day
+  status: 'parked' | 'promoted' | 'dropped'
+}
+
+export interface Checkin {
+  day: Day
+  sleepHours: number | null
+  energy: Rating | null
 }
 
 export interface DataV1 {

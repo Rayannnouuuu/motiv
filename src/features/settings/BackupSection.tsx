@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useEffect, useRef, useState } from 'react'
-import { useDb } from '../../data/AppDataContext'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { AppDataContext, useDb } from '../../data/AppDataContext'
 import { exportAll, undoLastImport } from '../../data/backup'
 import { ensurePersisted, isStandalone, type PersistState } from '../../data/persist'
 import { Group, Row } from '../../ui/List'
@@ -14,6 +14,8 @@ const onDay = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: 
 /** Export complet, import avec aperçu, annulation du dernier import, état du stockage. */
 export function BackupSection() {
   const db = useDb()
+  // Hors données (premier lancement), pas de preuve.
+  const proofs = useContext(AppDataContext)?.v1.profile.proofs?.length ?? 0
   const meta = useLiveQuery(() => db.meta.get('device'), [db])
   const undoable = useLiveQuery(() => db.snapshots.count(), [db]) ?? 0
   const { busy, error, run } = useRun()
@@ -44,6 +46,15 @@ export function BackupSection() {
           chevron={false}
           aria-label="Exporter mes données"
         />
+        {proofs > 0 && (
+          <Row
+            title="Exporter avec photos et audio"
+            subtitle={`${proofs} fichier${proofs > 1 ? 's' : ''} : la sauvegarde sera plus lourde`}
+            onClick={busy ? undefined : () => void run(async () => void (await exportAll(db, new Date().toISOString(), __BUILD_SHA__, true)))}
+            chevron={false}
+            aria-label="Exporter avec photos et audio"
+          />
+        )}
         <Row title="Importer une sauvegarde" onClick={() => input.current?.click()} aria-label="Importer une sauvegarde" />
         {undoable > 0 && (
           <Row

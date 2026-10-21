@@ -17,6 +17,15 @@ export interface BackupV1 {
   /** Nombre de lignes par table : un fichier tronqué est refusé. */
   counts: Record<DataTable, number>
   data: V1.DataV1
+  /** Fichiers des preuves (audio, photo), seulement dans un export « avec médias ». */
+  media?: MediaFile[]
+}
+
+export interface MediaFile {
+  id: string
+  mime: string
+  /** Contenu en base64. */
+  base64: string
 }
 
 const countsOf = (d: V1.DataV1): Record<DataTable, number> => ({
@@ -29,8 +38,23 @@ const countsOf = (d: V1.DataV1): Record<DataTable, number> => ({
   profile: 1,
 })
 
-export function makeBackup(data: V1.DataV1, exportedAt: string, build: string): BackupV1 {
-  return { app: 'motiv', schemaVersion: SCHEMA_VERSION, exportedAt, source: { db: DB_NAME, build }, counts: countsOf(data), data }
+export function makeBackup(data: V1.DataV1, exportedAt: string, build: string, media?: MediaFile[]): BackupV1 {
+  return { app: 'motiv', schemaVersion: SCHEMA_VERSION, exportedAt, source: { db: DB_NAME, build }, counts: countsOf(data), data, ...(media ? { media } : {}) }
+}
+
+function toBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer)
+  let bin = ''
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000))
+  return btoa(bin)
+}
+
+const fromBase64 = (base64: string) => Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer
+
+/** Les fichiers des preuves encore présents sur l'appareil. */
+async function mediaFiles(db: MotivDb, proofs: V1.Proof[]): Promise<MediaFile[]> {
+  const rows = await db.media.bulkGet(proofs.map((p) => p.id))
+  return rows.flatMap((row, i) => (row ? [{ id: row.id, mime: proofs[i].mime, base64: toBase64(row.bytes) }] : []))
 }
 
 /** « motiv-sauvegarde-2026-10-20-1832.json » (heure de Paris : deux sauvegardes du jour ne s'écrasent pas). */
@@ -96,9 +120,11 @@ export async function saveFile(name: string, text: string): Promise<'shared' | '
 }
 
 /** Exporte tout et note la date de la sauvegarde (sauf si la feuille de partage est refermée). */
-export async function exportAll(db: MotivDb, at: string, build: string): Promise<'shared' | 'downloaded' | 'cancelled'> {
+export async function exportAll(db: MotivDb, at: string, build: string, withMedia = false): Promise<'shared' | 'downloaded' | 'cancelled'> {
   const { data } = await loadAll(db)
-  const result = await saveFile(backupFileName(at), JSON.stringify(makeBackup(data, at, build), null, 2))
+  const media = withMedia ? await mediaFiles(db, data.profile.proofs ?? []) : undefined
+  // Avec médias, le fichier peut peser lourd : pas d'indentation.
+  const result = await saveFile(backupFileName(at), JSON.stringify(makeBackup(data, at, build, media), null, media ? undefined : 2))
   if (result !== 'cancelled')
     await db.transaction('rw', db.meta, async () => {
       await db.meta.put({ ...((await db.meta.get('device')) ?? NEW_META), lastBackupAt: at, backupSnoozedUntil: null })
@@ -121,6 +147,8 @@ export interface Prepared {
   /** Le fichier vient de l'autre version (essai ↔ principale). */
   otherSource: boolean
   incoming: V1.DataV1
+  /** Fichiers des preuves du fichier (export « avec médias ») : ajoutés à ceux de l'appareil. */
+  media: MediaFile[]
   report: MigrationReport | null
   warnings: string[]
   diff: Record<Exclude<DataTable, 'profile'>, TableDiff>
@@ -166,6 +194,7 @@ export function prepareImport(text: string, current: V1.DataV1): { ok: true; pre
     return fail("Ce fichier vient d'une version plus récente de MOTIV : mets l'appli à jour, puis réessaie.")
 
   let incoming: V1.DataV1
+  let media: MediaFile[] = []
   let report: MigrationReport | null = null
   let warnings: string[] = []
   if (file.schemaVersion === 0) {
@@ -182,6 +211,12 @@ export function prepareImport(text: string, current: V1.DataV1): { ok: true; pre
     if (!file.counts || DATA_TABLES.some((t) => t !== 'profile' && file.counts![t] !== d[t as Exclude<DataTable, 'profile'>].length))
       return fail('Sauvegarde tronquée : le nombre de lignes ne correspond pas. Utilise un autre fichier.')
     incoming = withLibrary(sorted(d))
+    if (file.media !== undefined) {
+      const ok =
+        Array.isArray(file.media) && file.media.every((m) => m && typeof m.id === 'string' && typeof m.mime === 'string' && typeof m.base64 === 'string')
+      if (!ok) return fail('Sauvegarde abîmée : les fichiers audio et photo sont illisibles.')
+      media = file.media
+    }
   }
 
   const removedIds = new Set(current.sessions.map((s) => s.id))
@@ -201,6 +236,7 @@ export function prepareImport(text: string, current: V1.DataV1): { ok: true; pre
       exportedAt: typeof file.exportedAt === 'string' ? file.exportedAt : '',
       otherSource: file.schemaVersion === 1 && file.source?.db !== DB_NAME,
       incoming,
+      media,
       report,
       warnings,
       diff,
@@ -235,7 +271,8 @@ async function markWritten(db: MotivDb, at: string, over: Partial<DeviceMeta> = 
  * l'état d'avant est remis.
  */
 export async function commitImport(db: MotivDb, p: Prepared, at: string): Promise<void> {
-  await db.transaction('rw', [...DATA_TABLES, 'meta', 'snapshots'], async () => {
+  const files = p.media.map((m) => ({ id: m.id, bytes: fromBase64(m.base64) }))
+  await db.transaction('rw', [...DATA_TABLES, 'meta', 'snapshots', 'media'], async () => {
     const { data } = await loadAll(db)
     const nowText = canonical(data)
     if (nowText !== p.baseText) throw new Error("Tes données ont changé pendant l'aperçu : recommence l'import.")
@@ -243,6 +280,7 @@ export async function commitImport(db: MotivDb, p: Prepared, at: string): Promis
     const old = await db.snapshots.orderBy('seq').reverse().offset(KEEP_SNAPSHOTS).primaryKeys()
     await db.snapshots.bulkDelete(old)
     await replaceAll(db, p.incoming)
+    await db.media.bulkPut(files)
     await markWritten(db, at)
   })
   const { data } = await loadAll(db)

@@ -25,6 +25,15 @@ export interface DeviceMeta {
   backupSnoozedUntil: string | null
 }
 
+/**
+ * Le fichier d'une preuve (audio, photo), même id que sa fiche dans le profil. Exporté seulement « avec médias ».
+ * Les octets bruts plutôt qu'un Blob : Safari garde mal les Blob dans IndexedDB.
+ */
+export interface MediaRow {
+  id: string
+  bytes: ArrayBuffer
+}
+
 /** Mes données telles qu'avant un import, pour pouvoir l'annuler. */
 export interface SnapshotRow {
   seq?: number
@@ -42,18 +51,28 @@ export type MotivDb = Dexie & {
   measurements: EntityTable<V1.Measurement, 'id'>
   challenges: EntityTable<V1.Challenge, 'id'>
   snapshots: EntityTable<SnapshotRow, 'seq'>
+  media: EntityTable<MediaRow, 'id'>
 }
 
-/** Même numéro pour la base, la sauvegarde et la migration. Une version publiée ne se modifie jamais : on en ajoute une. */
+/** Format des données (sauvegarde et migration). Une version publiée ne se modifie jamais : on en ajoute une. */
 export const SCHEMA_VERSION = 1
 
-/** Tables de mes données : toutes exportées. Les autres (meta, snapshots) restent sur l'appareil. */
+/**
+ * Version de la base sur l'appareil. 2 (lot 5) : ajoute la table `media` (fichiers audio et photo), sans toucher
+ * aux autres tables ; le format des données reste 1.
+ */
+export const DB_VERSION = 2
+
+/**
+ * Tables de mes données : toutes exportées. Les autres restent sur l'appareil (meta, snapshots), sauf `media`,
+ * exportée seulement « avec photos et audio ».
+ */
 export const DATA_TABLES = ['exercises', 'songs', 'sessions', 'templates', 'measurements', 'challenges', 'profile'] as const
-export const DEVICE_TABLES = ['meta', 'snapshots'] as const
+export const DEVICE_TABLES = ['meta', 'snapshots', 'media'] as const
 
 export function createDb(name: string = DB_NAME): MotivDb {
   const db = new Dexie(name) as MotivDb
-  db.version(SCHEMA_VERSION).stores({
+  db.version(1).stores({
     meta: 'key',
     profile: 'key',
     exercises: 'id',
@@ -64,6 +83,7 @@ export function createDb(name: string = DB_NAME): MotivDb {
     challenges: 'id',
     snapshots: '++seq',
   })
+  db.version(DB_VERSION).stores({ media: 'id' })
   return db
 }
 
@@ -102,7 +122,7 @@ export async function loadAll(db: MotivDb): Promise<{ data: V1.DataV1; meta: Dev
  * (rappel de sauvegarde). N'attendre que des opérations Dexie dans `fn`, sinon la transaction se ferme.
  */
 export async function write(db: MotivDb, at: string, fn: (tx: Transaction) => Promise<void>): Promise<void> {
-  await db.transaction('rw', [...DATA_TABLES, 'meta'], async (tx) => {
+  await db.transaction('rw', [...DATA_TABLES, 'meta', 'media'], async (tx) => {
     await fn(tx)
     const meta = (await db.meta.get('device')) ?? NEW_META
     await db.meta.put({ ...meta, lastWriteAt: at })

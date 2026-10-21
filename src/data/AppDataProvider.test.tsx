@@ -335,3 +335,31 @@ test('cycle : lancé avec ses deux objectifs (les objectifs ouverts sont remplac
   await seen.actions!.saveCycleReview('  Jouer le matin  ')
   expect((await db.profile.get('profile'))!.cycles![0].review).toMatchObject({ keep: 'Jouer le matin' })
 })
+
+test('preuves, idées et check-ins (lot 5) : fiche dans le profil, fichier dans `media`, écrits et retirés ensemble', async () => {
+  const db = testDb()
+  await startEmpty(db, '2026-10-20T08:00:00.000Z')
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const proof = { id: 'p1', discipline: 'guitar' as const, kind: 'audio' as const, day: '2026-10-21', createdAt: 'x', mime: 'audio/mp4', songId: 's1' }
+  await seen.actions!.saveProof(proof, new Uint8Array([7]).buffer)
+  expect((await db.profile.get('profile'))!.proofs).toEqual([proof])
+  expect(await db.media.count()).toBe(1)
+  await waitFor(() => expect(seen.value!.v1.profile.proofs).toHaveLength(1))
+  await seen.actions!.deleteProof('p1')
+  expect((await db.profile.get('profile'))!.proofs).toEqual([])
+  expect(await db.media.count()).toBe(0)
+
+  await waitFor(() => expect(seen.value!.v1.profile.proofs).toEqual([]))
+  await seen.actions!.saveIdea('  Apprendre le fingerpicking ')
+  await waitFor(() => expect(seen.value!.v1.profile.ideas).toHaveLength(1))
+  const idea = seen.value!.v1.profile.ideas![0]
+  expect(idea).toMatchObject({ text: 'Apprendre le fingerpicking', status: 'parked' })
+  await seen.actions!.setIdeaStatus(idea.id, 'promoted')
+  await waitFor(() => expect(seen.value!.v1.profile.ideas![0].status).toBe('promoted'))
+
+  await seen.actions!.saveCheckin({ day: '2026-10-21', sleepHours: 7, energy: 3 })
+  await waitFor(() => expect(seen.value!.v1.profile.checkins).toHaveLength(1))
+  await seen.actions!.saveCheckin({ day: '2026-10-21', sleepHours: 8, energy: 4 })
+  expect((await db.profile.get('profile'))!.checkins).toEqual([{ day: '2026-10-21', sleepHours: 8, energy: 4 }])
+})
