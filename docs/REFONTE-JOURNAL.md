@@ -106,7 +106,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Corrigé : Sauvegarde en double dans Réglages ; « Gagné en … » vide quand tout l'historique tient dans la période.
 - 21 oct. 2026 : **lot 6 — Courses Strava** (détails dans `docs/lots/LOT-6.md`). Import par fichier (activities.csv ou .gpx), aperçu, doublons ignorés ; pas de serveur ni de secret.
 - 26 oct. 2026 : **lot 7 — Métronome qui écoute ton rythme** (détails dans `docs/lots/LOT-7.md`). Lancer le métronome ouvre un seul écran : tempo − / +, temps : jauge traîne / presse, tempo joué, stabilité, régularité ; micro analysé sur le téléphone.
-- 26 oct. 2026 : **correctifs guitare** (retour : « tout est cassé »).
+- 26 oct. 2026 : **correctifs guitare** (retour : « tout est cassé »), en ligne (« Push », 26 oct.).
   - Micro refusé sur iPhone : le métronome mettait l'audio en « lecture seule » (pour sonner en mode silencieux), ce qui coupe le micro. L'écoute passe en « lecture et enregistrement » le temps de jouer. Messages d'erreur précis (bloqué, occupé, absent) et détecteur de secours si l'AudioWorklet ne charge pas.
   - Le métronome ne prend plus tout l'écran : la lecture du rythme s'affiche dans sa carte, les onglets restent visibles (aussi sur l'exo en séance).
   - Chrono : toucher un exo (Aujourd'hui ou la séance) lance le chrono ; sortir de l'exo le met en pause ; un morceau (coché dans la séance ou ouvert depuis Aujourd'hui) le relance.
