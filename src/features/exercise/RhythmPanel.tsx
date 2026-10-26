@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { Icon } from '../../design/icons'
-import { Button } from '../../ui/Button'
-import { Stepper } from '../../ui/Stepper'
-import type { Listener } from './listen'
+import { micError, type Listener } from './listen'
 import { consistency, readRhythm, TOLERANCE_BPM, type RhythmRead, type Verdict } from './rhythm'
 
 /** Plus rien entendu depuis 2,5 s : on attend la reprise. */
@@ -25,7 +21,7 @@ const arc = (from: number, to: number, r = 100) => {
 
 function Gauge({ needle, on }: { needle: number; on: boolean }) {
   return (
-    <svg viewBox="0 0 240 140" className="w-full max-w-72" aria-hidden>
+    <svg viewBox="0 0 240 140" className="w-full max-w-60" aria-hidden>
       <path d={arc(-SWING, SWING)} className="stroke-fill-strong" strokeWidth="10" fill="none" strokeLinecap="round" />
       <path d={arc(-ZONE, ZONE)} className="stroke-guitar" strokeWidth="10" fill="none" strokeLinecap="round" />
       {[-60, -40, -20, 20, 40, 60].map((d) => {
@@ -48,25 +44,11 @@ function Gauge({ needle, on }: { needle: number; on: boolean }) {
 }
 
 /**
- * Métronome en plein écran (lot 7), tout sur une page : le tempo (− / +), les temps qui s'allument, et le micro qui
- * écoute ta guitare. Tempo joué, dans le temps ou non (± 5 bpm), stabilité, régularité. « Terminer » arrête tout.
+ * Lecture du rythme (lot 7), dans la carte du métronome pendant qu'il joue : le micro écoute ta guitare. Jauge
+ * traîne / presse, tempo joué, dans le temps ou non (± 5 bpm), stabilité, régularité de la séance.
  */
-export function MetronomeScreen({
-  bpm,
-  onBpm,
-  beat,
-  beats,
-  listener,
-  onEnd,
-}: {
-  bpm: number
-  onBpm: (n: number) => void
-  beat: number
-  beats: number
-  listener: Listener | null
-  onEnd: () => void
-}) {
-  const [state, setState] = useState<'starting' | 'listening' | 'denied'>('starting')
+export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener | null }) {
+  const [state, setState] = useState<'starting' | 'listening' | { error: string }>('starting')
   const [read, setRead] = useState<RhythmRead | null>(null)
   const [verdicts, setVerdicts] = useState<Verdict[]>([])
   const [idle, setIdle] = useState(true)
@@ -78,7 +60,7 @@ export function MetronomeScreen({
     let live = true
     listener.ready.then(
       () => live && setState('listening'),
-      () => live && setState('denied'),
+      (e: unknown) => live && setState({ error: micError(e) }),
     )
     listener.onOnset = (t) => {
       onsets.current = [...onsets.current, t].slice(-KEEP)
@@ -111,70 +93,43 @@ export function MetronomeScreen({
   const showing = !idle && read?.verdict ? read : null
   const on = showing?.verdict === 'on'
   const score = consistency(verdicts)
+  const error = typeof state === 'object' ? state.error : null
   const status = !listener
-    ? 'Métronome seul'
-    : state === 'denied'
-      ? 'Micro refusé'
+    ? 'Micro indisponible'
+    : error
+      ? 'Micro coupé'
       : state === 'starting'
         ? 'Préparation du micro…'
         : showing
           ? STATUS[showing.verdict!]
           : 'Joue, j’écoute…'
 
-  return createPortal(
-    <div
-      role="dialog"
-      aria-modal
-      aria-label="Métronome"
-      className="fixed inset-0 z-50 flex flex-col items-center bg-bg px-5 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),20px)]"
-    >
-      <p className="t-overline mt-4 flex items-center gap-1.5 text-guitar">
-        <Icon name="guitar" />
-        Métronome · dans le temps à ±{TOLERANCE_BPM} bpm
+  return (
+    <div className="flex flex-col items-center gap-2 border-t border-line pt-4" aria-label="Ton rythme" role="group">
+      <Gauge needle={showing?.needle ?? 0} on={on} />
+      <p role="status" aria-live="polite" className={`t-headline -mt-1 tracking-widest uppercase ${on ? 'text-guitar' : 'text-ink'}`}>
+        {status}
       </p>
-      <div className="mt-2 w-full">
-        <Stepper tone="guitar" label="Objectif" onMinus={() => onBpm(bpm - 1)} onPlus={() => onBpm(bpm + 1)}>
-          <p className="tabular-nums">
-            <span className="t-large">{bpm}</span> <span className="t-footnote text-muted">bpm</span>
-          </p>
-        </Stepper>
-      </div>
-      <div aria-hidden className="mt-3 flex justify-center gap-3">
-        {Array.from({ length: beats }, (_, i) => (
-          <span
-            key={i}
-            className={`size-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-ink' : 'bg-guitar'}` : 'bg-fill-strong'}`}
-          />
-        ))}
-      </div>
-
-      <div className="mt-4 flex w-full flex-1 flex-col items-center justify-center gap-2">
-        <Gauge needle={showing?.needle ?? 0} on={on} />
-        <p role="status" aria-live="polite" className={`t-headline tracking-widest uppercase ${on ? 'text-guitar' : 'text-ink'}`}>
-          {status}
-        </p>
-        <p
-          className={`font-display text-[88px] leading-none font-bold tabular-nums ${on ? 'text-guitar' : 'text-ink'}`}
-          aria-label={showing ? `${showing.bpm} bpm joués` : undefined}
-        >
-          {showing?.bpm ?? '–'}
-        </p>
-        <p className="t-footnote rounded-full bg-fill px-3 py-1 font-semibold tracking-widest text-muted uppercase">
-          {showing && showing.stable >= 3 ? 'Stable' : 'Stabilité'}
-        </p>
-        <div className="flex gap-2" aria-label={`Stabilité ${showing?.stable ?? 0} sur 4`} role="img">
+      <p
+        className={`font-display text-[64px] leading-none font-bold tabular-nums ${on ? 'text-guitar' : 'text-ink'}`}
+        aria-label={showing ? `${showing.bpm} bpm joués` : undefined}
+      >
+        {showing?.bpm ?? '–'}
+      </p>
+      <div className="flex items-center gap-2">
+        <span className="t-footnote font-semibold tracking-widest text-muted uppercase">{showing && showing.stable >= 3 ? 'Stable' : 'Stabilité'}</span>
+        <div className="flex gap-1.5" aria-label={`Stabilité ${showing?.stable ?? 0} sur 4`} role="img">
           {[0, 1, 2, 3].map((i) => (
-            <span key={i} className={`h-11 w-9 rounded-md ${showing && i < showing.stable ? 'bg-guitar' : 'bg-fill-strong'}`} />
+            <span key={i} className={`h-6 w-5 rounded ${showing && i < showing.stable ? 'bg-guitar' : 'bg-fill-strong'}`} />
           ))}
         </div>
-        {state === 'denied' && (
-          <p role="alert" className="t-subhead mt-2 text-center text-danger">
-            Autorise le micro dans les réglages du téléphone (Safari › Micro), puis réessaie.
-          </p>
-        )}
       </div>
-
-      <div className="flex w-full flex-col gap-2">
+      {error && (
+        <p role="alert" className="t-subhead text-center text-danger">
+          {error}
+        </p>
+      )}
+      <div className="mt-1 flex w-full flex-col gap-1.5">
         <div className="t-footnote flex justify-between text-muted">
           <span>Régularité</span>
           <span className="tabular-nums">{score === null ? '—' : `${score} %`}</span>
@@ -182,15 +137,8 @@ export function MetronomeScreen({
         <div className="h-2 overflow-hidden rounded-full bg-fill-strong">
           <div className="h-full rounded-full bg-guitar transition-[width]" style={{ width: `${score ?? 0}%` }} />
         </div>
-        <p className="t-footnote mt-1 text-center text-muted">
-          Pose le téléphone près de la guitare, sans écouteurs : le clic est filtré du micro. Rien n’est enregistré.
-        </p>
-        <Button tone="danger" className="mt-2 w-full" onClick={onEnd}>
-          <Icon name="stop" />
-          Terminer
-        </Button>
+        <p className="t-footnote text-muted">Téléphone posé près de la guitare, sans écouteurs : le clic est filtré du micro. Rien n’est enregistré.</p>
       </div>
-    </div>,
-    document.body,
+    </div>
   )
 }

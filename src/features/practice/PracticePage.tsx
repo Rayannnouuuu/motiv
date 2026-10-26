@@ -47,12 +47,21 @@ function toEntries(s: PracticeState, best: (id: string) => number | null, songId
 }
 
 /** Chrono de guitare : le temps qui passe, l'objectif du jour qui se remplit, les exos qu'on coche en jouant. */
+/** Jouer un morceau : le chrono tourne (même au retour d'un exo, qui l'avait mis en pause), le morceau est coché. */
+function playSong(s: PracticeState, id: string | undefined): PracticeState {
+  const running = practiceReducer(s, { type: 'resume', at: new Date() })
+  return id && !running.songs.includes(id) ? practiceReducer(running, { type: 'toggleSong', id }) : running
+}
+
 export function PracticePage() {
   const { data, v1, today } = useAppData()
   const navigate = useNavigate()
-  const nav = useLocation().state as { autostart?: unknown } | null
+  // autostart : « Commencer » ; playSong : un morceau du jour ouvert depuis Aujourd'hui (le chrono tourne).
+  const nav = useLocation().state as { autostart?: unknown; playSong?: string } | null
   // En StrictMode l'initialiseur peut tourner deux fois : seul l'état retenu est sauvegardé (effet ci-dessous).
-  const [session, setSession] = useState<PracticeState | null>(() => loadPractice() ?? (nav?.autostart ? startPractice(new Date(), crypto.randomUUID()) : null))
+  const [session, setSession] = useState<PracticeState | null>(
+    () => loadPractice() ?? (nav?.autostart || nav?.playSong ? startPractice(new Date(), crypto.randomUUID()) : null),
+  )
   const [now, setNow] = useState(() => new Date())
   // Recalculé à chaque instant (et au retour de l'appli, voir plus bas) : une séance de plus de 12 h,
   // même reprise sans rechargement par iOS, demande quoi en faire au lieu d'enregistrer des heures.
@@ -64,7 +73,11 @@ export function PracticePage() {
 
   // autostart consommé : un retour arrière vers cette page ne relance pas de chrono.
   useEffect(() => {
-    if (nav?.autostart) navigate('.', { replace: true })
+    if (nav?.playSong) {
+      const id = data.songs.find((x) => x.title === nav.playSong)?.id
+      setSession((s) => s && playSong(s, id))
+    }
+    if (nav?.autostart || nav?.playSong) navigate('.', { replace: true })
     // Une seule fois, à l'ouverture.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -256,17 +269,13 @@ export function PracticePage() {
                 >
                   {done && <Icon name="check" size="1em" />}
                 </button>
-                <span className="flex min-w-0 flex-1 flex-col">
-                  <span className={`t-headline truncate ${done ? 'text-muted' : ''}`}>{ex.title}</span>
-                  <span className="t-footnote text-muted tabular-nums">
-                    Aujourd'hui {target} bpm{record !== null && ` · record ${record}`}
+                <Link to={`/jouer/exo/${ex.id}`} className="tap -my-2.5 -mr-3.5 flex min-w-0 flex-1 items-center gap-3 self-stretch py-2.5 pr-3.5">
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className={`t-headline truncate ${done ? 'text-muted' : ''}`}>{ex.title}</span>
+                    <span className="t-footnote text-muted tabular-nums">
+                      Aujourd'hui {target} bpm{record !== null && ` · record ${record}`}
+                    </span>
                   </span>
-                </span>
-                <Link
-                  to={`/jouer/exo/${ex.id}`}
-                  aria-label={`Tablature : ${ex.title}`}
-                  className="tap -my-2.5 -mr-3.5 flex min-w-11 items-center justify-center self-stretch px-4"
-                >
                   <RowChevron />
                 </Link>
               </li>
@@ -285,7 +294,8 @@ export function PracticePage() {
                     aria-pressed={on}
                     onClick={() => {
                       haptic()
-                      dispatch({ type: 'toggleSong', id: s.id })
+                      // Cocher un morceau, c'est le jouer : le chrono repart s'il était en pause.
+                      setSession((cur) => cur && (on ? practiceReducer(cur, { type: 'toggleSong', id: s.id }) : playSong(cur, s.id)))
                     }}
                     className={`hit tap-scale t-footnote flex items-center gap-1 rounded-full px-3 py-1.5 transition-colors duration-200 ${on ? 'bg-guitar font-semibold text-on-guitar' : 'bg-fill'}`}
                   >

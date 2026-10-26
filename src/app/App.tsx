@@ -150,13 +150,13 @@ export function AppRoutes() {
             </Focus>
           }
         />
-        {/* L'exo en cours d'une séance guitare : plein écran, sans onglets. */}
+        {/* L'exo en cours d'une séance guitare : les onglets restent ; en sortir met le chrono en pause. */}
         <Route
           path="/jouer/exo/:id"
           element={
-            <Focus>
+            <Shell>
               <ExercisePage />
-            </Focus>
+            </Shell>
           }
         />
         <Route

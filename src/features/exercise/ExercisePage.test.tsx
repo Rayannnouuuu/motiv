@@ -106,7 +106,7 @@ test('« Logger cet exo » après lecture : le dernier tempo joué est transmis'
   renderPage('legato-4', { guitarSessions: [g('2026-10-10', 30, [ex('legato-4', 80)])] })
   await userEvent.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
   await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
-  await userEvent.click(screen.getByRole('button', { name: 'Terminer' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
   await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
   expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":81}')).toBeInTheDocument()
 })
@@ -118,7 +118,7 @@ test('« Logger cet exo » : le tempo le plus rapide joué est transmis, même a
   await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
   await userEvent.click(screen.getByRole('button', { name: 'Tempo +' }))
   await userEvent.click(screen.getByRole('button', { name: 'Tempo −' }))
-  await userEvent.click(screen.getByRole('button', { name: 'Terminer' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
   await userEvent.click(screen.getByRole('button', { name: 'Logger cet exo' }))
   expect(screen.getByText('at /log/guitare {"exerciseId":"legato-4","bpm":82}')).toBeInTheDocument()
 })
@@ -136,4 +136,35 @@ test('séance en cours : exo k/N et chrono, tempo proposé avec sa raison, « pr
   expect(screen.getByRole('heading', { name: second.title })).toBeInTheDocument()
   expect(screen.getByText('Exo 2 sur 3')).toBeInTheDocument()
   expect(loadPractice()).toMatchObject({ exercises: [first.id], clean: { [first.id]: first.startBpm + 5 } })
+})
+
+test('exo ouvert dans la séance (/jouer/exo) : le chrono démarre tout seul, et se met en pause en sortant', async () => {
+  savePractice(null)
+  const [first] = dailyPlan(EMPTY_DATA, '2026-10-15')
+  renderWithData(
+    <Routes>
+      <Route path="/jouer/exo/:id" element={<ExercisePage />} />
+      <Route path="*" element={<Probe />} />
+    </Routes>,
+    { route: `/jouer/exo/${first.id}` },
+  )
+  expect(loadPractice()).toMatchObject({ pausedAt: null })
+  await userEvent.click(screen.getByRole('button', { name: 'Retour à la séance' }))
+  expect(loadPractice()!.pausedAt).not.toBeNull()
+})
+
+test('séance en pause : rouvrir un exo relance le chrono ; une fiche hors séance (/exo) n’y touche pas', () => {
+  const paused = { ...startPractice(new Date(), 'p'), pausedAt: new Date().toISOString() }
+  savePractice(paused)
+  const [first] = dailyPlan(EMPTY_DATA, '2026-10-15')
+  const { unmount } = renderPage(first.id)
+  expect(loadPractice()!.pausedAt).not.toBeNull()
+  unmount()
+  renderWithData(
+    <Routes>
+      <Route path="/jouer/exo/:id" element={<ExercisePage />} />
+    </Routes>,
+    { route: `/jouer/exo/${first.id}` },
+  )
+  expect(loadPractice()!.pausedAt).toBeNull()
 })

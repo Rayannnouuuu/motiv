@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { CATEGORY_LABELS, getExercise } from '../../content/exercises'
 import { tipsFor } from '../../content/tips'
 import { useAppData } from '../../data/AppDataContext'
@@ -13,7 +13,7 @@ import { Button } from '../../ui/Button'
 import { Gauge } from '../../ui/Gauge'
 import { SessionBar, Segments } from '../../ui/SessionBar'
 import { TabView } from '../../ui/TabView'
-import { elapsedMs, isStale, loadPractice, practiceReducer, savePractice } from '../practice/practiceSession'
+import { elapsedMs, isStale, loadPractice, practiceReducer, savePractice, startPractice } from '../practice/practiceSession'
 import { Metronome } from './Metronome'
 import { clampBpm } from './metronome'
 
@@ -40,11 +40,29 @@ export function ExercisePage() {
   // Tempo affiché au métronome, et l'exo coché « propre » à ce tempo.
   const [tempo, setTempo] = useState<{ exerciseId: string; bpm: number } | null>(null)
   const [cleanId, setCleanId] = useState<string | null>(null)
+  // Ouvert depuis la séance ou Aujourd'hui (/jouer/exo) : le chrono démarre ou repart, et s'arrête en sortant.
+  const live = useLocation().pathname.startsWith('/jouer/')
   // Une séance guitare tourne : la fiche devient l'exo en cours (validé dans la séance plutôt que loggé à part).
   const [practice] = useState(() => {
+    const now = new Date()
     const s = loadPractice()
-    return s && !isStale(s, new Date()) ? s : null
+    if (s && isStale(s, now)) return null
+    if (!live) return s
+    const running = s ? practiceReducer(s, { type: 'resume', at: now }) : startPractice(now, crypto.randomUUID())
+    savePractice(running)
+    return running
   })
+  useEffect(() => {
+    if (!live) return
+    const at = () => new Date()
+    // Retour sur la fiche (StrictMode, navigation) : le chrono repart ; en sortant, il se met en pause.
+    const s = loadPractice()
+    if (s && !isStale(s, at())) savePractice(practiceReducer(s, { type: 'resume', at: at() }))
+    return () => {
+      const cur = loadPractice()
+      if (cur && cur.pausedAt === null) savePractice(practiceReducer(cur, { type: 'pause', at: at() }))
+    }
+  }, [live])
 
   if (!ex)
     return (

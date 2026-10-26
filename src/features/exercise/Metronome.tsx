@@ -4,8 +4,9 @@ import { Icon } from '../../design/icons'
 import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
+import { setAudioSession } from './audioSession'
 import { canListen, startListening, type Listener } from './listen'
-import { MetronomeScreen } from './MetronomeScreen'
+import { RhythmPanel } from './RhythmPanel'
 import { clampBpm, initialBpm, resubdivide, schedule, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
 
 /** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
@@ -30,16 +31,6 @@ const SUB_LABELS: Record<number, string> = { 2: 'Croches', 3: 'Triolets', 4: 'Do
 function defaultContext(): AudioContextLike {
   const Ctor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
   return new Ctor()
-}
-
-/** Sur iPhone, « playback » fait sonner l'audio web malgré l'interrupteur silencieux (API absente de lib.dom). */
-function setAudioSession(type: 'playback' | 'auto') {
-  try {
-    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
-    if (session) session.type = type
-  } catch {
-    // non disponible
-  }
 }
 
 /** Un clic = un oscillateur bref : montée en 2 ms, extinction à 40 ms. */
@@ -204,8 +195,9 @@ export function Metronome({
     haptic()
     const e = engine()
     if (e.playing) {
-      e.stop()
+      // Le micro d'abord : l'arrêt du métronome remet ensuite le mode audio normal.
       listener?.stop()
+      e.stop()
       setListener(null)
       setPlaying(false)
       setBeat(-1)
@@ -292,8 +284,15 @@ export function Metronome({
         {jump(1)}
       </div>
 
-      <div className="flex items-center justify-end gap-4">
-        <p className="t-footnote flex-1 text-muted">Lance-le : le micro écoute ta guitare et te dit si tu es dans le temps.</p>
+      <div className="flex items-center justify-between gap-4">
+        <div aria-hidden className="flex flex-1 justify-center gap-3">
+          {Array.from({ length: BEATS }, (_, i) => (
+            <span
+              key={i}
+              className={`size-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-ink' : 'bg-guitar'}` : 'bg-fill-strong'}`}
+            />
+          ))}
+        </div>
         <button
           type="button"
           onClick={toggle}
@@ -304,8 +303,11 @@ export function Metronome({
         </button>
       </div>
 
-      <p className="t-footnote text-muted">Le métronome sonne même en mode silencieux.</p>
-      {playing && <MetronomeScreen bpm={bpm} onBpm={changeBpm} beat={beat} beats={BEATS} listener={listener} onEnd={toggle} />}
+      {playing ? (
+        <RhythmPanel bpm={bpm} listener={listener} />
+      ) : (
+        <p className="t-footnote text-muted">Lance-le : le micro écoute ta guitare et te dit si tu es dans le temps. Il sonne même en mode silencieux.</p>
+      )}
     </section>
   )
 }

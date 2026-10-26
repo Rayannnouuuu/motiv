@@ -97,15 +97,15 @@ export function useToday() {
         title: ex.title,
         detail: `${guitarTarget(historyOf(v1.sessions, ex.id), ex.startBpm).bpm} bpm${best !== null ? ` · record ${best}` : ''}`,
         meta: `niv. ${ex.difficulty}`,
-        to: `/exo/${ex.id}`,
+        to: `/jouer/exo/${ex.id}`,
         done: doneToday.has(ex.id),
       }
     })
     const songs = songsOfTheDay(data.songs, data.guitarSessions, today).map((title): Step => ({
       title,
       detail: 'Morceau du jour',
-      to: '/log/guitare',
-      state: { songTitle: title },
+      to: '/jouer',
+      state: { playSong: title },
     }))
     return [...exos, ...songs]
   }

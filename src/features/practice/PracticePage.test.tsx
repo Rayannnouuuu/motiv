@@ -99,7 +99,7 @@ describe('PracticePage', () => {
     fireEvent.click(box)
     expect(box).toHaveAttribute('aria-pressed', 'true')
     expect(loadPractice()?.exercises).toEqual([first.id])
-    expect(screen.getByRole('link', { name: `Tablature : ${first.title}` })).toHaveAttribute('href', `/jouer/exo/${first.id}`)
+    expect(screen.getByRole('link', { name: new RegExp(`^${first.title}`) })).toHaveAttribute('href', `/jouer/exo/${first.id}`)
   })
 
   test('Terminer : log pré-rempli (durée, exos et morceaux cochés, jour, id de séance), à l’étape des notes', () => {
@@ -206,5 +206,19 @@ describe('PracticePage', () => {
     vi.setSystemTime(new Date('2026-10-15T22:10:00Z'))
     renderPractice({ today: '2026-10-16', route: '/jouer', data: { guitarSessions: [g('2026-10-15', 30)] } })
     expect(screen.getByText('Séance comptée')).toBeInTheDocument() // 30 + 30 sur le 15
+  })
+
+  test('chrono en pause (retour d’un exo) : cocher un morceau le relance', () => {
+    const songs = [mkSong({ id: 'song-p', title: 'Paranoid' })]
+    savePractice({ ...startPractice(new Date(), 'p'), pausedAt: new Date().toISOString() })
+    renderPractice({ data: { songs }, route: '/jouer' })
+    click('Paranoid')
+    expect(loadPractice()).toMatchObject({ pausedAt: null, songs: ['song-p'] })
+  })
+
+  test('morceau du jour ouvert depuis Aujourd’hui : chrono lancé, morceau coché', () => {
+    const songs = [mkSong({ id: 'song-p', title: 'Paranoid' })]
+    renderPractice({ data: { songs }, route: { pathname: '/jouer', state: { playSong: 'Paranoid' } } })
+    expect(loadPractice()).toMatchObject({ pausedAt: null, songs: ['song-p'] })
   })
 })

@@ -30,8 +30,45 @@ class MotivOnset extends AudioWorkletProcessor {
 registerProcessor('motiv-onset', MotivOnset)
 `
 
-export const canListen = () =>
-  typeof window !== 'undefined' && !!navigator.mediaDevices?.getUserMedia && 'AudioWorkletNode' in window && 'AudioContext' in window
+import { setAudioSession } from './audioSession'
+
+export const canListen = () => typeof window !== 'undefined' && !!navigator.mediaDevices?.getUserMedia && 'AudioContext' in window
+
+/** Ce que l'écran dit quand le micro ne démarre pas. */
+export function micError(e: unknown): string {
+  const name = e instanceof Error || e instanceof DOMException ? e.name : ''
+  if (name === 'NotAllowedError' || name === 'SecurityError')
+    return 'Le micro est bloqué pour MOTIV : Réglages › Safari › Micro (ou aA › Réglages du site), puis relance le métronome.'
+  if (name === 'NotFoundError') return 'Aucun micro trouvé sur cet appareil.'
+  if (name === 'NotReadableError') return 'Le micro est déjà utilisé par une autre appli (appel, dictée…). Ferme-la, puis relance.'
+  return `Le micro ne démarre pas${name ? ` (${name})` : ''}. Le métronome marche quand même.`
+}
+
+/** Détecteur de secours (navigateur sans AudioWorklet) : le même calcul, lu toutes les 10 ms. */
+function pollOnsets(ctx: AudioContext, input: AudioNode, emit: (t: number) => void): () => void {
+  const analyser = ctx.createAnalyser()
+  analyser.fftSize = 512
+  input.connect(analyser)
+  const buf = new Float32Array(analyser.fftSize)
+  let slow = 0
+  let above = false
+  let last = -1
+  const timer = setInterval(() => {
+    analyser.getFloatTimeDomainData(buf)
+    let e = 0
+    for (const x of buf) e += x * x
+    e /= buf.length
+    const t = ctx.currentTime
+    const now = e > Math.max(2e-5, slow * 3)
+    if (now && !above && t - last > 0.07) {
+      last = t
+      emit(t)
+    }
+    above = now
+    slow = slow * 0.9 + e * 0.1
+  }, 10)
+  return () => clearInterval(timer)
+}
 
 export interface Listener {
   /** Résolue quand le micro écoute ; rejetée si refusé. */
@@ -43,37 +80,50 @@ export interface Listener {
 
 /** À appeler dans le geste de l'utilisateur : le contexte audio démarre alors tout de suite sur iPhone. */
 export function startListening(): Listener {
+  // Sans ça, iPhone (mode « playback » du métronome) refuse le micro.
+  setAudioSession('play-and-record')
   const ctx = new AudioContext()
   ctx.resume().catch(() => {})
   let stream: MediaStream | null = null
   let stopped = false
+  let stopPolling: (() => void) | null = null
   const listener: Listener = {
     onOnset: null,
     ready: (async () => {
       // Annulation d'écho : retire le clic du métronome joué par le haut-parleur. Le reste brut : les attaques comptent.
       stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: false } })
       if (stopped) return stream.getTracks().forEach((t) => t.stop())
-      const url = URL.createObjectURL(new Blob([WORKLET], { type: 'application/javascript' }))
-      try {
-        await ctx.audioWorklet.addModule(url)
-      } finally {
-        URL.revokeObjectURL(url)
-      }
       const source = ctx.createMediaStreamSource(stream)
       // Coupe le grave (souffle, poignée) : l'attaque est plus haut.
       const filter = ctx.createBiquadFilter()
       filter.type = 'highpass'
       filter.frequency.value = 200
-      const node = new AudioWorkletNode(ctx, 'motiv-onset')
-      node.port.onmessage = (e: MessageEvent<number>) => listener.onOnset?.(e.data)
+      source.connect(filter)
       // Relié à la sortie à volume nul : sinon certains navigateurs ne font pas tourner le détecteur.
       const mute = ctx.createGain()
       mute.gain.value = 0
-      source.connect(filter).connect(node).connect(mute).connect(ctx.destination)
+      mute.connect(ctx.destination)
+      const emit = (t: number) => listener.onOnset?.(t)
+      try {
+        const url = URL.createObjectURL(new Blob([WORKLET], { type: 'application/javascript' }))
+        try {
+          await ctx.audioWorklet.addModule(url)
+        } finally {
+          URL.revokeObjectURL(url)
+        }
+        const node = new AudioWorkletNode(ctx, 'motiv-onset')
+        node.port.onmessage = (e: MessageEvent<number>) => emit(e.data)
+        filter.connect(node).connect(mute)
+      } catch {
+        stopPolling = pollOnsets(ctx, filter, emit)
+        filter.connect(mute)
+      }
     })(),
     stop() {
       stopped = true
+      stopPolling?.()
       stream?.getTracks().forEach((t) => t.stop())
+      setAudioSession('playback')
       ctx.close().catch(() => {})
     },
   }
