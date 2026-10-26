@@ -2,7 +2,7 @@
 
 _26 oct. 2026. Demande : « quand je joue avec le métronome, détecter si je suis dans le rythme », écran sur le modèle de Kizamu (capture envoyée)._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push », 26 oct.).**
 
 ## Ce qui change
 

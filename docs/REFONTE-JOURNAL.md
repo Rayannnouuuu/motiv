@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne. Lot 6 (courses Strava par fichier) en ligne aussi (« Push tout », 21 oct.). Lot 7 (métronome qui écoute ton rythme, tout sur un écran) sur l'essai, en attente de validation.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne. Lot 6 (courses Strava par fichier) en ligne aussi (« Push tout », 21 oct.). Lot 7 (métronome qui écoute ton rythme, tout sur un écran) en ligne aussi (« Push », 26 oct.).
 
 ## Fait
 
