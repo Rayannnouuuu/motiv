@@ -4,6 +4,8 @@ import { Icon } from '../../design/icons'
 import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
+import { canListen, startListening, type Listener } from './listen'
+import { RhythmCoach } from './RhythmCoach'
 import { clampBpm, initialBpm, resubdivide, schedule, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
 
 /** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
@@ -171,7 +173,10 @@ export function Metronome({
   const [sub, setSub] = useState<number>(patternSub)
   const [playing, setPlaying] = useState(false)
   const [beat, setBeat] = useState(-1)
+  const [coach, setCoach] = useState<Listener | null>(null)
   const engineRef = useRef<Engine | null>(null)
+  const coachRef = useRef<Listener | null>(null)
+  coachRef.current = coach
 
   const engine = () => (engineRef.current ??= new Engine(bpm, sub, createContext, setBeat))
 
@@ -186,6 +191,7 @@ export function Metronome({
     document.addEventListener('visibilitychange', onVisibility)
     return () => {
       document.removeEventListener('visibilitychange', onVisibility)
+      coachRef.current?.stop()
       engineRef.current?.dispose()
       engineRef.current = null
     }
@@ -202,6 +208,21 @@ export function Metronome({
       setPlaying(true)
       onPlayed?.(e.bpm)
     }
+  }
+
+  /** Vérifier mon rythme : le métronome joue, le micro écoute (les deux démarrent dans ce toucher, pour iPhone). */
+  const openCoach = () => {
+    haptic()
+    const e = engine()
+    if (!e.playing && e.start()) {
+      setPlaying(true)
+      onPlayed?.(e.bpm)
+    }
+    setCoach(startListening())
+  }
+  const closeCoach = () => {
+    coach?.stop()
+    setCoach(null)
   }
 
   const changeBpm = (n: number) => {
@@ -299,7 +320,19 @@ export function Metronome({
         </button>
       </div>
 
+      {canListen() && (
+        <button
+          type="button"
+          onClick={openCoach}
+          className="hit tap t-subhead flex items-center justify-center gap-1.5 rounded-lg bg-guitar/12 py-2.5 font-semibold text-guitar"
+        >
+          <Icon name="mic" />
+          Vérifier mon rythme
+        </button>
+      )}
+
       <p className="t-footnote text-muted">Le métronome sonne même en mode silencieux.</p>
+      {coach && <RhythmCoach bpm={bpm} listener={coach} onEnd={closeCoach} />}
     </section>
   )
 }
