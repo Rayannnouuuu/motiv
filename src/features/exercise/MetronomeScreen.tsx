@@ -182,7 +182,9 @@ export function MetronomeScreen({
         <div className="h-2 overflow-hidden rounded-full bg-fill-strong">
           <div className="h-full rounded-full bg-guitar transition-[width]" style={{ width: `${score ?? 0}%` }} />
         </div>
-        <p className="t-footnote mt-1 text-center text-muted">Avec des écouteurs, le micro n’entend que ta guitare. Rien n’est enregistré.</p>
+        <p className="t-footnote mt-1 text-center text-muted">
+          Pose le téléphone près de la guitare, sans écouteurs : le clic est filtré du micro. Rien n’est enregistré.
+        </p>
         <Button tone="danger" className="mt-2 w-full" onClick={onEnd}>
           <Icon name="stop" />
           Terminer

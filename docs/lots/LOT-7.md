@@ -21,7 +21,7 @@ Retour : « tout sur la même page, pas d'options cachées ». Plus de bouton à
 
 - Le micro passe par un détecteur d'attaques (AudioWorklet) : énergie du son toutes les 3 ms, comparée à sa moyenne ; une attaque compte une fois (70 ms de pause), le grave est coupé (200 Hz).
 - Le tempo joué est la médiane des 8 derniers intervalles, ramenés au temps (`features/exercise/rhythm.ts`, testé).
-- Annulation d'écho activée : le clic joué par le haut-parleur est retiré du micro. Avec des écouteurs, le micro n'entend que la guitare.
+- Annulation d'écho activée : le clic joué par le haut-parleur est retiré du micro. Sans écouteurs : avec des écouteurs Bluetooth, le téléphone passerait sur leur micro, qui entend mal la guitare. Téléphone posé près de la guitare.
 
 ## Décisions (option la plus simple)
 
