@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Icon } from '../../design/icons'
 import { Button } from '../../ui/Button'
+import { Stepper } from '../../ui/Stepper'
 import type { Listener } from './listen'
 import { consistency, readRhythm, TOLERANCE_BPM, type RhythmRead, type Verdict } from './rhythm'
 
@@ -47,10 +48,24 @@ function Gauge({ needle, on }: { needle: number; on: boolean }) {
 }
 
 /**
- * Vérifier mon rythme (lot 7) : le micro écoute pendant que le métronome joue. Tempo joué, dans le temps ou
- * non (± 5 bpm), stabilité et régularité de la séance. Écran plein, « Terminer » pour revenir à l'exo.
+ * Métronome en plein écran (lot 7), tout sur une page : le tempo (− / +), les temps qui s'allument, et le micro qui
+ * écoute ta guitare. Tempo joué, dans le temps ou non (± 5 bpm), stabilité, régularité. « Terminer » arrête tout.
  */
-export function RhythmCoach({ bpm, listener, onEnd }: { bpm: number; listener: Listener; onEnd: () => void }) {
+export function MetronomeScreen({
+  bpm,
+  onBpm,
+  beat,
+  beats,
+  listener,
+  onEnd,
+}: {
+  bpm: number
+  onBpm: (n: number) => void
+  beat: number
+  beats: number
+  listener: Listener | null
+  onEnd: () => void
+}) {
   const [state, setState] = useState<'starting' | 'listening' | 'denied'>('starting')
   const [read, setRead] = useState<RhythmRead | null>(null)
   const [verdicts, setVerdicts] = useState<Verdict[]>([])
@@ -59,6 +74,7 @@ export function RhythmCoach({ bpm, listener, onEnd }: { bpm: number; listener: L
   const lastAt = useRef(0)
 
   useEffect(() => {
+    if (!listener) return
     let live = true
     listener.ready.then(
       () => live && setState('listening'),
@@ -95,21 +111,44 @@ export function RhythmCoach({ bpm, listener, onEnd }: { bpm: number; listener: L
   const showing = !idle && read?.verdict ? read : null
   const on = showing?.verdict === 'on'
   const score = consistency(verdicts)
-  const status = state === 'denied' ? 'Micro refusé' : state === 'starting' ? 'Préparation du micro…' : showing ? STATUS[showing.verdict!] : 'Joue, j’écoute…'
+  const status = !listener
+    ? 'Métronome seul'
+    : state === 'denied'
+      ? 'Micro refusé'
+      : state === 'starting'
+        ? 'Préparation du micro…'
+        : showing
+          ? STATUS[showing.verdict!]
+          : 'Joue, j’écoute…'
 
   return createPortal(
     <div
       role="dialog"
       aria-modal
-      aria-label="Vérifier mon rythme"
+      aria-label="Métronome"
       className="fixed inset-0 z-50 flex flex-col items-center bg-bg px-5 pt-[max(env(safe-area-inset-top),20px)] pb-[max(env(safe-area-inset-bottom),20px)]"
     >
-      <p className="t-overline mt-6 flex items-center gap-1.5 text-guitar">
-        <Icon name="target" />
-        Objectif {bpm} <span className="text-muted">±{TOLERANCE_BPM}</span>
+      <p className="t-overline mt-4 flex items-center gap-1.5 text-guitar">
+        <Icon name="guitar" />
+        Métronome · dans le temps à ±{TOLERANCE_BPM} bpm
       </p>
+      <div className="mt-2 w-full">
+        <Stepper tone="guitar" label="Objectif" onMinus={() => onBpm(bpm - 1)} onPlus={() => onBpm(bpm + 1)}>
+          <p className="tabular-nums">
+            <span className="t-large">{bpm}</span> <span className="t-footnote text-muted">bpm</span>
+          </p>
+        </Stepper>
+      </div>
+      <div aria-hidden className="mt-3 flex justify-center gap-3">
+        {Array.from({ length: beats }, (_, i) => (
+          <span
+            key={i}
+            className={`size-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-ink' : 'bg-guitar'}` : 'bg-fill-strong'}`}
+          />
+        ))}
+      </div>
 
-      <div className="mt-6 flex w-full flex-1 flex-col items-center gap-2">
+      <div className="mt-4 flex w-full flex-1 flex-col items-center justify-center gap-2">
         <Gauge needle={showing?.needle ?? 0} on={on} />
         <p role="status" aria-live="polite" className={`t-headline tracking-widest uppercase ${on ? 'text-guitar' : 'text-ink'}`}>
           {status}

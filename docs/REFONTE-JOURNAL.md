@@ -4,7 +4,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 
 ## Où on en est
 
-**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne. Lot 6 (courses Strava par fichier) en ligne aussi (« Push tout », 21 oct.). Lot 7 (vérifier mon rythme au métronome) sur l'essai, en attente de validation.
+**Lots 1, 2 et 3 en ligne sur `/motiv/` (« Push tout », 20 oct.).** Lot 3b (refonte visuelle, plan sport complet, indisponibilités) en ligne aussi (« Push tout », 20 oct.). Lot 4 (Progrès et rythme, « Mes séances ») en ligne aussi (« Push tout », 21 oct.). Lot 5 (Preuves et anti-stagnation) en ligne aussi (« Push tout », 21 oct.). Les 5 lots de la refonte sont en ligne. Lot 6 (courses Strava par fichier) en ligne aussi (« Push tout », 21 oct.). Lot 7 (métronome qui écoute ton rythme, tout sur un écran) sur l'essai, en attente de validation.
 
 ## Fait
 
@@ -105,7 +105,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Base en version 2 : une table `media` en plus, rien d'autre ne bouge ; montée testée sur une copie de tes données. Export avec ou sans photos et audio.
   - Corrigé : Sauvegarde en double dans Réglages ; « Gagné en … » vide quand tout l'historique tient dans la période.
 - 21 oct. 2026 : **lot 6 — Courses Strava** (détails dans `docs/lots/LOT-6.md`). Import par fichier (activities.csv ou .gpx), aperçu, doublons ignorés ; pas de serveur ni de secret.
-- 26 oct. 2026 : **lot 7 — Vérifier mon rythme** (détails dans `docs/lots/LOT-7.md`). Écran plein depuis le métronome : jauge traîne / presse, tempo joué, stabilité, régularité ; micro analysé sur le téléphone.
+- 26 oct. 2026 : **lot 7 — Métronome qui écoute ton rythme** (détails dans `docs/lots/LOT-7.md`). Lancer le métronome ouvre un seul écran : tempo − / +, temps : jauge traîne / presse, tempo joué, stabilité, régularité ; micro analysé sur le téléphone.
 
 ## Décidé (détails, option la plus simple)
 

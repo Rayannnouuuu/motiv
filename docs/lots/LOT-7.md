@@ -1,4 +1,4 @@
-# Lot 7 — Vérifier mon rythme
+# Lot 7 — Métronome qui écoute ton rythme
 
 _26 oct. 2026. Demande : « quand je joue avec le métronome, détecter si je suis dans le rythme », écran sur le modèle de Kizamu (capture envoyée)._
 
@@ -6,13 +6,14 @@ _26 oct. 2026. Demande : « quand je joue avec le métronome, détecter si je su
 
 ## Ce qui change
 
-- **Fiche exo › Métronome › « Vérifier mon rythme »** : le métronome démarre (s'il ne joue pas déjà) et un écran plein s'ouvre, le micro écoute.
-  - En haut, l'objectif : le tempo du métronome, ± 5 bpm.
-  - Une jauge TRAÎNE / PRESSE, avec la zone « dans le temps » en couleur et l'aiguille sur ton tempo.
-  - « Dans le temps », « Tu presses » ou « Tu traînes », et ton tempo joué en grand.
-  - Stabilité en 4 barres (régularité de tes intervalles).
-  - Régularité de la séance : la part du temps passé dans le temps, en %.
-  - « Terminer » referme l'écran ; le métronome continue.
+Retour : « tout sur la même page, pas d'options cachées ». Plus de bouton à part : **lancer le métronome ouvre un seul écran plein** avec tout dessus.
+
+- En haut, le tempo du métronome avec − / + (l'objectif), et les 4 temps qui s'allument.
+- Le micro écoute tout seul : une jauge TRAÎNE / PRESSE, la zone « dans le temps » (± 5 bpm) en couleur, l'aiguille sur ton tempo.
+- « Dans le temps », « Tu presses » ou « Tu traînes », et ton tempo joué en grand.
+- Stabilité en 4 barres (régularité de tes intervalles), régularité de la séance en %.
+- « Terminer » arrête le métronome et le micro.
+- Sans micro (refusé ou navigateur qui ne sait pas) : le même écran, en métronome seul.
 - Croches, triolets ou doubles : chaque intervalle est ramené au temps, le tempo lu reste celui du métronome.
 - Rien n'est enregistré : le son du micro est analysé sur le téléphone, puis oublié.
 

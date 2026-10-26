@@ -51,7 +51,7 @@ test('lancer programme des oscillateurs, le premier à 1600 Hz, dans le geste', 
   expect(audio.oscillators()[0].stop).toHaveBeenCalledWith(expect.closeTo(0.1))
   expect(audio.ctx.createGain).toHaveBeenCalledTimes(1)
   expect(onPlayed).toHaveBeenCalledWith(120)
-  expect(screen.getByRole('button', { name: 'Arrêter le métronome' })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Terminer' })).toBeInTheDocument()
 
   // 120 bpm en croches : un clic tous les 0,25 s, accent sur le 1, temps, subdivisions.
   await audio.play(1000)
@@ -109,7 +109,7 @@ test('arrêter : plus aucun nouvel oscillateur', async () => {
   const count = audio.ctx.createOscillator.mock.calls.length
   expect(count).toBeGreaterThan(1)
 
-  await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
+  await user.click(screen.getByRole('button', { name: 'Terminer' }))
   expect(audio.ctx.suspend).toHaveBeenCalled()
   await audio.play(2000)
   expect(audio.ctx.createOscillator).toHaveBeenCalledTimes(count)
@@ -189,29 +189,30 @@ test('mode silencieux de l’iPhone : session audio « playback » pendant la le
     expect(screen.getByText('Le métronome sonne même en mode silencieux.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
     expect(session.type).toBe('playback')
-    await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
+    await user.click(screen.getByRole('button', { name: 'Terminer' }))
     expect(session.type).toBe('auto')
   } finally {
     Reflect.deleteProperty(navigator, 'audioSession')
   }
 })
 
-test('les points de temps s’allument quand le clic sonne', async () => {
+test('lancé : plein écran, les points de temps s’allument quand le clic sonne ; « Terminer » referme', async () => {
   const audio = fakeAudio()
   const user = setup()
-  const { container } = render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
+  render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
   const dots = () =>
-    [...container.querySelectorAll('[aria-hidden] > span')].map((d) =>
+    [...document.querySelectorAll('[role="dialog"] [aria-hidden] > span')].map((d) =>
       d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G',
     )
-  expect(dots()).toEqual(['·', '·', '·', '·'])
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
+  expect(dots()).toEqual(['·', '·', '·', '·'])
   await audio.play(100)
   expect(dots()).toEqual(['F', '·', '·', '·'])
   await audio.play(1000)
   expect(dots()).toEqual(['·', 'G', '·', '·'])
-  await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
-  expect(dots()).toEqual(['·', '·', '·', '·'])
+  await user.click(screen.getByRole('button', { name: 'Terminer' }))
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })
 
 test('navigateur sans audio web : le bouton ne plante pas', async () => {

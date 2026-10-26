@@ -5,7 +5,7 @@ import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
 import { canListen, startListening, type Listener } from './listen'
-import { RhythmCoach } from './RhythmCoach'
+import { MetronomeScreen } from './MetronomeScreen'
 import { clampBpm, initialBpm, resubdivide, schedule, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
 
 /** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
@@ -173,10 +173,10 @@ export function Metronome({
   const [sub, setSub] = useState<number>(patternSub)
   const [playing, setPlaying] = useState(false)
   const [beat, setBeat] = useState(-1)
-  const [coach, setCoach] = useState<Listener | null>(null)
+  const [listener, setListener] = useState<Listener | null>(null)
   const engineRef = useRef<Engine | null>(null)
-  const coachRef = useRef<Listener | null>(null)
-  coachRef.current = coach
+  const listenerRef = useRef<Listener | null>(null)
+  listenerRef.current = listener
 
   const engine = () => (engineRef.current ??= new Engine(bpm, sub, createContext, setBeat))
 
@@ -185,44 +185,35 @@ export function Metronome({
     const onVisibility = () => {
       if (document.visibilityState !== 'hidden' || !engineRef.current?.playing) return
       engineRef.current.stop()
+      listenerRef.current?.stop()
+      setListener(null)
       setPlaying(false)
       setBeat(-1)
     }
     document.addEventListener('visibilitychange', onVisibility)
     return () => {
       document.removeEventListener('visibilitychange', onVisibility)
-      coachRef.current?.stop()
+      listenerRef.current?.stop()
       engineRef.current?.dispose()
       engineRef.current = null
     }
   }, [])
 
+  /** Lancer : le métronome joue et le micro écoute, les deux dans ce toucher (sinon iPhone garde l'audio muet). */
   const toggle = () => {
     haptic()
     const e = engine()
     if (e.playing) {
       e.stop()
+      listener?.stop()
+      setListener(null)
       setPlaying(false)
       setBeat(-1)
     } else if (e.start()) {
       setPlaying(true)
+      setListener(canListen() ? startListening() : null)
       onPlayed?.(e.bpm)
     }
-  }
-
-  /** Vérifier mon rythme : le métronome joue, le micro écoute (les deux démarrent dans ce toucher, pour iPhone). */
-  const openCoach = () => {
-    haptic()
-    const e = engine()
-    if (!e.playing && e.start()) {
-      setPlaying(true)
-      onPlayed?.(e.bpm)
-    }
-    setCoach(startListening())
-  }
-  const closeCoach = () => {
-    coach?.stop()
-    setCoach(null)
   }
 
   const changeBpm = (n: number) => {
@@ -301,15 +292,8 @@ export function Metronome({
         {jump(1)}
       </div>
 
-      <div className="flex items-center justify-between gap-4">
-        <div aria-hidden className="flex flex-1 justify-center gap-3">
-          {Array.from({ length: BEATS }, (_, i) => (
-            <span
-              key={i}
-              className={`size-3 rounded-full transition-transform duration-100 ${beat === i ? `scale-125 ${i === 0 ? 'bg-ink' : 'bg-guitar'}` : 'bg-fill-strong'}`}
-            />
-          ))}
-        </div>
+      <div className="flex items-center justify-end gap-4">
+        <p className="t-footnote flex-1 text-muted">Lance-le : le micro écoute ta guitare et te dit si tu es dans le temps.</p>
         <button
           type="button"
           onClick={toggle}
@@ -320,19 +304,8 @@ export function Metronome({
         </button>
       </div>
 
-      {canListen() && (
-        <button
-          type="button"
-          onClick={openCoach}
-          className="hit tap t-subhead flex items-center justify-center gap-1.5 rounded-lg bg-guitar/12 py-2.5 font-semibold text-guitar"
-        >
-          <Icon name="mic" />
-          Vérifier mon rythme
-        </button>
-      )}
-
       <p className="t-footnote text-muted">Le métronome sonne même en mode silencieux.</p>
-      {coach && <RhythmCoach bpm={bpm} listener={coach} onEnd={closeCoach} />}
+      {playing && <MetronomeScreen bpm={bpm} onBpm={changeBpm} beat={beat} beats={BEATS} listener={listener} onEnd={toggle} />}
     </section>
   )
 }
