@@ -114,7 +114,7 @@ export function GuidedSessionPage() {
   const quit = (
     <SessionBar
       name="Séance guidée"
-      step={started ? `${BLOCK_LABEL[block?.kind ?? 'focus']} · ${step + 1}/${blocks.length}` : undefined}
+      step={!started ? undefined : block ? `${BLOCK_LABEL[block.kind]} · ${step + 1}/${blocks.length}` : 'Bilan'}
       quitLabel="Fermer"
       onQuit={() => navigate('/')}
     />
