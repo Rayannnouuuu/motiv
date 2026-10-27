@@ -220,7 +220,7 @@ export function ExercisePage() {
       <section className="flex flex-col gap-2">
         <h2 className="t-footnote px-4 text-muted uppercase">Tablature</h2>
         <TabView pattern={ex.pattern} />
-        <p className="t-footnote px-4 text-muted">Joue la boucle en continu · h = hammer-on · b = bend · PM = palm mute</p>
+        <p className="t-footnote px-4 text-muted">Joue la boucle en continu · h = hammer-on · p = pull-off · b = bend · PM = palm mute</p>
       </section>
 
       <section className="flex flex-col gap-2">

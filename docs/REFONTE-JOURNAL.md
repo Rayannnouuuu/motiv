@@ -111,6 +111,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Le métronome ne prend plus tout l'écran : la lecture du rythme s'affiche dans sa carte, les onglets restent visibles (aussi sur l'exo en séance).
   - Chrono : toucher un exo (Aujourd'hui ou la séance) lance le chrono ; sortir de l'exo le met en pause ; un morceau (coché dans la séance ou ouvert depuis Aujourd'hui) le relance.
   - Séance : toute la ligne d'un exo l'ouvre, plus seulement la petite flèche. Le rond à gauche coche toujours « fait ».
+- 27 oct. 2026 : **module guitare** : prompt (`docs/GUITARE.md`), audit (`docs/AUDIT-GUITARE.md`), puis **lot G1 — contenu et moteur** (`docs/lots/LOT-G1.md`) : 130 exercices nouveaux (230 au total), accords, formes de gammes, parcours de 41 compétences, moteur testé par une simulation de 8 semaines. Sur l'essai, en attente de validation.
 
 ## Décidé (détails, option la plus simple)
 
