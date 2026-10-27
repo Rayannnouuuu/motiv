@@ -29,7 +29,7 @@ La progression est un champ facultatif du profil (`profile.guitar`) : **pas de n
 
 ## Vérif
 
-728 tests verts : règles du générateur (minutes, échauffement à 80 %, entretien dû prioritaire, focus, objectif) et parcours complet de la page. Captures 390 px, sombre et clair, dans `docs/lots/lotG2/`. Essai fait dans Chromium : séance de 30 min complète, essais enregistrés dans la base, focus visible dans Semaine.
+733 tests verts (dont les règles de la mise en place, des morceaux et du focus) : règles du générateur (minutes, échauffement à 80 %, entretien dû prioritaire, focus, objectif) et parcours complet de la page. Captures 390 px, sombre et clair, dans `docs/lots/lotG2/`. Essai fait dans Chromium : séance de 30 min complète, essais enregistrés dans la base, focus visible dans Semaine.
 
 ## Correctifs après essai (retour : « inutilisable »)
 
