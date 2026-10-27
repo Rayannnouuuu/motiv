@@ -59,6 +59,6 @@ La base d'exercices actuelle vise surtout l'intermédiaire et le metal. Elle cou
 
 1. Diagnostic qui valide d'avance.
 2. Section 1 confirmée : guitare électrique + ampli à lampes, 30 min × 5 jours, rock et metal.
-3. Écoute du rythme au micro retirée.
+3. Écoute du rythme au micro : gardée, pour le timing seulement (pas la justesse des notes), sans rien valider.
 4. Le niveau guitare reste l'XP ; le niveau du parcours ne sert qu'à débloquer des exercices.
 5. Ancienne base rattachée, le reste « hors parcours » ; et une grosse base nouvelle, plus poussée.

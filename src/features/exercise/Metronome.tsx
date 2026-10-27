@@ -4,6 +4,9 @@ import { Icon } from '../../design/icons'
 import { Segmented } from '../../ui/Segmented'
 import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
+import { setAudioSession } from './audioSession'
+import { canListen, startListening, type Listener } from './listen'
+import { RhythmPanel } from './RhythmPanel'
 import { clampBpm, initialBpm, resubdivide, schedule, subdivisionOf, type Click, type ClickKind, type Cursor } from './metronome'
 
 /** Ce que le métronome utilise d'un AudioContext (remplaçable dans les tests). */
@@ -28,16 +31,6 @@ const SUB_LABELS: Record<number, string> = { 2: 'Croches', 3: 'Triolets', 4: 'Do
 function defaultContext(): AudioContextLike {
   const Ctor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
   return new Ctor()
-}
-
-/** Sur iPhone, « playback » fait sonner l'audio web malgré l'interrupteur silencieux (API absente de lib.dom). */
-function setAudioSession(type: 'playback' | 'auto') {
-  try {
-    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
-    if (session) session.type = type
-  } catch {
-    // non disponible
-  }
 }
 
 /** Un clic = un oscillateur bref : montée en 2 ms, extinction à 40 ms. */
@@ -171,7 +164,10 @@ export function Metronome({
   const [sub, setSub] = useState<number>(patternSub)
   const [playing, setPlaying] = useState(false)
   const [beat, setBeat] = useState(-1)
+  const [listener, setListener] = useState<Listener | null>(null)
   const engineRef = useRef<Engine | null>(null)
+  const listenerRef = useRef<Listener | null>(null)
+  listenerRef.current = listener
 
   const engine = () => (engineRef.current ??= new Engine(bpm, sub, createContext, setBeat))
 
@@ -180,26 +176,34 @@ export function Metronome({
     const onVisibility = () => {
       if (document.visibilityState !== 'hidden' || !engineRef.current?.playing) return
       engineRef.current.stop()
+      listenerRef.current?.stop()
+      setListener(null)
       setPlaying(false)
       setBeat(-1)
     }
     document.addEventListener('visibilitychange', onVisibility)
     return () => {
       document.removeEventListener('visibilitychange', onVisibility)
+      listenerRef.current?.stop()
       engineRef.current?.dispose()
       engineRef.current = null
     }
   }, [])
 
+  /** Lancer : le métronome joue et le micro écoute, les deux dans ce toucher (sinon iPhone garde l'audio muet). */
   const toggle = () => {
     haptic()
     const e = engine()
     if (e.playing) {
+      // Le micro d'abord : l'arrêt du métronome remet ensuite le mode audio normal.
+      listener?.stop()
       e.stop()
+      setListener(null)
       setPlaying(false)
       setBeat(-1)
     } else if (e.start()) {
       setPlaying(true)
+      setListener(canListen() ? startListening() : null)
       onPlayed?.(e.bpm)
     }
   }
@@ -299,7 +303,11 @@ export function Metronome({
         </button>
       </div>
 
-      <p className="t-footnote text-muted">Le métronome sonne même en mode silencieux.</p>
+      {playing ? (
+        <RhythmPanel bpm={bpm} listener={listener} />
+      ) : (
+        <p className="t-footnote text-muted">Lance-le : le micro écoute ta guitare et te dit si tu es dans le temps. Il sonne même en mode silencieux.</p>
+      )}
     </section>
   )
 }

@@ -22,7 +22,7 @@ Chaque jour, le module répond à une question : « Qu'est-ce que je travaille a
 ## Décisions après l'audit (27 oct.)
 
 - **Diagnostic d'entrée** : il valide d'avance les compétences que je sais déjà faire ; le niveau 0 n'est pas imposé.
-- **Micro** : l'écoute du rythme au métronome (lot 7) est retirée. Le micro ne sert qu'à l'accordeur et aux bends.
+- **Micro** : l'écoute du rythme au métronome (lot 7) est **gardée**. Elle dit seulement si je suis dans le temps (traîne, presse), jamais si la note est juste, et elle ne valide rien. Le micro sert aussi à l'accordeur et aux bends.
 - **Niveaux** : le niveau guitare reste celui de l'XP (lot 4). Le niveau du parcours (0 à 5) ne sert qu'à **débloquer de nouveaux exercices**, rien de plus : pas de célébration, pas de carte de niveau à part.
 - **Ancienne base** : les exercices utiles au parcours sont rattachés aux compétences, les autres restent « hors parcours », historique intact.
 - **Base d'exercices** : en plus, une grosse base nouvelle, plus poussée (des premiers gestes jusqu'au jeu rapide et technique), marquée « à relire ».
@@ -283,7 +283,7 @@ Terminé quand je vois en 10 secondes mon niveau, mes compétences en cours et l
 
 ## 10. Hors périmètre et limites
 
-- Pas d'analyse automatique de mon jeu au micro, sauf l'accordeur et le contrôle des bends. « Propre » reste mon jugement, appuyé sur les enregistrements. N'affiche jamais une validation comme si l'appli l'avait entendue.
+- Pas d'analyse automatique de mon jeu au micro, sauf l'accordeur, le contrôle des bends et l'écoute du timing au métronome (traîne / presse, jamais la justesse des notes). « Propre » reste mon jugement, appuyé sur les enregistrements. N'affiche jamais une validation comme si l'appli l'avait entendue.
 - Pas de tablatures ni de paroles de morceaux, pas de fichiers audio de morceaux.
 - Pas de vidéos de cours intégrées. Si un lien externe m'aide, je l'ajoute moi-même à la fiche compétence.
 - Pas de comptes ni de cloud, comme dans la refonte. Enregistrements et progression restent sur l'appareil et partent dans l'export JSON.
