@@ -3,13 +3,18 @@ import type { TabNote } from '../content/exercises'
 const STRINGS = [1, 2, 3, 4, 5, 6]
 const NAMES = ['e', 'B', 'G', 'D', 'A', 'E']
 const ROW = 18
-const BEAT = 34
+/** Largeur d'un temps ; plus large quand les notes sont serrées (croches, doubles) pour que les chiffres ne se chevauchent pas. */
+const MIN_BEAT = 34
+const NOTE_GAP = 20
 const LEFT = 18
 const TOP = 16
 
-/** Tablature statique : 6 cordes (mi aigu en haut), une colonne par temps. h = hammer-on, b = bend, PM = palm mute. */
+/** Tablature statique : 6 cordes (mi aigu en haut), une colonne par temps. h = hammer-on, p = pull-off, b = bend, PM = palm mute. */
 export function TabView({ pattern }: { pattern: TabNote[] }) {
   if (pattern.length === 0) return null
+  const starts = [...new Set(pattern.map((n) => n.startBeat))].sort((a, b) => a - b)
+  const step = Math.min(1, ...starts.slice(1).map((b, i) => b - starts[i]))
+  const BEAT = Math.max(MIN_BEAT, NOTE_GAP / step)
   const beats = Math.max(4, Math.ceil(Math.max(...pattern.map((n) => n.startBeat + n.duration))))
   const width = LEFT + beats * BEAT + 8
   const height = TOP + 5 * ROW + 12
@@ -37,7 +42,7 @@ export function TabView({ pattern }: { pattern: TabNote[] }) {
           </text>
         ))}
         {pattern.map((n, i) => {
-          const label = `${n.technique === 'hammer' ? 'h' : ''}${n.fret}${n.technique === 'bend' ? 'b' : ''}`
+          const label = `${n.technique === 'hammer' ? 'h' : n.technique === 'pull' ? 'p' : ''}${n.fret}${n.technique === 'bend' ? 'b' : ''}`
           const w = label.length * 6.5 + 4
           return (
             <g key={i} data-note>

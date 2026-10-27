@@ -1,0 +1,325 @@
+[
+  {
+    "id": "bends-101",
+    "title": "Bend d’un demi-ton, corde de Sol 3",
+    "category": "bends",
+    "difficulty": 3,
+    "description": "Pousse la case 7 jusqu’à sonner comme la case 8, puis vérifie en jouant la 8.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-102",
+    "title": "Bend d’un ton, corde de Si 4",
+    "category": "bends",
+    "difficulty": 4,
+    "description": "Case 8 poussée jusqu’à la hauteur de la case 10 : trois doigts poussent ensemble.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-103",
+    "title": "Bend et retour 5",
+    "category": "bends",
+    "difficulty": 5,
+    "description": "Monte d’un ton, tiens, redescends à la note de départ sans la rejouer.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "bends-104",
+    "title": "Bends de la pentatonique 6",
+    "category": "bends",
+    "difficulty": 6,
+    "description": "Les bends classiques de la position 1 : case 7 (Sol), case 8 (Si), case 8 (Mi aigu).",
+    "metric": "bpm",
+    "startBpm": 76,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-105",
+    "title": "Bend à l’unisson 7",
+    "category": "bends",
+    "difficulty": 7,
+    "description": "Corde de Sol case 7 poussée d’un ton pendant que la case 5 du Si sonne : les deux notes fusionnent.",
+    "metric": "bpm",
+    "startBpm": 84,
+    "targetBpm": 114,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 2
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 2,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 2
+      }
+    ]
+  },
+  {
+    "id": "bends-106",
+    "title": "Bend d’un ton et demi 8",
+    "category": "bends",
+    "difficulty": 8,
+    "description": "Pousse la case 7 du Sol d’un ton et demi : vise la hauteur de la case 10.",
+    "metric": "bpm",
+    "startBpm": 88,
+    "targetBpm": 118,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1,
+        "technique": "bend"
+      }
+    ]
+  },
+  {
+    "id": "bends-107",
+    "title": "Bends enchaînés en croches 9",
+    "category": "bends",
+    "difficulty": 9,
+    "description": "Un bend par croche sur trois cordes, retour juste à chaque fois.",
+    "metric": "bpm",
+    "startBpm": 88,
+    "targetBpm": 118,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "bend"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "bend"
+      }
+    ]
+  }
+]

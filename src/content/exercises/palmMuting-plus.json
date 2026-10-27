@@ -1,0 +1,830 @@
+[
+  {
+    "id": "palmMuting-101",
+    "title": "Palm mute, croches sur Mi grave 2",
+    "category": "palmMuting",
+    "difficulty": 2,
+    "description": "Paume posée sur les cordes juste devant le chevalet : son court et sourd, bas-haut.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-102",
+    "title": "Palm mute, croches avec power chords 3",
+    "category": "palmMuting",
+    "difficulty": 3,
+    "description": "Mi grave étouffé, puis Sol 5 et La 5 étouffés : la paume suit la main.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-103",
+    "title": "Étouffé, ouvert, étouffé 4",
+    "category": "palmMuting",
+    "difficulty": 4,
+    "description": "Alterne croches étouffées et notes ouvertes : la paume se lève et se repose.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-104",
+    "title": "Palm mute, doubles croches 6",
+    "category": "palmMuting",
+    "difficulty": 6,
+    "description": "Quatre coups étouffés par clic sur le Mi grave : régularité totale.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-105",
+    "title": "Accents sur doubles croches étouffées 7",
+    "category": "palmMuting",
+    "difficulty": 7,
+    "description": "Accent ouvert sur le 1er et le 4e coup de chaque groupe : le riff « syncopé ».",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-106",
+    "title": "Galop étouffé, corde de La 8",
+    "category": "palmMuting",
+    "difficulty": 8,
+    "description": "Croche puis deux doubles, sur la corde de La, avec changements de case.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-107",
+    "title": "Chug metal, triolets 9",
+    "category": "palmMuting",
+    "difficulty": 9,
+    "description": "Trois coups étouffés par clic : le rythme des ballades metal lourdes.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.6666666666666665,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.3333333333333335,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.6666666666666665,
+        "duration": 0.3333333333333333,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "palmMuting-108",
+    "title": "Chug metal rapide 10",
+    "category": "palmMuting",
+    "difficulty": 10,
+    "description": "Doubles croches étouffées à pleine vitesse, avec deux accents par mesure.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  }
+]

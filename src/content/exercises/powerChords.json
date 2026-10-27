@@ -1,0 +1,1978 @@
+[
+  {
+    "id": "powerChords-1",
+    "title": "Power chords à deux doigts, Mi grave, noires 1",
+    "category": "powerChords",
+    "difficulty": 1,
+    "description": "Un power chord par clic : Sol, La, Do (sur La), Ré. Index sur la fondamentale, annulaire deux cases plus haut.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "powerChords-2",
+    "title": "Riff de 4 power chords, noires 2",
+    "category": "powerChords",
+    "difficulty": 2,
+    "description": "Mi 5, Sol 5, La 5, Sol 5 : le riff rock de base, deux cordes seulement.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "powerChords-3",
+    "title": "Power chords Mi et La, croches 3",
+    "category": "powerChords",
+    "difficulty": 3,
+    "description": "Croches sur la même forme, en passant de la corde de Mi à celle de La.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "powerChords-4",
+    "title": "Riff avec déplacements, croches 4",
+    "category": "powerChords",
+    "difficulty": 4,
+    "description": "Mi 5, Sol 5, La 5, Do 5 en croches, déplacement rapide sans couper le son.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "powerChords-5",
+    "title": "Power chords étouffés, croches 4",
+    "category": "powerChords",
+    "difficulty": 4,
+    "description": "Les mêmes croches avec la paume posée près du chevalet (palm mute).",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "powerChords-6",
+    "title": "Étouffé puis ouvert 5",
+    "category": "powerChords",
+    "difficulty": 5,
+    "description": "Trois croches étouffées, un accord ouvert accentué : la base du rock.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "powerChords-7",
+    "title": "Power chords avec octave 5",
+    "category": "powerChords",
+    "difficulty": 5,
+    "description": "Forme à trois notes (fondamentale, quinte, octave) : le son plein du hard rock.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "powerChords-8",
+    "title": "Galop (croche, deux doubles) 6",
+    "category": "powerChords",
+    "difficulty": 6,
+    "description": "Le rythme du heavy metal : une croche puis deux doubles croches, étouffées sur le Mi grave.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "powerChords-9",
+    "title": "Galop avec changements 7",
+    "category": "powerChords",
+    "difficulty": 7,
+    "description": "Le galop qui passe de Mi 5 à Sol 5 puis La 5 : tiens la régularité pendant les déplacements.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "powerChords-10",
+    "title": "Doubles croches étouffées (chug) 7",
+    "category": "powerChords",
+    "difficulty": 7,
+    "description": "Mi 5 étouffé en doubles croches continues : la main droite du metal, en aller-retour.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "powerChords-11",
+    "title": "Chug avec accents ouverts 8",
+    "category": "powerChords",
+    "difficulty": 8,
+    "description": "Doubles croches étouffées, accord ouvert sur chaque temps fort.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "powerChords-12",
+    "title": "Riff thrash, doubles croches 9",
+    "category": "powerChords",
+    "difficulty": 9,
+    "description": "Mi grave étouffé en doubles croches, coupé de power chords : vitesse et déplacements.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "powerChords-13",
+    "title": "Power chords rapides sur la corde de La 10",
+    "category": "powerChords",
+    "difficulty": 10,
+    "description": "Doubles croches sur la corde de La, déplacements de 2 et 3 cases à pleine vitesse.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  }
+]

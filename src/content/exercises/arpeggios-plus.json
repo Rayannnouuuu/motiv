@@ -1,0 +1,374 @@
+[
+  {
+    "id": "arpeggios-101",
+    "title": "Triade majeure sur 3 cordes aiguës 4",
+    "category": "arpeggios",
+    "difficulty": 4,
+    "description": "La majeur : case 6 sur la corde de Sol, case 5 sur Si et Mi aigu. Monte et redescends.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-102",
+    "title": "Triade mineure sur 3 cordes aiguës 4",
+    "category": "arpeggios",
+    "difficulty": 4,
+    "description": "La mineur : un demi-ton de différence avec le majeur, écoute-le.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-103",
+    "title": "Triades, La m, Fa, Do, Sol 6",
+    "category": "arpeggios",
+    "difficulty": 6,
+    "description": "Une triade par accord sur les trois cordes aiguës, sans quitter le haut du manche.",
+    "metric": "bpm",
+    "startBpm": 76,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-104",
+    "title": "Arpège mineur sur 5 cordes 7",
+    "category": "arpeggios",
+    "difficulty": 7,
+    "description": "La mineur en partant de la corde de La, case 12 : fondamentale, tierce, quinte.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-105",
+    "title": "Arpège majeur sur 5 cordes 8",
+    "category": "arpeggios",
+    "difficulty": 8,
+    "description": "Do majeur depuis la corde de La, case 3.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      }
+    ]
+  },
+  {
+    "id": "arpeggios-106",
+    "title": "Arpèges enchaînés en doubles croches 9",
+    "category": "arpeggios",
+    "difficulty": 9,
+    "description": "La m puis Ré m puis Mi, quatre notes par clic.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 11,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 2.75,
+        "duration": 0.25
+      }
+    ]
+  }
+]

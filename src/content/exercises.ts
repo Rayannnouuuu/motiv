@@ -1,13 +1,25 @@
 import arpeggios from './exercises/arpeggios.json'
+import arpeggiosPlus from './exercises/arpeggios-plus.json'
 import bends from './exercises/bends.json'
+import bendsPlus from './exercises/bends-plus.json'
+import chords from './exercises/chords.json'
+import chromatic from './exercises/chromatic.json'
 import legato from './exercises/legato.json'
+import legatoPlus from './exercises/legato-plus.json'
 import palmMuting from './exercises/palmMuting.json'
+import palmMutingPlus from './exercises/palmMuting-plus.json'
 import picking from './exercises/picking.json'
+import pickingPlus from './exercises/picking-plus.json'
+import powerChords from './exercises/powerChords.json'
 import rhythm from './exercises/rhythm.json'
+import rhythmPlus from './exercises/rhythm-plus.json'
 import scales from './exercises/scales.json'
+import scalesPlus from './exercises/scales-plus.json'
+import strumming from './exercises/strumming.json'
 import sweep from './exercises/sweep.json'
 
-export type ExerciseCategory = 'arpeggios' | 'bends' | 'legato' | 'palmMuting' | 'picking' | 'rhythm' | 'scales' | 'sweep'
+export type ExerciseCategory =
+  'chromatic' | 'strumming' | 'chords' | 'powerChords' | 'arpeggios' | 'bends' | 'legato' | 'palmMuting' | 'picking' | 'rhythm' | 'scales' | 'sweep'
 
 export interface TabNote {
   /** 1 = mi aigu, 6 = mi grave. */
@@ -15,7 +27,8 @@ export interface TabNote {
   fret: number
   startBeat: number
   duration: number
-  technique?: 'hammer' | 'bend' | 'palmMute'
+  /** h = hammer-on, p = pull-off, b = bend, PM = palm mute. */
+  technique?: 'hammer' | 'pull' | 'bend' | 'palmMute'
 }
 
 export interface Exercise {
@@ -30,15 +43,37 @@ export interface Exercise {
   /** Tempo conseillé tant que tu n'as pas de record sur l'exo. */
   startBpm: number
   targetBpm: number
-  /** Reprise de l'ancien site. */
-  source: 'legacy'
+  /** « legacy » : reprise de l'ancien site ; « new » : base guitare (lot G1, `scripts/gen-guitar.mjs`). */
+  source: 'legacy' | 'new'
+  /** Contenu ajouté, à relire avant d'être considéré comme sûr (GUITARE.md §10). */
+  review?: true
   pattern: TabNote[]
 }
 
 const suffix = (id: string) => Number(id.slice(id.lastIndexOf('-') + 1))
 
 /** Les JSON sont vérifiés par exercises.test.ts (champs, tempos, tablature). */
-export const EXERCISES = [arpeggios, bends, legato, palmMuting, picking, rhythm, scales, sweep].flat() as Exercise[]
+export const EXERCISES = [
+  chromatic,
+  strumming,
+  chords,
+  powerChords,
+  arpeggios,
+  arpeggiosPlus,
+  bends,
+  bendsPlus,
+  legato,
+  legatoPlus,
+  palmMuting,
+  palmMutingPlus,
+  picking,
+  pickingPlus,
+  rhythm,
+  rhythmPlus,
+  scales,
+  scalesPlus,
+  sweep,
+].flat() as Exercise[]
 
 const byId = new Map(EXERCISES.map((e) => [e.id, e]))
 
@@ -51,6 +86,10 @@ export function nextInCategory(ex: Exercise): Exercise | undefined {
 }
 
 export const CATEGORY_LABELS: Record<ExerciseCategory, string> = {
+  chromatic: 'Chromatique',
+  strumming: 'Grattage',
+  chords: 'Accords',
+  powerChords: 'Power chords',
   arpeggios: 'Arpèges',
   bends: 'Bends',
   legato: 'Legato',

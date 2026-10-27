@@ -8,7 +8,76 @@ export function bandForDifficulty(difficulty: number): DifficultyBand {
   return 'avance'
 }
 
+// Familles ajoutées au lot G1 : conseils classiques, à relire (GUITARE.md §10).
 const TIPS: Record<Category, Record<DifficultyBand, string[]>> = {
+  chromatic: {
+    debutant: [
+      'Un doigt par case : index en case 1, majeur en 2, annulaire en 3, auriculaire en 4.',
+      'Le doigt appuie juste derrière la frette, pas au milieu de la case : moins de force, plus de son.',
+      'Laisse les doigts posés tant que tu peux : ils sont prêts pour la suite.',
+    ],
+    intermediaire: [
+      'Aller-retour strict au médiator, même en changeant de corde.',
+      'Garde les doigts près des cordes : moins ils montent, plus tu iras vite.',
+      'Si une note frise, ralentis de 10 % plutôt que de forcer.',
+    ],
+    avance: [
+      'Synchronise les deux mains : la note doit tomber pile avec le coup de médiator.',
+      'Reste relâché : la vitesse vient de la détente, pas de la force.',
+      'Accentue le premier coup de chaque groupe pour garder le repère du clic.',
+    ],
+  },
+  strumming: {
+    debutant: [
+      'Le geste part du poignet, pas du coude : comme pour secouer de l’eau sur la main.',
+      'La main bouge tout le temps, même quand elle ne touche pas les cordes.',
+      'Change d’accord sur le dernier temps de la mesure : l’accord suivant arrive à l’heure.',
+    ],
+    intermediaire: [
+      'Coups vers le bas sur le clic, vers le haut entre deux clics.',
+      'Les coups vers le haut ne touchent souvent que les 3 ou 4 cordes aiguës : c’est normal.',
+      'Si l’accord ne sonne pas, vérifie un doigt à la fois en arpège.',
+    ],
+    avance: [
+      'Accentue certains coups : le groove vient des accents, pas de la vitesse.',
+      'En doubles croches, des gestes plus petits et le poignet souple.',
+      'Étouffe légèrement de la main gauche entre deux accords pour un son plus net.',
+    ],
+  },
+  chords: {
+    debutant: [
+      'Joue chaque corde une à une : si une note est étouffée, un doigt touche une corde voisine.',
+      'Le bout des doigts, bien arrondis, presque à la verticale.',
+      'Le pouce derrière le manche, à peu près face au majeur.',
+    ],
+    intermediaire: [
+      'Pose les doigts tous ensemble, pas un par un : c’est ce qui fait gagner du temps.',
+      'Repère les doigts qui restent en place d’un accord à l’autre (doigts pivots).',
+      'Pour le petit barré, roule légèrement l’index sur son côté.',
+    ],
+    avance: [
+      'Barré : la pression vient du bras qui tire un peu vers toi, pas seulement du pouce.',
+      'Relâche entre deux accords : serrer en continu fatigue et ralentit.',
+      'Vise des changements sans trou : la dernière croche peut être jouée à vide pour gagner du temps.',
+    ],
+  },
+  powerChords: {
+    debutant: [
+      'Deux doigts seulement : index sur la fondamentale, annulaire deux cases plus loin, une corde plus aiguë.',
+      'Étouffe les autres cordes avec le dessous de l’index.',
+      'Garde la même forme et déplace toute la main.',
+    ],
+    intermediaire: [
+      'Relâche la pression en déplaçant la forme : tu évites les glissés parasites.',
+      'Le palm mute se pose sur les cordes juste devant le chevalet, sans trop appuyer.',
+      'Coups vers le bas pour un son rock plein ; aller-retour dès que ça va trop vite.',
+    ],
+    avance: [
+      'Galop : la croche vers le bas, les deux doubles en bas-haut, ou tout vers le bas si tu tiens le tempo.',
+      'Le bras droit reste détendu en doubles croches étouffées : c’est un sport d’endurance.',
+      'Accentue les accords ouverts pour qu’ils ressortent des parties étouffées.',
+    ],
+  },
   picking: {
     debutant: [
       "Tiens le médiator avec juste assez de force pour qu'il ne tourne pas : trop serré, le son devient dur et le poignet se bloque.",

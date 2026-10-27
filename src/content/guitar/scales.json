@@ -1,0 +1,1294 @@
+[
+  {
+    "id": "penta-am-1",
+    "name": "Pentatonique mineure de La, position 1",
+    "position": 1,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 1,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 3,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "finger": 1,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 3,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      }
+    ]
+  },
+  {
+    "id": "penta-am-2",
+    "name": "Pentatonique mineure de La, position 2",
+    "position": 2,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 8,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "finger": 4,
+        "degree": "4"
+      }
+    ]
+  },
+  {
+    "id": "penta-am-3",
+    "name": "Pentatonique mineure de La, position 3",
+    "position": 3,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 10,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "finger": 4,
+        "degree": "5"
+      }
+    ]
+  },
+  {
+    "id": "penta-am-4",
+    "name": "Pentatonique mineure de La, position 4",
+    "position": 4,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 12,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "finger": 1,
+        "degree": "b7"
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "finger": 3,
+        "degree": "1"
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "finger": 4,
+        "degree": "b7"
+      }
+    ]
+  },
+  {
+    "id": "penta-am-5",
+    "name": "Pentatonique mineure de La, position 5",
+    "position": 5,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 15,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 6,
+        "fret": 17,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 17,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 17,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 17,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 17,
+        "finger": 4,
+        "degree": "1"
+      }
+    ]
+  },
+  {
+    "id": "penta-em-open",
+    "name": "Pentatonique mineure de Mi, position ouverte",
+    "position": 1,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 0,
+        "finger": 0,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "finger": 0,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "finger": 0,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "finger": 3,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "finger": 0,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "finger": 3,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "finger": 0,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "finger": 0,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b3"
+      }
+    ]
+  },
+  {
+    "id": "penta-major-g-1",
+    "name": "Pentatonique majeure de Sol, position 1",
+    "position": 1,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 3,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "finger": 1,
+        "degree": "3"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "finger": 1,
+        "degree": "6"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "finger": 3,
+        "degree": "3"
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 4,
+        "degree": "6"
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 4,
+        "degree": "2"
+      }
+    ]
+  },
+  {
+    "id": "blues-a-1",
+    "name": "Gamme blues de La, position 1",
+    "position": 1,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "finger": 2,
+        "degree": "b5"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 1,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 3,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "finger": 1,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 3,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b5"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 1,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      }
+    ]
+  },
+  {
+    "id": "blues-e-open",
+    "name": "Gamme blues de Mi, position ouverte",
+    "position": 1,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 0,
+        "finger": 0,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "finger": 0,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "finger": 2,
+        "degree": "b5"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "finger": 3,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "finger": 0,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "finger": 3,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "finger": 0,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "finger": 3,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b5"
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "finger": 0,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "finger": 0,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "finger": 4,
+        "degree": "b3"
+      }
+    ]
+  },
+  {
+    "id": "major-g-2",
+    "name": "Gamme majeure de Sol, 2e position",
+    "position": 2,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 2,
+        "finger": 1,
+        "degree": "7"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "finger": 1,
+        "degree": "3"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "finger": 1,
+        "degree": "6"
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "finger": 3,
+        "degree": "7"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "finger": 3,
+        "degree": "3"
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 4,
+        "degree": "6"
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "finger": 1,
+        "degree": "7"
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 4,
+        "degree": "2"
+      }
+    ]
+  },
+  {
+    "id": "major-c-7",
+    "name": "Gamme majeure de Do, 7e position",
+    "position": 7,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 7,
+        "finger": 1,
+        "degree": "7"
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 1,
+        "degree": "3"
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 1,
+        "degree": "6"
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "finger": 3,
+        "degree": "7"
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "finger": 3,
+        "degree": "3"
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "finger": 4,
+        "degree": "6"
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "finger": 1,
+        "degree": "7"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "finger": 4,
+        "degree": "2"
+      }
+    ]
+  },
+  {
+    "id": "minor-a-5",
+    "name": "Gamme mineure de La, 5e position",
+    "position": 5,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b6"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 4,
+        "degree": "4"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "finger": 3,
+        "degree": "b6"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b7"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 4,
+        "degree": "b3"
+      }
+    ]
+  },
+  {
+    "id": "major-g-3nps",
+    "name": "Gamme majeure de Sol, 3 notes par corde",
+    "position": 3,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 3,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "finger": 2,
+        "degree": "2"
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "finger": 4,
+        "degree": "3"
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "finger": 4,
+        "degree": "6"
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "finger": 1,
+        "degree": "7"
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "finger": 1,
+        "degree": "3"
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "finger": 1,
+        "degree": "6"
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "finger": 2,
+        "degree": "7"
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "finger": 2,
+        "degree": "3"
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "finger": 4,
+        "degree": "4"
+      }
+    ]
+  },
+  {
+    "id": "minor-e-3nps",
+    "name": "Gamme mineure de Mi, 3 notes par corde",
+    "position": 12,
+    "notes": [
+      {
+        "string": 6,
+        "fret": 12,
+        "finger": 1,
+        "degree": "1"
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "finger": 2,
+        "degree": "2"
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "finger": 4,
+        "degree": "b3"
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "finger": 1,
+        "degree": "4"
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "finger": 2,
+        "degree": "5"
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "finger": 4,
+        "degree": "b6"
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "finger": 1,
+        "degree": "b7"
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "finger": 2,
+        "degree": "1"
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "finger": 4,
+        "degree": "2"
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "finger": 1,
+        "degree": "b3"
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "finger": 2,
+        "degree": "4"
+      },
+      {
+        "string": 3,
+        "fret": 16,
+        "finger": 4,
+        "degree": "5"
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "finger": 1,
+        "degree": "b6"
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "finger": 2,
+        "degree": "b7"
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "finger": 4,
+        "degree": "1"
+      },
+      {
+        "string": 1,
+        "fret": 14,
+        "finger": 1,
+        "degree": "2"
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "finger": 2,
+        "degree": "b3"
+      },
+      {
+        "string": 1,
+        "fret": 17,
+        "finger": 4,
+        "degree": "4"
+      }
+    ]
+  }
+]

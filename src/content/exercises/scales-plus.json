@@ -1,0 +1,4736 @@
+[
+  {
+    "id": "scales-101",
+    "title": "Pentatonique mineure de Mi, position ouverte, noires 1",
+    "category": "scales",
+    "difficulty": 1,
+    "description": "Cordes à vide et cases 2-3 : la première gamme du rock.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 9,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 11,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 13,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 14,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 15,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 16,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 17,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 18,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 19,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 20,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 21,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 22,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-102",
+    "title": "Pentatonique mineure de La (position 1), noires 2",
+    "category": "scales",
+    "difficulty": 2,
+    "description": "Montée et descente, un doigt par case (index en case 5).",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 13,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 14,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 15,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 16,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 17,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 18,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 19,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 20,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 21,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 22,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "scales-103",
+    "title": "Pentatonique mineure de La (position 1), croches 3",
+    "category": "scales",
+    "difficulty": 3,
+    "description": "Deux notes par clic, aller-retour au médiator.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-104",
+    "title": "Pentatonique mineure de La (position 2), croches 4",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "La position 2, montée et descente. Repère où tombent les La (fondamentale).",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-105",
+    "title": "Pentatonique mineure de La (position 3), croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "La position 3, montée et descente. Repère où tombent les La (fondamentale).",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-106",
+    "title": "Pentatonique mineure de La (position 4), croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "La position 4, montée et descente. Repère où tombent les La (fondamentale).",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-107",
+    "title": "Pentatonique mineure de La (position 5), croches 6",
+    "category": "scales",
+    "difficulty": 6,
+    "description": "La position 5, montée et descente. Repère où tombent les La (fondamentale).",
+    "metric": "bpm",
+    "startBpm": 76,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 17,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 17,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 17,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 17,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 17,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 17,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 17,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 17,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 17,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-108",
+    "title": "Positions 1 et 2 reliées, croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "Monte en position 1, glisse en position 2 sur la corde de Si, redescends en position 2.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-109",
+    "title": "Pentatonique en groupes de trois, croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "Séquence 1-2-3, 2-3-4… sur la position 1 : sort de la gamme « montée-descente ».",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 14.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-110",
+    "title": "Pentatonique en groupes de quatre, doubles croches 7",
+    "category": "scales",
+    "difficulty": 7,
+    "description": "Séquence par 4 sur la position 1 : le classique des solos rock.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 8.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "scales-111",
+    "title": "Pentatonique sur 5 positions, croches 8",
+    "category": "scales",
+    "difficulty": 8,
+    "description": "Les 5 positions enchaînées en montant le manche, une position par mesure.",
+    "metric": "bpm",
+    "startBpm": 84,
+    "targetBpm": 114,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 16,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 16.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 17,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 17.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 18,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 18.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 19,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 19.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 20,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 20.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 21,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 21.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 22,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 22.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 23,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 23.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 24,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 17,
+        "startBeat": 24.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 25,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 17,
+        "startBeat": 25.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 26,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 17,
+        "startBeat": 26.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 27,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 17,
+        "startBeat": 27.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 28,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 28.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 29,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 17,
+        "startBeat": 29.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-112",
+    "title": "Pentatonique (position 1) en doubles croches 8",
+    "category": "scales",
+    "difficulty": 8,
+    "description": "Montée et descente à quatre notes par clic : vise 120 en restant propre.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "scales-113",
+    "title": "Pentatonique en triolets descendants 9",
+    "category": "scales",
+    "difficulty": 9,
+    "description": "Groupes de 3 en descendant, trois notes par clic.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 6.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 7.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 8.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 8.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 9.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 9.666666666666666,
+        "duration": 0.3333333333333333
+      }
+    ]
+  },
+  {
+    "id": "scales-114",
+    "title": "Gamme blues de Mi, position ouverte 3",
+    "category": "scales",
+    "difficulty": 3,
+    "description": "La pentatonique avec la quinte diminuée (blue note) : écoute la tension.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 13,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-115",
+    "title": "Gamme blues de La, position 1 4",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "Blue note en case 6 sur la corde de La et case 8 sur celle de Sol.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 13,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-116",
+    "title": "Pentatonique majeure de Sol 4",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "Le son « country-rock » : même forme, autre fondamentale.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 11,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-117",
+    "title": "Gamme majeure de Sol (2e position), croches 4",
+    "category": "scales",
+    "difficulty": 4,
+    "description": "Deux octaves, un doigt par case, cases 2 à 5.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 16,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-118",
+    "title": "Gamme majeure de Do (7e position), croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "La même forme ailleurs sur le manche : repère les Do.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 16,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-119",
+    "title": "Gamme mineure de La (5e position), croches 5",
+    "category": "scales",
+    "difficulty": 5,
+    "description": "Le mineur naturel : sept notes, le son des riffs mélodiques.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 16,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-120",
+    "title": "Gamme majeure en groupes de trois 6",
+    "category": "scales",
+    "difficulty": 6,
+    "description": "Séquence par 3 sur la gamme de Sol, 2e position.",
+    "metric": "bpm",
+    "startBpm": 76,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 16,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 16.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 17,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 17.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 18,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 18.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 19,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 19.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 20,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 20.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 21,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 21.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 22,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-121",
+    "title": "Gamme majeure en tierces 7",
+    "category": "scales",
+    "difficulty": 7,
+    "description": "Une note, puis celle deux degrés plus haut : 1-3, 2-4, 3-5…",
+    "metric": "bpm",
+    "startBpm": 80,
+    "targetBpm": 110,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 14.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "scales-122",
+    "title": "Gamme majeure, 3 notes par corde 8",
+    "category": "scales",
+    "difficulty": 8,
+    "description": "Trois notes par corde : le doigté des guitaristes rapides, en doubles croches.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 8.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "scales-123",
+    "title": "Gamme mineure de Mi, 3 notes par corde 9",
+    "category": "scales",
+    "difficulty": 9,
+    "description": "Mineur naturel en 3 notes par corde, haut du manche.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 16,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 14,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 17,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 14,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 17,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 16,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 8.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "scales-124",
+    "title": "Mineure 3 notes par corde en groupes de six 10",
+    "category": "scales",
+    "difficulty": 10,
+    "description": "Groupes de 6 en triolets sur deux cordes : le motif des shredders.",
+    "metric": "bpm",
+    "startBpm": 86,
+    "targetBpm": 110,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 2.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 3,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 3.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 3.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 4.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 4.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 5,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 5.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 5.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 6,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 6.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 6.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 7,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 7.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 7.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 8,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 8.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 8.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 9,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 9.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 9.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 10,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 10.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 10.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 11,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 11.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 11.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 12,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 12.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 12.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 13,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 13.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 16,
+        "startBeat": 13.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 14,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 16,
+        "startBeat": 14.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 14.666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 15,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 16,
+        "startBeat": 15.333333333333334,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 15.666666666666666,
+        "duration": 0.3333333333333333
+      }
+    ]
+  }
+]

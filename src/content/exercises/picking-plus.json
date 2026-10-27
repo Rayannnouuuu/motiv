@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "picking-101",
+    "title": "Aller-retour sur une note, croches 2",
+    "category": "picking",
+    "difficulty": 2,
+    "description": "Une seule note (case 5 du Mi grave), bas-haut régulier : écoute que les deux sons sont égaux.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "picking-102",
+    "title": "Aller-retour sur une note, doubles croches 4",
+    "category": "picking",
+    "difficulty": 4,
+    "description": "Quatre coups par clic, petits gestes du poignet.",
+    "metric": "bpm",
+    "startBpm": 58,
+    "targetBpm": 82,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-103",
+    "title": "Changement de corde, deux notes par corde 4",
+    "category": "picking",
+    "difficulty": 4,
+    "description": "Deux notes par corde : le médiator change de corde sur un coup vers le bas.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "picking-104",
+    "title": "Changement de corde, trois notes par corde 5",
+    "category": "picking",
+    "difficulty": 5,
+    "description": "Trois notes par corde : le changement tombe une fois sur un coup bas, une fois sur un coup haut.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 2.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 3.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.666666666666667,
+        "duration": 0.3333333333333333
+      }
+    ]
+  },
+  {
+    "id": "picking-105",
+    "title": "Saut de cordes, croches 5",
+    "category": "picking",
+    "difficulty": 5,
+    "description": "Mi grave puis Ré, La puis Sol… : le médiator saute une corde.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "picking-106",
+    "title": "Trémolo sur une note 6",
+    "category": "picking",
+    "difficulty": 6,
+    "description": "Doubles croches très régulières sur une note, comme dans le metal mélodique.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-107",
+    "title": "Trémolo mélodique 7",
+    "category": "picking",
+    "difficulty": 7,
+    "description": "Le trémolo qui suit une mélodie : quatre coups par note.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-108",
+    "title": "Pédale sur corde à vide 7",
+    "category": "picking",
+    "difficulty": 7,
+    "description": "Mi aigu à vide entre chaque note de la mélodie : le son des riffs néoclassiques.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-109",
+    "title": "Saut de cordes en doubles croches 8",
+    "category": "picking",
+    "difficulty": 8,
+    "description": "Arpège en saut de cordes à quatre notes par clic.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-110",
+    "title": "Picking extérieur et intérieur 8",
+    "category": "picking",
+    "difficulty": 8,
+    "description": "Deux cordes voisines, une note chacune : le médiator passe tantôt dedans, tantôt dehors.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-111",
+    "title": "Rafales de vitesse (bursts) 9",
+    "category": "picking",
+    "difficulty": 9,
+    "description": "Quatre notes rapides, une pause : la vitesse par petits paquets.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "picking-112",
+    "title": "Trémolo, 6 cordes 10",
+    "category": "picking",
+    "difficulty": 10,
+    "description": "Quatre coups par note, de la corde grave à l’aiguë et retour, à pleine vitesse.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 11.75,
+        "duration": 0.25
+      }
+    ]
+  }
+]

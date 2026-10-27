@@ -10,8 +10,8 @@ test('subdivision du motif : croches pour rhythm-9, noires pour scales-1', () =>
   expect(subdivisionOf([{ string: 1, fret: 0, startBeat: 0.2, duration: 0.2 }])).toBe(4)
 })
 
-test('tout le contenu tombe sur des noires ou des croches', () => {
-  for (const e of EXERCISES) expect([1, 2]).toContain(subdivisionOf(e.pattern))
+test('ancienne base en noires ou croches ; la base G1 va jusqu’aux triolets et doubles croches', () => {
+  for (const e of EXERCISES) expect(e.source === 'legacy' ? [1, 2] : [1, 2, 3, 4]).toContain(subdivisionOf(e.pattern))
 })
 
 test('tempo à l’ouverture : record, sinon le tempo de départ de l’exo, borné', () => {

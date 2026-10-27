@@ -1,0 +1,762 @@
+[
+  {
+    "id": "rhythm-101",
+    "title": "Riff blues-rock (shuffle simplifié) 3",
+    "category": "rhythm",
+    "difficulty": 3,
+    "description": "La 5 puis La 6 sur deux cordes, en croches : le riff des boogies rock.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-102",
+    "title": "Riff à contretemps 5",
+    "category": "rhythm",
+    "difficulty": 5,
+    "description": "Les accords tombent entre les clics : compte « 1 et 2 et » à voix haute.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-103",
+    "title": "Riff avec notes seules et accords 6",
+    "category": "rhythm",
+    "difficulty": 6,
+    "description": "Ligne sur la corde de Mi grave, accord sur les temps 2 et 4.",
+    "metric": "bpm",
+    "startBpm": 76,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "rhythm-104",
+    "title": "Riff hard rock en doubles croches 8",
+    "category": "rhythm",
+    "difficulty": 8,
+    "description": "Pédale de Mi grave et notes de la gamme blues : le riff des années 80.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "rhythm-105",
+    "title": "Riff syncopé metal 9",
+    "category": "rhythm",
+    "difficulty": 9,
+    "description": "Accords décalés sur la double croche, le reste étouffé : précision rythmique totale.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25,
+        "technique": "palmMute"
+      }
+    ]
+  },
+  {
+    "id": "rhythm-106",
+    "title": "Riff thrash en galop inversé 10",
+    "category": "rhythm",
+    "difficulty": 10,
+    "description": "Deux doubles puis une croche, étouffé, avec accords : le galop à l’envers.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25,
+        "technique": "palmMute"
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  }
+]

@@ -1,0 +1,10284 @@
+[
+  {
+    "id": "strumming-1",
+    "title": "Coups vers le bas sur cordes à vide 1",
+    "category": "strumming",
+    "difficulty": 1,
+    "description": "Un coup vers le bas par clic sur les 6 cordes à vide. Le bras reste souple, le geste part du poignet.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "strumming-2",
+    "title": "Mi m et La m en noires 1",
+    "category": "strumming",
+    "difficulty": 1,
+    "description": "Un accord par mesure, un coup vers le bas par clic. Change d’accord sans couper le rythme.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "strumming-3",
+    "title": "La et Ré en noires 2",
+    "category": "strumming",
+    "difficulty": 2,
+    "description": "Un accord par mesure, coups vers le bas. Prépare le prochain accord pendant le dernier temps.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "strumming-4",
+    "title": "Sol et Do en noires 2",
+    "category": "strumming",
+    "difficulty": 2,
+    "description": "Sol vers Do : le doigt 1 descend, garde l’annulaire comme pivot si tu peux.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "strumming-5",
+    "title": "Croches bas-haut sur Mi m 2",
+    "category": "strumming",
+    "difficulty": 2,
+    "description": "Bas sur le clic, haut entre deux clics : la main bouge tout le temps, même si elle ne touche pas.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-6",
+    "title": "Croches bas-haut, Ré et Sol 3",
+    "category": "strumming",
+    "difficulty": 3,
+    "description": "Bas-haut régulier, un accord par mesure.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-7",
+    "title": "Motif bas, bas-haut, haut-bas-haut, Mi m et Do 3",
+    "category": "strumming",
+    "difficulty": 3,
+    "description": "Le motif ↓ ↓↑ ↑↓↑ : la main continue le va-et-vient, elle rate exprès le 3e temps.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-8",
+    "title": "Motif bas, bas-haut, haut-bas-haut, Sol, Ré, Mi m, Do 4",
+    "category": "strumming",
+    "difficulty": 4,
+    "description": "Le même motif sur la suite la plus jouée du rock et de la pop. Un accord par mesure.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-9",
+    "title": "Motif bas, bas-haut, haut-bas-haut, La, Ré, Mi 4",
+    "category": "strumming",
+    "difficulty": 4,
+    "description": "Trois accords, un par mesure, le motif ne s’arrête jamais.",
+    "metric": "bpm",
+    "startBpm": 68,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-10",
+    "title": "Croches avec septièmes : Mi7 et La7 5",
+    "category": "strumming",
+    "difficulty": 5,
+    "description": "Bas-haut sur deux accords de septième : le son du blues.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-11",
+    "title": "Changement par demi-mesure, Do et Fa simplifié 5",
+    "category": "strumming",
+    "difficulty": 5,
+    "description": "Deux accords par mesure : change sur le 3e temps sans casser les croches.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-12",
+    "title": "Doubles croches sur Mi m 6",
+    "category": "strumming",
+    "difficulty": 6,
+    "description": "Quatre coups par clic, bas-haut-bas-haut. Petits gestes, le poignet fait tout.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "strumming-13",
+    "title": "Doubles croches avec accents, La m 7",
+    "category": "strumming",
+    "difficulty": 7,
+    "description": "Quatre coups par clic, accent sur le premier de chaque groupe : le groove funk-rock.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "strumming-14",
+    "title": "Barrés en croches, Fa, Si♭, Do 7",
+    "category": "strumming",
+    "difficulty": 7,
+    "description": "Trois barrés, un par mesure, en bas-haut. Relâche la pression entre deux accords.",
+    "metric": "bpm",
+    "startBpm": 80,
+    "targetBpm": 110,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-15",
+    "title": "Barrés en croches, Sol m, Do m, Ré 8",
+    "category": "strumming",
+    "difficulty": 8,
+    "description": "Mineur, mineur, majeur : une suite typique en Sol mineur, tout en barrés.",
+    "metric": "bpm",
+    "startBpm": 84,
+    "targetBpm": 114,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "strumming-16",
+    "title": "Doubles croches sur barrés, La et Ré 9",
+    "category": "strumming",
+    "difficulty": 9,
+    "description": "Doubles croches régulières sur deux barrés : endurance de la main gauche.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 7.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "strumming-17",
+    "title": "Doubles croches, Sol, Ré, Mi m, Do 10",
+    "category": "strumming",
+    "difficulty": 10,
+    "description": "Quatre accords, doubles croches continues, changement net à chaque mesure.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 5.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 6.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 0,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 7.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 8.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 9.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 10.75,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 0,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 0,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 11.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 12,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 12,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 12,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 12.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 12.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 12.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 12.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 12.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 12.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 12.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 12.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 12.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 12.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 12.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 12.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 12.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 13.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 13.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 13.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 13.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 13.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 14,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 14,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 14,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 14,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 14.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 14.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 14.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 14.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 14.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 14.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 14.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 14.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 14.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 14.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 14.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 14.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 14.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 15.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 15.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 0,
+        "startBeat": 15.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 15.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 0,
+        "startBeat": 15.75,
+        "duration": 0.25
+      }
+    ]
+  }
+]

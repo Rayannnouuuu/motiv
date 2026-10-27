@@ -6,7 +6,15 @@ const slimExercises = {
   name: 'slim-exercises',
   transform(code, id) {
     if (!/content[\\/]exercises[\\/].+\.json$/.test(id)) return null
-    const list = JSON.parse(code).map(({ id, title, category, difficulty, targetBpm }) => ({ id, title, category, difficulty, targetBpm, description: '', pattern: [] }))
+    const list = JSON.parse(code).map(({ id, title, category, difficulty, targetBpm }) => ({
+      id,
+      title,
+      category,
+      difficulty,
+      targetBpm,
+      description: '',
+      pattern: [],
+    }))
     return { code: JSON.stringify(list), moduleType: 'json' }
   },
 }

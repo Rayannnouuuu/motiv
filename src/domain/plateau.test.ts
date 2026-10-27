@@ -47,7 +47,7 @@ describe('plateau', () => {
     const d = data({ guitarSessions: days.slice(0, 5).map((day) => g(day, 30, [ex('legato-4', 90)])) })
     const [p] = plateaus(d, today)
     const [variant, light, other] = suggestions(p, d, today)
-    expect(variant.label).toMatch(/^Change de variante : Legato/)
+    expect(variant.label).toMatch(/^Change de variante : /)
     expect(variant.to).not.toBe('/exo/legato-4')
     expect(variant.to).toMatch(/^\/exo\/legato-/)
     expect(light.label).toBe('Allège une semaine : joue-le propre à 81 bpm, puis remonte.')

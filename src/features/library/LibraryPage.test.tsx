@@ -1,3 +1,4 @@
+import { EXERCISES } from '../../content/exercises'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi } from 'vitest'
@@ -11,7 +12,7 @@ test('exercices : base guitare par catégorie avec mon meilleur tempo, puis la b
   const first = within(scales).getAllByRole('link')[0]
   expect(first).toHaveAttribute('href', '/exo/scales-1')
   expect(first).toHaveTextContent('55 bpm')
-  expect(screen.getAllByRole('link').length).toBe(100)
+  expect(screen.getAllByRole('link').length).toBe(EXERCISES.length)
   expect(screen.getByRole('button', { name: 'Modifier Squat' })).toHaveTextContent('Quadriceps · bas du corps · 6-10 reps')
 })
 

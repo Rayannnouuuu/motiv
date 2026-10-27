@@ -1,0 +1,2434 @@
+[
+  {
+    "id": "chromatic-1",
+    "title": "Chromatique 1-2-3-4, corde de Mi grave 1",
+    "category": "chromatic",
+    "difficulty": 1,
+    "description": "Un doigt par case, cases 1 à 4, une note par clic. Le doigt reste posé jusqu’à la note suivante.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "chromatic-2",
+    "title": "Chromatique 1-2-3-4, les 6 cordes en noires 1",
+    "category": "chromatic",
+    "difficulty": 1,
+    "description": "Cases 1 à 4 sur chaque corde, du grave à l’aigu. Coups vers le bas d’abord, puis en aller-retour.",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 1,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 2,
+        "duration": 1
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 5,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 6,
+        "duration": 1
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 7,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 1,
+        "startBeat": 8,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 9,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 10,
+        "duration": 1
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 11,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 12,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 13,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 14,
+        "duration": 1
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 15,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 16,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 17,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 18,
+        "duration": 1
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 19,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 20,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 21,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 22,
+        "duration": 1
+      },
+      {
+        "string": 1,
+        "fret": 4,
+        "startBeat": 23,
+        "duration": 1
+      }
+    ]
+  },
+  {
+    "id": "chromatic-3",
+    "title": "Chromatique 1-2-3-4, croches 2",
+    "category": "chromatic",
+    "difficulty": 2,
+    "description": "Même exercice, deux notes par clic, en aller-retour strict (bas, haut).",
+    "metric": "bpm",
+    "startBpm": 60,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 1,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 1,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 2,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 1,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 2,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 3,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 1,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 2,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 3,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 4,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 1,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 2,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 3,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 4,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-4",
+    "title": "Chromatique 4-3-2-1, croches 3",
+    "category": "chromatic",
+    "difficulty": 3,
+    "description": "Ordre des doigts 4-3-2-1 : casse l’automatisme et renforce les doigts 3 et 4.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-5",
+    "title": "Chromatique 1-3-2-4, croches 3",
+    "category": "chromatic",
+    "difficulty": 3,
+    "description": "Ordre des doigts 1-3-2-4 : casse l’automatisme et renforce les doigts 3 et 4.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-6",
+    "title": "Chromatique 1-2-4-3, croches 3",
+    "category": "chromatic",
+    "difficulty": 3,
+    "description": "Ordre des doigts 1-2-4-3 : casse l’automatisme et renforce les doigts 3 et 4.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-7",
+    "title": "Chromatique 2-1-4-3, croches 3",
+    "category": "chromatic",
+    "difficulty": 3,
+    "description": "Ordre des doigts 2-1-4-3 : casse l’automatisme et renforce les doigts 3 et 4.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-8",
+    "title": "Chromatique montée et descente, croches 3",
+    "category": "chromatic",
+    "difficulty": 3,
+    "description": "Monte du Mi grave au Mi aigu en 1-2-3-4, redescends en 4-3-2-1 sans t’arrêter.",
+    "metric": "bpm",
+    "startBpm": 64,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 12,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 12.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 13,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 13.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 14,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 14.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 15,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 15.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 16,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 16.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 17,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 17.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 18,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 18.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 19,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 19.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 20,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 20.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 21,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 21.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 22,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 22.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 23,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 23.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-9",
+    "title": "Chromatique en triolets 4",
+    "category": "chromatic",
+    "difficulty": 4,
+    "description": "Trois notes par clic : l’accent tombe tour à tour sur un autre doigt.",
+    "metric": "bpm",
+    "startBpm": 62,
+    "targetBpm": 86,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.6666666666666666,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 1,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1.3333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 1.6666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 2.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 3,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 3.3333333333333335,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 3.6666666666666665,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 4.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 4.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 5,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 5.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 5.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 6,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 6.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 6.666666666666667,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 7,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 7.333333333333333,
+        "duration": 0.3333333333333333
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 7.666666666666667,
+        "duration": 0.3333333333333333
+      }
+    ]
+  },
+  {
+    "id": "chromatic-10",
+    "title": "Chromatique avec déplacement de position 5",
+    "category": "chromatic",
+    "difficulty": 5,
+    "description": "Cases 1-4 sur une corde, puis la position monte d’une case à chaque corde.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 1,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 2,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 3,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 4,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 2,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 3,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 4,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 3,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 4,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 4,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 9.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 10,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 10.5,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 11,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 9,
+        "startBeat": 11.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-11",
+    "title": "Araignée (spider), croches 5",
+    "category": "chromatic",
+    "difficulty": 5,
+    "description": "Deux cordes voisines en alternance : 1 sur la corde grave, 2 sur l’aiguë, 3 sur la grave, 4 sur l’aiguë.",
+    "metric": "bpm",
+    "startBpm": 72,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 0.5,
+        "duration": 0.5
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 2.5,
+        "duration": 0.5
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 4.5,
+        "duration": 0.5
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 6,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 6.5,
+        "duration": 0.5
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 7,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 7.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 8,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 8.5,
+        "duration": 0.5
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 9,
+        "duration": 0.5
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 9.5,
+        "duration": 0.5
+      }
+    ]
+  },
+  {
+    "id": "chromatic-12",
+    "title": "Chromatique 1-2-3-4, doubles croches 6",
+    "category": "chromatic",
+    "difficulty": 6,
+    "description": "Quatre notes par clic, aller-retour strict. Reste relâché : la vitesse vient du relâchement.",
+    "metric": "bpm",
+    "startBpm": 66,
+    "targetBpm": 90,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 6,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 5,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "chromatic-13",
+    "title": "Chromatique 1-3-2-4, doubles croches 7",
+    "category": "chromatic",
+    "difficulty": 7,
+    "description": "Ordre croisé à quatre notes par clic, sur les 6 cordes.",
+    "metric": "bpm",
+    "startBpm": 70,
+    "targetBpm": 94,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 9,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 10,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 9,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 10,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 9,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 7,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 9,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 10,
+        "startBeat": 5.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "chromatic-14",
+    "title": "Araignée (spider), doubles croches 8",
+    "category": "chromatic",
+    "difficulty": 8,
+    "description": "L’araignée à quatre notes par clic : précision des deux mains à vitesse.",
+    "metric": "bpm",
+    "startBpm": 74,
+    "targetBpm": 98,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 5,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 6,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 8,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 5,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 6,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 7,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 5,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 6,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 8,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 5,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 6,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 7,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 5,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 6,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 8,
+        "startBeat": 4.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "chromatic-15",
+    "title": "Chromatique en saut de corde, doubles croches 9",
+    "category": "chromatic",
+    "difficulty": 9,
+    "description": "Une corde sur deux (Mi grave, Ré, Si) : le médiator saute une corde sans perdre le rythme.",
+    "metric": "bpm",
+    "startBpm": 78,
+    "targetBpm": 102,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 7,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 8,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 9,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 10,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 7,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 8,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 9,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 10,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 7,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 8,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 9,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 10,
+        "startBeat": 2.75,
+        "duration": 0.25
+      }
+    ]
+  },
+  {
+    "id": "chromatic-16",
+    "title": "Chromatique 4-3-2-1 haut du manche, doubles croches 10",
+    "category": "chromatic",
+    "difficulty": 10,
+    "description": "Cases 12 à 15, en descendant les doigts : les cases sont serrées, garde la précision.",
+    "metric": "bpm",
+    "startBpm": 82,
+    "targetBpm": 106,
+    "source": "new",
+    "review": true,
+    "pattern": [
+      {
+        "string": 6,
+        "fret": 15,
+        "startBeat": 0,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 14,
+        "startBeat": 0.25,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 13,
+        "startBeat": 0.5,
+        "duration": 0.25
+      },
+      {
+        "string": 6,
+        "fret": 12,
+        "startBeat": 0.75,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 15,
+        "startBeat": 1,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 14,
+        "startBeat": 1.25,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 13,
+        "startBeat": 1.5,
+        "duration": 0.25
+      },
+      {
+        "string": 5,
+        "fret": 12,
+        "startBeat": 1.75,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 15,
+        "startBeat": 2,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 14,
+        "startBeat": 2.25,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 13,
+        "startBeat": 2.5,
+        "duration": 0.25
+      },
+      {
+        "string": 4,
+        "fret": 12,
+        "startBeat": 2.75,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 15,
+        "startBeat": 3,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 14,
+        "startBeat": 3.25,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 13,
+        "startBeat": 3.5,
+        "duration": 0.25
+      },
+      {
+        "string": 3,
+        "fret": 12,
+        "startBeat": 3.75,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 15,
+        "startBeat": 4,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 14,
+        "startBeat": 4.25,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 13,
+        "startBeat": 4.5,
+        "duration": 0.25
+      },
+      {
+        "string": 2,
+        "fret": 12,
+        "startBeat": 4.75,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 15,
+        "startBeat": 5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 14,
+        "startBeat": 5.25,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 13,
+        "startBeat": 5.5,
+        "duration": 0.25
+      },
+      {
+        "string": 1,
+        "fret": 12,
+        "startBeat": 5.75,
+        "duration": 0.25
+      }
+    ]
+  }
+]
