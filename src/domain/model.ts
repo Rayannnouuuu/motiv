@@ -7,6 +7,7 @@ import type { Equipment, MuscleGroup, RepRange, SportMetric } from '../content/s
 import type { Cycle } from './cycles'
 import type { MarathonProfile } from './marathon/profile'
 import type { WeeklyReview } from './weeklyReview'
+import type { GuitarProgress } from './guitar/engine'
 import type { Day, Domain, Rating } from './types'
 
 export type Discipline = Domain
@@ -165,6 +166,13 @@ export interface Profile {
   checkins?: Checkin[]
   /** Check-in du matin proposé dans Aujourd'hui (désactivable). */
   morningCheckin?: boolean
+  /** Parcours guitare (lot G2) : progression par compétence et focus de la semaine. Facultatif : pas de migration. */
+  guitar?: GuitarState
+}
+
+export interface GuitarState {
+  progress: GuitarProgress
+  focus?: { week: Day; skillId: string }
 }
 
 /** Un enregistrement ou une photo, rattaché à un exo ou un morceau (audio) ; le fichier reste sur l'appareil. */

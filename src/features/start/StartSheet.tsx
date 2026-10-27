@@ -23,6 +23,12 @@ export function StartSheet({ onClose }: { onClose: () => void }) {
       {(close) => (
         <div className="flex flex-col gap-6">
           <Group header="Guitare">
+            <Row
+              icon={<Icon name="target" className="text-guitar" />}
+              title="Séance guidée"
+              subtitle="15 à 60 min, construite pour toi"
+              onClick={() => go(close, '/seance')}
+            />
             <Row icon={<Icon name="guitar" className="text-guitar" />} title="Jouer maintenant" onClick={() => go(close, '/jouer', { autostart: true })} />
             <Row
               icon={<Icon name="plus" className="text-guitar" />}

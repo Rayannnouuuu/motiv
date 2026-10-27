@@ -186,6 +186,14 @@ export function TodayPage() {
                     withRun={chosen.withRun}
                     onChange={(programId, withRun) => setCompose({ programId, withRun })}
                   />
+                ) : c.tone === 'guitar' && c.state !== 'live' ? (
+                  <Link
+                    to="/seance"
+                    className="tap t-subhead mx-1 mb-1 flex items-center justify-center gap-1.5 rounded-lg bg-guitar/12 py-2.5 font-semibold text-guitar"
+                  >
+                    <Icon name="target" />
+                    Séance guidée
+                  </Link>
                 ) : undefined
               }
             />

@@ -7,6 +7,8 @@ import { addDays, daysBetween, isoWeek, shortDate, weekStart } from '../../domai
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import type { Domain } from '../../domain/types'
+import { getSkill } from '../../content/guitar'
+import { weekFocus } from '../../domain/guitar/session'
 import { focusOf, reviewDue } from '../../domain/weeklyReview'
 import { Gauge } from '../../ui/Gauge'
 import { Hero } from '../../ui/Hero'
@@ -108,6 +110,8 @@ export function WeekPage() {
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
 
   const shownWeek = plan?.weeks.find((w) => w.start === shownMonday) ?? null
+  const focusId = v1.profile.guitar ? weekFocus(v1.profile.guitar.progress, v1.profile.guitar.focus, today) : null
+  const guitarFocus = focusId ? getSkill(focusId) : null
   const weekName = shift === 0 ? 'Cette semaine' : shift === 1 ? 'Semaine prochaine' : `Semaine du ${shortDate(shownMonday)}`
 
   const chipsOf = (day: string): Chip[] => {
@@ -228,6 +232,16 @@ export function WeekPage() {
               </Link>
             )}
           </Hero>
+        )}
+
+        {guitarFocus && (
+          <Link to="/seance" className="tap-row flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
+            <p className="t-subhead min-w-0 flex-1">
+              <span className="t-overline mr-2 text-guitar">Focus guitare</span>
+              {guitarFocus.name}
+            </p>
+            <Icon name="chevron" className="text-faint" />
+          </Link>
         )}
 
         {(focusOf(v1.profile.reviews, today) || reviewDue(v1.profile.reviews, today)) && (

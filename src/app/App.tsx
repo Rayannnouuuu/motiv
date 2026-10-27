@@ -25,6 +25,7 @@ const RunPage = page(() => import('../features/marathon/RunPage'), 'RunPage')
 const WeekPage = page(() => import('../features/week/WeekPage'), 'WeekPage')
 const ReviewPage = page(() => import('../features/review/ReviewPage'), 'ReviewPage')
 const StravaPage = page(() => import('../features/strava/StravaPage'), 'StravaPage')
+const GuidedSessionPage = page(() => import('../features/guitar/GuidedSessionPage'), 'GuidedSessionPage')
 
 function Shell({ children }: { children: ReactNode }) {
   return (
@@ -157,6 +158,14 @@ export function AppRoutes() {
             <Shell>
               <ExercisePage />
             </Shell>
+          }
+        />
+        <Route
+          path="/seance"
+          element={
+            <Focus>
+              <GuidedSessionPage />
+            </Focus>
           }
         />
         <Route

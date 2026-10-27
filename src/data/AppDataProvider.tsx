@@ -424,6 +424,12 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         })
         return rows.reduce((t, x) => t + x.xp, 0)
       },
+      async saveGuitarState(g) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, guitar: g })
+        })
+      },
       async setMorningCheckin(on) {
         const { v1 } = state()
         await write(db, now(), async () => {

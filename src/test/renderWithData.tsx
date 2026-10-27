@@ -46,6 +46,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     saveCheckin: vi.fn(async () => {}),
     setMorningCheckin: vi.fn(async () => {}),
     importRuns: vi.fn(async () => 0),
+    saveGuitarState: vi.fn(async () => {}),
     ...over,
   }
 }

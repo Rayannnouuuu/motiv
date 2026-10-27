@@ -29,6 +29,8 @@ interface NavState {
   step?: unknown
   day?: unknown
   practiceId?: unknown
+  /** Note préremplie (séance guidée : « ce qui coince »). */
+  note?: unknown
 }
 
 /**
@@ -104,7 +106,7 @@ export function LogGuitarPage() {
   const [newSongs, setNewSongs] = useState<Song[]>(() => (preSong && !data.songs.includes(preSong) ? [preSong] : []))
   const [flow, setFlow] = useState<Rating | null>(null)
   const [desire, setDesire] = useState<Rating | null>(null)
-  const [note, setNote] = useState('')
+  const [note, setNote] = useState(() => (typeof nav?.note === 'string' ? nav.note : ''))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
