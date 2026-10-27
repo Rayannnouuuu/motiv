@@ -2,7 +2,7 @@
 
 _27 oct. 2026. `docs/GUITARE.md` §5._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push », 27 oct.).**
 
 ## Ce qui change
 
