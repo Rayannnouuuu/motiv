@@ -4,13 +4,13 @@ _27 oct. 2026 · @Rayan_
 
 ## 1. Contexte et objectif
 
-Tu développes le module Guitare de MOTIV, dans le cadre fixé par `docs/REFONTE.md` : système visuel, séance unifiée, données locales, règles de travail. Je pars de zéro à la guitare électrique.
+Tu développes le module Guitare de MOTIV, dans le cadre fixé par `docs/REFONTE.md` : système visuel, séance unifiée, données locales, règles de travail. Je pars de zéro à la guitare électrique ; un diagnostic d'entrée valide d'avance ce que je sais déjà.
 
 Le module doit m'emmener de la première note à l'autonomie. Être autonome, ici, c'est jouer les morceaux que j'aime, improviser sur une boucle et relever un riff simple à l'oreille.
 
-- Matériel : [guitare électrique + ampli / casque / interface audio].
-- Temps : [N] min par jour, [N] jours par semaine.
-- Styles visés : [rock, blues, metal, pop…]. Ils orientent les exemples et le répertoire, pas le parcours de base.
+- Matériel : guitare électrique + ampli à lampes (très peu de réglages).
+- Temps : 30 min par jour, 5 jours par semaine.
+- Styles visés : rock et metal. Ils orientent les exemples et le répertoire, pas le parcours de base.
 
 Chaque jour, le module répond à une question : « Qu'est-ce que je travaille aujourd'hui pour progresser ? » Chaque semaine, à une autre : « Qu'est-ce que je sais faire de plus qu'il y a un mois ? »
 
@@ -18,6 +18,14 @@ Chaque jour, le module répond à une question : « Qu'est-ce que je travaille a
 
 - Propre : toutes les notes sonnent, sans frisé ni note étouffée, en place avec le clic.
 - Noires : une note ou un coup par clic. Croches : deux par clic. Doubles croches : quatre par clic.
+
+## Décisions après l'audit (27 oct.)
+
+- **Diagnostic d'entrée** : il valide d'avance les compétences que je sais déjà faire ; le niveau 0 n'est pas imposé.
+- **Micro** : l'écoute du rythme au métronome (lot 7) est retirée. Le micro ne sert qu'à l'accordeur et aux bends.
+- **Niveaux** : le niveau guitare reste celui de l'XP (lot 4). Le niveau du parcours (0 à 5) ne sert qu'à **débloquer de nouveaux exercices**, rien de plus : pas de célébration, pas de carte de niveau à part.
+- **Ancienne base** : les exercices utiles au parcours sont rattachés aux compétences, les autres restent « hors parcours », historique intact.
+- **Base d'exercices** : en plus, une grosse base nouvelle, plus poussée (des premiers gestes jusqu'au jeu rapide et technique), marquée « à relire ».
 
 ## 2. Les principes du système
 

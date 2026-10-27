@@ -54,3 +54,11 @@ La base d'exercices actuelle vise surtout l'intermédiaire et le metal. Elle cou
 3. **Écoute du rythme au micro (lot 7)** : je la garde comme simple indicateur, jamais une validation, ou je la retire pour respecter le §10 ?
 4. **Un seul niveau à l'écran** : le niveau du parcours (0 à 5) remplace le niveau XP guitare ? Et le focus de la semaine remplace l'objectif phare de cycle côté guitare ?
 5. **Ancienne base** (100 exos, 45 morceaux) : je rattache aux compétences ce qui sert le parcours et je range le reste en « hors parcours », historique intact ? Ou tu veux tout garder visible ?
+
+## Réponses (27 oct.)
+
+1. Diagnostic qui valide d'avance.
+2. Section 1 confirmée : guitare électrique + ampli à lampes, 30 min × 5 jours, rock et metal.
+3. Écoute du rythme au micro retirée.
+4. Le niveau guitare reste l'XP ; le niveau du parcours ne sert qu'à débloquer des exercices.
+5. Ancienne base rattachée, le reste « hors parcours » ; et une grosse base nouvelle, plus poussée.

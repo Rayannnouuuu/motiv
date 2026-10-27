@@ -186,7 +186,7 @@ test('mode silencieux de l’iPhone : session audio « playback » pendant la le
   try {
     const user = setup()
     render(<Metronome pattern={QUARTERS} best={null} startBpm={46} targetBpm={66} challengeBpm={null} createContext={fakeAudio().create} />)
-    expect(screen.getByText(/Il sonne même en mode silencieux/)).toBeInTheDocument()
+    expect(screen.getByText('Le métronome sonne même en mode silencieux.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
     expect(session.type).toBe('playback')
     await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
@@ -196,7 +196,7 @@ test('mode silencieux de l’iPhone : session audio « playback » pendant la le
   }
 })
 
-test('les points de temps s’allument quand le clic sonne ; lancé, la lecture du rythme s’affiche dans la carte', async () => {
+test('les points de temps s’allument quand le clic sonne', async () => {
   const audio = fakeAudio()
   const user = setup()
   const { container } = render(<Metronome pattern={QUARTERS} best={60} startBpm={70} targetBpm={100} challengeBpm={null} createContext={audio.create} />)
@@ -205,16 +205,13 @@ test('les points de temps s’allument quand le clic sonne ; lancé, la lecture 
       d.className.includes('bg-fill-strong') ? '·' : d.className.includes('bg-ink') ? 'F' : 'G',
     )
   expect(dots()).toEqual(['·', '·', '·', '·'])
-  expect(screen.queryByRole('group', { name: 'Ton rythme' })).not.toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: 'Lancer le métronome' }))
-  expect(screen.getByRole('group', { name: 'Ton rythme' })).toBeInTheDocument()
   await audio.play(100)
   expect(dots()).toEqual(['F', '·', '·', '·'])
   await audio.play(1000)
   expect(dots()).toEqual(['·', 'G', '·', '·'])
   await user.click(screen.getByRole('button', { name: 'Arrêter le métronome' }))
   expect(dots()).toEqual(['·', '·', '·', '·'])
-  expect(screen.queryByRole('group', { name: 'Ton rythme' })).not.toBeInTheDocument()
 })
 
 test('navigateur sans audio web : le bouton ne plante pas', async () => {
