@@ -2,7 +2,7 @@
 
 _27 oct. 2026. Point de départ : `docs/GUITARE.md` (§3, §4, §8) et les réponses à l'audit (`docs/AUDIT-GUITARE.md`)._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation.**
+**État : validé et en ligne sur `/motiv/` (« Push », 27 oct.).**
 
 ## Ce qui change
 
