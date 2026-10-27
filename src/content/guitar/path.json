@@ -1,0 +1,928 @@
+{
+  "version": 1,
+  "levels": [
+    {
+      "level": 0,
+      "name": "Prise en main",
+      "reference": "2 semaines",
+      "exam": "Accorder seul, puis la chromatique à 60 BPM sur les 6 cordes.",
+      "requiredSkillIds": ["tune", "clean-tone", "posture", "reading", "chromatic-quarter", "downstrokes"]
+    },
+    {
+      "level": 1,
+      "name": "Premiers accords, premier riff",
+      "reference": "6 à 8 semaines",
+      "exam": "Le morceau du niveau enregistré du début à la fin, sans arrêt.",
+      "requiredSkillIds": ["open-chords", "changes", "eighths", "strum-pattern", "power-chords", "chromatic-eighth", "first-song"]
+    },
+    {
+      "level": 2,
+      "name": "Rythme rock et main droite",
+      "reference": "2 à 3 mois",
+      "exam": "Le riff en power chords avec palm mute, enregistré à au moins 80 % de son tempo d’origine.",
+      "requiredSkillIds": [
+        "power-moves",
+        "palm-mute",
+        "muting-accents",
+        "chords-2",
+        "changes-c-f",
+        "alternate-picking",
+        "notes-low",
+        "ear-major-minor",
+        "songs-2"
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Premiers solos",
+      "reference": "3 mois",
+      "exam": "L’impro de 2 minutes et le solo du niveau, enregistrés.",
+      "requiredSkillIds": ["penta-1", "legato", "slides-vibrato", "bends", "barre-f", "theory-triads", "impro-1", "solo-1"]
+    },
+    {
+      "level": 4,
+      "name": "Barrés et manche",
+      "reference": "3 à 4 mois",
+      "exam": "Le morceau avec barrés enregistré, et une mélodie relevée à l’oreille.",
+      "requiredSkillIds": ["barres", "penta-1-2", "major-scale", "notes-all", "sixteenths", "ear-melody", "barre-song"]
+    },
+    {
+      "level": 5,
+      "name": "Autonomie",
+      "reference": "ouvert",
+      "exam": null,
+      "requiredSkillIds": ["penta-5", "speed", "transcribe", "compose"]
+    }
+  ],
+  "skills": [
+    {
+      "id": "tune",
+      "level": 0,
+      "pillar": "ear",
+      "name": "Accorder sa guitare",
+      "why": "Une guitare fausse rend tout faux, même bien joué : c’est le premier geste de chaque séance.",
+      "howTo": "Corde par corde, du Mi grave au Mi aigu. Monte toujours vers la note (desserre un peu, puis remonte) : la corde tient mieux.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Les 6 cordes justes à ±5 cents avec l’accordeur", "En moins de 2 minutes, sans aide"],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": [
+        "La note bouge encore ? Laisse la corde se stabiliser quelques secondes après chaque tour de mécanique.",
+        "Une corde neuve se détend vite : réaccorde deux ou trois fois les premiers jours."
+      ],
+      "review": true
+    },
+    {
+      "id": "clean-tone",
+      "level": 0,
+      "pillar": "expression",
+      "name": "Régler un son clair",
+      "why": "Un son clair montre chaque défaut : c’est le meilleur son pour apprendre propre.",
+      "howTo": "Gain au plus bas, tonalité au milieu, puis monte le volume jusqu’à entendre chaque corde nettement.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Volume réglé à un niveau confortable", "Gain bas : pas de saturation", "Égaliseur (ou tonalité) au milieu"],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Ça grésille sans gain ? Vérifie le jack et le volume de la guitare à fond.", "Ampli à lampes : laisse-le chauffer une minute avant de jouer."],
+      "review": true
+    },
+    {
+      "id": "posture",
+      "level": 0,
+      "pillar": "technique",
+      "name": "Posture et médiator",
+      "why": "Une mauvaise posture fatigue, fait mal et bloque la vitesse plus tard : elle se corrige mieux tout de suite.",
+      "howTo": "Assis, la guitare sur la jambe droite, le manche un peu relevé. Filme-toi 30 secondes et compare à la liste.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "checklist",
+        "items": [
+          "Guitare stable, sans la tenir avec la main gauche",
+          "Poignet droit détendu",
+          "Médiator entre le pouce et le côté de l’index",
+          "Pouce gauche derrière le manche"
+        ],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": [
+        "Douleur au poignet ou à l’avant-bras : arrête, ce n’est pas normal. Vérifie le poignet gauche (pas cassé à angle droit).",
+        "Le médiator tourne ? Serre juste un peu plus, et laisse dépasser 2 à 3 mm seulement."
+      ],
+      "review": true
+    },
+    {
+      "id": "reading",
+      "level": 0,
+      "pillar": "fretboard",
+      "name": "Lire les cordes, une tablature et un diagramme",
+      "why": "Toutes les fiches, tablatures et diagrammes de l’appli reposent sur cette lecture.",
+      "howTo": "En tablature, la ligne du haut est le Mi aigu. Dans un diagramme, les cordes sont verticales et le Mi grave à gauche.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "quiz",
+        "quizId": "reading-basics",
+        "minScore": 100,
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": [
+        "On confond les deux Mi : celui du haut de la tablature est le plus aigu, la corde la plus fine.",
+        "Un « x » au-dessus d’une corde veut dire « ne pas jouer », un « o » « à vide »."
+      ],
+      "review": true
+    },
+    {
+      "id": "chromatic-quarter",
+      "level": 0,
+      "pillar": "left_hand",
+      "name": "Chromatique 1-2-3-4 sur une corde",
+      "why": "Un doigt par case : c’est la base de la main gauche, de la force et de l’indépendance des doigts.",
+      "howTo": "Index en case 1, majeur en 2, annulaire en 3, auriculaire en 4. Une note par clic, chaque note nette.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "chromatic-1",
+        "bpm": 60,
+        "subdivision": "quarter",
+        "sessions": 3
+      },
+      "exerciseIds": ["chromatic-1", "chromatic-2"],
+      "tips": [
+        "Une note frise : le doigt est trop loin de la frette, rapproche-le.",
+        "L’auriculaire est faible au début : c’est normal, il se renforce en deux semaines.",
+        "Douleur au bout des doigts : normale au début, elle passe avec la corne."
+      ],
+      "review": true
+    },
+    {
+      "id": "downstrokes",
+      "level": 0,
+      "pillar": "right_hand",
+      "name": "Coups vers le bas réguliers",
+      "why": "La régularité de la main droite fait plus pour le son que n’importe quel accord.",
+      "howTo": "Cordes à vide, un coup vers le bas par clic pendant 1 minute, sans décrocher du clic.",
+      "prerequisites": [],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "strumming-1",
+        "bpm": 60,
+        "subdivision": "quarter",
+        "sessions": 3
+      },
+      "exerciseIds": ["strumming-1"],
+      "tips": [
+        "Tu accélères sans t’en rendre compte : compte « 1, 2, 3, 4 » à voix haute.",
+        "Le bras se crispe : le geste part du poignet, l’avant-bras reste souple."
+      ],
+      "review": true
+    },
+    {
+      "id": "open-chords",
+      "level": 1,
+      "pillar": "left_hand",
+      "name": "Accords ouverts Mi m, La m, Mi, La, Ré, Sol, Do",
+      "why": "Ces sept accords suffisent pour des centaines de morceaux rock et pop.",
+      "howTo": "Pose l’accord, joue chaque corde une à une. Une note étouffée ? Corrige ce doigt, puis rejoue toute la corde.",
+      "prerequisites": ["chromatic-quarter", "reading"],
+      "validation": {
+        "kind": "checklist",
+        "items": [
+          "Mi m : chaque corde sonne",
+          "La m : chaque corde sonne",
+          "Mi : chaque corde sonne",
+          "La : chaque corde sonne",
+          "Ré : chaque corde sonne",
+          "Sol : chaque corde sonne",
+          "Do : chaque corde sonne"
+        ],
+        "sessions": 2
+      },
+      "exerciseIds": ["chords-1", "chords-2", "chords-3"],
+      "tips": [
+        "Une corde étouffée : un doigt couche la corde voisine, arrondis-le.",
+        "Le La est serré : essaie les doigts 2-3-4 au lieu de 1-2-3.",
+        "Pour le Do, la corde de Sol à vide doit sonner : l’annulaire ne doit pas la toucher."
+      ],
+      "review": true
+    },
+    {
+      "id": "changes",
+      "level": 1,
+      "pillar": "left_hand",
+      "name": "Changements d’accords, méthode « une minute »",
+      "why": "Ce qui bloque les débutants, ce n’est pas l’accord, c’est le passage de l’un à l’autre.",
+      "howTo": "Pendant 60 secondes, passe d’un accord à l’autre en grattant une fois chaque accord ; compte chaque changement propre.",
+      "prerequisites": ["open-chords"],
+      "validation": {
+        "kind": "changes_per_minute",
+        "chords": [
+          ["Em", "Am"],
+          ["A", "D"],
+          ["G", "C"],
+          ["D", "G"]
+        ],
+        "target": 30,
+        "sessions": 2
+      },
+      "exerciseIds": ["strumming-2", "strumming-3", "strumming-4"],
+      "tips": [
+        "Pose tous les doigts en même temps plutôt qu’un par un.",
+        "Repère le doigt qui ne bouge pas (doigt pivot) entre les deux accords.",
+        "Regarde l’accord suivant avant de bouger : la main suit les yeux."
+      ],
+      "review": true
+    },
+    {
+      "id": "eighths",
+      "level": 1,
+      "pillar": "right_hand",
+      "name": "Rythme en croches bas-haut",
+      "why": "Le va-et-vient régulier est le moteur de presque tous les rythmes.",
+      "howTo": "Bas sur le clic, haut entre deux clics, pendant 1 minute. La main ne s’arrête jamais.",
+      "prerequisites": ["downstrokes"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "strumming-5",
+        "bpm": 70,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["strumming-5", "strumming-6"],
+      "tips": [
+        "Les coups vers le haut sont plus faibles : c’est normal, ils ne touchent que les cordes aiguës.",
+        "Tu décroches : ralentis de 10 bpm, la régularité d’abord."
+      ],
+      "review": true
+    },
+    {
+      "id": "strum-pattern",
+      "level": 1,
+      "pillar": "right_hand",
+      "name": "Premier motif : bas, bas-haut, haut-bas-haut",
+      "why": "Le motif le plus joué en pop et en rock acoustique.",
+      "howTo": "Garde le va-et-vient des croches et rate exprès le coup du 3e temps. Un accord par mesure.",
+      "prerequisites": ["eighths", "changes"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "strumming-8",
+        "bpm": 70,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["strumming-7", "strumming-8", "strumming-9"],
+      "tips": [
+        "Le motif se décale : la main a arrêté de bouger pendant le coup raté. Continue le geste dans le vide.",
+        "Dis le motif à voix haute : « bas, bas-haut, haut-bas-haut »."
+      ],
+      "review": true
+    },
+    {
+      "id": "power-chords",
+      "level": 1,
+      "pillar": "right_hand",
+      "name": "Power chords à deux doigts",
+      "why": "Le son du rock et du metal : une forme, déplacée partout sur le manche.",
+      "howTo": "Index sur la fondamentale (corde de Mi grave), annulaire deux cases plus loin sur la corde de La. Un riff de 4 accords en noires.",
+      "prerequisites": ["chromatic-quarter"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "powerChords-2",
+        "bpm": 80,
+        "subdivision": "quarter",
+        "sessions": 3
+      },
+      "exerciseIds": ["powerChords-1", "powerChords-2", "rhythm-1", "rhythm-2", "rhythm-11"],
+      "tips": [
+        "Les autres cordes sonnent : pose le dessous de l’index sur elles pour les étouffer.",
+        "Le déplacement glisse : relâche la pression pendant le trajet, pas en arrivant."
+      ],
+      "review": true
+    },
+    {
+      "id": "chromatic-eighth",
+      "level": 1,
+      "pillar": "left_hand",
+      "name": "Chromatique 1-2-3-4 en croches",
+      "why": "Double la vitesse sans perdre la propreté : la synchronisation des deux mains commence ici.",
+      "howTo": "Deux notes par clic sur les 6 cordes, en aller-retour au médiator.",
+      "prerequisites": ["chromatic-quarter"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "chromatic-3",
+        "bpm": 60,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["chromatic-2", "chromatic-3"],
+      "tips": ["Les deux mains se désynchronisent : ralentis jusqu’à ce que chaque note tombe avec le coup de médiator."],
+      "review": true
+    },
+    {
+      "id": "first-song",
+      "level": 1,
+      "pillar": "repertoire",
+      "name": "Un morceau à 2 ou 3 accords en entier",
+      "why": "Le premier morceau joué du début à la fin, c’est le moment où l’on devient guitariste.",
+      "howTo": "Choisis un morceau de ta liste à 2 ou 3 accords. Joue-le en entier, sans t’arrêter même en cas d’erreur.",
+      "prerequisites": ["changes", "strum-pattern"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": [
+        "Tu t’arrêtes à chaque erreur : continue, le rythme compte plus que l’accord parfait.",
+        "Le tempo d’origine est trop rapide : joue-le plus lent, c’est permis."
+      ],
+      "review": true
+    },
+    {
+      "id": "power-moves",
+      "level": 2,
+      "pillar": "right_hand",
+      "name": "Riff de power chords avec déplacements",
+      "why": "Changer de corde et de case sans couper le son : la base des riffs rock.",
+      "howTo": "Power chords sur les cordes de Mi et de La, en croches, déplacements sans trou.",
+      "prerequisites": ["power-chords"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "powerChords-4",
+        "bpm": 90,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["powerChords-3", "powerChords-4", "powerChords-7", "rhythm-3", "rhythm-12"],
+      "tips": ["Un trou entre deux accords : prépare le déplacement pendant la dernière croche."],
+      "review": true
+    },
+    {
+      "id": "palm-mute",
+      "level": 2,
+      "pillar": "right_hand",
+      "name": "Palm mute en croches",
+      "why": "Le son « serré » du rock et du metal.",
+      "howTo": "Pose le tranchant de la paume sur les cordes, juste devant le chevalet. Croches étouffées pendant 1 minute.",
+      "prerequisites": ["power-chords"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "powerChords-5",
+        "bpm": 90,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["palmMuting-1", "palmMuting-2", "palmMuting-101", "palmMuting-102", "powerChords-5"],
+      "tips": ["Le son est trop étouffé (plus de note) : recule la paume vers le chevalet.", "Pas assez étouffé : avance-la de quelques millimètres."],
+      "review": true
+    },
+    {
+      "id": "muting-accents",
+      "level": 2,
+      "pillar": "right_hand",
+      "name": "Étouffer, coups fantômes et accents",
+      "why": "Ce qui rend un riff vivant : alterner sons étouffés et accents ouverts.",
+      "howTo": "Lève et repose la paume au bon moment ; relâche la main gauche pour les coups fantômes.",
+      "prerequisites": ["palm-mute"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "palmMuting-103",
+        "bpm": 80,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["palmMuting-103", "powerChords-6", "rhythm-101"],
+      "tips": ["Les accents ne ressortent pas : joue les notes étouffées plus doucement."],
+      "review": true
+    },
+    {
+      "id": "chords-2",
+      "level": 2,
+      "pillar": "left_hand",
+      "name": "Accords Ré m, Mi 7, La 7, Fa simplifié",
+      "why": "Les septièmes donnent le son du blues ; le Fa simplifié prépare le barré.",
+      "howTo": "Comme pour les premiers accords : chaque corde jouée une à une.",
+      "prerequisites": ["open-chords"],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Ré m : chaque corde sonne", "Mi 7 : chaque corde sonne", "La 7 : chaque corde sonne", "Fa simplifié : chaque corde sonne"],
+        "sessions": 2
+      },
+      "exerciseIds": ["chords-6", "chords-7", "strumming-10"],
+      "tips": ["Le Fa simplifié frise : l’index couvre les deux cordes aiguës, roule-le légèrement."],
+      "review": true
+    },
+    {
+      "id": "changes-c-f",
+      "level": 2,
+      "pillar": "left_hand",
+      "name": "Changements Do–Fa simplifié",
+      "why": "Do–Fa est l’un des passages les plus courants, et le plus redouté.",
+      "howTo": "60 secondes, un coup par accord, compte les changements propres.",
+      "prerequisites": ["chords-2", "changes"],
+      "validation": {
+        "kind": "changes_per_minute",
+        "chords": [["C", "Fmaj7"]],
+        "target": 30,
+        "sessions": 2
+      },
+      "exerciseIds": ["strumming-11"],
+      "tips": ["L’annulaire et le majeur gardent leur forme : la main se déplace d’une seule pièce."],
+      "review": true
+    },
+    {
+      "id": "alternate-picking",
+      "level": 2,
+      "pillar": "right_hand",
+      "name": "Aller-retour strict au médiator",
+      "why": "La technique qui permet ensuite d’aller vite proprement.",
+      "howTo": "Chromatique en croches, bas-haut-bas-haut sans jamais faire deux coups dans le même sens.",
+      "prerequisites": ["chromatic-eighth"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "chromatic-3",
+        "bpm": 80,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["picking-1", "picking-2", "picking-3", "picking-101", "chromatic-4", "chromatic-5", "chromatic-8"],
+      "tips": [
+        "Deux coups dans le même sens au changement de corde : ralentis, c’est là que ça casse.",
+        "Petits gestes : le médiator dépasse à peine sous la corde."
+      ],
+      "review": true
+    },
+    {
+      "id": "notes-low",
+      "level": 2,
+      "pillar": "fretboard",
+      "name": "Notes des cordes de Mi grave et de La (cases 0 à 12)",
+      "why": "Les fondamentales des power chords et des barrés sont sur ces deux cordes.",
+      "howTo": "Apprends les repères : cases 0, 3, 5, 7, 12. Puis les notes entre les repères.",
+      "prerequisites": ["reading"],
+      "validation": {
+        "kind": "quiz",
+        "quizId": "notes-e-a",
+        "minScore": 90,
+        "maxSecondsPerItem": 3,
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Retiens qu’il n’y a pas de dièse entre Mi-Fa et Si-Do."],
+      "review": true
+    },
+    {
+      "id": "ear-major-minor",
+      "level": 2,
+      "pillar": "ear",
+      "name": "Oreille : accord majeur ou mineur",
+      "why": "Reconnaître la couleur d’un accord est le premier pas pour relever un morceau.",
+      "howTo": "20 questions : majeur (plutôt joyeux, ouvert) ou mineur (plutôt sombre).",
+      "prerequisites": ["open-chords"],
+      "validation": {
+        "kind": "quiz",
+        "quizId": "ear-major-minor",
+        "minScore": 80,
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Chante la note du milieu de l’accord : c’est elle qui change entre majeur et mineur."],
+      "review": true
+    },
+    {
+      "id": "songs-2",
+      "level": 2,
+      "pillar": "repertoire",
+      "name": "Deux morceaux, dont un riff en power chords",
+      "why": "Le répertoire grossit : un morceau d’accords, un riff rock.",
+      "howTo": "Deux morceaux de ta liste joués en entier, dont un riff en power chords.",
+      "prerequisites": ["first-song", "palm-mute"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Travaille d’abord le passage le plus dur seul, en boucle, plus lentement."],
+      "review": true
+    },
+    {
+      "id": "penta-1",
+      "level": 3,
+      "pillar": "technique",
+      "name": "Pentatonique mineure, position 1",
+      "why": "La gamme des solos rock, blues et metal.",
+      "howTo": "Montée et descente en croches, aller-retour au médiator, index en case 5 (La mineur).",
+      "prerequisites": ["alternate-picking"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "scales-103",
+        "bpm": 80,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["scales-3", "scales-13", "scales-101", "scales-102", "scales-103", "scales-114"],
+      "tips": ["Repère les La (fondamentale) : c’est là que les solos se posent."],
+      "review": true
+    },
+    {
+      "id": "legato",
+      "level": 3,
+      "pillar": "technique",
+      "name": "Hammer-on et pull-off",
+      "why": "Lier les notes sans les attaquer : la fluidité des solos.",
+      "howTo": "Hammer : frappe le doigt sur la case. Pull : tire légèrement la corde en relâchant. Les deux notes au même volume.",
+      "prerequisites": ["chromatic-eighth"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "legato-103",
+        "bpm": 70,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["legato-1", "legato-2", "legato-3", "legato-101", "legato-102", "legato-103"],
+      "tips": [
+        "La note liée est faible : frappe plus près de la frette, plus vite.",
+        "Le pull-off fait sonner une autre corde : tire vers le bas, pas vers le haut."
+      ],
+      "review": true
+    },
+    {
+      "id": "slides-vibrato",
+      "level": 3,
+      "pillar": "expression",
+      "name": "Slides et vibrato",
+      "why": "Le chant d’une note : c’est ce qui rend un solo personnel.",
+      "howTo": "Slide : garde la pression en glissant. Vibrato : petits mouvements réguliers du poignet, comme pour tourner une clé.",
+      "prerequisites": ["penta-1"],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Slide qui arrive pile sur la case", "Vibrato régulier, sans changer de note", "Contrôlé sur un enregistrement"],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Le vibrato part dans tous les sens : vise un rythme, en croches avec le clic."],
+      "review": true
+    },
+    {
+      "id": "bends",
+      "level": 3,
+      "pillar": "expression",
+      "name": "Bends d’un demi-ton et d’un ton",
+      "why": "Le son le plus expressif de la guitare électrique.",
+      "howTo": "Pousse la corde avec trois doigts ensemble. Vérifie la note d’arrivée avec l’accordeur (±15 cents).",
+      "prerequisites": ["penta-1"],
+      "validation": {
+        "kind": "pitch",
+        "targetCents": 15,
+        "hitsOutOf": [8, 10]
+      },
+      "exerciseIds": ["bends-1", "bends-2", "bends-3", "bends-101", "bends-102", "bends-104"],
+      "tips": [
+        "Le bend est faux : joue d’abord la note cible deux cases plus haut, puis vise-la.",
+        "Ça fait mal : c’est le poignet qui tourne, pas les doigts qui poussent seuls."
+      ],
+      "review": true
+    },
+    {
+      "id": "barre-f",
+      "level": 3,
+      "pillar": "left_hand",
+      "name": "Barré de Fa, forme de Mi",
+      "why": "Avec le barré, chaque accord se joue partout sur le manche.",
+      "howTo": "D’abord les 6 cordes qui sonnent une à une, puis 60 secondes de Do–Fa.",
+      "prerequisites": ["changes-c-f"],
+      "validation": {
+        "kind": "changes_per_minute",
+        "chords": [["C", "F"]],
+        "target": 20,
+        "sessions": 2
+      },
+      "exerciseIds": ["chords-7", "chords-8"],
+      "tips": [
+        "Des cordes ne sonnent pas sous l’index : roule l’index sur son côté osseux.",
+        "La force vient du bras qui tire un peu en arrière, pas seulement du pouce."
+      ],
+      "review": true
+    },
+    {
+      "id": "theory-triads",
+      "level": 3,
+      "pillar": "ear",
+      "name": "Intervalles et construction d’un accord (1-3-5)",
+      "why": "Comprendre pourquoi un accord est majeur ou mineur, et le retrouver sur le manche.",
+      "howTo": "Une triade = fondamentale, tierce, quinte. Tierce majeure : 4 cases ; mineure : 3 cases.",
+      "prerequisites": ["notes-low"],
+      "validation": {
+        "kind": "quiz",
+        "quizId": "intervals-triads",
+        "minScore": 90,
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Visualise la forme sur le manche plutôt que d’apprendre par cœur."],
+      "review": true
+    },
+    {
+      "id": "impro-1",
+      "level": 3,
+      "pillar": "creativity",
+      "name": "Improviser 2 minutes sur une boucle en La m",
+      "why": "Jouer ses propres phrases : le premier pas vers l’autonomie.",
+      "howTo": "Boucle en La mineur, pentatonique position 1. Peu de notes, des silences, termine tes phrases sur un La.",
+      "prerequisites": ["penta-1", "legato"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": [
+        "Tu joues trop de notes : fais des phrases de 4 notes, puis une pause.",
+        "Tu tournes en rond : répète une phrase et change seulement la dernière note."
+      ],
+      "review": true
+    },
+    {
+      "id": "solo-1",
+      "level": 3,
+      "pillar": "repertoire",
+      "name": "Un riff mélodique ou un solo simple",
+      "why": "Ton premier solo appris, avec bends et liés.",
+      "howTo": "Choisis un solo ou un riff mélodique simple de ta liste, joue-le en entier.",
+      "prerequisites": ["penta-1", "bends"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Apprends-le phrase par phrase, puis enchaîne deux phrases, puis trois."],
+      "review": true
+    },
+    {
+      "id": "barres",
+      "level": 4,
+      "pillar": "left_hand",
+      "name": "Barrés majeurs et mineurs, formes de Mi et de La",
+      "why": "Toutes les tonalités deviennent jouables.",
+      "howTo": "Changements de 60 secondes entre deux barrés, d’une forme de Mi à une forme de La.",
+      "prerequisites": ["barre-f"],
+      "validation": {
+        "kind": "changes_per_minute",
+        "chords": [
+          ["F", "Bb"],
+          ["Gbar", "Cbar"],
+          ["Ambar", "Dbar"]
+        ],
+        "target": 25,
+        "sessions": 2
+      },
+      "exerciseIds": ["chords-9", "chords-10", "strumming-14", "strumming-15"],
+      "tips": ["La forme de La frise : l’annulaire peut barrer les trois cordes du milieu."],
+      "review": true
+    },
+    {
+      "id": "penta-1-2",
+      "level": 4,
+      "pillar": "technique",
+      "name": "Pentatonique, positions 1 et 2 reliées",
+      "why": "Sortir de la « boîte » : les solos voyagent sur le manche.",
+      "howTo": "Monte en position 1, glisse vers la position 2, redescends.",
+      "prerequisites": ["penta-1"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "scales-108",
+        "bpm": 90,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["scales-104", "scales-108", "scales-109"],
+      "tips": ["Le glissé se perd : choisis toujours la même note de passage."],
+      "review": true
+    },
+    {
+      "id": "major-scale",
+      "level": 4,
+      "pillar": "technique",
+      "name": "Gamme majeure, une position",
+      "why": "La gamme de référence de la musique occidentale : tout se mesure par rapport à elle.",
+      "howTo": "Gamme de Sol, cases 2 à 5, un doigt par case, montée et descente en croches.",
+      "prerequisites": ["penta-1"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "scales-117",
+        "bpm": 80,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["scales-1", "scales-11", "scales-117", "scales-118"],
+      "tips": ["Chante « do ré mi » en jouant : l’oreille corrige les doigts."],
+      "review": true
+    },
+    {
+      "id": "notes-all",
+      "level": 4,
+      "pillar": "fretboard",
+      "name": "Notes sur toutes les cordes",
+      "why": "Savoir où l’on est sur le manche, partout.",
+      "howTo": "Utilise les octaves : une note sur la corde de Mi se retrouve deux cases plus loin, deux cordes plus aiguës.",
+      "prerequisites": ["notes-low"],
+      "validation": {
+        "kind": "quiz",
+        "quizId": "notes-all",
+        "minScore": 90,
+        "maxSecondsPerItem": 3,
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Les cordes de Sol et de Si décalent les formes d’octave d’une case."],
+      "review": true
+    },
+    {
+      "id": "sixteenths",
+      "level": 4,
+      "pillar": "right_hand",
+      "name": "Rythme en doubles croches",
+      "why": "Le funk, le rock rapide et le metal reposent sur les doubles croches.",
+      "howTo": "Quatre coups par clic, 1 minute, petits gestes du poignet.",
+      "prerequisites": ["strum-pattern"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "strumming-12",
+        "bpm": 70,
+        "subdivision": "sixteenth",
+        "sessions": 3
+      },
+      "exerciseIds": ["strumming-12", "strumming-13", "palmMuting-104", "picking-102"],
+      "tips": ["Ça s’emballe : accentue le premier coup de chaque groupe de quatre."],
+      "review": true
+    },
+    {
+      "id": "ear-melody",
+      "level": 4,
+      "pillar": "ear",
+      "name": "Relever une mélodie de 4 à 8 notes",
+      "why": "Relever à l’oreille, c’est apprendre n’importe quel morceau sans tablature.",
+      "howTo": "Trouve la première note, puis chante la suivante : plus haute ou plus basse ? Cherche-la case par case.",
+      "prerequisites": ["ear-major-minor", "major-scale"],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Mélodie de 4 à 8 notes trouvée sans aide", "Rejouée en entier, au bon rythme"],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Commence par une mélodie que tu sais chanter (générique, comptine)."],
+      "review": true
+    },
+    {
+      "id": "barre-song",
+      "level": 4,
+      "pillar": "repertoire",
+      "name": "Un morceau avec barrés",
+      "why": "Le répertoire s’ouvre : la plupart des morceaux ont au moins un barré.",
+      "howTo": "Un morceau de ta liste avec des barrés, joué en entier.",
+      "prerequisites": ["barres"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Le barré te ralentit : remplace-le par un power chord le temps de l’apprendre, puis remets-le."],
+      "review": true
+    },
+    {
+      "id": "penta-5",
+      "level": 5,
+      "pillar": "technique",
+      "name": "Pentatonique dans les 5 positions, reliées",
+      "why": "Le manche entier devient un terrain de jeu.",
+      "howTo": "Les 5 positions enchaînées en montant le manche, une par mesure.",
+      "prerequisites": ["penta-1-2"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "scales-111",
+        "bpm": 90,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["scales-105", "scales-106", "scales-107", "scales-111"],
+      "tips": ["Chaque position commence là où la précédente finit : repère les notes communes."],
+      "review": true
+    },
+    {
+      "id": "speed",
+      "level": 5,
+      "pillar": "technique",
+      "name": "Vitesse : pentatonique en croches à 120",
+      "why": "La vitesse au service des solos, sans perdre la propreté.",
+      "howTo": "+4 bpm seulement après 3 séances propres. Travaille aussi par rafales courtes.",
+      "prerequisites": ["penta-5", "sixteenths"],
+      "validation": {
+        "kind": "tempo",
+        "exerciseId": "scales-103",
+        "bpm": 120,
+        "subdivision": "eighth",
+        "sessions": 3
+      },
+      "exerciseIds": ["scales-110", "scales-112", "picking-104", "picking-106", "chromatic-12"],
+      "tips": ["Plateau : ralentis de 20 %, découpe le passage, puis remonte.", "Tu crispes l’épaule : arrête, respire, recommence plus lent."],
+      "review": true
+    },
+    {
+      "id": "transcribe",
+      "level": 5,
+      "pillar": "ear",
+      "name": "Relever un riff ou un couplet à l’oreille",
+      "why": "L’autonomie : apprendre ce que tu veux, sans dépendre d’une tablature.",
+      "howTo": "Ralentis le morceau, trouve la tonalité, puis les notes une à une.",
+      "prerequisites": ["ear-melody"],
+      "validation": {
+        "kind": "checklist",
+        "items": ["Riff ou couplet entier trouvé sans tablature", "Joué avec le morceau, au bon tempo"],
+        "sessions": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Cherche d’abord la note la plus grave du riff : c’est souvent la fondamentale."],
+      "review": true
+    },
+    {
+      "id": "compose",
+      "level": 5,
+      "pillar": "creativity",
+      "name": "Composer un riff, un couplet et un refrain",
+      "why": "Ta propre musique : le but de tout le parcours.",
+      "howTo": "Un riff, un couplet et un refrain qui s’enchaînent, enregistrés.",
+      "prerequisites": ["impro-1", "barres"],
+      "validation": {
+        "kind": "recording",
+        "rubricId": "grille-5",
+        "minAverage": 2
+      },
+      "exerciseIds": [],
+      "tips": ["Pars d’une suite d’accords connue et change un seul accord."],
+      "review": true
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "reading-basics",
+      "name": "Lire cordes, tablature et diagramme"
+    },
+    {
+      "id": "notes-e-a",
+      "name": "Notes des cordes de Mi grave et de La"
+    },
+    {
+      "id": "ear-major-minor",
+      "name": "Majeur ou mineur ?"
+    },
+    {
+      "id": "intervals-triads",
+      "name": "Intervalles et triades"
+    },
+    {
+      "id": "notes-all",
+      "name": "Notes sur tout le manche"
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "grille-5",
+      "criteria": [
+        {
+          "label": "Rythme régulier",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "label": "Notes nettes",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "label": "Transitions sans trou",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "label": "Son et nuances",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "label": "Aisance",
+          "min": 1,
+          "max": 3
+        }
+      ]
+    }
+  ]
+}
