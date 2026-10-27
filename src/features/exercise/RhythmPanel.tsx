@@ -52,6 +52,9 @@ export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener
   const [read, setRead] = useState<RhythmRead | null>(null)
   const [verdicts, setVerdicts] = useState<Verdict[]>([])
   const [idle, setIdle] = useState(true)
+  const [level, setLevel] = useState(0)
+  const [silent, setSilent] = useState(false)
+  const heard = useRef(Date.now())
   const onsets = useRef<number[]>([])
   const lastAt = useRef(0)
 
@@ -62,6 +65,10 @@ export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener
       () => live && setState('listening'),
       (e: unknown) => live && setState({ error: micError(e) }),
     )
+    listener.onLevel = (rms) => {
+      setLevel(rms)
+      if (rms > 0.004) heard.current = Date.now()
+    }
     listener.onOnset = (t) => {
       onsets.current = [...onsets.current, t].slice(-KEEP)
       lastAt.current = Date.now()
@@ -71,6 +78,7 @@ export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener
       if (r.verdict) setVerdicts((v) => [...v, r.verdict!])
     }
     const timer = setInterval(() => {
+      setSilent(Date.now() - heard.current > 6000)
       if (Date.now() - lastAt.current > IDLE_MS) {
         setIdle(true)
         // Une reprise repart de zéro : l'intervalle avec la dernière note d'avant ne veut rien dire.
@@ -80,6 +88,7 @@ export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener
     return () => {
       live = false
       listener.onOnset = null
+      listener.onLevel = null
       clearInterval(timer)
     }
   }, [listener, bpm])
@@ -124,6 +133,21 @@ export function RhythmPanel({ bpm, listener }: { bpm: number; listener: Listener
           ))}
         </div>
       </div>
+      {!error && state === 'listening' && (
+        <div className="flex w-full flex-col gap-1">
+          <div className="h-1.5 overflow-hidden rounded-full bg-fill-strong" role="img" aria-label="Niveau du micro">
+            <div
+              className="h-full rounded-full bg-guitar transition-[width] duration-100"
+              style={{ width: `${Math.max(0, Math.min(1, (20 * Math.log10(level + 1e-6) + 60) / 60)) * 100}%` }}
+            />
+          </div>
+          {silent && (
+            <p role="note" className="t-footnote text-center text-muted">
+              Je n’entends presque rien : rapproche le téléphone de l’ampli et joue plus fort.
+            </p>
+          )}
+        </div>
+      )}
       {error && (
         <p role="alert" className="t-subhead text-center text-danger">
           {error}

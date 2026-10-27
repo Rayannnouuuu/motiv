@@ -26,6 +26,13 @@ const TONES: Record<ClickKind, { freq: number; gain: number }> = {
   sub: { freq: 700, gain: 0.3 },
 }
 
+/** Pendant l'écoute du micro : un « tik » aigu, hors de la plage de la guitare que le détecteur écoute (sous 2 kHz). */
+const TONES_LISTENING: Record<ClickKind, { freq: number; gain: number }> = {
+  bar: { freq: 5200, gain: 0.9 },
+  beat: { freq: 4400, gain: 0.7 },
+  sub: { freq: 3800, gain: 0.4 },
+}
+
 const SUB_LABELS: Record<number, string> = { 2: 'Croches', 3: 'Triolets', 4: 'Doubles' }
 
 function defaultContext(): AudioContextLike {
@@ -34,8 +41,8 @@ function defaultContext(): AudioContextLike {
 }
 
 /** Un clic = un oscillateur bref : montée en 2 ms, extinction à 40 ms. */
-function playClick(ctx: AudioContextLike, { time, kind }: Click) {
-  const { freq, gain: peak } = TONES[kind]
+function playClick(ctx: AudioContextLike, { time, kind }: Click, listening: boolean) {
+  const { freq, gain: peak } = (listening ? TONES_LISTENING : TONES)[kind]
   const osc = ctx.createOscillator()
   const gain = ctx.createGain()
   osc.frequency.value = freq
@@ -52,6 +59,8 @@ function playClick(ctx: AudioContextLike, { time, kind }: Click) {
 class Engine {
   bpm: number
   sub: number
+  /** Le micro écoute : clic aigu, que le détecteur n'entend presque pas. */
+  listening = false
   private ctx: AudioContextLike | null = null
   private timer: ReturnType<typeof setInterval> | undefined
   private cursor: Cursor = { nextTime: 0, index: 0 }
@@ -118,7 +127,7 @@ class Engine {
     const { clicks, next } = schedule(this.cursor, ctx.currentTime, LOOKAHEAD, this.bpm, this.sub)
     this.cursor = next
     for (const click of clicks) {
-      playClick(ctx, click)
+      playClick(ctx, click, this.listening)
       if (click.kind === 'sub') continue
       // Le point s'allume quand le clic sonne, pas quand il est programmé.
       const beat = Math.floor((click.index % (this.sub * BEATS)) / this.sub)
@@ -201,9 +210,11 @@ export function Metronome({
       setListener(null)
       setPlaying(false)
       setBeat(-1)
-    } else if (e.start()) {
+    } else {
+      e.listening = canListen()
+      if (!e.start()) return
       setPlaying(true)
-      setListener(canListen() ? startListening() : null)
+      setListener(e.listening ? startListening() : null)
       onPlayed?.(e.bpm)
     }
   }

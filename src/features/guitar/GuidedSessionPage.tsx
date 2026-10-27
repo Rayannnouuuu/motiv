@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getExercise } from '../../content/exercises'
 import { getSkill } from '../../content/guitar'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { weekStart } from '../../domain/date'
-import { beginnerMinutes, EMPTY_PROGRESS, recordAttempt, type GuitarProgress } from '../../domain/guitar/engine'
-import { DURATIONS, ensureLearning, generateSession, weekFocus, type Duration, type SessionBlock, type SessionPlan } from '../../domain/guitar/session'
+import { beginnerMinutes, EMPTY_PROGRESS, recordAttempt, recordSetup, type GuitarProgress } from '../../domain/guitar/engine'
+import {
+  DURATIONS,
+  ensureLearning,
+  generateSession,
+  songChoices,
+  weekFocus,
+  type Duration,
+  type SessionBlock,
+  type SessionPlan,
+} from '../../domain/guitar/session'
 import { Button } from '../../ui/Button'
 import { SessionBar, Segments } from '../../ui/SessionBar'
-import { Metronome } from '../exercise/Metronome'
 import { useRun } from '../settings/useRun'
+import { ExercisePanel } from './ExercisePanel'
 import { Measure, type RawAttempt } from './Measure'
+import { SETUP_IDS, SetupSheet } from './SetupSheet'
 
 const BLOCK_LABEL = { warmup: 'Échauffement', focus: 'Focus', maintenance: 'Entretien', repertoire: 'Répertoire', bonus: 'Bonus' } as const
 const clock = (sec: number) => `${Math.floor(Math.abs(sec) / 60)}:${String(Math.abs(sec) % 60).padStart(2, '0')}`
@@ -54,6 +64,10 @@ export function GuidedSessionPage() {
   const [step, setStep] = useState(0)
   const [done, setDone] = useState<Done[]>([])
   const [ticked, setTicked] = useState(false)
+  const [songId, setSongId] = useState<string | null>(null)
+  const [setup, setSetup] = useState(false)
+  const choices = songChoices(v1.songs)
+  const pending = SETUP_IDS.filter((id) => progress.skills[id]?.status !== 'validated')
   const [stuck, setStuck] = useState('')
   // Progression et focus locaux : chaque essai part du dernier état écrit.
   const [prog, setProg] = useState<GuitarProgress>(progress)
@@ -64,15 +78,21 @@ export function GuidedSessionPage() {
 
   const save = (next: GuitarProgress, nextFocus = focus) => run(() => saveGuitarState({ progress: next, ...(nextFocus ? { focus: nextFocus } : {}) }))
 
-  const start = () => {
-    const ready = ensureLearning(progress, today)
+  const start = (ticks: string[] = []) => {
+    setSetup(false)
+    const ready = ensureLearning(
+      ticks.reduce((p, id) => recordSetup(p, id, today), progress),
+      today,
+    )
     const id = weekFocus(ready, focus, today)
     const nextFocus = id ? { week: weekStart(today), skillId: id } : focus
     void save(ready, nextFocus).then((ok) => {
       if (!ok) return
       setProg(ready)
       setFocus(nextFocus)
-      setPlan(generateSession({ duration, progress: ready, focus: nextFocus, today, songs: v1.songs }))
+      const next = generateSession({ duration, progress: ready, focus: nextFocus, today, songs: v1.songs })
+      setPlan(next)
+      setSongId(next.blocks.find((b) => b.kind === 'repertoire')?.songId ?? null)
       setStarted(new Date())
     })
   }
@@ -102,9 +122,7 @@ export function GuidedSessionPage() {
         const tried = v?.kind === 'tempo' ? done.filter((d) => d.skillId === b.skillId && d.value > 0).at(-1) : undefined
         return tried && v?.kind === 'tempo' && getExercise(v.exerciseId) ? [{ kind: 'exercise', exerciseId: v.exerciseId, bpm: String(tried.value) }] : []
       }),
-      ...(ticked && blocks.find((b) => b.kind === 'repertoire')?.songId
-        ? [{ kind: 'song', songId: blocks.find((b) => b.kind === 'repertoire')!.songId!, mastered: false }]
-        : []),
+      ...(ticked && songId ? [{ kind: 'song', songId, mastered: false }] : []),
     ]
     navigate('/log/guitare', {
       state: { durationMin: minutes, step: 2, day: today, entries: exercises, ...(stuck.trim() ? { note: `Ce qui coince : ${stuck.trim()}` } : {}) },
@@ -153,10 +171,11 @@ export function GuidedSessionPage() {
             {error}
           </p>
         )}
-        <Button tone="guitar" className="mt-auto" disabled={busy} onClick={start}>
+        <Button tone="guitar" className="mt-auto" disabled={busy} onClick={() => (pending.length > 0 ? setSetup(true) : start())}>
           <Icon name="play" />
           Construire ma séance
         </Button>
+        {setup && <SetupSheet pending={pending} onDone={start} onClose={() => setSetup(false)} />}
       </div>
     )
 
@@ -200,7 +219,6 @@ export function GuidedSessionPage() {
   }
 
   const skill = block.skillId ? getSkill(block.skillId) : undefined
-  const ex = block.exerciseId ? getExercise(block.exerciseId) : undefined
   return (
     <div className="flex flex-1 flex-col gap-5 pb-4">
       {quit}
@@ -219,16 +237,39 @@ export function GuidedSessionPage() {
       </div>
       {block.hint && <p className="t-subhead text-muted">{block.hint}</p>}
 
-      {block.kind === 'warmup' && ex && (
-        <Metronome key={ex.id} pattern={ex.pattern} best={null} startBpm={ex.startBpm} startAt={block.bpm} targetBpm={ex.targetBpm} challengeBpm={null} />
-      )}
+      {block.kind === 'warmup' && block.exerciseId && <ExercisePanel ids={[block.exerciseId]} startAt={block.bpm} />}
       {skill && <Measure key={`${skill.id}-${step}`} skill={skill} own={prog.skills[skill.id]} day={today} onAttempt={(a) => attempt(block, a)} />}
-      {block.kind === 'repertoire' && block.songId && (
-        <label className="tap flex items-center gap-3 rounded-xl bg-inset px-4 py-3">
-          <input type="checkbox" checked={ticked} onChange={(e) => setTicked(e.target.checked)} className="size-5 accent-guitar" />
-          <span className="t-subhead">Section jouée</span>
-        </label>
-      )}
+      {block.kind === 'repertoire' &&
+        (choices.length === 0 ? (
+          <p className="t-subhead rounded-xl bg-inset px-4 py-3 text-muted">
+            Aucun morceau à jouer pour l’instant.{' '}
+            <Link to="/bibliotheque?vue=morceaux" className="font-semibold text-guitar">
+              Ajoute-en un dans la bibliothèque.
+            </Link>
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <label className="t-subhead flex items-center justify-between gap-3">
+              <span className="text-muted">Morceau</span>
+              <select
+                aria-label="Morceau"
+                value={songId ?? ''}
+                onChange={(e) => setSongId(e.target.value)}
+                className="tap t-callout min-h-11 max-w-[70%] min-w-0 appearance-none truncate bg-transparent text-right font-semibold text-guitar"
+              >
+                {choices.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.artist ? `${c.title} · ${c.artist}` : c.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="tap flex items-center gap-3 rounded-xl bg-inset px-4 py-3">
+              <input type="checkbox" checked={ticked} onChange={(e) => setTicked(e.target.checked)} className="size-5 accent-guitar" />
+              <span className="t-subhead">Section jouée</span>
+            </label>
+          </div>
+        ))}
 
       <Button tone="guitar" variant="secondary" className="mt-auto" onClick={() => setStep(step + 1)}>
         {step === blocks.length - 1 ? 'Terminer' : 'Bloc suivant'}

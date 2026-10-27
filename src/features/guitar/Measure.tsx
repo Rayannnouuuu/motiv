@@ -1,16 +1,27 @@
 import { useEffect, useState } from 'react'
-import { getExercise } from '../../content/exercises'
 import { PATH, type Skill } from '../../content/guitar'
 import { tempoProposal, type Attempt, type SkillProgress } from '../../domain/guitar/engine'
 import { Button } from '../../ui/Button'
 import { Stepper } from '../../ui/Stepper'
 import { Switch } from '../../ui/Switch'
-import { Metronome } from '../exercise/Metronome'
+import { ExercisePanel } from './ExercisePanel'
 
 export type RawAttempt = Omit<Attempt, 'passed'>
 
 /** Mesure de la compétence (§5) : tempo propre, compteur « une minute », checklist, score de quiz, bends, grille. */
 export function Measure({ skill, own, day, onAttempt }: { skill: Skill; own: SkillProgress | undefined; day: string; onAttempt: (a: RawAttempt) => void }) {
+  const v = skill.validation
+  // Les exercices de la compétence (tablature, métronome) s'affichent avec sa mesure ; un test de tempo les intègre.
+  const exercises = skill.exerciseIds.length > 0 && v.kind !== 'tempo' ? <ExercisePanel ids={skill.exerciseIds} /> : null
+  return (
+    <div className="flex flex-col gap-4">
+      {exercises}
+      <Test skill={skill} own={own} day={day} onAttempt={onAttempt} />
+    </div>
+  )
+}
+
+function Test({ skill, own, day, onAttempt }: { skill: Skill; own: SkillProgress | undefined; day: string; onAttempt: (a: RawAttempt) => void }) {
   const v = skill.validation
   switch (v.kind) {
     case 'tempo':
@@ -30,24 +41,14 @@ export function Measure({ skill, own, day, onAttempt }: { skill: Skill; own: Ski
 
 function TempoMeasure({ skill, own, day, onAttempt }: { skill: Skill; own: SkillProgress | undefined; day: string; onAttempt: (a: RawAttempt) => void }) {
   const v = skill.validation as Extract<Skill['validation'], { kind: 'tempo' }>
-  const ex = getExercise(v.exerciseId)
   const proposal = tempoProposal(skill, own)!
   const [bpm, setBpm] = useState(proposal.bpm)
   const [clean, setClean] = useState(false)
-  if (!ex) return null
+  const ids = [v.exerciseId, ...skill.exerciseIds.filter((x) => x !== v.exerciseId)]
   return (
     <div className="flex flex-col gap-3">
       <p className="t-footnote text-muted">{proposal.why}</p>
-      <Metronome
-        key={ex.id}
-        pattern={ex.pattern}
-        best={own?.best ?? null}
-        startBpm={ex.startBpm}
-        startAt={proposal.bpm}
-        targetBpm={v.bpm}
-        challengeBpm={null}
-        onTempo={setBpm}
-      />
+      <ExercisePanel ids={ids} startAt={proposal.bpm} onTempo={setBpm} />
       <div className="flex items-center justify-between gap-3 rounded-xl bg-inset px-4 py-3">
         <span className="t-subhead">Propre à {bpm} bpm</span>
         <Switch label="Propre" checked={clean} onChange={setClean} />

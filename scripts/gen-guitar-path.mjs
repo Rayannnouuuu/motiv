@@ -9,9 +9,24 @@ const checklist = (items) => ({ kind: 'checklist', items, sessions: 2 })
 const quiz = (quizId, minScore, maxSecondsPerItem) => ({ kind: 'quiz', quizId, minScore, ...(maxSecondsPerItem ? { maxSecondsPerItem } : {}), sessions: 2 })
 const recording = (minAverage = 2) => ({ kind: 'recording', rubricId: 'grille-5', minAverage })
 
+// Mise en place : une fenêtre avant la séance, jamais du temps de jeu (retour du 28 oct.).
+const SETUP = new Set(['tune', 'clean-tone', 'posture'])
 const skills = []
 const skill = (level, id, pillar, name, validation, { pre = [], ex = [], why, how, tips }) =>
-  skills.push({ id, level, pillar, name, why, howTo: how, prerequisites: pre, validation, exerciseIds: ex, tips, review: true })
+  skills.push({
+    id,
+    level,
+    pillar,
+    name,
+    why,
+    howTo: how,
+    prerequisites: pre,
+    validation,
+    exerciseIds: ex,
+    tips,
+    review: true,
+    ...(SETUP.has(id) ? { setup: true } : {}),
+  })
 
 // ——— Niveau 0 — Prise en main ———
 skill(0, 'tune', 'ear', 'Accorder sa guitare', checklist(['Les 6 cordes justes à ±5 cents avec l’accordeur', 'En moins de 2 minutes, sans aide']), {

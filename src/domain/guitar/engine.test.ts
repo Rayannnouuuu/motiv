@@ -17,6 +17,7 @@ import {
   plateau,
   playability,
   recordAttempt,
+  recordSetup,
   skillStatus,
   startSkill,
   suggestNext,
@@ -37,12 +38,24 @@ describe('états et démarrage', () => {
     expect(skillStatus(s('open-chords'), p)).toBe('available')
   })
 
-  test('3 compétences en cours au maximum ; une verrouillée ne démarre pas', () => {
-    let p = EMPTY_PROGRESS
-    for (const id of ['tune', 'posture', 'reading']) p = startSkill(p, id, D0)
+  test('3 compétences en cours au maximum ; une verrouillée ne démarre pas ; la mise en place ne compte pas dans les 3', () => {
+    let p = diagnose(EMPTY_PROGRESS, ['chromatic-quarter', 'reading'], D0)
+    for (const id of ['open-chords', 'chromatic-eighth', 'power-chords']) p = startSkill(p, id, D0)
     expect(learning(p)).toHaveLength(3)
-    expect(() => startSkill(p, 'clean-tone', D0)).toThrow(/Déjà 3/)
+    expect(() => startSkill(p, 'notes-low', D0)).toThrow(/Déjà 3/)
     expect(() => startSkill(EMPTY_PROGRESS, 'changes', D0)).toThrow(/verrouillée/)
+    p = recordSetup(p, 'tune', D0)
+    expect(learning(p)).toHaveLength(3)
+  })
+
+  test('mise en place (accordage, son clair, posture) : validée en 2 jours, jamais proposée ni dans la séance', () => {
+    let p = EMPTY_PROGRESS
+    for (const id of ['tune', 'clean-tone', 'posture']) p = recordSetup(p, id, D0)
+    expect(p.skills.tune.status).toBe('learning')
+    for (const id of ['tune', 'clean-tone', 'posture']) p = recordSetup(p, id, day(1))
+    expect(['tune', 'clean-tone', 'posture'].map((id) => p.skills[id].status)).toEqual(['validated', 'validated', 'validated'])
+    expect(suggestNext(EMPTY_PROGRESS).some((x) => x.setup)).toBe(false)
+    expect(dueReviews(p, day(30))).toEqual([])
   })
 })
 
@@ -137,8 +150,8 @@ describe('entretien espacé', () => {
     expect(p.skills.tune).toMatchObject({ fragile: false, review: { intervalDays: 7 } })
   })
   test('entretiens dus : les plus en retard d’abord', () => {
-    const p = diagnose(diagnose(EMPTY_PROGRESS, ['tune'], D0), ['posture'], day(1))
-    expect(dueReviews(p, day(10)).map((x) => x.skillId)).toEqual(['tune', 'posture'])
+    const p = diagnose(diagnose(EMPTY_PROGRESS, ['reading'], D0), ['chromatic-quarter'], day(1))
+    expect(dueReviews(p, day(10)).map((x) => x.skillId)).toEqual(['reading', 'chromatic-quarter'])
     expect(dueReviews(p, day(2))).toEqual([])
   })
 })
@@ -241,6 +254,7 @@ describe('simulation : 8 semaines de débutant', () => {
       for (let d = 0; d < 5; d++) {
         const today = day(week * 7 + d)
         sessions.push(today)
+        for (const id of ['tune', 'clean-tone', 'posture']) p = recordSetup(p, id, today)
         while (learning(p).length < 3 && suggestNext(p).length) p = startSkill(p, suggestNext(p)[0].id, today)
         expect(learning(p).length).toBeLessThanOrEqual(3)
         for (const l of learning(p)) {

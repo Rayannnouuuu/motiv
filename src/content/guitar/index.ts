@@ -30,6 +30,8 @@ export interface Skill {
   tips: string[]
   /** Texte ajouté, à relire (GUITARE.md §10). */
   review?: boolean
+  /** Mise en place (accordage, son, posture) : cochée dans une fenêtre avant la séance, hors du temps de jeu. */
+  setup?: boolean
   /** Compétence créée par moi (niveau 5, objectifs libres). */
   custom?: boolean
 }

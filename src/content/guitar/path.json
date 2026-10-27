@@ -73,7 +73,8 @@
         "La note bouge encore ? Laisse la corde se stabiliser quelques secondes après chaque tour de mécanique.",
         "Une corde neuve se détend vite : réaccorde deux ou trois fois les premiers jours."
       ],
-      "review": true
+      "review": true,
+      "setup": true
     },
     {
       "id": "clean-tone",
@@ -90,7 +91,8 @@
       },
       "exerciseIds": [],
       "tips": ["Ça grésille sans gain ? Vérifie le jack et le volume de la guitare à fond.", "Ampli à lampes : laisse-le chauffer une minute avant de jouer."],
-      "review": true
+      "review": true,
+      "setup": true
     },
     {
       "id": "posture",
@@ -115,7 +117,8 @@
         "Douleur au poignet ou à l’avant-bras : arrête, ce n’est pas normal. Vérifie le poignet gauche (pas cassé à angle droit).",
         "Le médiator tourne ? Serre juste un peu plus, et laisse dépasser 2 à 3 mm seulement."
       ],
-      "review": true
+      "review": true,
+      "setup": true
     },
     {
       "id": "reading",

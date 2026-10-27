@@ -55,7 +55,10 @@ export function skillStatus(skill: Skill, p: GuitarProgress): SkillStatus {
   return skill.prerequisites.every((id) => p.skills[id]?.status === 'validated') ? 'available' : 'locked'
 }
 
-export const learning = (p: GuitarProgress) => Object.values(p.skills).filter((s) => s.status === 'learning')
+const isSetup = (id: string) => SKILLS.find((s) => s.id === id)?.setup === true
+
+/** Compétences en cours (la mise en place n'en fait pas partie : elle ne compte ni dans les 3, ni dans la séance). */
+export const learning = (p: GuitarProgress) => Object.values(p.skills).filter((s) => s.status === 'learning' && !isSetup(s.skillId))
 
 /** Jours différents nécessaires pour valider. */
 export const sessionsNeeded = (v: Validation) => ('sessions' in v ? v.sessions : 1)
@@ -83,7 +86,7 @@ export function startSkill(p: GuitarProgress, skillId: string, today: Day): Guit
   const skill = getSkillOrThrow(skillId)
   const status = skillStatus(skill, p)
   if (status !== 'available') throw new Error(status === 'locked' ? 'Compétence verrouillée : valide d’abord ses prérequis.' : 'Compétence déjà commencée.')
-  if (learning(p).length >= MAX_LEARNING) throw new Error(`Déjà ${MAX_LEARNING} compétences en cours : termine-en une d’abord.`)
+  if (!skill.setup && learning(p).length >= MAX_LEARNING) throw new Error(`Déjà ${MAX_LEARNING} compétences en cours : termine-en une d’abord.`)
   return { ...p, skills: { ...p.skills, [skillId]: { skillId, status: 'learning', fragile: false, startedAt: today, attempts: [] } } }
 }
 
@@ -127,10 +130,16 @@ export function recordAttempt(p: GuitarProgress, skillId: string, raw: Omit<Atte
   return { ...p, skills: { ...p.skills, [skillId]: next } }
 }
 
+/** Mise en place cochée avant la séance : démarre la compétence si besoin et note un essai réussi (validée en 2 jours). */
+export function recordSetup(p: GuitarProgress, skillId: string, today: Day): GuitarProgress {
+  const started = skillStatus(getSkillOrThrow(skillId), p) === 'available' ? startSkill(p, skillId, today) : p
+  return recordAttempt(started, skillId, { day: today, value: 1, clean: true })
+}
+
 /** Entretiens dus aujourd'hui, les plus en retard d'abord. */
 export const dueReviews = (p: GuitarProgress, today: Day) =>
   Object.values(p.skills)
-    .filter((s) => s.status === 'validated' && s.review && s.review.dueAt <= today)
+    .filter((s) => s.status === 'validated' && s.review && s.review.dueAt <= today && !isSetup(s.skillId))
     .sort((a, b) => a.review!.dueAt.localeCompare(b.review!.dueAt))
 
 /** Tempo proposé pour un test de tempo : +4 après 3 séances propres, −10 % après 2 séances pas propres. */
@@ -180,9 +189,9 @@ export function plateau(skill: Skill, s: SkillProgress | undefined): string[] | 
  * cours), celles des niveaux suivants : une place ne reste pas vide.
  */
 export function suggestNext(p: GuitarProgress): Skill[] {
-  const available = SKILLS.filter((s) => skillStatus(s, p) === 'available')
+  const available = SKILLS.filter((s) => !s.setup && skillStatus(s, p) === 'available')
   if (available.length === 0) return []
-  const level = Math.min(...SKILLS.filter((s) => skillStatus(s, p) !== 'validated').map((s) => s.level))
+  const level = Math.min(...SKILLS.filter((s) => !s.setup && skillStatus(s, p) !== 'validated').map((s) => s.level))
   const pool = available.filter((s) => s.level === level)
   const busy = new Map<Pillar, number>()
   for (const l of learning(p)) {

@@ -56,11 +56,23 @@ export function ensureLearning(p: GuitarProgress, today: Day): GuitarProgress {
   return next
 }
 
-/** Focus de la semaine : celui choisi s'il est encore en cours, sinon la première compétence en cours. */
+/** Une compétence qui se joue avec un exercice (tablature, métronome) passe avant un quiz saisi à la main. */
+const playable = (skillId: string) => {
+  const sk = getSkill(skillId)
+  return sk !== undefined && (sk.validation.kind === 'tempo' || sk.exerciseIds.length > 0)
+}
+
+/** Focus de la semaine : celui choisi s'il est encore en cours, sinon une compétence jouable en cours. */
 export function weekFocus(progress: GuitarProgress, focus: GuitarState['focus'], today: Day): string | null {
   const cur = learning(progress)
   const chosen = focus && focus.week === weekStart(today) ? focus.skillId : null
-  return cur.find((s) => s.skillId === chosen)?.skillId ?? cur[0]?.skillId ?? null
+  return cur.find((s) => s.skillId === chosen)?.skillId ?? cur.find((s) => playable(s.skillId))?.skillId ?? cur[0]?.skillId ?? null
+}
+
+/** Morceaux proposés pour le répertoire : en cours d'abord, puis ceux à apprendre ou à entretenir ; jamais les maîtrisés seuls. */
+export function songChoices(songs: Song[]): Song[] {
+  const rank = (s: Song) => (s.status === 'learning' ? 0 : s.status === 'to_learn' ? 1 : s.status === 'maintain' ? 2 : 3)
+  return songs.filter((s) => s.status !== 'mastered').sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title, 'fr'))
 }
 
 const KIND_GOAL = (s: Skill, best: number | undefined): { text: string; target: number | null } => {
@@ -125,7 +137,8 @@ export function generateSession(opts: { duration: Duration; progress: GuitarProg
   if (focus) blocks.push({ kind: 'focus', minutes: m('focus'), title: focus.name, skillId: focus.id, hint: focus.howTo })
 
   const due = dueReviews(progress, today)[0]
-  const other = learning(progress).find((l) => l.skillId !== focusId)
+  const rest = learning(progress).filter((l) => l.skillId !== focusId)
+  const other = rest.find((l) => playable(l.skillId)) ?? rest[0]
   const kept = due ? { id: due.skillId, review: true } : other ? { id: other.skillId, review: false } : null
   const keptSkill = kept ? getSkill(kept.id) : undefined
   if (keptSkill && kept)
@@ -138,9 +151,11 @@ export function generateSession(opts: { duration: Duration; progress: GuitarProg
       hint: kept.review ? 'Test court : tu l’as déjà validée, on vérifie qu’elle tient.' : keptSkill.howTo,
     })
 
-  const songs = opts.songs.filter((s) => s.status === 'learning').sort((a, b) => a.title.localeCompare(b.title, 'fr'))
+  const choices = songChoices(opts.songs)
   const day = daysBetween('2026-01-01', today)
-  const song = songs.length ? songs[day % songs.length] : undefined
+  // En cours : on en change chaque jour ; sinon un morceau à apprendre, le même toute la semaine.
+  const ongoing = choices.filter((s) => s.status === 'learning')
+  const song = ongoing.length ? ongoing[day % ongoing.length] : choices.length ? choices[Math.floor(day / 7) % choices.length] : undefined
   blocks.push({
     kind: 'repertoire',
     minutes: m('repertoire'),

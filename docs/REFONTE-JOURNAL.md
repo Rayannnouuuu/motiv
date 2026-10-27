@@ -113,6 +113,7 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
   - Séance : toute la ligne d'un exo l'ouvre, plus seulement la petite flèche. Le rond à gauche coche toujours « fait ».
 - 27 oct. 2026 : **module guitare** : prompt (`docs/GUITARE.md`), audit (`docs/AUDIT-GUITARE.md`), puis **lot G1 — contenu et moteur** (`docs/lots/LOT-G1.md`) : 130 exercices nouveaux (230 au total), accords, formes de gammes, parcours de 41 compétences, moteur testé par une simulation de 8 semaines. En ligne (« Push », 27 oct.).
 - 27 oct. 2026 : **lot G2 — séance guidée** (`docs/lots/LOT-G2.md`) : durée, blocs minutés, objectif, mesures (tempo, compteur « une minute », checklist, quiz, bends, grille), bilan puis log ; progression dans le profil (pas de migration). En ligne (« Push », 27 oct.).
+- 2026-10-27 : **correctifs du lot G2** (retour : « inutilisable ») : mise en place (accordage, son, posture) dans une fenêtre avant la séance, hors du temps de jeu ; exercices, tablature et métronome dans chaque bloc ; morceaux proposés ; micro brut et clic aigu pour l'écoute du timing. Détails dans .
 
 ## Décidé (détails, option la plus simple)
 

@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from 'vitest'
 import type { Listener } from './listen'
 import { RhythmPanel } from './RhythmPanel'
 
-const fake = (ready: Promise<void> = Promise.resolve()): Listener => ({ ready, onOnset: null, stop: vi.fn() })
+const fake = (ready: Promise<void> = Promise.resolve()): Listener => ({ ready, onOnset: null, onLevel: null, stop: vi.fn() })
 const play = (l: Listener, every: number, from = 1, n = 9) =>
   act(() => {
     for (let i = 0; i < n; i++) l.onOnset!(from + i * every)

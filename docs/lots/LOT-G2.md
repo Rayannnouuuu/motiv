@@ -30,3 +30,12 @@ La progression est un champ facultatif du profil (`profile.guitar`) : **pas de n
 ## Vérif
 
 728 tests verts : règles du générateur (minutes, échauffement à 80 %, entretien dû prioritaire, focus, objectif) et parcours complet de la page. Captures 390 px, sombre et clair, dans `docs/lots/lotG2/`. Essai fait dans Chromium : séance de 30 min complète, essais enregistrés dans la base, focus visible dans Semaine.
+
+## Correctifs après essai (retour : « inutilisable »)
+
+- **Mise en place hors du temps de jeu** : accordage, son clair et posture ne sont plus des blocs de la séance. Une fenêtre « Avant de jouer » (3 cases, quelques secondes) s'ouvre avant la séance, tant que ces trois points ne sont pas validés (2 jours). Ils ne comptent plus dans les 3 compétences en cours, ni dans le focus, ni dans l'entretien.
+- **Exercices visibles dans chaque bloc** : tablature, description, métronome réglé, et un choix d'autres exercices (ceux de la compétence, puis tous ceux débloqués). Avant, seul un test de tempo les affichait.
+- **Morceaux** : le bloc répertoire propose tes morceaux (en cours d'abord, puis à apprendre ; jamais les maîtrisés seuls) avec un choix. Avant, il cherchait seulement les morceaux « en cours », et tes 45 morceaux sont « à apprendre » tant qu'ils ne sont pas joués.
+- **Focus** : une compétence qui se joue avec un exercice passe avant un quiz saisi à la main.
+- **Métronome et micro** : le micro est brut (l'annulation d'écho d'iPhone traite la guitare comme une voix et baisse le volume du métronome). Pendant l'écoute, le clic est plus aigu (3,8 à 5,2 kHz) et le détecteur n'écoute que 150 Hz à 2 kHz : le clic du haut-parleur n'est pas pris pour une note. Un indicateur de niveau du micro s'affiche, avec un message si rien n'est entendu.
+- Pas testé sur un vrai iPhone : la détection a été vérifiée dans Chromium avec une guitare synthétique branchée comme micro.
