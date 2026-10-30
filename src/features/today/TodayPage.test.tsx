@@ -38,6 +38,18 @@ const unfold = async (title: string | RegExp) => {
 }
 
 describe('TodayPage', () => {
+  test('les parcours accords et gammes restent visibles, carte Guitare ouverte ou repliée', async () => {
+    renderToday({})
+    const guitar = card('Technique et répertoire')
+    expect(within(guitar).getByRole('link', { name: /Parcours accords/ })).toHaveAttribute('href', '/parcours/accords')
+    expect(within(guitar).getByRole('link', { name: /Parcours gammes/ })).toHaveAttribute('href', '/parcours/gammes')
+    expect(within(guitar).getByText('Forme · Mi m')).toBeInTheDocument()
+    await userEvent.click(within(guitar).getByRole('button', { name: /Technique et répertoire/ }))
+    expect(within(guitar).getByRole('button', { name: /Technique et répertoire/ })).toHaveAttribute('aria-expanded', 'false')
+    expect(within(guitar).getByRole('link', { name: /Parcours accords/ })).toBeInTheDocument()
+    expect(within(guitar).getByRole('link', { name: /Parcours gammes/ })).toBeInTheDocument()
+  })
+
   test('compte neuf : guitare et sport en deux cartes ; la guitare, prochaine séance, est ouverte', async () => {
     renderToday({})
     const guitar = card('Technique et répertoire')

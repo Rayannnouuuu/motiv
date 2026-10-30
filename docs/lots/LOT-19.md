@@ -6,7 +6,7 @@ _30 oct. 2026. Suite du lot 18 : « pareil pour les gammes », même moteur, mê
 
 ## Ce qui change
 
-- **Entrée** : la carte Guitare d'Aujourd'hui a maintenant deux lignes, « Parcours accords » et « Parcours gammes », chacune avec son étape en cours. Dans le parcours, un sélecteur Accords / Gammes passe de l'un à l'autre (`/parcours/accords`, `/parcours/gammes`).
+- **Entrée** : la carte Guitare d'Aujourd'hui a maintenant deux lignes, « Parcours accords » et « Parcours gammes », chacune avec son étape en cours. **Elles restent visibles carte ouverte ou repliée** (au lot 18 elles étaient dans le contenu dépliable : invisibles si la carte Guitare était repliée ou n'était pas la première). Dans le parcours, un sélecteur Accords / Gammes passe de l'un à l'autre (`/parcours/accords`, `/parcours/gammes`).
 - **19 étapes pour les 14 formes**, en 3 blocs :
   - **Pentatonique mineure de La** (10) : les 5 positions, les 4 **liaisons** entre positions voisines (glissade d'une position à l'autre, aller et retour), puis une **boucle** des 5 positions reliées.
   - **Autres pentatoniques et blues** (4) : Mi ouverte, Sol majeure, blues de La, blues de Mi.

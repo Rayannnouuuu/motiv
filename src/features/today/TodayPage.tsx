@@ -28,7 +28,22 @@ const UNIVERSE = { guitar: 'Guitare', sport: 'Sport' } as const
 const STATE = { todo: 'À faire', live: 'En cours', done: 'Faite', rest: 'Repos' } as const
 
 /** Carte d'une discipline, de même taille pour la guitare et le sport ; un toucher sur l'en-tête la déplie. */
-function DayCardView({ card, next, open, onToggle, extra }: { card: DayCard; next: boolean; open: boolean; onToggle: () => void; extra?: ReactNode }) {
+function DayCardView({
+  card,
+  next,
+  open,
+  onToggle,
+  extra,
+  always,
+}: {
+  card: DayCard
+  next: boolean
+  open: boolean
+  onToggle: () => void
+  extra?: ReactNode
+  /** Toujours visible, carte repliée ou non (ex. les parcours de la guitare). */
+  always?: ReactNode
+}) {
   const navigate = useNavigate()
   const id = useId()
   const label = card.state === 'todo' && next ? 'Prochaine séance' : card.state === 'done' && card.tone === 'sport' ? 'Fait' : STATE[card.state]
@@ -76,6 +91,7 @@ function DayCardView({ card, next, open, onToggle, extra }: { card: DayCard; nex
           )}
         </div>
       )}
+      {always && <div className="flex flex-col gap-2 px-5 pb-4">{always}</div>}
     </section>
   )
 }
@@ -181,23 +197,9 @@ export function TodayPage() {
               next={c.tone === first}
               open={isOpen(c)}
               onToggle={() => toggle(c)}
-              extra={
-                c.tone === 'sport' && c.state !== 'live' && choices.length > 0 ? (
-                  <SportChooser
-                    choices={choices}
-                    programId={chosen.programId}
-                    withRun={chosen.withRun}
-                    onChange={(programId, withRun) => setCompose({ programId, withRun })}
-                  />
-                ) : c.tone === 'guitar' && c.state !== 'live' ? (
-                  <div className="mx-1 mb-1 flex flex-col gap-2">
-                    <Link
-                      to="/seance"
-                      className="tap t-subhead flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-guitar/12 font-semibold text-guitar"
-                    >
-                      <Icon name="target" />
-                      Séance guidée
-                    </Link>
+              always={
+                c.tone === 'guitar' ? (
+                  <>
                     {(
                       [
                         ['accords', 'Parcours accords', nextChord],
@@ -216,6 +218,26 @@ export function TodayPage() {
                         <span className="t-footnote shrink-0 truncate text-muted">{step ? step.name : 'Terminé'}</span>
                       </Link>
                     ))}
+                  </>
+                ) : undefined
+              }
+              extra={
+                c.tone === 'sport' && c.state !== 'live' && choices.length > 0 ? (
+                  <SportChooser
+                    choices={choices}
+                    programId={chosen.programId}
+                    withRun={chosen.withRun}
+                    onChange={(programId, withRun) => setCompose({ programId, withRun })}
+                  />
+                ) : c.tone === 'guitar' && c.state !== 'live' ? (
+                  <div className="mx-1 mb-1 flex flex-col gap-2">
+                    <Link
+                      to="/seance"
+                      className="tap t-subhead flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-guitar/12 font-semibold text-guitar"
+                    >
+                      <Icon name="target" />
+                      Séance guidée
+                    </Link>
                   </div>
                 ) : undefined
               }
