@@ -9,6 +9,7 @@ const page = <K extends string>(load: () => Promise<Record<K, ComponentType>>, n
 const LogGuitarPage = page(() => import('../features/log-guitar/LogGuitarPage'), 'LogGuitarPage')
 const LogSportPage = page(() => import('../features/log-sport/LogSportPage'), 'LogSportPage')
 const ProgressPage = page(() => import('../features/progress/ProgressPage'), 'ProgressPage')
+const ParcoursPage = page(() => import('../features/guitar/ParcoursPage'), 'ParcoursPage')
 const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'SettingsPage')
 const MePage = page(() => import('../features/me/MePage'), 'MePage')
 const HistoryPage = page(() => import('../features/history/HistoryPage'), 'HistoryPage')
@@ -185,6 +186,14 @@ export function AppRoutes() {
             <Focus>
               <ReviewPage />
             </Focus>
+          }
+        />
+        <Route
+          path="/parcours/accords"
+          element={
+            <Shell>
+              <ParcoursPage />
+            </Shell>
           }
         />
         <Route

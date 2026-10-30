@@ -4,7 +4,7 @@
  * des exercices) et jouabilité des morceaux. Pur : pas d'interface, pas de stockage.
  */
 import { EXERCISES, getExercise, type Exercise } from '../../content/exercises'
-import { PATH, SKILLS, type Pillar, type Skill, type Validation } from '../../content/guitar'
+import { getSkill, PATH, SKILLS, type Pillar, type Skill, type Validation } from '../../content/guitar'
 import { addDays } from '../date'
 import type { Day } from '../types'
 
@@ -55,7 +55,11 @@ export function skillStatus(skill: Skill, p: GuitarProgress): SkillStatus {
   return skill.prerequisites.every((id) => p.skills[id]?.status === 'validated') ? 'available' : 'locked'
 }
 
-const isSetup = (id: string) => SKILLS.find((s) => s.id === id)?.setup === true
+/** Mise en place ou étape d'un parcours : ni dans les 3 en cours, ni dans les entretiens de séance. */
+const isSetup = (id: string) => {
+  const s = getSkill(id)
+  return s?.setup === true || s?.track !== undefined
+}
 
 /** Compétences en cours (la mise en place n'en fait pas partie : elle ne compte ni dans les 3, ni dans la séance). */
 export const learning = (p: GuitarProgress) => Object.values(p.skills).filter((s) => s.status === 'learning' && !isSetup(s.skillId))
@@ -86,12 +90,12 @@ export function startSkill(p: GuitarProgress, skillId: string, today: Day): Guit
   const skill = getSkillOrThrow(skillId)
   const status = skillStatus(skill, p)
   if (status !== 'available') throw new Error(status === 'locked' ? 'Compétence verrouillée : valide d’abord ses prérequis.' : 'Compétence déjà commencée.')
-  if (!skill.setup && learning(p).length >= MAX_LEARNING) throw new Error(`Déjà ${MAX_LEARNING} compétences en cours : termine-en une d’abord.`)
+  if (!skill.setup && !skill.track && learning(p).length >= MAX_LEARNING) throw new Error(`Déjà ${MAX_LEARNING} compétences en cours : termine-en une d’abord.`)
   return { ...p, skills: { ...p.skills, [skillId]: { skillId, status: 'learning', fragile: false, startedAt: today, attempts: [] } } }
 }
 
 const getSkillOrThrow = (id: string) => {
-  const s = SKILLS.find((x) => x.id === id)
+  const s = getSkill(id)
   if (!s) throw new Error(`Compétence inconnue : ${id}`)
   return s
 }
