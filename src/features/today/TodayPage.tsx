@@ -6,7 +6,6 @@ import { TONE } from '../../design/tone'
 import { longDate } from '../../domain/date'
 import { focusOf, reviewDue } from '../../domain/weeklyReview'
 import { guitarWeek } from '../../domain/guitarWeek'
-import { lastLog } from '../../domain/lastLog'
 import { songsToMaintain } from '../../domain/repertoire'
 import { Button } from '../../ui/Button'
 import { StepList } from '../../ui/Hero'
@@ -225,7 +224,7 @@ export function TodayPage() {
             id="week-title"
             title="Cette semaine"
             action={
-              <Link to="/semaine" className="hit tap inline-flex min-h-11 items-center">
+              <Link to="/plan" className="hit tap inline-flex min-h-11 items-center">
                 Voir la semaine
               </Link>
             }
@@ -237,10 +236,10 @@ export function TodayPage() {
                 {focusOf(v1.profile.reviews, today)}
               </p>
             )}
-            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances" to="/semaine">
+            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances" to="/plan">
               {minutes} min jouées
             </GoalTile>
-            <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances" to="/semaine">
+            <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances" to="/plan">
               {planWeek ? (
                 planWeekProgress(planWeek, v1.sessions).text
               ) : data.programs.length === 0 ? (
@@ -260,11 +259,6 @@ export function TodayPage() {
           <button type="button" className="hit tap t-subhead flex min-h-11 items-center text-accent" onClick={() => setSheet(true)}>
             Autre séance ou séance déjà faite
           </button>
-          {lastLog(data) && (
-            <Link to="/log/corriger" className="hit tap t-subhead flex min-h-11 items-center text-muted">
-              Corriger le dernier log
-            </Link>
-          )}
         </div>
       </div>
       {sheet && <StartSheet onClose={() => setSheet(false)} />}

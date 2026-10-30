@@ -263,14 +263,14 @@ function PlanView({ mk }: { mk: Marathon }) {
   )
 }
 
-/** Moi › Marathon : le plan, ou le questionnaire s'il n'est pas encore rempli (lot 3). */
+/** Plan › Course : le plan, ou le questionnaire s'il n'est pas encore rempli (lot 3). */
 export function MarathonPage() {
   const mk = useMarathon()
   const navigate = useNavigate()
   const back = (
-    <Link to="/moi" className="hit tap t-body flex items-center text-sport">
+    <Link to="/plan" className="hit tap t-body flex items-center text-sport">
       <Icon name="chevron" size="1.4em" className="rotate-180" />
-      Moi
+      Plan
     </Link>
   )
   return (

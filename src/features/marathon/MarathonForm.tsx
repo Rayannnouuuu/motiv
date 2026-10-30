@@ -54,7 +54,7 @@ export function MarathonForm() {
       if (r.weightKg !== null && !weight)
         await saveBodyMetric({ id: crypto.randomUUID(), day: today, weightKg: r.weightKg, waistCm: null, chestCm: null, armCm: null, thighCm: null })
       await saveMarathon(r.profile)
-      navigate('/marathon', { replace: true })
+      navigate('/plan/course', { replace: true })
     } catch (e) {
       setErrors([e instanceof Error ? e.message : 'Enregistrement impossible'])
       setSaving(false)

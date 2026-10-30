@@ -166,7 +166,7 @@ describe('TodayPage', () => {
     expect(within(week).getByRole('progressbar', { name: 'Sport : 2 sur 3 séances' })).toBeInTheDocument()
     expect(within(week).getByText('Encore 1 séance')).toBeInTheDocument()
     await userEvent.click(within(week).getByRole('link', { name: 'Voir la semaine' }))
-    expect(screen.getByText(/at \/semaine/)).toBeInTheDocument()
+    expect(screen.getByText(/at \/plan/)).toBeInTheDocument()
   })
 
   test('sport : 3 séances faites, semaine validée', () => {

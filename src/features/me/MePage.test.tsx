@@ -59,7 +59,7 @@ describe('MePage', () => {
     renderMe({})
     expect(screen.getByRole('link', { name: /Bibliothèque/ })).toHaveAttribute('href', '/bibliotheque')
     expect(screen.getByRole('link', { name: /Sauvegarde et réglages/ })).toHaveAttribute('href', '/moi/reglages')
-    expect(screen.getByRole('button', { name: /Préparer une course/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Préparer une course/ })).not.toBeInTheDocument()
   })
 
   test('objectif ouvert depuis 14 jours : version plus facile proposée', async () => {

@@ -17,7 +17,7 @@ test('la navigation basse : 4 onglets, « Commencer » au centre', () => {
       .map((l) => [l.textContent, l.getAttribute('href')]),
   ).toEqual([
     ["Aujourd'hui", '/'],
-    ['Semaine', '/semaine'],
+    ['Plan', '/plan'],
     ['Progrès', '/progres'],
     ['Moi', '/moi'],
   ])
@@ -27,6 +27,8 @@ test('la navigation basse : 4 onglets, « Commencer » au centre', () => {
 test.each([
   ['/morceaux', 'Bibliothèque'],
   ['/reglages', 'Réglages'],
+  ['/semaine', 'Plan'],
+  ['/marathon', 'Marathon'],
 ])('ancienne adresse %s : redirigée vers %s', async (route, title) => {
   renderWithData(<AppRoutes />, { route })
   expect(await screen.findByRole('heading', { name: title, level: 1 })).toBeInTheDocument()
@@ -44,6 +46,7 @@ test('« Commencer » au centre, journée bouclée : toutes les façons de comme
   await userEvent.click(screen.getByRole('button', { name: 'Commencer une séance' }))
   const sheet = await screen.findByRole('dialog', { name: 'Commencer' })
   expect(within(sheet).getByRole('button', { name: 'Jouer maintenant' })).toBeInTheDocument()
+  expect(within(sheet).getByRole('button', { name: /Corriger le dernier log/ })).toBeInTheDocument()
   await userEvent.click(within(sheet).getByRole('button', { name: 'Choisir une séance' }))
   expect(await screen.findByText('Pas encore de programme.')).toBeInTheDocument()
 })

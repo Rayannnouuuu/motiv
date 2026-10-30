@@ -15,6 +15,7 @@ import { SectionHeader } from '../../ui/List'
 import { Pill } from '../../ui/Pill'
 import { Screen } from '../../ui/Screen'
 import { Switch } from '../../ui/Switch'
+import { TileRow } from '../../ui/Tile'
 import { dayLabel, km, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
@@ -148,7 +149,7 @@ export function WeekPage() {
 
   return (
     <Screen
-      title="Semaine"
+      title="Plan"
       overline={`Semaine ${isoWeek(today)} · ${monday.slice(5, 7) === days[6].slice(5, 7) ? Number(monday.slice(8)) : shortDate(monday)} – ${shortDate(days[6])}`}
       pill={
         <Pill>
@@ -181,7 +182,7 @@ export function WeekPage() {
                 className="mt-2 h-1.5"
               />
             </div>
-            <Link to="/marathon" className="hit tap t-subhead self-start font-semibold text-sport">
+            <Link to="/plan/course" className="hit tap t-subhead self-start font-semibold text-sport">
               Voir le plan
             </Link>
           </Hero>
@@ -218,11 +219,20 @@ export function WeekPage() {
               </div>
             ))}
             {mk && !plan && (
-              <Link to="/marathon" className="hit tap t-subhead self-start font-semibold text-sport">
+              <Link to="/plan/course" className="hit tap t-subhead self-start font-semibold text-sport">
                 Plan marathon : voir les options
               </Link>
             )}
           </Hero>
+        )}
+
+        {!mk && (
+          <TileRow
+            tone="sport"
+            title="Préparer une course"
+            subtitle="Marathon ou semi : un plan à rebours depuis la date"
+            onClick={() => navigate('/marathon/profil')}
+          />
         )}
 
         {guitarFocus && (

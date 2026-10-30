@@ -80,7 +80,7 @@ describe('questionnaire', () => {
         startedOn: TODAY,
       }),
     )
-    expect(await screen.findByText(/^at \/marathon/)).toBeInTheDocument()
+    expect(await screen.findByText(/^at \/plan\/course/)).toBeInTheDocument()
   })
 
   test('erreurs : affichées en haut, rien d’enregistré', async () => {
@@ -95,13 +95,13 @@ describe('questionnaire', () => {
 
 describe('plan', () => {
   test('sans profil : le questionnaire est proposé', async () => {
-    render(<MarathonPage />, '/marathon', '/marathon', undefined)
+    render(<MarathonPage />, '/plan/course', '/plan/course', undefined)
     await userEvent.click(screen.getByRole('button', { name: 'Remplir le questionnaire' }))
     expect(screen.getByText(/^at \/marathon\/profil/)).toBeInTheDocument()
   })
 
   test('faisable : compte à rebours, semaine en cours, séance du jour, allures, renfo', () => {
-    render(<MarathonPage />, '/marathon', '/marathon', base, {
+    render(<MarathonPage />, '/plan/course', '/plan/course', base, {
       data: { bodyMetrics: [{ id: 'w', day: '2026-10-01', weightKg: 75, waistCm: null, chestCm: null, armCm: null, thighCm: null }] },
     })
     expect(screen.getByText('J-173')).toBeInTheDocument()
@@ -120,7 +120,7 @@ describe('plan', () => {
       race: { name: 'M', day: '2026-12-27', kind: 'marathon', goalSec: null },
       level: { weeklyKm: 15, longestKm: 8 },
     })
-    const { actions } = render(<MarathonPage />, '/marathon', '/marathon', short)
+    const { actions } = render(<MarathonPage />, '/plan/course', '/plan/course', short)
     expect(screen.getByRole('heading', { name: 'Pas de plan pour cette date' })).toBeInTheDocument()
     expect(screen.getByText('Il manque 10 semaines : je ne génère pas de plan risqué pour tenir cette date.')).toBeInTheDocument()
     expect(screen.getByText('Course-marche : 16 semaines au minimum, il en manque 6.')).toBeInTheDocument()
@@ -129,7 +129,7 @@ describe('plan', () => {
   })
 
   test('malade cette semaine', async () => {
-    const { actions } = render(<MarathonPage />, '/marathon', '/marathon', base)
+    const { actions } = render(<MarathonPage />, '/plan/course', '/plan/course', base)
     await userEvent.click(screen.getByRole('switch', { name: 'Malade cette semaine' }))
     expect(actions.setSickWeek).toHaveBeenCalledWith('2026-10-19', true)
   })
@@ -145,15 +145,21 @@ describe('plan', () => {
 
   test('plan complet : ta muscu Push / Pull / Legs placée dans la semaine avec les sorties', async () => {
     const programs = ['Push', 'Pull', 'Legs'].map((name, i) => program({ id: name.toLowerCase(), name, position: i }))
-    render(<WeekPage />, '/semaine', '/semaine', base, { data: { programs } })
+    render(<WeekPage />, '/plan', '/plan', base, { data: { programs } })
     const days = within(screen.getByRole('region', { name: 'Jour par jour' })).getAllByRole('listitem')
     const text = days.map((d) => d.textContent).join(' | ')
     for (const name of ['Push', 'Pull', 'Legs']) expect(text).toContain(name)
     expect(within(screen.getByRole('region', { name: /^Base · semaine 1 sur/ })).getByText(/muscu 0 \/ /)).toBeInTheDocument()
   })
 
+  test('Plan sans course : « Préparer une course » ouvre le questionnaire', async () => {
+    render(<WeekPage />, '/plan', '/plan', undefined)
+    await userEvent.click(screen.getByRole('button', { name: /Préparer une course/ }))
+    expect(screen.getByText(/^at \/marathon\/profil/)).toBeInTheDocument()
+  })
+
   test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {
-    render(<WeekPage />, '/semaine', '/semaine', base)
+    render(<WeekPage />, '/plan', '/plan', base)
     const hero = screen.getByRole('region', { name: /^Base · semaine 1 sur/ })
     expect(within(hero).getByText('J-173')).toBeInTheDocument()
     expect(within(hero).getByRole('img', { name: 'Phase en cours : Base' })).toBeInTheDocument()
