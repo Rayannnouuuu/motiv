@@ -174,4 +174,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [ ] Lot 16 — Progrès sur une page : première moitié en ligne (Progrès à 3 lignes visibles, Revoir). `/log` unique à faire.
 - [x] Lot 17 — Tes tablatures (feuille « Tablature » par morceau, Vava Inouva au catalogue) : en ligne.
 - [x] Lot 18 — Parcours des accords (96 étapes, lancé depuis la carte Guitare d’Aujourd’hui) : en ligne. Gammes au lot 19.
-- [ ] Lot 19 — Parcours des gammes (19 étapes, 14 formes, liaisons entre positions) : sur l’essai, en attente de validation.
+- [x] Lot 19 — Parcours des gammes (19 étapes, 14 formes, liaisons entre positions) : en ligne, avec les lignes Parcours toujours visibles sur Aujourd’hui.

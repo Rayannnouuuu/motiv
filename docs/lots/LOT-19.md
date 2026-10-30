@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Suite du lot 18 : « pareil pour les gammes », même moteur, même entrée (carte Guitare d'Aujourd'hui)._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.**
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.), avec le correctif de visibilité des lignes Parcours sur Aujourd'hui.**
 
 ## Ce qui change
 
