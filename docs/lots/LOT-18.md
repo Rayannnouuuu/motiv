@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Demande : un parcours avec tous les accords à apprendre, un processus pour les débloquer un par un, les transitions aussi ; lancé depuis la carte Guitare d'Aujourd'hui. Les gammes suivent au lot 19 avec le même moteur._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.**
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.).**
 
 ## Ce qui change
 
