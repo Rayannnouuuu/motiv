@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Deuxième lot de `docs/REFONTE-NAV.md`._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.**
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.).**
 
 ## Ce qui change
 
