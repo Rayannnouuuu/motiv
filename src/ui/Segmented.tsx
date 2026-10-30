@@ -31,7 +31,7 @@ export function Segmented<T extends string>({
           type="button"
           aria-pressed={o.value === value}
           onClick={() => onChange(o.value)}
-          className={`hit tap t-subhead z-[1] min-h-8 flex-1 rounded-xs px-2 py-1 ${o.value === value ? 'font-semibold' : ''}`}
+          className={`hit tap t-subhead z-[1] min-h-11 flex-1 rounded-xs px-2 py-1 ${o.value === value ? 'font-semibold' : ''}`}
         >
           {o.label}
         </button>

@@ -125,7 +125,7 @@ export function ExercisePage() {
           )}
         </>
       ) : (
-        <button type="button" className="hit tap t-body -ml-2.5 flex items-center self-start pt-2.5 pb-1 text-guitar" onClick={() => navigate(-1)}>
+        <button type="button" className="hit tap t-body -ml-2.5 flex items-center self-start min-h-11 pb-1 text-guitar" onClick={() => navigate(-1)}>
           <Icon name="chevron" size="1.5em" className="rotate-180" />
           Retour
         </button>

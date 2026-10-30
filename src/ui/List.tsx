@@ -42,7 +42,7 @@ export function Group({
   )
 }
 
-const ROW = 'flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left'
+export const ROW = 'flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left'
 
 /** Chevron de fin de ligne : le dessin colle au bord, comme sur iPhone. */
 export function RowChevron({ className = '' }: { className?: string }) {

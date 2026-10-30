@@ -33,7 +33,7 @@ export function ModalBar({
         type="button"
         aria-label={cancelAria}
         onClick={onCancel}
-        className={`hit tap t-body flex items-center justify-self-start py-2 whitespace-nowrap ${back ? '-ml-2' : ''} ${TONE.text[tone]}`}
+        className={`hit tap t-body flex min-h-11 items-center justify-self-start whitespace-nowrap ${back ? '-ml-2' : ''} ${TONE.text[tone]}`}
       >
         {back && <Icon name="chevron" size="1.4em" className="rotate-180" />}
         {cancelLabel}

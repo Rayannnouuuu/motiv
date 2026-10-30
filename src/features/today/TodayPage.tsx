@@ -189,7 +189,7 @@ export function TodayPage() {
                 ) : c.tone === 'guitar' && c.state !== 'live' ? (
                   <Link
                     to="/seance"
-                    className="tap t-subhead mx-1 mb-1 flex items-center justify-center gap-1.5 rounded-lg bg-guitar/12 py-2.5 font-semibold text-guitar"
+                    className="tap t-subhead mx-1 mb-1 flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-guitar/12 font-semibold text-guitar"
                   >
                     <Icon name="target" />
                     Séance guidée
@@ -225,7 +225,7 @@ export function TodayPage() {
             id="week-title"
             title="Cette semaine"
             action={
-              <Link to="/semaine" className="hit tap">
+              <Link to="/semaine" className="hit tap inline-flex min-h-11 items-center">
                 Voir la semaine
               </Link>
             }
@@ -237,10 +237,10 @@ export function TodayPage() {
                 {focusOf(v1.profile.reviews, today)}
               </p>
             )}
-            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances">
+            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances" to="/semaine">
               {minutes} min jouées
             </GoalTile>
-            <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances">
+            <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances" to="/semaine">
               {planWeek ? (
                 planWeekProgress(planWeek, v1.sessions).text
               ) : data.programs.length === 0 ? (
@@ -257,11 +257,11 @@ export function TodayPage() {
         </section>
 
         <div className="flex flex-col items-center gap-1">
-          <button type="button" className="hit tap t-subhead py-2 text-accent" onClick={() => setSheet(true)}>
+          <button type="button" className="hit tap t-subhead flex min-h-11 items-center text-accent" onClick={() => setSheet(true)}>
             Autre séance ou séance déjà faite
           </button>
           {lastLog(data) && (
-            <Link to="/log/corriger" className="hit tap t-subhead py-2 text-muted">
+            <Link to="/log/corriger" className="hit tap t-subhead flex min-h-11 items-center text-muted">
               Corriger le dernier log
             </Link>
           )}

@@ -161,7 +161,7 @@ function SessionEditor({
                       type="button"
                       aria-label={`Monter ${label}`}
                       disabled={i === 0}
-                      className="hit tap px-1.5 py-1 disabled:opacity-25"
+                      className="tap flex size-11 items-center justify-center disabled:opacity-25"
                       onClick={() => reorder(i, -1)}
                     >
                       <Arrow up />
@@ -170,12 +170,12 @@ function SessionEditor({
                       type="button"
                       aria-label={`Descendre ${label}`}
                       disabled={i === visible.length - 1}
-                      className="hit tap px-1.5 py-1 disabled:opacity-25"
+                      className="tap flex size-11 items-center justify-center disabled:opacity-25"
                       onClick={() => reorder(i, 1)}
                     >
                       <Arrow />
                     </button>
-                    <button type="button" aria-label={`Retirer ${label}`} className="hit tap py-1 pl-1.5" onClick={() => remove(ex)}>
+                    <button type="button" aria-label={`Retirer ${label}`} className="tap flex size-11 items-center justify-center" onClick={() => remove(ex)}>
                       <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
                         <circle cx="10" cy="10" r="9" className="fill-danger" />
                         <path d="M6 10h8" className="stroke-on-danger" strokeWidth="2" strokeLinecap="round" />
@@ -282,7 +282,7 @@ export function ProgramEditor() {
                   type="button"
                   aria-label={`Monter ${p.name}`}
                   disabled={i === 0 || busy}
-                  className="hit tap px-1 py-1 text-muted disabled:opacity-25"
+                  className="tap flex size-11 items-center justify-center text-muted disabled:opacity-25"
                   onClick={() => save(...move(programs, i, -1))}
                 >
                   <Arrow up />
@@ -291,7 +291,7 @@ export function ProgramEditor() {
                   type="button"
                   aria-label={`Descendre ${p.name}`}
                   disabled={i === programs.length - 1 || busy}
-                  className="hit tap py-1 pr-1.5 text-muted disabled:opacity-25"
+                  className="tap flex size-11 items-center justify-center text-muted disabled:opacity-25"
                   onClick={() => save(...move(programs, i, 1))}
                 >
                   <Arrow />

@@ -213,7 +213,7 @@ export function MarathonForm() {
                 aria-pressed={on}
                 aria-label={label}
                 onClick={() => set('days', on ? f.days.filter((x) => x !== d) : [...f.days, d as Weekday])}
-                className={`hit tap-scale t-subhead flex size-10 items-center justify-center rounded-full font-semibold ${on ? 'bg-sport text-on-sport' : 'bg-fill text-muted'}`}
+                className={`hit tap-scale t-subhead flex size-11 shrink-0 items-center justify-center rounded-full font-semibold ${on ? 'bg-sport text-on-sport' : 'bg-fill text-muted'}`}
               >
                 {label[0]}
               </button>

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Icon, type IconName } from '../design/icons'
 import { TONE } from '../design/tone'
 import type { Domain } from '../domain/types'
@@ -8,9 +9,25 @@ import { RowChevron } from './List'
 const UNIVERSE: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
 
 /** Tuile d'objectif : l'univers, le compte en grand (« 1 /5 séances »), la jauge, un repère dessous. */
-export function GoalTile({ tone, done, goal, unit, children }: { tone: Domain; done: number; goal: number; unit: string; children?: ReactNode }) {
+export function GoalTile({
+  tone,
+  done,
+  goal,
+  unit,
+  to,
+  children,
+}: {
+  tone: Domain
+  done: number
+  goal: number
+  unit: string
+  /** Toute la tuile ouvre cet écran (un lien dedans reste touchable : il porte `relative`). */
+  to?: string
+  children?: ReactNode
+}) {
   return (
-    <div className="flex min-w-0 flex-col gap-2 rounded-xl border border-line bg-surface p-3.5 shadow-card">
+    <div className="relative flex min-w-0 flex-col gap-2 rounded-xl border border-line bg-surface p-3.5 shadow-card">
+      {to && <Link to={to} aria-label={`${UNIVERSE[tone]} : ${done} sur ${goal} ${unit}, voir la semaine`} className="tap-row absolute inset-0 rounded-xl" />}
       <p className="t-footnote flex items-center gap-1.5 font-semibold">
         <Icon name={tone} className={TONE.text[tone]} />
         {UNIVERSE[tone]}

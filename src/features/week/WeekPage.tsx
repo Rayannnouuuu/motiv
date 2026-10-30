@@ -1,12 +1,11 @@
 import { useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
-import { Icon, type IconName } from '../../design/icons'
+import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { addDays, daysBetween, isoWeek, shortDate, weekStart } from '../../domain/date'
 import { PHASE_LABELS, type Phase, type Plan } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
-import type { Domain } from '../../domain/types'
 import { getSkill } from '../../content/guitar'
 import { weekFocus } from '../../domain/guitar/session'
 import { focusOf, reviewDue } from '../../domain/weeklyReview'
@@ -19,6 +18,7 @@ import { Switch } from '../../ui/Switch'
 import { dayLabel, km, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
+import { DaySheet, type Chip } from './DaySheet'
 import { currentWeek, planWeekLabel, planWeekProgress } from './planWeek'
 import { useRhythm } from './useRhythm'
 
@@ -46,17 +46,6 @@ function PhaseBar({ plan }: { plan: Plan }) {
       </div>
     </div>
   )
-}
-
-interface Chip {
-  key: string
-  tone: Domain
-  icon: IconName
-  text: string
-  /** Fait : un toucher ouvre la correction. Prévu aujourd'hui : un toucher le lance. */
-  done: boolean
-  to?: string
-  onClick?: () => void
 }
 
 function ChipView({ c }: { c: Chip }) {
@@ -93,6 +82,8 @@ export function WeekPage() {
   const mk = useMarathon()
   const start = useStartPlanned()
   const { setOffDay } = useActions()
+  const navigate = useNavigate()
+  const [openDay, setOpenDay] = useState<string | null>(null)
   const monday = weekStart(today)
   const days = Array.from({ length: 7 }, (_, i) => addDays(monday, i))
   // Semaine affichée dans « Jour par jour » : celle-ci, ou une des suivantes (jusqu'à la course) pour y poser ses indisponibilités.
@@ -307,13 +298,16 @@ export function WeekPage() {
                 <li
                   key={day}
                   aria-current={isToday ? 'date' : undefined}
-                  className={`flex min-h-11.5 items-center gap-3 px-3 py-1.5 ${isToday ? 'bg-surface-2' : ''}`}
+                  className={`relative flex min-h-11.5 items-center gap-3 px-3 py-1.5 ${isToday ? 'bg-surface-2' : ''}`}
                 >
+                  {!editing && (
+                    <button type="button" aria-label={`Ouvrir ${dayLabel(day)}`} onClick={() => setOpenDay(day)} className="tap-row absolute inset-0" />
+                  )}
                   <span className={`flex w-10 shrink-0 flex-col items-center ${isToday ? 'text-ink' : 'text-muted'}`}>
                     <span className="text-[0.6875rem] font-semibold tracking-[0.06em] uppercase">{WEEKDAYS[i]}</span>
                     <span className="t-title3 font-display font-bold">{Number(day.slice(8))}</span>
                   </span>
-                  <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                  <span className="relative flex min-w-0 flex-1 flex-wrap gap-1.5">
                     {isOff ? (
                       <span className="t-footnote inline-flex items-center gap-1 text-muted">
                         <Icon name="close" />
@@ -332,6 +326,18 @@ export function WeekPage() {
           </ol>
         </section>
       </div>
+      {openDay && (
+        <DaySheet
+          label={dayLabel(openDay)}
+          items={off.has(openDay) ? [] : chipsOf(openDay)}
+          log={openDay === today ? { day: openDay, when: "Aujourd'hui" } : openDay === addDays(today, -1) ? { day: openDay, when: 'Hier' } : null}
+          isToday={openDay === today}
+          off={mk && openDay >= today ? off.has(openDay) : null}
+          onOff={(v) => void setOffDay(openDay, v)}
+          onNavigate={(to, state) => navigate(to, state ? { state } : undefined)}
+          onClose={() => setOpenDay(null)}
+        />
+      )}
     </Screen>
   )
 }
