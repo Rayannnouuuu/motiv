@@ -12,6 +12,7 @@ export const SONG_CATALOG: CatalogSong[] = [
   // Repris de l'ancien site
   s('Smoke on the Water', 'Deep Purple', 2),
   s('Iron Man', 'Black Sabbath', 2),
+  s('Vava Inouva', 'Idir', 3),
   s('Paranoid', 'Black Sabbath', 2),
   s('Du Hast', 'Rammstein', 2),
   s('Breaking the Law', 'Judas Priest', 3),

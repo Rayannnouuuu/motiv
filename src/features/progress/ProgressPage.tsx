@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { getExercise } from '../../content/exercises'
 import { Icon } from '../../design/icons'
@@ -23,7 +22,7 @@ import {
 import type { AppData, BodyField, Domain } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { LineChart } from '../../ui/LineChart'
-import { Group, Row, RowChevron } from '../../ui/List'
+import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
 import { Sheet } from '../../ui/Sheet'
@@ -45,6 +44,32 @@ const METRICS: { id: Metric; label: string; domain: Domain }[] = [
   { id: 'body', label: 'Poids', domain: 'sport' },
   { id: 'measures', label: 'Mensurations', domain: 'sport' },
 ]
+/** Au plus 4 choix par ligne, tous visibles : l'univers, puis la courbe, puis (course, corps) la variante. */
+const CURVES: Record<Domain, { value: string; label: string }[]> = {
+  guitar: [
+    { value: 'hours', label: 'Heures' },
+    { value: 'tempo', label: 'Tempo' },
+    { value: 'songs', label: 'Morceaux' },
+    { value: 'split', label: 'Répartition' },
+  ],
+  sport: [
+    { value: 'strength', label: 'Force' },
+    { value: 'volume', label: 'Volume' },
+    { value: 'course', label: 'Course' },
+    { value: 'corps', label: 'Corps' },
+  ],
+}
+const PAIRS: Record<string, { value: Metric; label: string }[] | undefined> = {
+  course: [
+    { value: 'km', label: 'Km par semaine' },
+    { value: 'pace', label: 'Allure' },
+  ],
+  corps: [
+    { value: 'body', label: 'Poids' },
+    { value: 'measures', label: 'Mensurations' },
+  ],
+}
+const curveOf = (m: Metric): string => (m === 'km' || m === 'pace' ? 'course' : m === 'body' || m === 'measures' ? 'corps' : m)
 const PERIODS: Period[] = [30, 90, 365]
 const PERIOD_LABEL = (p: Period) => (p === 365 ? '1 an' : `${p} j`)
 const MEASURES = BODY_FIELDS.filter((f) => f.field !== 'weightKg')
@@ -285,31 +310,30 @@ export function ProgressPage() {
           </section>
         )}
 
-        <Link to="/preuves" className="tap-row flex items-center gap-3 rounded-2xl border border-line bg-surface px-5 py-3.5 shadow-card">
-          <Icon name="mic" className="text-guitar" />
-          <Icon name="camera" className="-ml-1.5 text-sport" />
-          <span className="flex min-w-0 flex-1 flex-col">
-            <span className="t-headline">Avant / après</span>
-            <span className="t-subhead text-muted">Écoute et regarde ton progrès sur un mois</span>
-          </span>
-          <RowChevron />
-        </Link>
+        <Group header="Revoir">
+          <Row
+            icon={<Icon name="week" className="text-muted" />}
+            title="Mes séances"
+            subtitle={`${data.guitarSessions.length + data.sportSessions.length} faites, à revoir ou corriger`}
+            to="/seances"
+          />
+          <Row icon={<Icon name="mic" className="text-muted" />} title="Avant / après" subtitle="Écoute et regarde ton progrès sur un mois" to="/preuves" />
+        </Group>
 
-        <div role="tablist" aria-label="Métrique" className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none]">
-          {METRICS.map((m) => (
-            <button
-              key={m.id}
-              type="button"
-              role="tab"
-              aria-selected={metric === m.id}
-              onClick={() => setMetric(m.id)}
-              className={`hit tap-scale t-subhead min-h-11 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
-                metric === m.id ? 'bg-ink text-bg' : 'border border-line bg-surface text-ink shadow-card'
-              }`}
-            >
-              {m.label}
-            </button>
-          ))}
+        <div className="flex flex-col gap-2">
+          <Segmented
+            label="Univers"
+            options={[
+              { value: 'guitar', label: 'Guitare' },
+              { value: 'sport', label: 'Sport' },
+            ]}
+            value={domain}
+            onChange={(d) => setMetric(d === 'guitar' ? 'hours' : 'strength')}
+          />
+          <Segmented label="Courbe" options={CURVES[domain]} value={curveOf(metric)} onChange={(c) => setMetric(PAIRS[c]?.[0].value ?? (c as Metric))} />
+          {PAIRS[curveOf(metric)] && (
+            <Segmented label={curveOf(metric) === 'course' ? 'Course' : 'Corps'} options={PAIRS[curveOf(metric)]!} value={metric} onChange={setMetric} />
+          )}
         </div>
 
         <section className="flex flex-col gap-4 rounded-2xl border border-line bg-surface px-5 py-4.5 shadow-card" aria-label="Courbe">

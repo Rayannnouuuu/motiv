@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test } from 'vitest'
 import type { BodyMetric } from '../../domain/types'
@@ -7,7 +7,17 @@ import { renderWithData } from '../../test/renderWithData'
 import { ProgressPage } from './ProgressPage'
 
 const today = '2026-10-15'
-const tab = (name: string) => userEvent.click(screen.getByRole('tab', { name }))
+/** Chemin visible jusqu'à une courbe : univers, courbe, puis variante (course, corps). */
+const PATHS: Record<string, string[]> = {
+  Tempo: ['Guitare', 'Tempo'],
+  'Répartition guitare': ['Guitare', 'Répartition'],
+  Force: ['Sport', 'Force'],
+  Poids: ['Sport', 'Corps', 'Poids'],
+  Mensurations: ['Sport', 'Corps', 'Mensurations'],
+}
+const tab = async (name: string) => {
+  for (const step of PATHS[name]) await userEvent.click(screen.getByRole('button', { name: step }))
+}
 
 const metric = (day: string, weightKg: number | null, waistCm: number | null = null): BodyMetric => ({
   id: day,
@@ -20,22 +30,25 @@ const metric = (day: string, weightKg: number | null, waistCm: number | null = n
 })
 
 describe('ProgressPage', () => {
-  test('les onglets', () => {
+  test('trois lignes visibles, jamais plus de 4 choix, rien hors écran', async () => {
     renderWithData(<ProgressPage />, { today })
-    for (const name of [
-      'Heures guitare',
-      'Tempo',
-      'Morceaux maîtrisés',
-      'Répartition guitare',
-      'Force',
-      'Volume muscu',
-      'Km par semaine',
-      'Allure',
-      'Poids',
-      'Mensurations',
-    ])
-      expect(screen.getByRole('tab', { name })).toBeInTheDocument()
-    expect(screen.queryByRole('tab', { name: 'Charges' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument()
+    const choices = (label: string) =>
+      within(screen.getByRole('group', { name: label }))
+        .getAllByRole('button')
+        .map((b) => b.textContent)
+    expect(choices('Univers')).toEqual(['Guitare', 'Sport'])
+    expect(choices('Courbe')).toEqual(['Heures', 'Tempo', 'Morceaux', 'Répartition'])
+    await userEvent.click(screen.getByRole('button', { name: 'Sport' }))
+    expect(choices('Courbe')).toEqual(['Force', 'Volume', 'Course', 'Corps'])
+    await userEvent.click(screen.getByRole('button', { name: 'Course' }))
+    expect(choices('Course')).toEqual(['Km par semaine', 'Allure'])
+  })
+
+  test('Revoir : Mes séances et Avant / après, à un toucher de Progrès', () => {
+    renderWithData(<ProgressPage />, { today })
+    expect(screen.getByRole('link', { name: /Mes séances/ })).toHaveAttribute('href', '/seances')
+    expect(screen.getByRole('link', { name: /Avant \/ après/ })).toHaveAttribute('href', '/preuves')
   })
 
   test('compte neuf : pas de plantage, pas de données', () => {

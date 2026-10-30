@@ -193,6 +193,15 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
           await db.songs.put({ ...song, status, masteredOn })
         })
       },
+      async setSongTab(id, tab) {
+        const song = state().v1.songs.find((s) => s.id === id)
+        if (!song) return
+        const rest = { ...song }
+        delete rest.tab
+        await write(db, now(), async () => {
+          await db.songs.put(tab.trim() ? { ...rest, tab } : rest)
+        })
+      },
       async saveMarathon(m) {
         const { v1 } = state()
         const before = v1.profile.marathon

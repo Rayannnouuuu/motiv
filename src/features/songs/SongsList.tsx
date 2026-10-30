@@ -10,6 +10,7 @@ import { catalogNotAdded } from '../../domain/songSuggestion'
 import { Button } from '../../ui/Button'
 import { Group, Row } from '../../ui/List'
 import { Sheet } from '../../ui/Sheet'
+import { TabSheet } from './TabSheet'
 import { useRun } from '../settings/useRun'
 
 const SHOWN = 6
@@ -21,7 +22,19 @@ const GROUPS: [SongStatus, string, string][] = [
 ]
 
 /** Un morceau, ouvert d'un toucher sur sa ligne : ses quatre statuts en grands boutons, et le jouer tout de suite. */
-function SongSheet({ song, onStatus, onPlay, onClose }: { song: Song; onStatus: (s: SongStatus) => void; onPlay: () => void; onClose: () => void }) {
+function SongSheet({
+  song,
+  onStatus,
+  onPlay,
+  onTab,
+  onClose,
+}: {
+  song: Song
+  onStatus: (s: SongStatus) => void
+  onPlay: () => void
+  onTab: () => void
+  onClose: () => void
+}) {
   return (
     <Sheet label={song.title} onClose={onClose} title={() => <h2 className="t-headline truncate text-center">{song.title}</h2>}>
       {(close) => (
@@ -40,6 +53,9 @@ function SongSheet({ song, onStatus, onPlay, onClose }: { song: Song; onStatus: 
               </button>
             ))}
           </div>
+          <Button variant="secondary" tone="guitar" onClick={() => (close(), onTab())}>
+            {song.tab ? 'Ma tablature' : 'Ajouter ma tablature'}
+          </Button>
           <Button tone="guitar" onClick={() => (close(), onPlay())}>
             <Icon name="play" />
             Jouer ce morceau
@@ -56,12 +72,14 @@ function SongSheet({ song, onStatus, onPlay, onClose }: { song: Song; onStatus: 
  */
 export function SongsList() {
   const { v1 } = useAppData()
-  const { setSongStatus } = useActions()
+  const { setSongStatus, setSongTab } = useActions()
   const navigate = useNavigate()
   const { error, run } = useRun()
   const [showAll, setShowAll] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
+  const [tabOf, setTabOf] = useState<string | null>(null)
   const openSong = v1.songs.find((x) => x.id === open)
+  const tabSong = v1.songs.find((x) => x.id === tabOf)
   const mine = (st: SongStatus) => v1.songs.filter((x) => x.status === st).sort((a, b) => a.title.localeCompare(b.title, 'fr'))
   // Classement : le plus dur d'abord, puis le plus récent.
   const mastered = mine('mastered').sort(
@@ -132,11 +150,13 @@ export function SongsList() {
           {mastered.map((x, i) => row(x, `${i + 1}. ${x.title}`, [level(x), x.masteredOn && `le ${shortDate(x.masteredOn)}`].filter(Boolean).join(' · ')))}
         </Group>
       )}
+      {tabSong && <TabSheet song={tabSong} onSave={(tab) => void run(() => setSongTab(tabSong.id, tab))} onClose={() => setTabOf(null)} />}
       {openSong && (
         <SongSheet
           song={openSong}
           onStatus={(st) => void run(() => setSongStatus(openSong.id, st))}
           onPlay={() => navigate('/log/guitare', { state: { songTitle: openSong.title } })}
+          onTab={() => setTabOf(openSong.id)}
           onClose={() => setOpen(null)}
         />
       )}

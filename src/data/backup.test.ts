@@ -169,7 +169,7 @@ describe('export', () => {
     vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
     expect(await exportAll(db, AT, 'abc1234')).toBe('downloaded')
     const file = JSON.parse(await blob!.text())
-    expect(file).toMatchObject({ app: 'motiv', schemaVersion: 1, source: { db: 'motiv', build: 'abc1234' }, counts: { sessions: 7, songs: 45 } })
+    expect(file).toMatchObject({ app: 'motiv', schemaVersion: 1, source: { db: 'motiv', build: 'abc1234' }, counts: { sessions: 7, songs: 46 } })
     expect((await loadAll(db)).meta.lastBackupAt).toBe(AT)
   })
 

@@ -66,12 +66,14 @@ export interface Session {
 
 export type SongStatus = 'to_learn' | 'learning' | 'mastered' | 'maintain'
 
-/** Titre, artiste et notes : jamais de tablature ni de paroles. */
+/** Titre, artiste, notes, et la tablature que tu y colles toi-même (sur l'appareil seulement). Jamais de paroles. */
 export interface Song {
   id: string
   title: string
   artist: string
   notes?: string
+  /** Ta tablature, en texte. Rien n'est fourni avec l'appli. */
+  tab?: string
   targetBpm?: number
   status: SongStatus
   masteredOn: Day | null

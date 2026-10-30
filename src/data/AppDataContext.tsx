@@ -50,6 +50,8 @@ export interface Actions {
   saveSong(s: Song): Promise<void>
   /** Statut du répertoire (à apprendre, en cours, maîtrisé, à entretenir). */
   setSongStatus(id: string, status: SongStatus): Promise<void>
+  /** Ta tablature d'un morceau (texte vide : elle est effacée). */
+  setSongTab(id: string, tab: string): Promise<void>
   saveProgram(p: Program): Promise<void>
   rerollChallenge(id: string): Promise<void>
   acceptEasier(id: string): Promise<void>
