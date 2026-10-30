@@ -40,7 +40,6 @@ export function MePage() {
           <Row icon={<Icon name="library" className="text-muted" />} title="Exercices" subtitle="Guitare et sport" to="/moi/exercices" />
           <Row icon={<Icon name="song" className="text-muted" />} title="Morceaux" subtitle="Ton répertoire" to="/moi/morceaux" />
           <Row icon={<Icon name="muscu" className="text-muted" />} title="Modèles de séance" subtitle="Ordre, séries, reps" to="/moi/modeles" />
-          <Row icon={<Icon name="week" className="text-muted" />} title="Mes séances" subtitle="Tout ce que tu as fait, à revoir ou corriger" to="/seances" />
           <Row icon={<Icon name="sport" className="text-muted" />} title="Courses Strava" subtitle="Importer tes sorties depuis un fichier" to="/moi/strava" />
           <Row
             icon={<Icon name="export" className="text-muted" />}
