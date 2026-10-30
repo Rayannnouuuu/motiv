@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Suite de `docs/AUDIT-UX.md` (points 1, 2, 4, 5). Réponse à « La fluidité d'abord »._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.**
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.).**
 
 ## Ce qui change
 

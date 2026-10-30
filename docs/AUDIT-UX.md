@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Demandé après l'essai de la séance guidée : « beaucoup d'options qu'on ne peut pas cocher, 15 clics pour modifier l'ordre des exercices, des zones qu'on ne peut pas toucher »._
 
-**État : les points 1, 2, 4 et 5 sont faits dans le lot 13 (essai, voir `docs/lots/LOT-13.md`). Les points 3 et 6 restent à faire. Rien n'est sur `/motiv/` avant ton « Push ». Le style « pixel » est un essai à activer dans Réglages › Affichage.**
+**État : les points 1, 2, 4 et 5 sont faits dans le lot 13 (essai, voir `docs/lots/LOT-13.md`). Les points 3 et 6 restent à faire. Le style « pixel » est un essai à activer dans Réglages › Affichage.**
 
 ## En bref
 
