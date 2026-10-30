@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Demande : une bibliothèque de tabs, notamment « Iron Man » (Black Sabbath) et « Vava Inouva » (Idir)._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.** La branche part de `refonte/lot-16` : l'essai montre aussi la première moitié du lot 16 (Progrès sur une page).
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.), avec la première moitié du lot 16 (Progrès sur une page).**
 
 ## Ce qui change
 

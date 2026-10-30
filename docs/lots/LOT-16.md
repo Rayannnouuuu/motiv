@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Troisième lot de `docs/REFONTE-NAV.md`._
 
-**État : première moitié faite sur la branche `refonte/lot-16`, pas encore sur l'essai ni en ligne.**
+**État : première moitié en ligne sur `/motiv/` (« Push », 30 oct.). Reste l'écran de saisie unique `/log`.**
 
 ## Fait
 
