@@ -303,7 +303,7 @@ export function ProgressPage() {
               role="tab"
               aria-selected={metric === m.id}
               onClick={() => setMetric(m.id)}
-              className={`hit tap-scale t-subhead min-h-9 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
+              className={`hit tap-scale t-subhead min-h-11 shrink-0 rounded-full px-3.5 py-1.5 font-semibold whitespace-nowrap transition-colors ${
                 metric === m.id ? 'bg-ink text-bg' : 'border border-line bg-surface text-ink shadow-card'
               }`}
             >

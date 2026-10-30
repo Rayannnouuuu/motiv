@@ -244,7 +244,7 @@ export function Metronome({
       type="button"
       aria-label={`Tempo ${sign > 0 ? '+' : '−'}${BPM_JUMP}`}
       onClick={() => changeBpm(bpm + sign * BPM_JUMP)}
-      className="hit tap t-footnote rounded-full bg-fill px-3 py-1.5 tabular-nums"
+      className="hit tap t-footnote flex min-h-11 min-w-11 items-center justify-center rounded-full bg-fill px-3.5 tabular-nums"
     >
       {sign > 0 ? '+' : '−'}
       {BPM_JUMP}
@@ -286,7 +286,7 @@ export function Metronome({
             type="button"
             aria-pressed={bpm === clampBpm(s.value)}
             onClick={() => changeBpm(s.value)}
-            className={`hit tap t-footnote flex items-center gap-1 rounded-full px-3 py-1.5 tabular-nums ${bpm === clampBpm(s.value) ? 'bg-guitar/12 font-semibold text-guitar' : 'bg-fill'}`}
+            className={`hit tap t-footnote flex min-h-11 items-center gap-1 rounded-full px-3.5 tabular-nums ${bpm === clampBpm(s.value) ? 'bg-guitar/12 font-semibold text-guitar' : 'bg-fill'}`}
           >
             {s.key === 'challenge' && <Icon name="target" />}
             {s.label}

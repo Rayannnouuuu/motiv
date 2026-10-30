@@ -1,4 +1,6 @@
 export type Theme = 'light' | 'dark' | 'auto'
+/** Style graphique : « classic » (défaut) ou « pixel » (essai néo-brutaliste, trait épais et ombre dure). */
+export type Style = 'classic' | 'pixel'
 
 const KEY = 'motiv.theme.v1'
 // Sombre par défaut ; clair et auto restent au choix dans Réglages.
@@ -60,5 +62,26 @@ export function followSystemTheme(): void {
     })
   } catch {
     // matchMedia indisponible
+  }
+}
+
+const STYLE_KEY = 'motiv.style.v1'
+
+export function getStyle(): Style {
+  try {
+    return localStorage.getItem(STYLE_KEY) === 'pixel' ? 'pixel' : 'classic'
+  } catch {
+    return 'classic'
+  }
+}
+
+/** Applique le style (attribut `data-style` lu par tokens.css) et le mémorise sur cet appareil. */
+export function setStyle(st: Style): void {
+  if (st === 'pixel') document.documentElement.dataset.style = 'pixel'
+  else delete document.documentElement.dataset.style
+  try {
+    localStorage.setItem(STYLE_KEY, st)
+  } catch {
+    // stockage indisponible : le style vaut pour la session
   }
 }

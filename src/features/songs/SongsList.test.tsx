@@ -42,8 +42,11 @@ test('quatre statuts : en cours, à apprendre, proposés sans doublon, maîtris�
   expect(screen.getByText('1. Master of Puppets')).toBeInTheDocument()
   expect(screen.getByText('2. Smoke on the Water')).toBeInTheDocument()
 
-  expect(screen.getByRole('combobox', { name: 'Statut · Paranoid' })).toHaveValue('learning')
-  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Statut · Paranoid' }), 'À entretenir')
+  // Toute la ligne s'ouvre ; le statut se change en grands boutons.
+  await userEvent.click(screen.getByRole('button', { name: 'Ouvrir Paranoid' }))
+  const sheet = screen.getByRole('dialog', { name: 'Paranoid' })
+  expect(within(sheet).getByRole('button', { name: 'En cours' })).toHaveAttribute('aria-pressed', 'true')
+  await userEvent.click(within(sheet).getByRole('button', { name: 'À entretenir' }))
   expect(actions.setSongStatus).toHaveBeenCalledWith('s1', 'maintain')
 })
 
@@ -57,4 +60,11 @@ test('« Voir les N morceaux » déplie la liste des proposés', async () => {
   renderPage()
   await userEvent.click(screen.getByRole('button', { name: /Voir les \d+ morceaux/ }))
   expect(screen.getByRole('button', { name: 'Voir moins' })).toBeInTheDocument()
+})
+
+test('« Jouer ce morceau » depuis sa feuille ouvre le log avec lui', async () => {
+  renderPage({ data: { songs: [mkSong({ id: 's1', title: 'Paranoid' })] } })
+  await userEvent.click(screen.getByRole('button', { name: 'Ouvrir Paranoid' }))
+  await userEvent.click(within(screen.getByRole('dialog', { name: 'Paranoid' })).getByRole('button', { name: 'Jouer ce morceau' }))
+  expect(screen.getByText('at /log/guitare {"songTitle":"Paranoid"}')).toBeInTheDocument()
 })

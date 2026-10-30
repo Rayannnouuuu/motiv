@@ -13,14 +13,20 @@ import '@fontsource/barlow/latin-500.css'
 import '@fontsource/barlow/latin-600.css'
 import '@fontsource/barlow/latin-700.css'
 import '@fontsource/barlow-condensed/latin-700.css'
+import '@fontsource/pixelify-sans/latin-600.css'
+import '@fontsource/pixelify-sans/latin-700.css'
+import '@fontsource/pixelify-sans/latin-ext-700.css'
 import './index.css'
 import { Splash } from './ui/Splash'
-import { followSystemTheme } from './design/theme'
+import { followSystemTheme, getStyle, setStyle } from './design/theme'
 
 // Sur iPhone, :active (retour visuel à l'appui) ne s'applique que si la page écoute les touchers.
 document.addEventListener('touchstart', () => {}, { passive: true })
 
 followSystemTheme()
+
+// Style graphique choisi dans Réglages › Affichage.
+setStyle(getStyle())
 
 // Nouvelle version : vérifiée au retour dans l'appli et toutes les heures, rechargée quand rien n'est en cours.
 setupUpdates(registerSW)

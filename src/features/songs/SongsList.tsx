@@ -7,7 +7,9 @@ import { shortDate } from '../../domain/date'
 import type { Song, SongStatus } from '../../domain/model'
 import { MAINTAIN_DAYS, SONG_STATUS_LABELS } from '../../domain/repertoire'
 import { catalogNotAdded } from '../../domain/songSuggestion'
+import { Button } from '../../ui/Button'
 import { Group, Row } from '../../ui/List'
+import { Sheet } from '../../ui/Sheet'
 import { useRun } from '../settings/useRun'
 
 const SHOWN = 6
@@ -18,21 +20,33 @@ const GROUPS: [SongStatus, string, string][] = [
   ['to_learn', 'À apprendre', 'Il passe en cours dès que tu le joues.'],
 ]
 
-/** Statut d'un morceau, au sélecteur natif (une roue sur iPhone). */
-function StatusPicker({ song, onChange }: { song: Song; onChange: (s: SongStatus) => void }) {
+/** Un morceau, ouvert d'un toucher sur sa ligne : ses quatre statuts en grands boutons, et le jouer tout de suite. */
+function SongSheet({ song, onStatus, onPlay, onClose }: { song: Song; onStatus: (s: SongStatus) => void; onPlay: () => void; onClose: () => void }) {
   return (
-    <select
-      aria-label={`Statut · ${song.title}`}
-      value={song.status}
-      onChange={(e) => onChange(e.target.value as SongStatus)}
-      className="hit t-subhead shrink-0 bg-transparent text-right text-guitar outline-none"
-    >
-      {STATUSES.map((st) => (
-        <option key={st} value={st}>
-          {SONG_STATUS_LABELS[st]}
-        </option>
-      ))}
-    </select>
+    <Sheet label={song.title} onClose={onClose} title={() => <h2 className="t-headline truncate text-center">{song.title}</h2>}>
+      {(close) => (
+        <div className="flex flex-col gap-5">
+          {song.artist && <p className="t-subhead -mt-2 text-center text-muted">{song.artist}</p>}
+          <div role="group" aria-label="Statut" className="grid grid-cols-2 gap-2">
+            {STATUSES.map((st) => (
+              <button
+                key={st}
+                type="button"
+                aria-pressed={song.status === st}
+                onClick={() => (onStatus(st), close())}
+                className={`tap-scale t-callout min-h-14 rounded-xl font-semibold ${song.status === st ? 'bg-guitar text-on-guitar' : 'bg-inset'}`}
+              >
+                {SONG_STATUS_LABELS[st]}
+              </button>
+            ))}
+          </div>
+          <Button tone="guitar" onClick={() => (close(), onPlay())}>
+            <Icon name="play" />
+            Jouer ce morceau
+          </Button>
+        </div>
+      )}
+    </Sheet>
   )
 }
 
@@ -46,6 +60,8 @@ export function SongsList() {
   const navigate = useNavigate()
   const { error, run } = useRun()
   const [showAll, setShowAll] = useState(false)
+  const [open, setOpen] = useState<string | null>(null)
+  const openSong = v1.songs.find((x) => x.id === open)
   const mine = (st: SongStatus) => v1.songs.filter((x) => x.status === st).sort((a, b) => a.title.localeCompare(b.title, 'fr'))
   // Classement : le plus dur d'abord, puis le plus récent.
   const mastered = mine('mastered').sort(
@@ -57,7 +73,14 @@ export function SongsList() {
     return [x.artist || c?.artist, c && `niv. ${c.difficulty}`].filter(Boolean).join(' · ') || undefined
   }
   const row = (x: Song, title = x.title, subtitle = level(x)) => (
-    <Row key={x.id} title={title} subtitle={subtitle} accessory={<StatusPicker song={x} onChange={(st) => void run(() => setSongStatus(x.id, st))} />} />
+    <Row
+      key={x.id}
+      aria-label={`Ouvrir ${x.title}`}
+      title={title}
+      subtitle={subtitle}
+      detail={<span className="t-subhead text-guitar">{SONG_STATUS_LABELS[x.status]}</span>}
+      onClick={() => setOpen(x.id)}
+    />
   )
 
   return (
@@ -108,6 +131,14 @@ export function SongsList() {
         <Group header={`Maîtrisés · ${mastered.length}`} footer="Classés du plus dur au plus facile.">
           {mastered.map((x, i) => row(x, `${i + 1}. ${x.title}`, [level(x), x.masteredOn && `le ${shortDate(x.masteredOn)}`].filter(Boolean).join(' · ')))}
         </Group>
+      )}
+      {openSong && (
+        <SongSheet
+          song={openSong}
+          onStatus={(st) => void run(() => setSongStatus(openSong.id, st))}
+          onPlay={() => navigate('/log/guitare', { state: { songTitle: openSong.title } })}
+          onClose={() => setOpen(null)}
+        />
       )}
     </div>
   )

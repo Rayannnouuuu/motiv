@@ -28,7 +28,7 @@ export function PlateauCard() {
           <li key={s.label} className="t-subhead flex gap-2">
             <span className={TONE.text[p.domain]}>•</span>
             {s.to ? (
-              <Link to={s.to} className="hit tap underline decoration-line underline-offset-4">
+              <Link to={s.to} className="hit tap inline-flex min-h-11 items-center underline decoration-line underline-offset-4">
                 {s.label}
               </Link>
             ) : (
@@ -39,7 +39,7 @@ export function PlateauCard() {
       </ul>
       <button
         type="button"
-        className="hit tap t-subhead self-start py-1 text-muted"
+        className="hit tap t-subhead flex min-h-11 items-center self-start pr-4 text-muted"
         onClick={() => {
           hideUntil(`plateau:${plateauKey(p)}`, addDays(today, 7))
           refresh((n) => n + 1)
