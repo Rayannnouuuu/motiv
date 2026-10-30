@@ -6,7 +6,7 @@ _30 oct. 2026. Demandé après l'essai de la séance guidée : « beaucoup d'opt
 
 ## En bref
 
-- Tu as raison, et c'est mesurable : sur 19 écrans (390 px de large), **121 contrôles font moins de 44 px**, **31 blocs montrent quelque chose sans rien ouvrir**, et **14 cartes n'ont qu'un petit lien** (le reste de la carte est mort).
+- Tu as raison, et c'est mesurable : sur 19 écrans (390 px de large), **86 contrôles ont une zone touchable de moins de 44 px**, **31 blocs montrent quelque chose sans rien ouvrir**, et **14 cartes n'ont qu'un petit lien** (le reste de la carte est mort).
 - Les trois pires, par ce que tu fais le plus : **ordre et remplacement des exercices** (impossible ou minuscule), **liste des morceaux** (45 petits menus de 20 px de haut), **Semaine** (les 7 jours ne s'ouvrent pas).
 - Le style de ta capture est **faisable** : traits épais, ombre dure, couleurs vives, titres en pixel. Un premier essai avec les vrais écrans tient dans un calque de style (une centaine de lignes), sans toucher aux écrans eux-mêmes. Voir la planche `docs/audit-ux/planche-style.jpg`.
 - Je recommande **la fluidité d'abord, le style ensuite** : le style touche chaque composant, autant corriger les zones tactiles une fois, puis habiller.
@@ -16,6 +16,8 @@ _30 oct. 2026. Demandé après l'essai de la séance guidée : « beaucoup d'opt
 1. Un script ouvre 19 écrans sur des données de démo (390 × 844) et relève chaque contrôle : taille, s'il est recouvert, s'il sort de l'écran. Il relève aussi les **blocs** (carte, ligne, tuile) qui contiennent du texte : sans aucun contrôle dedans ni autour (« mort »), ou avec un contrôle qui n'en couvre que moins de 30 % (« étroit »). Mesures brutes : `docs/audit-ux/mesures-zones-tactiles.json`.
 2. Des parcours comptés touche par touche dans le navigateur (séance guidée) et d'après la structure du code (séance de sport, saisie d'un log).
 3. Lecture des écrans pour les actions qui n'existent pas.
+
+**Correction (30 oct., avant de coder)** : ma première mesure (121 contrôles) comptait la boîte visible. Or l'appli élargit déjà la zone touchable de la plupart des boutons à 44 px avec un calque invisible (classe `hit`). Le script mesure maintenant la zone réellement touchable : **86 contrôles** restent trop petits, dont **45 sont les menus de statut des morceaux**. Les contrôles segmentés (période, thème, vue) sont corrects.
 
 Limite : je n'ai pas pu tester sur un vrai doigt. 44 px est la règle d'Apple pour une zone tactile ; en dessous, on rate souvent et on tape deux fois.
 
@@ -37,25 +39,28 @@ Limite : je n'ai pas pu tester sur un vrai doigt. 44 px est la règle d'Apple po
 
 Aujourd'hui : bandeau « Ajoute MOTIV à l'écran d'accueil » (8 % de la carte), bandeau de sauvegarde (19 %), carte « On relance » (10 %), « Cette semaine » (2 %). Moi : le cycle (13 %), les idées (27 %). **Réglages : les lignes avec un interrupteur** (« Check-in du matin » : l'interrupteur ne couvre que 9 % de la ligne). Il faut viser l'interrupteur de 51 × 31, et pas la ligne.
 
-### Contrôles de moins de 44 px (121 au total)
+### Contrôles dont la zone touchable fait moins de 44 px (86 au total)
 
-| Contrôle | Taille | Où |
+| Contrôle | Zone touchable | Où |
 | --- | --- | --- |
 | Menu « Statut » de chaque morceau | **100 × 20** (45 morceaux, 45 menus) | Bibliothèque › Morceaux |
-| Monter / Descendre une séance ou un exo | **22 × 26** | Bibliothèque › Modèles, éditeur de séance |
-| Choix de période, de vue, de thème, de discipline | 32 de haut | Partout (contrôles segmentés) |
-| Les 10 onglets de courbes | 36 de haut, **8 sur 10 hors écran** | Progrès |
+| Les 10 onglets de courbes | 36 à 40 de haut, **8 sur 10 hors écran** | Progrès |
 | Raccourcis du métronome (−5, Record, Cible, +5) | 30 de haut | Fiche exo |
-| « Plus tard », « Fermer », « Annuler », « Moi » (retour) | 28 à 38 de haut | Cartes, barres du haut |
-| Liens des pistes « On relance », « Séance guidée » | 40 de haut | Aujourd'hui |
+| Choix du questionnaire marathon (distance, jours, niveau) | 32 à 40 | Profil sportif |
+| « Plus tard » sur une carte | 57 × 28 | Aujourd'hui |
+| « Voir la semaine » | 86 × 16 | Aujourd'hui |
 | « Autre séance ou séance déjà faite », « Corriger le dernier log » | 36 de haut | Aujourd'hui |
-| Questionnaire marathon : 19 choix | 32 de haut | Profil sportif |
+| Liens des pistes « On relance », bouton « Séance guidée » | 40 de haut | Aujourd'hui |
+| Monter / Descendre une séance ou un exo | 34 × 46 (visible 24 × 26) | Bibliothèque › Modèles, éditeur de séance |
+| « Fermer », « Annuler », retour | 42 de haut | Barres du haut |
+
+Les contrôles segmentés (période, thème, vue, discipline) font 32 visibles mais **44 touchables** : ils sont corrects.
 
 ## 2. Actions qui manquent ou coûtent trop de touchers
 
 | Ce que tu veux faire | Aujourd'hui | Problème |
 | --- | --- | --- |
-| **Changer l'ordre des exercices d'un modèle de séance** | Moi › Bibliothèque › Modèles › Modifier › ▲ ou ▼ (22 px) pour chaque cran › Enregistrer : **5 touchers pour monter un exo de 3 crans**, sur des cibles minuscules | Pas de glisser-déposer ; cibles trop petites. |
+| **Changer l'ordre des exercices d'un modèle de séance** | Moi › Bibliothèque › Modèles › Modifier › ▲ ou ▼ pour chaque cran › Enregistrer : **5 touchers pour monter un exo de 3 crans**, sur des flèches étroites | Pas de glisser-déposer ; cibles trop petites. |
 | **Changer l'ordre ou remplacer un des 3 exos du plan du jour (guitare)** | **Impossible** | Le plan est calculé ; tu peux seulement l'ouvrir ou le cocher. |
 | **Ajouter, déplacer ou remplacer un exo pendant une séance de sport** | **Impossible.** « Changer » (texte seul, en haut à droite) ne sert qu'à choisir une autre séance, et disparaît dès la première série. « Exo suivant » saute, c'est tout | Une séance de sport suit strictement l'ordre du modèle. |
 | **Saisir une charge jamais faite** | Pas à pas de 2,5 kg : **24 touchers pour 60 kg** (ou taper dans le champ) | Pas de répétition à l'appui long, pas de saisie directe évidente. |
