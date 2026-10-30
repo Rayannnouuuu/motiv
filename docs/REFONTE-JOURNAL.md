@@ -169,5 +169,5 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 5 — Preuves et anti-stagnation : en ligne.
 - [x] Lot 13 — Fluidité : jours de la Semaine, tuiles, lignes et morceaux touchables sur toute leur surface, 0 contrôle sous 44 px (86 avant), appui long sur − / +. En ligne.
 - [x] Refonte de la navigation : carte (`docs/REFONTE-NAV.md`) validée (« Laisse », 30 oct.).
-
+- [x] Lot 14 — Plan + Commencer complet : en ligne.
 - [ ] Lot 15 — Moi à plat (7 lignes, Bibliothèque éclatée en 3 pages) : sur l’essai, en attente de validation. Lot 16 (Progrès sur une page) à suivre.
