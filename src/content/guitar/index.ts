@@ -5,7 +5,7 @@
 import chordsJson from './chords.json'
 import pathJson from './path.json'
 import scalesJson from './scales.json'
-import { CHORD_TRACK } from './tracks'
+import { CHORD_TRACK, SCALE_TRACK } from './tracks'
 
 export type Pillar = 'left_hand' | 'right_hand' | 'technique' | 'fretboard' | 'ear' | 'expression' | 'repertoire' | 'creativity'
 export type Subdivision = 'quarter' | 'eighth' | 'triplet' | 'sixteenth'
@@ -41,6 +41,8 @@ export interface Skill {
   block?: string
   /** Accords concernés (diagrammes). */
   chordIds?: string[]
+  /** Formes de gammes concernées (diagrammes). */
+  scaleIds?: string[]
 }
 
 export interface PathLevel {
@@ -81,7 +83,7 @@ export const CHORDS = chordsJson as Chord[]
 export const SCALE_SHAPES = scalesJson as ScaleShape[]
 
 /** Étapes des parcours (accords) : retrouvables par `getSkill`, mais hors de `SKILLS` (niveaux, épreuves, suggestions). */
-export const TRACK_SKILLS = CHORD_TRACK
+export const TRACK_SKILLS = [...CHORD_TRACK, ...SCALE_TRACK]
 const skillById = new Map([...SKILLS, ...TRACK_SKILLS].map((s) => [s.id, s]))
 export const getSkill = (id: string) => skillById.get(id)
 export const getChord = (id: string) => CHORDS.find((c) => c.id === id)

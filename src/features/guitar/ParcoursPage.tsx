@@ -1,27 +1,40 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { getChord, type Skill } from '../../content/guitar'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getChord, SCALE_SHAPES, type Skill } from '../../content/guitar'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { EMPTY_PROGRESS, recordAttempt, sessionsNeeded, type GuitarProgress } from '../../domain/guitar/engine'
-import { blockSummaries, currentStep, knownUpTo, openStep, syncPath, trackDone, trackSteps } from '../../domain/guitar/tracks'
+import { blockSummaries, currentStep, knownUpTo, openStep, syncPath, trackDone, trackSteps, type Track } from '../../domain/guitar/tracks'
 import { Button } from '../../ui/Button'
 import { ChordDiagram } from '../../ui/ChordDiagram'
 import { Gauge } from '../../ui/Gauge'
 import { Group, Row } from '../../ui/List'
+import { ScaleDiagram } from '../../ui/ScaleDiagram'
 import { Screen } from '../../ui/Screen'
+import { Segmented } from '../../ui/Segmented'
 import { Sheet } from '../../ui/Sheet'
 import { useRun } from '../settings/useRun'
 import { Measure, type RawAttempt } from './Measure'
 
+const TRACKS: { value: string; track: Track; label: string }[] = [
+  { value: 'accords', track: 'chords', label: 'Accords' },
+  { value: 'gammes', track: 'scales', label: 'Gammes' },
+]
+
 const Diagrams = ({ skill }: { skill: Skill }) => {
   const chords = (skill.chordIds ?? []).flatMap((id) => getChord(id) ?? [])
-  if (chords.length === 0) return null
+  const scales = (skill.scaleIds ?? []).flatMap((id) => SCALE_SHAPES.find((x) => x.id === id) ?? [])
+  const count = chords.length + scales.length
+  if (count === 0) return null
   return (
-    <div className={`-mx-1 flex gap-3 overflow-x-auto px-1 pb-1 ${chords.length <= 2 ? 'justify-center' : ''}`} aria-label="Accords de l’étape">
+    <div className={`-mx-1 flex gap-3 overflow-x-auto px-1 pb-1 ${count <= 2 ? 'justify-center' : ''}`} aria-label="Schémas de l’étape">
       {chords.map((c) => (
-        <ChordDiagram key={c.id} chord={c} size={chords.length > 2 ? 'sm' : 'md'} />
+        <ChordDiagram key={c.id} chord={c} size={count > 2 ? 'sm' : 'md'} />
       ))}
+      {scales.map((x) => (
+        <ScaleDiagram key={x.id} shape={x} size={count > 2 ? 'sm' : 'md'} />
+      ))}
+      {scales.length > 0 && <p className="t-footnote sr-only">Les points entourés sont les fondamentales, les notes de repos.</p>}
     </div>
   )
 }
@@ -43,6 +56,10 @@ function Needed({ skill, progress }: { skill: Skill; progress: GuitarProgress })
  * L'étape en cours est en haut avec sa mesure ; les suivantes sont verrouillées jusqu'à ce qu'elle soit validée.
  */
 export function ParcoursPage() {
+  const navigate = useNavigate()
+  const params = useParams()
+  const tab = TRACKS.find((t) => t.value === params.track) ?? TRACKS[0]
+  const track = tab.track
   const { v1, today } = useAppData()
   const { saveGuitarState } = useActions()
   const { busy, error, run } = useRun()
@@ -50,9 +67,9 @@ export function ParcoursPage() {
   const [prog, setProg] = useState<GuitarProgress>(g?.progress ?? EMPTY_PROGRESS)
   const [peek, setPeek] = useState<string | null>(null)
   const [justDone, setJustDone] = useState<string | null>(null)
-  const steps = trackSteps(prog)
-  const current = currentStep(prog)
-  const done = trackDone(prog)
+  const steps = trackSteps(prog, track)
+  const current = currentStep(prog, track)
+  const done = trackDone(prog, track)
   const save = (next: GuitarProgress) => run(() => saveGuitarState({ ...g, progress: next })).then(() => setProg(next))
 
   const onAttempt = (a: RawAttempt) => {
@@ -73,8 +90,15 @@ export function ParcoursPage() {
   )
 
   return (
-    <Screen title="Accords" overline="Parcours guitare" leading={back}>
+    <Screen title={tab.label} overline="Parcours guitare" leading={back}>
       <div className="flex flex-col gap-6 pb-4">
+        <Segmented
+          label="Parcours"
+          options={TRACKS.map((t) => ({ value: t.value, label: t.label }))}
+          value={tab.value}
+          onChange={(v) => navigate(`/parcours/${v}`, { replace: true })}
+        />
+
         <section className="flex flex-col gap-2" aria-label="Avancement">
           <p className="t-footnote flex justify-between gap-2">
             <span className="text-muted">Étapes faites</span>
@@ -82,7 +106,7 @@ export function ParcoursPage() {
               {done} / {steps.length}
             </span>
           </p>
-          <Gauge value={done} max={steps.length} color="guitar" label="Étapes du parcours des accords" className="h-1.5" />
+          <Gauge value={done} max={steps.length} color="guitar" label={`Étapes du parcours des ${tab.label.toLowerCase()}`} className="h-1.5" />
         </section>
 
         {error && (
@@ -124,11 +148,15 @@ export function ParcoursPage() {
             </Button>
           </section>
         ) : (
-          <p className="t-callout rounded-xl bg-guitar/12 px-4 py-3 font-semibold text-guitar">Parcours des accords terminé : les 46 accords sont validés.</p>
+          <p className="t-callout rounded-xl bg-guitar/12 px-4 py-3 font-semibold text-guitar">
+            {track === 'chords'
+              ? 'Parcours des accords terminé : les 46 accords sont validés.'
+              : 'Parcours des gammes terminé : toutes les formes sont validées.'}
+          </p>
         )}
 
-        {blockSummaries(prog).map((b) => (
-          <Group key={b.id} header={`${b.name} · ${b.done} / ${b.total}`} labelledBy={`block-${b.id}`}>
+        {blockSummaries(prog, track).map((b, i) => (
+          <Group key={b.name} header={`${b.name} · ${b.done} / ${b.total}`} labelledBy={`block-${track}-${i}`}>
             {steps
               .filter((s) => s.skill.block === b.name)
               .map(({ skill, state }) => (

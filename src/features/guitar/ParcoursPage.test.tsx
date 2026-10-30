@@ -1,5 +1,6 @@
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Route, Routes } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
 import { renderWithData } from '../../test/renderWithData'
 import { ParcoursPage } from './ParcoursPage'
@@ -48,5 +49,40 @@ describe('parcours des accords', () => {
     expect(skills['chord-Em'].status).toBe('validated')
     expect(skills['chord-D'].status).toBe('validated')
     expect(skills['chord-G']).toBeUndefined()
+  })
+})
+
+describe('parcours des gammes', () => {
+  const renderScales = () =>
+    renderWithData(
+      <Routes>
+        <Route path="/parcours/:track" element={<ParcoursPage />} />
+      </Routes>,
+      { today: TODAY, route: '/parcours/gammes' },
+    )
+
+  test('la première forme avec son diagramme, ses blocs et l’avancement de la piste', () => {
+    renderScales()
+    expect(screen.getByRole('heading', { name: 'Gammes', level: 1 })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Forme · Pentatonique mineure de La, position 1' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /^Pentatonique mineure de La, position 1\. Mi grave : case 5/ })).toBeInTheDocument()
+    expect(screen.getByLabelText('Avancement')).toHaveTextContent('0 / 19')
+    for (const name of ['Pentatonique mineure de La', 'Autres pentatoniques et blues', 'Gammes majeure et mineure'])
+      expect(screen.getByRole('region', { name: new RegExp(`^${name}`) })).toBeInTheDocument()
+  })
+
+  test('on passe des gammes aux accords par le sélecteur', async () => {
+    renderScales()
+    await userEvent.click(screen.getByRole('button', { name: 'Accords' }))
+    expect(await screen.findByRole('heading', { name: 'Forme · Mi m' })).toBeInTheDocument()
+  })
+
+  test('forme réussie : notée, mais il faut un second jour pour la valider', async () => {
+    const { actions } = renderScales()
+    for (const box of screen.getAllByRole('checkbox')) await userEvent.click(box)
+    await userEvent.click(screen.getByRole('button', { name: /^Noter l’essai/ }))
+    await waitFor(() => expect(actions.saveGuitarState).toHaveBeenCalledTimes(1))
+    expect(saved(actions, 0).progress.skills['scale-penta-am-1'].status).toBe('learning')
+    expect(screen.getByText(/Réussi sur 1 jour sur 2/)).toBeInTheDocument()
   })
 })

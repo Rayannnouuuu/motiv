@@ -127,7 +127,8 @@ function SportChooser({
  */
 export function TodayPage() {
   const { data, v1, today } = useAppData()
-  const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS)
+  const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'chords')
+  const nextScale = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'scales')
   const navigate = useNavigate()
   const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
   const rhythm = useRhythm()
@@ -197,16 +198,24 @@ export function TodayPage() {
                       <Icon name="target" />
                       Séance guidée
                     </Link>
-                    <Link
-                      to="/parcours/accords"
-                      className="tap t-subhead flex min-h-11 items-center justify-between gap-2 rounded-lg bg-guitar/12 px-4 py-2 text-guitar"
-                    >
-                      <span className="flex min-w-0 items-center gap-1.5">
-                        <Icon name="guitar" />
-                        <span className="truncate font-semibold">Parcours accords</span>
-                      </span>
-                      <span className="t-footnote shrink-0 truncate text-muted">{nextChord ? nextChord.name : 'Terminé'}</span>
-                    </Link>
+                    {(
+                      [
+                        ['accords', 'Parcours accords', nextChord],
+                        ['gammes', 'Parcours gammes', nextScale],
+                      ] as const
+                    ).map(([to, label, step]) => (
+                      <Link
+                        key={to}
+                        to={`/parcours/${to}`}
+                        className="tap t-subhead flex min-h-11 items-center justify-between gap-2 rounded-lg bg-guitar/12 px-4 py-2 text-guitar"
+                      >
+                        <span className="flex min-w-0 items-center gap-1.5">
+                          <Icon name="guitar" />
+                          <span className="truncate font-semibold">{label}</span>
+                        </span>
+                        <span className="t-footnote shrink-0 truncate text-muted">{step ? step.name : 'Terminé'}</span>
+                      </Link>
+                    ))}
                   </div>
                 ) : undefined
               }
