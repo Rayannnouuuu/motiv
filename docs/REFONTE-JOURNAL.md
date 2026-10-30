@@ -168,3 +168,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 4 — Progrès et rythme, « Mes séances » : en ligne.
 - [x] Lot 5 — Preuves et anti-stagnation : en ligne.
 - [x] Lot 13 — Fluidité : jours de la Semaine, tuiles, lignes et morceaux touchables sur toute leur surface, 0 contrôle sous 44 px (86 avant), appui long sur − / +. En ligne.
+- [ ] Refonte de la navigation : carte à valider (`docs/REFONTE-NAV.md`), puis lots 14 à 16.
