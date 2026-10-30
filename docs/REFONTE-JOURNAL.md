@@ -172,3 +172,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 14 — Plan + Commencer complet : en ligne.
 - [x] Lot 15 — Moi à plat (7 lignes, Bibliothèque éclatée en 3 pages) : en ligne. Lot 16 (Progrès sur une page) à suivre.
 - [ ] Lot 16 — Progrès sur une page : première moitié sur la branche (Progrès à 3 lignes visibles, Revoir). `/log` unique à faire.
+- [ ] Lot 17 — Tes tablatures (feuille « Tablature » par morceau, Vava Inouva au catalogue) : sur l’essai, en attente de validation.

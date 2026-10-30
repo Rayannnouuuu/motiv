@@ -45,7 +45,7 @@ describe('BackupSection', () => {
     await userEvent.upload(screen.getByLabelText('Fichier de sauvegarde'), file(v0Replica()))
     const dialog = await screen.findByRole('dialog', { name: 'Importer une sauvegarde' })
     expect(dialog).toHaveTextContent('ancienne version, convertie')
-    expect(dialog).toHaveTextContent('45 morceaux « à apprendre »')
+    expect(dialog).toHaveTextContent('46 morceaux « à apprendre »')
     expect(dialog).toHaveTextContent('183 cm en tour de taille')
     expect(await db.sessions.count()).toBe(0)
     await userEvent.click(screen.getByRole('button', { name: 'Importer' }))

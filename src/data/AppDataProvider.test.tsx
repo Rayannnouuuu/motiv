@@ -226,6 +226,22 @@ test('répertoire : statut à entretenir gardé par une sauvegarde à l’ancien
   expect(await db.songs.get(song.id)).toMatchObject({ status: 'learning', masteredOn: null })
 })
 
+test('tablature perso : gardée sur le morceau, survit à saveSong, effacée par un texte vide', async () => {
+  const db = testDb()
+  await importV0(db, v0Replica())
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const song = seen.value!.v1.songs[0]
+  await seen.actions!.setSongTab(song.id, 'e|--0--|')
+  expect(await db.songs.get(song.id)).toMatchObject({ tab: 'e|--0--|' })
+  await waitFor(() => expect(seen.value!.v1.songs.find((s) => s.id === song.id)?.tab).toBe('e|--0--|'))
+  const old = seen.value!.data.songs.find((s) => s.id === song.id)!
+  await seen.actions!.saveSong({ ...old, title: `${old.title} (live)` })
+  expect(await db.songs.get(song.id)).toMatchObject({ tab: 'e|--0--|', title: `${old.title} (live)` })
+  await seen.actions!.setSongTab(song.id, '  ')
+  expect((await db.songs.get(song.id))!.tab).toBeUndefined()
+})
+
 describe('marathon (lot 3)', () => {
   const marathon = profile({ startedOn: '2026-10-19' })
 

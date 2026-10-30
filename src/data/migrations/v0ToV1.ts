@@ -174,6 +174,7 @@ export function songToV1(s: Song, played: boolean, previous?: V1.Song): V1.Song 
   }
   if (previous?.notes !== undefined) out.notes = previous.notes
   if (previous?.targetBpm !== undefined) out.targetBpm = previous.targetBpm
+  if (previous?.tab !== undefined) out.tab = previous.tab
   return out
 }
 
