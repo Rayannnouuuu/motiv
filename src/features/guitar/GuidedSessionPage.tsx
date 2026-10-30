@@ -243,7 +243,7 @@ export function GuidedSessionPage() {
         (choices.length === 0 ? (
           <p className="t-subhead rounded-xl bg-inset px-4 py-3 text-muted">
             Aucun morceau à jouer pour l’instant.{' '}
-            <Link to="/bibliotheque?vue=morceaux" className="font-semibold text-guitar">
+            <Link to="/moi/morceaux" className="font-semibold text-guitar">
               Ajoute-en un dans la bibliothèque.
             </Link>
           </p>

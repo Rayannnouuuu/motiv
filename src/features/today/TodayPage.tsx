@@ -243,7 +243,7 @@ export function TodayPage() {
               {planWeek ? (
                 planWeekProgress(planWeek, v1.sessions).text
               ) : data.programs.length === 0 ? (
-                <Link to="/bibliotheque?vue=modeles" className="hit tap font-semibold text-sport">
+                <Link to="/moi/modeles" className="hit tap font-semibold text-sport">
                   Choisir ton programme
                 </Link>
               ) : remaining === 0 ? (

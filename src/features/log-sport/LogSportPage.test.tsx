@@ -452,6 +452,6 @@ describe('LogSportPage', () => {
 
   test('sans programme : lien vers les modèles de la bibliothèque', () => {
     renderSport()
-    expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/bibliotheque?vue=modeles')
+    expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/moi/modeles')
   })
 })

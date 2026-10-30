@@ -432,7 +432,7 @@ function ChooseProgram({ onStart, preferred }: { onStart: (s: LiveState) => void
       <div className="flex flex-1 flex-col justify-center gap-4 text-center">
         <Icon name="sport" size="3em" className="self-center text-sport" />
         <p className="t-title3">Pas encore de programme.</p>
-        <Link to="/bibliotheque?vue=modeles" className={`tap-scale t-headline rounded-lg px-4 py-3.5 ${TONE.solid.sport}`}>
+        <Link to="/moi/modeles" className={`tap-scale t-headline rounded-lg px-4 py-3.5 ${TONE.solid.sport}`}>
           Créer ton programme
         </Link>
       </div>

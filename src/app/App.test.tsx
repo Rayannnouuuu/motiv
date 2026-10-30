@@ -25,13 +25,23 @@ test('la navigation basse : 4 onglets, « Commencer » au centre', () => {
 })
 
 test.each([
-  ['/morceaux', 'Bibliothèque'],
+  ['/morceaux', 'Morceaux'],
+  ['/bibliotheque?vue=modeles', 'Modèles de séance'],
+  ['/bibliotheque', 'Exercices'],
   ['/reglages', 'Réglages'],
   ['/semaine', 'Plan'],
   ['/marathon', 'Marathon'],
 ])('ancienne adresse %s : redirigée vers %s', async (route, title) => {
   renderWithData(<AppRoutes />, { route })
-  expect(await screen.findByRole('heading', { name: title, level: 1 })).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: title })).toBeInTheDocument()
+})
+
+test.each([
+  ['/strava', 'Courses Strava'],
+  ['/marathon/profil', 'Mon marathon'],
+])('ancienne adresse %s : redirigée vers « %s »', async (route, title) => {
+  renderWithData(<AppRoutes />, { route })
+  expect(await screen.findByText(title)).toBeInTheDocument()
 })
 
 test('« Commencer » au centre : lance la prochaine séance prévue, depuis n’importe quel onglet', async () => {
