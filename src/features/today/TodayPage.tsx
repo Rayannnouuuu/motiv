@@ -28,7 +28,22 @@ const UNIVERSE = { guitar: 'Guitare', sport: 'Sport' } as const
 const STATE = { todo: 'À faire', live: 'En cours', done: 'Faite', rest: 'Repos' } as const
 
 /** Carte d'une discipline, de même taille pour la guitare et le sport ; un toucher sur l'en-tête la déplie. */
-function DayCardView({ card, next, open, onToggle, extra }: { card: DayCard; next: boolean; open: boolean; onToggle: () => void; extra?: ReactNode }) {
+function DayCardView({
+  card,
+  next,
+  open,
+  onToggle,
+  extra,
+  always,
+}: {
+  card: DayCard
+  next: boolean
+  open: boolean
+  onToggle: () => void
+  extra?: ReactNode
+  /** Toujours visible, carte repliée ou non (ex. les parcours de la guitare). */
+  always?: ReactNode
+}) {
   const navigate = useNavigate()
   const id = useId()
   const label = card.state === 'todo' && next ? 'Prochaine séance' : card.state === 'done' && card.tone === 'sport' ? 'Fait' : STATE[card.state]
@@ -76,6 +91,7 @@ function DayCardView({ card, next, open, onToggle, extra }: { card: DayCard; nex
           )}
         </div>
       )}
+      {always && <div className="flex flex-col gap-2 px-5 pb-4">{always}</div>}
     </section>
   )
 }
@@ -127,7 +143,8 @@ function SportChooser({
  */
 export function TodayPage() {
   const { data, v1, today } = useAppData()
-  const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS)
+  const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'chords')
+  const nextScale = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'scales')
   const navigate = useNavigate()
   const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
   const rhythm = useRhythm()
@@ -180,6 +197,30 @@ export function TodayPage() {
               next={c.tone === first}
               open={isOpen(c)}
               onToggle={() => toggle(c)}
+              always={
+                c.tone === 'guitar' ? (
+                  <>
+                    {(
+                      [
+                        ['accords', 'Parcours accords', nextChord],
+                        ['gammes', 'Parcours gammes', nextScale],
+                      ] as const
+                    ).map(([to, label, step]) => (
+                      <Link
+                        key={to}
+                        to={`/parcours/${to}`}
+                        className="tap t-subhead flex min-h-11 items-center justify-between gap-2 rounded-lg bg-guitar/12 px-4 py-2 text-guitar"
+                      >
+                        <span className="flex min-w-0 items-center gap-1.5">
+                          <Icon name="guitar" />
+                          <span className="truncate font-semibold">{label}</span>
+                        </span>
+                        <span className="t-footnote shrink-0 truncate text-muted">{step ? step.name : 'Terminé'}</span>
+                      </Link>
+                    ))}
+                  </>
+                ) : undefined
+              }
               extra={
                 c.tone === 'sport' && c.state !== 'live' && choices.length > 0 ? (
                   <SportChooser
@@ -196,16 +237,6 @@ export function TodayPage() {
                     >
                       <Icon name="target" />
                       Séance guidée
-                    </Link>
-                    <Link
-                      to="/parcours/accords"
-                      className="tap t-subhead flex min-h-11 items-center justify-between gap-2 rounded-lg bg-guitar/12 px-4 py-2 text-guitar"
-                    >
-                      <span className="flex min-w-0 items-center gap-1.5">
-                        <Icon name="guitar" />
-                        <span className="truncate font-semibold">Parcours accords</span>
-                      </span>
-                      <span className="t-footnote shrink-0 truncate text-muted">{nextChord ? nextChord.name : 'Terminé'}</span>
                     </Link>
                   </div>
                 ) : undefined

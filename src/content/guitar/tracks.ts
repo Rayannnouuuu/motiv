@@ -1,14 +1,17 @@
 /**
- * Parcours des accords (lot 18) : les 46 accords du module, un par un, dans l'ordre où on les apprend.
+ * Parcours des accords (lot 18) et des gammes (lot 19) : les 46 accords du module, un par un, dans l'ordre où on les apprend.
  * Pour chaque accord : sa forme, puis la transition depuis un accord déjà su ; en fin de bloc, une boucle qui les enchaîne.
  * Chaque étape est une compétence ordinaire du moteur (prérequis = l'étape d'avant), mais hors des 3 en cours et hors niveaux.
  * Textes de ma plume ; les formes viennent de chords.json.
  */
 import chordsJson from './chords.json'
-import type { Chord, Skill } from './index'
+import scalesJson from './scales.json'
+import type { Chord, ScaleShape, Skill } from './index'
 
 const CHORDS = chordsJson as Chord[]
+const SCALES = scalesJson as ScaleShape[]
 const chordName = (id: string) => CHORDS.find((c) => c.id === id)?.name ?? id
+const scaleName = (id: string) => SCALES.find((c) => c.id === id)?.name ?? id
 
 interface Block {
   id: string
@@ -217,6 +220,122 @@ export const CHORD_TRACK: Skill[] = (() => {
   return out
 })()
 
+interface ScaleBlock {
+  id: string
+  name: string
+  why: string
+  kind: 'penta' | 'blues' | 'seven'
+  scales: string[]
+  /** Les positions voisines se relient, puis une boucle les enchaîne toutes. */
+  linked?: boolean
+}
+
+export const SCALE_BLOCKS: ScaleBlock[] = [
+  {
+    id: 'penta-am',
+    name: 'Pentatonique mineure de La',
+    why: 'La gamme des solos rock et blues : cinq notes par octave, cinq positions qui couvrent tout le manche.',
+    kind: 'penta',
+    scales: ['penta-am-1', 'penta-am-2', 'penta-am-3', 'penta-am-4', 'penta-am-5'],
+    linked: true,
+  },
+  {
+    id: 'penta-more',
+    name: 'Autres pentatoniques et blues',
+    why: 'Même forme de pensée dans une autre tonalité, plus la note bleue du blues qui ajoute de la tension.',
+    kind: 'blues',
+    scales: ['penta-em-open', 'penta-major-g-1', 'blues-a-1', 'blues-e-open'],
+  },
+  {
+    id: 'seven',
+    name: 'Gammes majeure et mineure',
+    why: 'Sept notes au lieu de cinq : la base pour comprendre une mélodie, un accord ou un solo plus riche.',
+    kind: 'seven',
+    scales: ['major-g-2', 'major-c-7', 'minor-a-5', 'major-g-3nps', 'minor-e-3nps'],
+  },
+]
+
+const SCALE_HOWTO: Record<ScaleBlock['kind'], string> = {
+  penta:
+    'Apprends la forme à l’arrêt en la regardant, puis sans regarder. Joue chaque note lentement, montée puis descente, en alternant les coups de médiator. Repère les points entourés : ce sont les notes de repos (la fondamentale).',
+  blues:
+    'Même méthode : forme à l’arrêt, puis lente, montée et descente. Repère la note supplémentaire du blues (la « note bleue ») : elle crée la tension, ne t’y arrête pas trop longtemps.',
+  seven:
+    'Cette forme a plus de notes : travaille-la corde par corde, puis en entier. Garde les doigts près des frettes et un doigt par case pour que le déplacement reste régulier.',
+}
+
+const SCALE_ITEMS = [
+  'Toutes les notes dans l’ordre du diagramme, montée puis descente, sans faute',
+  'Doigtés respectés : un doigt par case, comme sur le diagramme',
+  'À 60 BPM au métronome, trois fois de suite',
+  'Notes régulières, sans bruit parasite entre elles',
+]
+
+const positionOf = (id: string) => SCALES.find((c) => c.id === id)?.position ?? 0
+
+/** Les étapes du parcours des gammes : chaque forme, la liaison avec la suivante, puis une boucle des positions reliées. */
+export const SCALE_TRACK: Skill[] = (() => {
+  const out: Skill[] = []
+  const push = (s: Omit<Skill, 'prerequisites' | 'exerciseIds' | 'tips' | 'pillar' | 'track'> & { tips?: string[] }) =>
+    out.push({ pillar: 'technique', exerciseIds: [], tips: [], ...s, prerequisites: out.length ? [out[out.length - 1].id] : [], track: 'scales' })
+  for (const b of SCALE_BLOCKS) {
+    b.scales.forEach((id, i) => {
+      push({
+        id: `scale-${id}`,
+        level: b.kind === 'seven' ? 4 : 3,
+        name: `Forme · ${scaleName(id)}`,
+        block: b.name,
+        scaleIds: [id],
+        why: b.why,
+        howTo: SCALE_HOWTO[b.kind],
+        validation: { kind: 'checklist', items: SCALE_ITEMS, sessions: 2 },
+        tips: ['Un doigt qui traîne ? Ralentis jusqu’à ce que chaque note sorte nette.', 'Joue avec le métronome dès que la forme est connue, même très lent.'],
+      })
+      const next = b.scales[i + 1]
+      if (b.linked && next)
+        push({
+          id: `link-${id}-${positionOf(next)}`,
+          level: 3,
+          name: `Liaison · position ${positionOf(id)} → ${positionOf(next)}`,
+          block: b.name,
+          scaleIds: [id, next],
+          why: 'Une position seule te garde au même endroit du manche : c’est la liaison qui te fait monter et descendre le long du manche.',
+          howTo:
+            'Deux positions voisines partagent des notes sur les mêmes cordes. Joue la première, glisse un doigt sur la case commune en changeant de position, continue dans la seconde, puis refais le chemin dans l’autre sens.',
+          validation: {
+            kind: 'checklist',
+            items: [
+              'Aller : de la première à la seconde position, sans pause audible',
+              'Retour : de la seconde à la première, sans pause audible',
+              'La glissade est nette, sans bruit parasite',
+              'Trois fois de suite, à 60 BPM',
+            ],
+            sessions: 1,
+          },
+          tips: ['Regarde la case d’arrivée avant de glisser, pas ta main.'],
+        })
+    })
+    if (b.linked)
+      push({
+        id: `loop-${b.id}`,
+        level: 3,
+        name: `Boucle · ${b.name}`,
+        block: b.name,
+        scaleIds: b.scales,
+        why: 'Enchaîner toutes les positions fait de la gamme un seul chemin sur le manche.',
+        howTo:
+          'Joue la première position, relie-la à la suivante, et ainsi de suite jusqu’à la dernière ; redescends par le même chemin. Garde une pulsation régulière au métronome.',
+        validation: {
+          kind: 'checklist',
+          items: ['Les cinq positions enchaînées, montée puis descente, sans arrêt', 'À 60 BPM, régulier', 'Deux fois de suite sans faute'],
+          sessions: 2,
+        },
+        tips: ['Repère les liaisons qui te ralentissent et retravaille-les à part.'],
+      })
+  }
+  return out
+})()
+
 /**
  * Les grosses étapes du parcours général validées d'office quand toutes les étapes qui les couvrent le sont.
  * Rien de plus : elles gardent leur état si tu les as validées autrement.
@@ -229,4 +348,8 @@ export const PATH_COVERS: Record<string, string[]> = {
   'power-chords': ['chord-E5', 'chord-A5'],
   'barre-f': ['chord-F'],
   barres: ['F', 'Fm', 'Gbar', 'Gmbar', 'Bb', 'Bm'].map((c) => `chord-${c}`),
+  'penta-1': ['scale-penta-am-1'],
+  'penta-1-2': ['scale-penta-am-2', 'link-penta-am-1-2'],
+  'penta-5': ['scale-penta-am-3', 'scale-penta-am-4', 'scale-penta-am-5', 'link-penta-am-2-3', 'link-penta-am-3-4', 'link-penta-am-4-5'],
+  'major-scale': ['scale-major-g-2'],
 }

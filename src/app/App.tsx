@@ -189,7 +189,7 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/parcours/accords"
+          path="/parcours/:track"
           element={
             <Shell>
               <ParcoursPage />
