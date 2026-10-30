@@ -1,0 +1,1716 @@
+[
+ {
+  "route": "/",
+  "total": 22,
+  "small": [
+   {
+    "tag": "a",
+    "name": "Séance guidée",
+    "w": 300,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "a",
+    "name": "Change de variante : Hammer et pull, pen",
+    "w": 295,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "a",
+    "name": "Travaille une autre sous-compétence : ch",
+    "w": 295,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Plus tard",
+    "w": 57,
+    "h": 28,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "a",
+    "name": "Voir la semaine",
+    "w": 86,
+    "h": 16,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Autre séance ou séance déjà faite",
+    "w": 218,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "a",
+    "name": "Corriger le dernier log",
+    "w": 141,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [
+   {
+    "tag": "a",
+    "name": "3Coups vers le bas sur cordes à vide 160",
+    "w": 308,
+    "h": 50,
+    "small": false,
+    "covered": true,
+    "offscreenX": false
+   }
+  ],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Guitare0 /5 séances0 min jouées",
+    "w": 170,
+    "h": 130
+   },
+   {
+    "text": "Sport0 /3 séancesEncore 3 séances",
+    "w": 170,
+    "h": 130
+   }
+  ],
+  "narrow": [
+   {
+    "text": "Ajoute MOTIV à l’écran d’accueil (Partager › Sur l’écran d’a",
+    "w": 350,
+    "h": 164,
+    "share": 8
+   },
+   {
+    "text": "Tu n’as pas encore de sauvegarde au nouveau format. Un tap p",
+    "w": 350,
+    "h": 154,
+    "share": 19
+   },
+   {
+    "text": "On relanceLegato 4 : pas de record depuis 4 séancesNormal su",
+    "w": 350,
+    "h": 338,
+    "share": 10
+   },
+   {
+    "text": "Cette semaineVoir la semaineGuitare0 /5 séances0 min jouéesS",
+    "w": 350,
+    "h": 165,
+    "share": 2
+   }
+  ]
+ },
+ {
+  "route": "semaine",
+  "total": 5,
+  "small": [],
+  "covered": [],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Objectifs de la semaine0 séances sur 8Semaine réussie : les ",
+    "w": 350,
+    "h": 258
+   },
+   {
+    "text": "Jour par jourLun26ReposMar27ReposMer28ReposJeu29ReposVen30Ri",
+    "w": 350,
+    "h": 401
+   },
+   {
+    "text": "Lun26ReposMar27ReposMer28ReposJeu29ReposVen30Rien d'enregist",
+    "w": 350,
+    "h": 367
+   },
+   {
+    "text": "Lun26Repos",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Mar27Repos",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Mer28Repos",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Jeu29Repos",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Ven30Rien d'enregistré",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Sam31—",
+    "w": 348,
+    "h": 52
+   },
+   {
+    "text": "Dim1—",
+    "w": 348,
+    "h": 52
+   }
+  ],
+  "narrow": []
+ },
+ {
+  "route": "progres",
+  "total": 20,
+  "small": [
+   {
+    "tag": "button",
+    "name": "30 j",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "90 j",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "1 an",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Heures guitare",
+    "w": 125,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Tempo",
+    "w": 75,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Morceaux maîtrisés",
+    "w": 159,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Répartition guitare",
+    "w": 155,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Force",
+    "w": 68,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Volume muscu",
+    "w": 126,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Km par semaine",
+    "w": 135,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Allure",
+    "w": 69,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Poids",
+    "w": 67,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Mensurations",
+    "w": 119,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   }
+  ],
+  "covered": [
+   {
+    "tag": "button",
+    "name": "Répartition guitare",
+    "w": 155,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Force",
+    "w": 68,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Volume muscu",
+    "w": 126,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Km par semaine",
+    "w": 135,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Allure",
+    "w": 69,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Poids",
+    "w": 67,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Mensurations",
+    "w": 119,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   }
+  ],
+  "offX": [
+   {
+    "tag": "button",
+    "name": "Morceaux maîtrisés",
+    "w": 159,
+    "h": 36,
+    "small": true,
+    "covered": false,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Répartition guitare",
+    "w": 155,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Force",
+    "w": 68,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Volume muscu",
+    "w": 126,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Km par semaine",
+    "w": 135,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Allure",
+    "w": 69,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Poids",
+    "w": 67,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   },
+   {
+    "tag": "button",
+    "name": "Mensurations",
+    "w": 119,
+    "h": 36,
+    "small": true,
+    "covered": true,
+    "offscreenX": true
+   }
+  ],
+  "dead": [
+   {
+    "text": "Gagné en 90 j+48 bpm · Legato 4+15,2 kg de force · Développé",
+    "w": 350,
+    "h": 122
+   },
+   {
+    "text": "ObservationsTes séances guitare durent 16 min de plus les jo",
+    "w": 350,
+    "h": 207
+   },
+   {
+    "text": "Tes séances guitare durent 16 min de plus les jours où tu fa",
+    "w": 308,
+    "h": 62
+   },
+   {
+    "text": "Ton envie de rejouer est plus haute les jours de sport (3,5 ",
+    "w": 308,
+    "h": 62
+   },
+   {
+    "text": "28,8 h+28,8 h sur 90 j9 août17 oct.",
+    "w": 350,
+    "h": 310
+   },
+   {
+    "text": "Records récentsGamme majeure 1 · 79 bpm13 oct.Gamme majeure ",
+    "w": 350,
+    "h": 476
+   },
+   {
+    "text": "Gamme majeure 1 · 79 bpm13 oct.Gamme majeure 1 · 78 bpm6 oct",
+    "w": 350,
+    "h": 442
+   }
+  ],
+  "narrow": []
+ },
+ {
+  "route": "moi",
+  "total": 15,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Niveau 1, voir la progression",
+    "w": 70,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Garder",
+    "w": 51,
+    "h": 22,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [
+   {
+    "tag": "a",
+    "name": "Mes séancesTout ce que tu as fait, à rev",
+    "w": 348,
+    "h": 82,
+    "small": false,
+    "covered": true,
+    "offscreenX": false
+   }
+  ],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Pentatonique mineure 3 à 78 bpm4 séances de sport dans la mê",
+    "w": 308,
+    "h": 101
+   },
+   {
+    "text": "4 séances de sport dans la même semaine",
+    "w": 308,
+    "h": 60
+   }
+  ],
+  "narrow": [
+   {
+    "text": "Cycle de 6 semainesLance ton prochain cycleUn objectif phare",
+    "w": 350,
+    "h": 337,
+    "share": 13
+   },
+   {
+    "text": "IdéesGarderNote une envie sans la lancer : tu la revois au b",
+    "w": 350,
+    "h": 122,
+    "share": 27
+   }
+  ]
+ },
+ {
+  "route": "bibliotheque?vue=exercices",
+  "total": 279,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Exercices",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Morceaux",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Modèles",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [
+   {
+    "tag": "a",
+    "name": "Araignée (spider), croches 5Niveau 5 · c",
+    "w": 348,
+    "h": 62,
+    "small": false,
+    "covered": true,
+    "offscreenX": false
+   }
+  ],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "bibliotheque?vue=morceaux",
+  "total": 53,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Exercices",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Morceaux",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Modèles",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Ace of Spades",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Aces High",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Back in Black",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Battery",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Breaking the Law",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Bulls on Parade",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Chop Suey!",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Cowboys from Hell",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Crazy Train",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Down With the Sickness",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": true,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Du Hast",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Duality",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Enter Sandman",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Fade to Black",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Highway to Hell",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Holy Wars... The Punishment Due",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Iron Man",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Killing in the Name",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Last Resort",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Master of Puppets",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Nightmare",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · One",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Painkiller",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Paranoid",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Psychosocial",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Pull Harder on the Strings of Y",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Raining Blood",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Run to the Hills",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Sad But True",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Seek and Destroy",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Seven Nation Army",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Smells Like Teen Spirit",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Smoke on the Water",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Still Counting",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Sweet Child O' Mine",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Symphony of Destruction",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Tears Don't Fall",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · The Number of the Beast",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · The Trooper",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Thunderstruck",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Toxicity",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Walk",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · War Pigs",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Wherever I May Roam",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "select",
+    "name": "Statut · Whole Lotta Love",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [
+   {
+    "tag": "select",
+    "name": "Statut · Down With the Sickness",
+    "w": 100,
+    "h": 20,
+    "small": true,
+    "covered": true,
+    "offscreenX": false
+   }
+  ],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "bibliotheque?vue=modeles",
+  "total": 19,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Exercices",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Morceaux",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Modèles",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Monter Push",
+    "w": 24,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Descendre Push",
+    "w": 22,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Monter Pull",
+    "w": 24,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Descendre Pull",
+    "w": 22,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Monter Legs",
+    "w": 24,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Descendre Legs",
+    "w": 22,
+    "h": 26,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "moi/reglages",
+  "total": 13,
+  "small": [
+   {
+    "tag": "a",
+    "name": "Moi",
+    "w": 50,
+    "h": 24,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Clair",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Sombre",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Auto",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Check-in du matin",
+    "w": 51,
+    "h": 31,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Version30 oct. · local",
+    "w": 350,
+    "h": 46
+   }
+  ],
+  "narrow": [
+   {
+    "text": "SauvegardeExporter mes donnéesJamaisImporter une sauvegardeA",
+    "w": 350,
+    "h": 248,
+    "share": 18
+   },
+   {
+    "text": "AffichageClairSombreAutoAuto suit le réglage clair/sombre du",
+    "w": 350,
+    "h": 122,
+    "share": 8
+   },
+   {
+    "text": "ClairSombreAuto",
+    "w": 350,
+    "h": 62,
+    "share": 15
+   },
+   {
+    "text": "RituelsCheck-in du matinSommeil et énergie en 2 taps le mati",
+    "w": 350,
+    "h": 131,
+    "share": 3
+   },
+   {
+    "text": "Check-in du matin",
+    "w": 350,
+    "h": 53,
+    "share": 9
+   }
+  ]
+ },
+ {
+  "route": "seances",
+  "total": 39,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Tout",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Guitare",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Sport",
+    "w": 115,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [
+   {
+    "tag": "a",
+    "name": "Guitare · 15 minmardi 13 octobre · Riff ",
+    "w": 348,
+    "h": 62,
+    "small": false,
+    "covered": true,
+    "offscreenX": false
+   }
+  ],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "seance",
+  "total": 6,
+  "small": [],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "jouer",
+  "total": 2,
+  "small": [],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "exo/legato-4",
+  "total": 22,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Retour",
+    "w": 75,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Tempo −5",
+    "w": 37,
+    "h": 30,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Record 110",
+    "w": 88,
+    "h": 30,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Cible 84",
+    "w": 69,
+    "h": 30,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Tempo +5",
+    "w": 37,
+    "h": 30,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [
+   {
+    "text": "TablatureeBGDAE3h55h77h8Joue la boucle en continu · h = hamm",
+    "w": 350,
+    "h": 261
+   },
+   {
+    "text": "eBGDAE3h55h77h8",
+    "w": 350,
+    "h": 191
+   },
+   {
+    "text": "Conseils•Enchaîne hammer-on et pull-off sur la même paire de",
+    "w": 350,
+    "h": 297
+   },
+   {
+    "text": "•Enchaîne hammer-on et pull-off sur la même paire de notes e",
+    "w": 350,
+    "h": 271
+   },
+   {
+    "text": "•Garde les doigts qui n'articulent pas la note proches du ma",
+    "w": 350,
+    "h": 90
+   },
+   {
+    "text": "•Travaille le legato sur une seule corde avant de l'étendre ",
+    "w": 350,
+    "h": 90
+   }
+  ],
+  "narrow": []
+ },
+ {
+  "route": "log/guitare",
+  "total": 9,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Fermer",
+    "w": 57,
+    "h": 38,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Aujourd'hui",
+    "w": 173,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Hier",
+    "w": 173,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "log/sport",
+  "total": 5,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Fermer",
+    "w": 57,
+    "h": 38,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "marathon",
+  "total": 7,
+  "small": [
+   {
+    "tag": "a",
+    "name": "Moi",
+    "w": 50,
+    "h": 24,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": [
+   {
+    "text": "Un plan de préparation construit à rebours depuis ta date de",
+    "w": 350,
+    "h": 184,
+    "share": 24
+   }
+  ]
+ },
+ {
+  "route": "marathon/profil",
+  "total": 40,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Annuler",
+    "w": 57,
+    "h": 38,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Marathon",
+    "w": 156,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Semi",
+    "w": 156,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Finir",
+    "w": 156,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Un temps visé",
+    "w": 156,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Femme",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Homme",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Non précisé",
+    "w": 104,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Aucun",
+    "w": 78,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "5 km",
+    "w": 78,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "10 km",
+    "w": 78,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Semi",
+    "w": 78,
+    "h": 32,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Lundi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Mardi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Mercredi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Jeudi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Vendredi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Samedi",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   },
+   {
+    "tag": "button",
+    "name": "Dimanche",
+    "w": 40,
+    "h": 40,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": []
+ },
+ {
+  "route": "preuves",
+  "total": 8,
+  "small": [],
+  "covered": [],
+  "offX": [],
+  "dead": [],
+  "narrow": [
+   {
+    "text": "À écouterMorceau ou exoLegato 4Gamme majeure 1Riff rythmique",
+    "w": 350,
+    "h": 230,
+    "share": 19
+   },
+   {
+    "text": "À voirUne photo aujourd'hui, même cadre et même lumière dans",
+    "w": 350,
+    "h": 204,
+    "share": 22
+   }
+  ]
+ },
+ {
+  "route": "strava",
+  "total": 2,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Fermer",
+    "w": 53,
+    "h": 38,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Toutes tes sorties : sur strava.com, Paramètres › Mon compte",
+    "w": 350,
+    "h": 182
+   },
+   {
+    "text": "Toutes tes sorties : sur strava.com, Paramètres › Mon compte",
+    "w": 316,
+    "h": 100
+   }
+  ],
+  "narrow": []
+ },
+ {
+  "route": "bilan",
+  "total": 5,
+  "small": [
+   {
+    "tag": "button",
+    "name": "Annuler",
+    "w": 57,
+    "h": 38,
+    "small": true,
+    "covered": false,
+    "offscreenX": false
+   }
+  ],
+  "covered": [],
+  "offX": [],
+  "dead": [
+   {
+    "text": "Guitare 0/5 · Sport 0/3",
+    "w": 350,
+    "h": 46
+   }
+  ],
+  "narrow": []
+ }
+]

@@ -360,3 +360,97 @@ html {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+/* ——— Essai : style « pixel » (néo-brutaliste) — data-style="pixel" sur <html>. Rien ne change sans cet attribut. ——— */
+html:root[data-style='pixel'] {
+  --bg: #f1ecdf;
+  --surface: #ffffff;
+  --surface-2: #faf6ea;
+  --inset: #fbf3d6;
+  --elevated-bg: #f1ecdf;
+  --elevated-surface: #ffffff;
+  --elevated-surface-2: #faf6ea;
+  --fill: rgb(17 17 17 / 0.08);
+  --fill-strong: rgb(17 17 17 / 0.18);
+  --line: #111111;
+  --ink: #111111;
+  --muted: #4a4a4a;
+  --faint: rgb(17 17 17 / 0.35);
+  --thumb: #ffffff;
+  --material: rgb(241 236 223 / 0.96);
+  --card-shadow: 4px 4px 0 #111111;
+  --accent: #111111;
+  --on-accent: #ffffff;
+  --guitar: #ffc83d;
+  --on-guitar: #111111;
+  --sport: #5ab0ff;
+  --on-sport: #111111;
+  --danger: #ef4f6b;
+  --on-danger: #111111;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 10px;
+  --shadow-glow: 4px 4px 0 #111111;
+  --shadow-raised: 6px 6px 0 #111111;
+  --shadow-thumb: 2px 2px 0 #111111;
+  color-scheme: light;
+}
+html:root[data-style='pixel'] body {
+  background: conic-gradient(#e9e3d3 25%, #f1ecdf 0 50%, #e9e3d3 0 75%, #f1ecdf 0) 0 0 / 24px 24px;
+}
+/* Traits épais : toutes les bordures de l'appli passent à 3 px, les cartes ont leur ombre dure. */
+html[data-style='pixel'] .border,
+html[data-style='pixel'] .border-t,
+html[data-style='pixel'] .border-b {
+  border-color: #111111;
+}
+html[data-style='pixel'] .border {
+  border-width: 3px;
+}
+html[data-style='pixel'] .shadow-card {
+  box-shadow: 4px 4px 0 #111111;
+}
+/* Boutons : bordure, ombre dure, et ils s'enfoncent à l'appui. */
+html[data-style='pixel'] button.t-headline,
+html[data-style='pixel'] a.t-headline.flex {
+  border: 3px solid #111111;
+  box-shadow: 3px 3px 0 #111111;
+  transition:
+    transform 80ms,
+    box-shadow 80ms;
+}
+html[data-style='pixel'] button.t-headline:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #111111;
+}
+/* Seuls les grands titres de page passent en pixel : à petite taille, 5 ressemble à S et C à O (lisibilité). */
+html[data-style='pixel'] .t-title1 {
+  font-family: 'Pixelify Sans', var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+/* Barre d'onglets : bordée, l'onglet actif est plein. */
+html[data-style='pixel'] nav[aria-label='Navigation principale'] {
+  border-top: 3px solid #111111;
+  background: #ffffff;
+}
+
+/* Texte coloré : jamais le jaune ou le bleu vif sur blanc (contraste) ; les aplats gardent les couleurs vives. */
+html[data-style='pixel'] .text-guitar {
+  color: #7a4f00;
+}
+html[data-style='pixel'] .text-sport {
+  color: #1456a8;
+}
+html[data-style='pixel'] .text-muted {
+  color: #3f3f3f;
+}
+/* Onglet actif : étiquette pleine. */
+html[data-style='pixel'] nav[aria-label='Navigation principale'] a[aria-current='page'] {
+  background: #111111;
+  color: #ffffff;
+  border-radius: 6px;
+}

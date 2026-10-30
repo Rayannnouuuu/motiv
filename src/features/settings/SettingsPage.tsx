@@ -4,7 +4,7 @@ import { Icon } from '../../design/icons'
 import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
 import { Segmented } from '../../ui/Segmented'
-import { getTheme, setTheme, type Theme } from '../../design/theme'
+import { getStyle, getTheme, setStyle, setTheme, type Style, type Theme } from '../../design/theme'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Switch } from '../../ui/Switch'
 import { BackupSection } from './BackupSection'
@@ -19,10 +19,16 @@ const THEMES: { value: Theme; label: string }[] = [
   { value: 'auto', label: 'Auto' },
 ]
 
+const STYLES: { value: Style; label: string }[] = [
+  { value: 'classic', label: 'Classique' },
+  { value: 'pixel', label: 'Pixel (essai)' },
+]
+
 function ThemePicker() {
   const [theme, set] = useState(getTheme)
+  const [style, setStyleState] = useState(getStyle)
   return (
-    <Group header="Affichage" footer="Auto suit le réglage clair/sombre du téléphone.">
+    <Group header="Affichage" footer="Auto suit le réglage clair/sombre du téléphone. Le style Pixel est un essai : il se défait ici.">
       <div className="px-4 py-3">
         <Segmented
           label="Thème"
@@ -31,6 +37,17 @@ function ThemePicker() {
           onChange={(t) => {
             setTheme(t)
             set(t)
+          }}
+        />
+      </div>
+      <div className="px-4 pb-3">
+        <Segmented
+          label="Style"
+          options={STYLES}
+          value={style}
+          onChange={(v) => {
+            setStyle(v)
+            setStyleState(v)
           }}
         />
       </div>

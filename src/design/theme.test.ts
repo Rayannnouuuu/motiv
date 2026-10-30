@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { getTheme, setTheme, themeColor } from './theme'
+import { getStyle, getTheme, setStyle, setTheme, themeColor } from './theme'
 
 const meta = () => document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
 
@@ -70,5 +70,19 @@ describe('setTheme', () => {
     setTheme('auto')
     expect(document.documentElement.dataset.theme).toBe('auto')
     expect(getTheme()).toBe('auto')
+  })
+})
+
+describe('style graphique (essai pixel)', () => {
+  test('classique par défaut ; pixel pose data-style et se défait', () => {
+    delete document.documentElement.dataset.style
+    localStorage.removeItem('motiv.style.v1')
+    expect(getStyle()).toBe('classic')
+    setStyle('pixel')
+    expect(document.documentElement.dataset.style).toBe('pixel')
+    expect(getStyle()).toBe('pixel')
+    setStyle('classic')
+    expect(document.documentElement.dataset.style).toBeUndefined()
+    expect(getStyle()).toBe('classic')
   })
 })
