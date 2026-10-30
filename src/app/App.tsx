@@ -128,7 +128,7 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/marathon"
+          path="/plan/course"
           element={
             <Shell>
               <MarathonPage />
@@ -185,7 +185,7 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/semaine"
+          path="/plan"
           element={
             <Shell>
               <WeekPage />
@@ -241,6 +241,8 @@ export function AppRoutes() {
           }
         />
         {/* Anciennes adresses (favoris, anciens rappels). */}
+        <Route path="/semaine" element={<Navigate to="/plan" replace />} />
+        <Route path="/marathon" element={<Navigate to="/plan/course" replace />} />
         <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
         <Route path="/reglages" element={<Navigate to="/moi/reglages" replace />} />
         <Route

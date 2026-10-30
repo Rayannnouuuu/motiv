@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
+import { lastLog } from '../../domain/lastLog'
 import { nextProgram } from '../../domain/progression'
 import { Group, Row } from '../../ui/List'
 import { Sheet } from '../../ui/Sheet'
 
 /**
- * Toutes les façons de commencer : guitare ou sport, en direct ou une séance déjà faite à noter. S'ouvre depuis
+ * Toutes les façons de commencer : guitare ou sport, en direct ou une séance déjà faite à noter, et corriger le dernier log. S'ouvre depuis
  * « Commencer » au centre de la barre quand rien n'est prévu, et depuis Aujourd'hui (« Autre séance »).
  */
 export function StartSheet({ onClose }: { onClose: () => void }) {
@@ -52,6 +53,16 @@ export function StartSheet({ onClose }: { onClose: () => void }) {
               onClick={() => go(close, '/log', { discipline: 'sport' })}
             />
           </Group>
+          {lastLog(data) && (
+            <Group>
+              <Row
+                icon={<Icon name="check" className="text-muted" />}
+                title="Corriger le dernier log"
+                subtitle="Durée, notes, séries"
+                onClick={() => go(close, '/log/corriger')}
+              />
+            </Group>
+          )}
         </div>
       )}
     </Sheet>

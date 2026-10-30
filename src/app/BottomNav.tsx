@@ -7,7 +7,7 @@ import { useToday } from '../features/today/useToday'
 /** Un onglet = un horizon de temps (REFONTE §7) : le jour, le plan, le passé, le long terme. */
 const TABS: { to: string; label: string; icon: IconName }[] = [
   { to: '/', label: "Aujourd'hui", icon: 'today' },
-  { to: '/semaine', label: 'Semaine', icon: 'week' },
+  { to: '/plan', label: 'Plan', icon: 'week' },
   { to: '/progres', label: 'Progrès', icon: 'progress' },
   { to: '/moi', label: 'Moi', icon: 'me' },
 ]
