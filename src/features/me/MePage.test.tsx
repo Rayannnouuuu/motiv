@@ -57,7 +57,10 @@ describe('MePage', () => {
 
   test('outils', () => {
     renderMe({})
-    expect(screen.getByRole('link', { name: /Bibliothèque/ })).toHaveAttribute('href', '/bibliotheque')
+    expect(screen.getByRole('link', { name: /^Exercices/ })).toHaveAttribute('href', '/moi/exercices')
+    expect(screen.getByRole('link', { name: /^Morceaux/ })).toHaveAttribute('href', '/moi/morceaux')
+    expect(screen.getByRole('link', { name: /^Modèles de séance/ })).toHaveAttribute('href', '/moi/modeles')
+    expect(screen.getAllByRole('link').length).toBeLessThanOrEqual(7)
     expect(screen.getByRole('link', { name: /Sauvegarde et réglages/ })).toHaveAttribute('href', '/moi/reglages')
     expect(screen.queryByRole('button', { name: /Préparer une course/ })).not.toBeInTheDocument()
   })

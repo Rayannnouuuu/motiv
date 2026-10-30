@@ -119,7 +119,9 @@ export function QuickLogPage() {
           </label>
         )}
       </div>
-      {discipline === 'sport' && programs.length === 0 && <p className="t-subhead text-muted">Crée d'abord une séance dans Bibliothèque › Modèles.</p>}
+      {discipline === 'sport' && programs.length === 0 && (
+        <p className="t-subhead text-muted">Crée d'abord une séance dans Moi › Modèles de séance › Modèles.</p>
+      )}
       <SessionFeedback tone={discipline} flow={flow} desire={desire} note={note} onFlow={setFlow} onDesire={setDesire} onNote={setNote} />
       {error && (
         <p role="alert" className="t-subhead text-danger">

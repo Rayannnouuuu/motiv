@@ -231,7 +231,7 @@ export function WeekPage() {
             tone="sport"
             title="Préparer une course"
             subtitle="Marathon ou semi : un plan à rebours depuis la date"
-            onClick={() => navigate('/marathon/profil')}
+            onClick={() => navigate('/moi/profil')}
           />
         )}
 

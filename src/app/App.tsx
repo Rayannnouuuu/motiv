@@ -13,7 +13,10 @@ const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'Se
 const MePage = page(() => import('../features/me/MePage'), 'MePage')
 const HistoryPage = page(() => import('../features/history/HistoryPage'), 'HistoryPage')
 const ProofsPage = page(() => import('../features/proofs/ProofsPage'), 'ProofsPage')
-const LibraryPage = page(() => import('../features/library/LibraryPage'), 'LibraryPage')
+const ExercisesPage = page(() => import('../features/library/LibraryPage'), 'ExercisesPage')
+const SongsPage = page(() => import('../features/library/LibraryPage'), 'SongsPage')
+const ModelsPage = page(() => import('../features/library/LibraryPage'), 'ModelsPage')
+const LibraryRedirect = page(() => import('../features/library/LibraryPage'), 'LibraryRedirect')
 const EditLogPage = page(() => import('../features/edit-log/EditLogPage'), 'EditLogPage')
 const ExercisePage = page(() => import('../features/exercise/ExercisePage'), 'ExercisePage')
 const PracticePage = page(() => import('../features/practice/PracticePage'), 'PracticePage')
@@ -136,7 +139,7 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/marathon/profil"
+          path="/moi/profil"
           element={
             <Focus>
               <MarathonForm />
@@ -169,7 +172,7 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/strava"
+          path="/moi/strava"
           element={
             <Focus>
               <StravaPage />
@@ -201,10 +204,26 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/bibliotheque"
+          path="/moi/exercices"
           element={
             <Shell>
-              <LibraryPage />
+              <ExercisesPage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/moi/morceaux"
+          element={
+            <Shell>
+              <SongsPage />
+            </Shell>
+          }
+        />
+        <Route
+          path="/moi/modeles"
+          element={
+            <Shell>
+              <ModelsPage />
             </Shell>
           }
         />
@@ -243,7 +262,10 @@ export function AppRoutes() {
         {/* Anciennes adresses (favoris, anciens rappels). */}
         <Route path="/semaine" element={<Navigate to="/plan" replace />} />
         <Route path="/marathon" element={<Navigate to="/plan/course" replace />} />
-        <Route path="/morceaux" element={<Navigate to="/bibliotheque?vue=morceaux" replace />} />
+        <Route path="/bibliotheque" element={<LibraryRedirect />} />
+        <Route path="/morceaux" element={<Navigate to="/moi/morceaux" replace />} />
+        <Route path="/marathon/profil" element={<Navigate to="/moi/profil" replace />} />
+        <Route path="/strava" element={<Navigate to="/moi/strava" replace />} />
         <Route path="/reglages" element={<Navigate to="/moi/reglages" replace />} />
         <Route
           path="*"

@@ -64,7 +64,7 @@ describe('questionnaire', () => {
   })
 
   test('remplir et voir le plan : profil enregistré, poids tapé → pesée du jour', async () => {
-    const { actions } = render(<MarathonForm />, '/marathon/profil', '/marathon/profil', undefined)
+    const { actions } = render(<MarathonForm />, '/moi/profil', '/moi/profil', undefined)
     await userEvent.type(screen.getByLabelText('Nom de la course'), 'Marathon de Paris')
     await userEvent.type(screen.getByLabelText('Poids'), '78')
     await userEvent.type(screen.getByLabelText('Km par semaine'), '35')
@@ -84,7 +84,7 @@ describe('questionnaire', () => {
   })
 
   test('erreurs : affichées en haut, rien d’enregistré', async () => {
-    const { actions } = render(<MarathonForm />, '/marathon/profil', '/marathon/profil', undefined)
+    const { actions } = render(<MarathonForm />, '/moi/profil', '/moi/profil', undefined)
     await userEvent.click(screen.getByRole('button', { name: 'Mardi' }))
     await userEvent.click(screen.getByRole('button', { name: 'Jeudi' }))
     await userEvent.click(screen.getByRole('button', { name: 'Voir mon plan' }))
@@ -97,7 +97,7 @@ describe('plan', () => {
   test('sans profil : le questionnaire est proposé', async () => {
     render(<MarathonPage />, '/plan/course', '/plan/course', undefined)
     await userEvent.click(screen.getByRole('button', { name: 'Remplir le questionnaire' }))
-    expect(screen.getByText(/^at \/marathon\/profil/)).toBeInTheDocument()
+    expect(screen.getByText(/^at \/moi\/profil/)).toBeInTheDocument()
   })
 
   test('faisable : compte à rebours, semaine en cours, séance du jour, allures, renfo', () => {
@@ -155,7 +155,7 @@ describe('plan', () => {
   test('Plan sans course : « Préparer une course » ouvre le questionnaire', async () => {
     render(<WeekPage />, '/plan', '/plan', undefined)
     await userEvent.click(screen.getByRole('button', { name: /Préparer une course/ }))
-    expect(screen.getByText(/^at \/marathon\/profil/)).toBeInTheDocument()
+    expect(screen.getByText(/^at \/moi\/profil/)).toBeInTheDocument()
   })
 
   test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {

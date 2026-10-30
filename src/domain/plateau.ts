@@ -95,12 +95,12 @@ export function suggestions(p: Plateau, data: AppData, today: Day): Suggestion[]
       ? [
           { label: 'Commence par un morceau que tu aimes, la technique après.' },
           { label: 'Cette semaine, 15 minutes suffisent : une séance courte compte.' },
-          { label: `Change de terrain : ${CATEGORY_LABELS[quietCategory(data, today)].toLowerCase()}.`, to: '/bibliotheque' },
+          { label: `Change de terrain : ${CATEGORY_LABELS[quietCategory(data, today)].toLowerCase()}.`, to: '/moi/exercices' },
         ]
       : [
           { label: 'Allège une semaine : une série de moins par exo.' },
           { label: 'Remplace une séance par une sortie facile ou du vélo.' },
-          { label: 'Change les exos de ta séance pour une semaine.', to: '/bibliotheque?vue=modeles' },
+          { label: 'Change les exos de ta séance pour une semaine.', to: '/moi/modeles' },
         ]
   if (p.domain === 'guitar') {
     const ex = getExercise(p.id)
@@ -115,11 +115,11 @@ export function suggestions(p: Plateau, data: AppData, today: Day): Suggestion[]
         ? { label: `Change de variante : ${variant.title}.`, to: `/exo/${variant.id}` }
         : { label: 'Change de variante : un autre exo de la même famille.' },
       { label: `Allège une semaine : joue-le propre à ${Math.round(p.best * 0.9)} bpm, puis remonte.` },
-      { label: `Travaille une autre sous-compétence : ${CATEGORY_LABELS[other].toLowerCase()}.`, to: '/bibliotheque' },
+      { label: `Travaille une autre sous-compétence : ${CATEGORY_LABELS[other].toLowerCase()}.`, to: '/moi/exercices' },
     ]
   }
   return [
-    { label: 'Change de variante : prise, angle ou version à un bras.', to: '/bibliotheque?vue=modeles' },
+    { label: 'Change de variante : prise, angle ou version à un bras.', to: '/moi/modeles' },
     p.unit === 'kg'
       ? { label: `Allège une semaine : environ ${kg(p.best * 0.75)} pour tes séries, puis remonte.` }
       : { label: 'Allège une semaine : 2 reps de moins par série, puis remonte.' },

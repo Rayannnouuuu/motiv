@@ -55,7 +55,7 @@ describe('TodayPage', () => {
   test('compte neuf : sans programme, la carte sport propose d’en choisir un', async () => {
     renderToday({})
     await userEvent.click(within(await unfold('Pas encore de programme')).getByRole('button', { name: 'Choisir ton programme' }))
-    expect(screen.getByText(/at \/bibliotheque/)).toBeInTheDocument()
+    expect(screen.getByText(/at \/moi\/modeles/)).toBeInTheDocument()
   })
 
   test('une carte se replie et se déplie', async () => {

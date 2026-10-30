@@ -198,7 +198,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const before = v1.profile.marathon
         const existing = v1.templates.find((t) => t.id === RUNNER_TEMPLATE_ID)
         // Le modèle renfo est créé une fois, puis refait seulement si on passe de la salle à la maison (ou
-        // l'inverse) : tes changements dans Bibliothèque › Modèles restent.
+        // l'inverse) : tes changements dans Moi › Modèles de séance restent.
         const remake = !existing || before?.constraints.gym !== m.constraints.gym
         const moves = runnerMoves(m.constraints.gym)
         const known = new Set(v1.exercises.map((x) => x.id))

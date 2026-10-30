@@ -1,36 +1,56 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { CATEGORY_LABELS, EXERCISES, type ExerciseCategory } from '../../content/exercises'
 import { MUSCLE_GROUP_LABELS } from '../../content/sportLibrary'
 import { useAppData } from '../../data/AppDataContext'
+import { Icon } from '../../design/icons'
 import type { Movement } from '../../domain/model'
 import { bestBpm } from '../../domain/records'
 import { Group, Row } from '../../ui/List'
 import { Screen } from '../../ui/Screen'
-import { Segmented } from '../../ui/Segmented'
 import { ProgramEditor } from '../settings/ProgramEditor'
 import { SongsList } from '../songs/SongsList'
 import { MovementSheet } from './MovementSheet'
 
-type View = 'exercices' | 'morceaux' | 'modeles'
-const VIEWS: { value: View; label: string }[] = [
-  { value: 'exercices', label: 'Exercices' },
-  { value: 'morceaux', label: 'Morceaux' },
-  { value: 'modeles', label: 'Modèles' },
-]
+const back = (
+  <Link to="/moi" className="hit tap t-body flex items-center text-accent">
+    <Icon name="chevron" size="1.4em" className="rotate-180" />
+    Moi
+  </Link>
+)
 
-/** Bibliothèque : exercices (guitare et sport), morceaux, modèles de séance. La vue est dans l'adresse (?vue=). */
-export function LibraryPage() {
-  const [params, setParams] = useSearchParams()
-  const view = VIEWS.find((v) => v.value === params.get('vue'))?.value ?? 'exercices'
+/** Moi › Exercices : guitare et sport. */
+export function ExercisesPage() {
   return (
-    <Screen title="Bibliothèque">
-      <div className="flex flex-col gap-6">
-        <Segmented label="Vue" options={VIEWS} value={view} onChange={(v) => setParams({ vue: v }, { replace: true })} />
-        {view === 'exercices' ? <Exercises /> : view === 'morceaux' ? <SongsList /> : <ProgramEditor />}
-      </div>
+    <Screen title="Exercices" overline="Moi" leading={back}>
+      <Exercises />
     </Screen>
   )
+}
+
+/** Moi › Morceaux : le répertoire. */
+export function SongsPage() {
+  return (
+    <Screen title="Morceaux" overline="Moi" leading={back}>
+      <SongsList />
+    </Screen>
+  )
+}
+
+/** Moi › Modèles de séance. */
+export function ModelsPage() {
+  return (
+    <Screen title="Modèles de séance" overline="Moi" leading={back}>
+      <ProgramEditor />
+    </Screen>
+  )
+}
+
+/** Ancienne adresse `/bibliotheque?vue=…` : renvoie vers la page qui a pris sa place. */
+export function LibraryRedirect() {
+  const [params] = useSearchParams()
+  const to = { morceaux: '/moi/morceaux', modeles: '/moi/modeles' }[params.get('vue') ?? ''] ?? '/moi/exercices'
+  return <Navigate to={to} replace />
 }
 
 const repRange = (m: Movement) =>

@@ -107,7 +107,7 @@ function Refusal({ mk }: { mk: Marathon }) {
       <Group header="Trois autres chemins">
         {f.options.map((o) =>
           o.kind === 'later' ? (
-            <Row key={o.kind} title="Choisir une course plus tardive" subtitle={o.why} onClick={() => navigate('/marathon/profil')} />
+            <Row key={o.kind} title="Choisir une course plus tardive" subtitle={o.why} onClick={() => navigate('/moi/profil')} />
           ) : (
             <Row
               key={o.kind}
@@ -224,7 +224,7 @@ function PlanView({ mk }: { mk: Marathon }) {
         <Row title="Affûtage" detail="1 légère, puis rien" />
       </Group>
 
-      <Group header={`Renfo coureur · ${m.constraints.gym ? 'salle' : 'maison'}`} footer={`${STRENGTH_PURPOSE} Modifiable dans Bibliothèque › Modèles.`}>
+      <Group header={`Renfo coureur · ${m.constraints.gym ? 'salle' : 'maison'}`} footer={`${STRENGTH_PURPOSE} Modifiable dans Moi › Modèles de séance.`}>
         {runnerMoves(m.constraints.gym).map((x) => (
           <Row key={x.movementId} title={x.name} detail={`${x.sets}×${x.reps}`} />
         ))}
@@ -279,7 +279,7 @@ export function MarathonPage() {
       leading={back}
       trailing={
         mk && (
-          <Link to="/marathon/profil" className="hit tap t-body text-sport">
+          <Link to="/moi/profil" className="hit tap t-body text-sport">
             Profil
           </Link>
         )
@@ -292,7 +292,7 @@ export function MarathonPage() {
               Un plan de préparation construit à rebours depuis ta date de course, adapté à ton niveau, et qui se recalcule chaque lundi d'après ce que tu as
               vraiment fait.
             </p>
-            <Button tone="sport" onClick={() => navigate('/marathon/profil')}>
+            <Button tone="sport" onClick={() => navigate('/moi/profil')}>
               Remplir le questionnaire
             </Button>
           </Card>

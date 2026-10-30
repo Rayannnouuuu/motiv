@@ -223,7 +223,7 @@ export function useToday() {
         title: 'Pas encore de programme',
         subtitle: 'Choisis ta muscu (Push / Pull / Legs…) ou prépare une course depuis Moi.',
         steps: [],
-        cta: { label: 'Choisir ton programme', icon: 'plus', to: '/bibliotheque?vue=modeles', secondary: true },
+        cta: { label: 'Choisir ton programme', icon: 'plus', to: '/moi/modeles', secondary: true },
       }
     const [next] = upcomingPrograms(data.programs, data.sportSessions, 1)
     return {
