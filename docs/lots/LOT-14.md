@@ -2,7 +2,7 @@
 
 _30 oct. 2026. Premier lot de `docs/REFONTE-NAV.md` (règle : 3 touchers pour arriver à l'écran voulu)._
 
-**État : sur l'essai `/motiv/essai/`, en attente de validation. Pas sur `/motiv/`.**
+**État : validé et en ligne sur `/motiv/` (« Push », 30 oct.).**
 
 ## Ce qui change
 
