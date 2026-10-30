@@ -5,6 +5,7 @@
 import chordsJson from './chords.json'
 import pathJson from './path.json'
 import scalesJson from './scales.json'
+import { CHORD_TRACK } from './tracks'
 
 export type Pillar = 'left_hand' | 'right_hand' | 'technique' | 'fretboard' | 'ear' | 'expression' | 'repertoire' | 'creativity'
 export type Subdivision = 'quarter' | 'eighth' | 'triplet' | 'sixteenth'
@@ -34,6 +35,12 @@ export interface Skill {
   setup?: boolean
   /** Compétence créée par moi (niveau 5, objectifs libres). */
   custom?: boolean
+  /** Étape d'un parcours (accords) : hors des 3 compétences en cours, hors niveaux du parcours général. */
+  track?: 'chords' | 'scales'
+  /** Bloc d'un parcours : « Accords ouverts », « Barrés »… */
+  block?: string
+  /** Accords concernés (diagrammes). */
+  chordIds?: string[]
 }
 
 export interface PathLevel {
@@ -73,6 +80,8 @@ export const SKILLS = PATH.skills
 export const CHORDS = chordsJson as Chord[]
 export const SCALE_SHAPES = scalesJson as ScaleShape[]
 
-const skillById = new Map(SKILLS.map((s) => [s.id, s]))
+/** Étapes des parcours (accords) : retrouvables par `getSkill`, mais hors de `SKILLS` (niveaux, épreuves, suggestions). */
+export const TRACK_SKILLS = CHORD_TRACK
+const skillById = new Map([...SKILLS, ...TRACK_SKILLS].map((s) => [s.id, s]))
 export const getSkill = (id: string) => skillById.get(id)
 export const getChord = (id: string) => CHORDS.find((c) => c.id === id)

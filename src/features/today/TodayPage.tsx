@@ -5,6 +5,8 @@ import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
 import { longDate } from '../../domain/date'
 import { focusOf, reviewDue } from '../../domain/weeklyReview'
+import { EMPTY_PROGRESS } from '../../domain/guitar/engine'
+import { currentStep } from '../../domain/guitar/tracks'
 import { guitarWeek } from '../../domain/guitarWeek'
 import { songsToMaintain } from '../../domain/repertoire'
 import { Button } from '../../ui/Button'
@@ -125,6 +127,7 @@ function SportChooser({
  */
 export function TodayPage() {
   const { data, v1, today } = useAppData()
+  const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS)
   const navigate = useNavigate()
   const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
   const rhythm = useRhythm()
@@ -186,13 +189,25 @@ export function TodayPage() {
                     onChange={(programId, withRun) => setCompose({ programId, withRun })}
                   />
                 ) : c.tone === 'guitar' && c.state !== 'live' ? (
-                  <Link
-                    to="/seance"
-                    className="tap t-subhead mx-1 mb-1 flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-guitar/12 font-semibold text-guitar"
-                  >
-                    <Icon name="target" />
-                    Séance guidée
-                  </Link>
+                  <div className="mx-1 mb-1 flex flex-col gap-2">
+                    <Link
+                      to="/seance"
+                      className="tap t-subhead flex min-h-11 items-center justify-center gap-1.5 rounded-lg bg-guitar/12 font-semibold text-guitar"
+                    >
+                      <Icon name="target" />
+                      Séance guidée
+                    </Link>
+                    <Link
+                      to="/parcours/accords"
+                      className="tap t-subhead flex min-h-11 items-center justify-between gap-2 rounded-lg bg-guitar/12 px-4 py-2 text-guitar"
+                    >
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        <Icon name="guitar" />
+                        <span className="truncate font-semibold">Parcours accords</span>
+                      </span>
+                      <span className="t-footnote shrink-0 truncate text-muted">{nextChord ? nextChord.name : 'Terminé'}</span>
+                    </Link>
+                  </div>
                 ) : undefined
               }
             />
