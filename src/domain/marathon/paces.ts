@@ -2,11 +2,14 @@
  * Allures (lot 3) : formule de Riegel depuis un chrono récent, avec une marge prudente (Riegel est optimiste
  * pour un premier marathon). Sans chrono : allures au ressenti, et zones cardiaques si on les connaît.
  */
+import { addDays, daysBetween } from '../date'
 import { CHRONO_KM, RACE_KM, type Chrono, type ChronoDistance, type MarathonProfile } from './profile'
 
 /** Exposant de Riegel et marge prudente appliquée aux temps prédits. */
 export const RIEGEL_EXPONENT = 1.06
 export const PRUDENT_MARGIN = 1.05
+/** Marge des allures de travail (seuil, fractionné) : plus exigeante que celle de la course. */
+export const TRAIN_MARGIN = 1.03
 
 /** Temps prédit sur `toKm` à partir d'un temps `sec` sur `fromKm`. */
 export const riegel = (sec: number, fromKm: number, toKm: number) => sec * (toKm / fromKm) ** RIEGEL_EXPONENT
@@ -56,7 +59,30 @@ export function formatDuration(sec: number): string {
   return h > 0 ? `${h} h ${String(m).padStart(2, '0')}` : `${m} min ${String(s % 60).padStart(2, '0')} s`
 }
 
-export function paces(p: MarathonProfile, today: string): Paces {
+/** Allure typique des sorties récentes : la médiane des 6 dernières semaines (3 sorties d'au moins 3 km), en s/km. */
+export function typicalPace(runs: { day: string; km: number; sec?: number }[], today: string): number | null {
+  const from = addDays(today, -42)
+  const paces = runs
+    .filter((r) => r.day >= from && r.day <= today && r.km >= 3 && r.sec !== undefined && r.sec > 0)
+    .map((r) => r.sec! / r.km)
+    .sort((a, b) => a - b)
+  if (paces.length < 3) return null
+  const mid = Math.floor(paces.length / 2)
+  return paces.length % 2 ? paces[mid] : (paces[mid - 1] + paces[mid]) / 2
+}
+
+/** Part du programme parcourue : 0 au départ, 1 au pic (trois semaines avant la course). */
+const programmeProgress = (p: MarathonProfile, today: string) => {
+  const peak = addDays(p.race.day, -21)
+  return Math.min(1, Math.max(0, daysBetween(p.startedOn, today) / Math.max(1, daysBetween(p.startedOn, peak))))
+}
+
+/** Au plus de combien le programme resserre les allures par rapport à celles du départ (7 %). */
+export const MAX_TIGHTENING = 0.07
+/** Les allures de travail (seuil, fractionné) démarrent un cran plus prudentes que le reste (8 %), puis rejoignent les autres au pic du programme. */
+const QUALITY_EASE_IN = 0.08
+
+export function paces(p: MarathonProfile, today: string, typical: number | null = null): Paces {
   const raceKm = RACE_KM[p.race.kind]
   const notes: string[] = []
   const hr: Paces['hr'] = {}
@@ -75,6 +101,8 @@ export function paces(p: MarathonProfile, today: string): Paces {
 
   const fromKm = CHRONO_KM[c.distance]
   const at = (km: number) => (riegel(c.sec, fromKm, km) * PRUDENT_MARGIN) / km
+  // Les allures de travail (seuil, fractionné) visent ta forme du jour, avec une marge réduite : la prudence pleine reste pour la course.
+  const train = (km: number) => (riegel(c.sec, fromKm, km) * TRAIN_MARGIN) / km
   let race = at(raceKm)
   const predictedSec = race * raceKm
   // Objectif plus lent que le chrono : on s'entraîne à l'objectif (prudence). Plus rapide : on garde le chrono.
@@ -89,16 +117,33 @@ export function paces(p: MarathonProfile, today: string): Paces {
   // L'allure marathon sert de référence même pour un semi (footing et sortie longue).
   const marathon = p.race.kind === 'marathon' ? race : at(RACE_KM.marathon)
   const r = (x: number) => Math.round(x)
+  // Calage sur tes sorties : si tu cours plus lentement que ton chrono ne le laisse prévoir, toutes les zones partent d'un cran plus lent
+  // (la sortie typique se place en haut de la zone « facile »), puis se resserrent ensemble, de 7 % au plus, jusqu'au pic du programme.
+  // Une seule échelle pour toutes les zones : rien ne se déséquilibre.
+  let scale = 1
+  let easeIn = 0
+  if (typical !== null) {
+    const start = Math.min(1.25, Math.max(1, typical / 1.2 / marathon))
+    const end = Math.max(1, start * (1 - MAX_TIGHTENING))
+    const t = programmeProgress(p, today)
+    scale = start - (start - end) * t
+    easeIn = start > 1 ? QUALITY_EASE_IN * (1 - t) : 0
+    if (start > 1)
+      notes.push(
+        `Allures calées sur tes sorties récentes (autour de ${formatPace(typical)} /km), puis resserrées de ${Math.round(MAX_TIGHTENING * 100)} % au plus jusqu'à la phase spécifique.`,
+      )
+  }
+  const z = (x: number, quality = false) => r(x * scale * (quality ? 1 + easeIn : 1))
   return {
     source: 'chrono',
     predictedSec,
     secPerKm: {
-      marathon: [r(race), r(race)],
-      easy: [r(marathon * 1.15), r(marathon * 1.25)],
-      long: [r(marathon * 1.18), r(marathon * 1.28)],
-      recovery: [r(marathon * 1.3), r(marathon * 1.4)],
-      threshold: [r(at(15)), r(at(15) * 1.02)],
-      intervals: [r(at(5)), r(at(5) * 1.02)],
+      marathon: [z(race), z(race)],
+      easy: [z(marathon * 1.12), z(marathon * 1.22)],
+      long: [z(marathon * 1.15), z(marathon * 1.25)],
+      recovery: [z(marathon * 1.28), z(marathon * 1.38)],
+      threshold: [z(train(15), true), z(train(15) * 1.02, true)],
+      intervals: [z(train(5), true), z(train(5) * 1.02, true)],
     },
     feel: FEEL,
     hr,
