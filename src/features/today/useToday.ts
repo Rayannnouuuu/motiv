@@ -1,8 +1,9 @@
 import { useAppData } from '../../data/AppDataContext'
 import type { IconName } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
+import { EMPTY_EDITS, isHidden } from '../../domain/dayItems'
 import { historyOf } from '../../domain/history'
-import { plannedOn, type PlannedRun } from '../../domain/marathon/plan'
+import { plannedOn, type PlannedRun, type PlannedStrength } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import { todayQueue, type NextAction, type PlannedToday } from '../../domain/nextAction'
 import { rotation, upcomingPrograms } from '../../domain/progression'
@@ -58,14 +59,32 @@ export function useToday() {
   const sportToday = v1.sessions.filter((s) => s.day === today && s.discipline === 'sport')
   const ranToday = sportToday.some((s) => runOf(s))
   const liftedToday = sportToday.some((s) => !runOf(s))
-  const todays = plan ? plannedOn(plan, today) : null
+  // Le plan du jour, moins ce que tu en as retiré, plus ce que tu y as ajouté (sortie libre ou muscu).
+  const edits = v1.profile.planEdits ?? EMPTY_EDITS
+  const inPlan = plan ? plannedOn(plan, today) : { runs: [] as PlannedRun[], strength: [] as PlannedStrength[] }
+  const addedToday = edits.added.filter((a) => a.day === today)
+  const addedRuns = new Set<PlannedRun>()
+  const todaysRuns = inPlan.runs.filter((r) => !isHidden(edits, today, `run-${r.kind}`))
+  const todaysStrength = inPlan.strength.filter((s) => !isHidden(edits, today, `muscu-${s.programId}`))
+  for (const a of addedToday) {
+    if (a.item.kind === 'run') {
+      const r: PlannedRun = { day: today, kind: a.item.runKind, km: a.item.km, detail: '', pace: null, segments: [], fastKm: 0 }
+      addedRuns.add(r)
+      todaysRuns.push(r)
+    } else if (a.item.kind === 'strength') {
+      const programId = a.item.programId
+      const name = data.programs.find((p) => p.id === programId)?.name ?? a.item.name ?? 'Muscu'
+      todaysStrength.push({ day: today, light: false, programId, name })
+    }
+  }
+  const todays = plan || addedToday.length > 0 ? { runs: todaysRuns, strength: todaysStrength } : null
   const run = ranToday ? undefined : todays?.runs.find((r) => r.kind !== 'cross')
   const cross = todays?.runs.find((r) => r.kind === 'cross')
   const lift = liftedToday ? undefined : todays?.strength[0]
   const liftProgram = lift && data.programs.find((p) => p.id === lift.programId)
   const runName = (r: PlannedRun) => `${runLabel(r, race)}${r.km > 0 ? ` ${km(r.km)}` : ''}`
   const planned: PlannedToday | null = run
-    ? { label: `Commencer : ${runLabel(run, race)}`, to: '/course', state: { day: run.day, kind: run.kind } }
+    ? { label: `Commencer : ${runLabel(run, race)}`, to: '/course', state: { day: run.day, kind: run.kind, ...(addedRuns.has(run) ? { km: run.km } : {}) } }
     : lift
       ? { label: `Commencer : ${lift.name}`, to: '/log/sport', state: { programId: lift.programId } }
       : null
@@ -164,6 +183,20 @@ export function useToday() {
       return r ? `Course ${km(r.km)}` : (data.programs.find((p) => p.id === s.templateId)?.name ?? 'Muscu')
     })
     const doneCard: DayCard = { tone: 'sport', state: 'done', title: 'Sport fait', subtitle: doneText.join(' · '), steps: [], cta: null }
+    // Sans plan de course : la séance que tu as ajoutée pour aujourd'hui (sortie libre, muscu) prend la carte.
+    if (!plan && (run || lift)) {
+      const steps: Step[] = []
+      if (run) steps.push({ title: `Course · ${runLabel(run, race).toLowerCase()}`, detail: run.km > 0 ? km(run.km) : '', group: 'Course' })
+      if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}`))
+      return {
+        tone: 'sport',
+        state: 'todo',
+        title: [run ? runName(run) : null, lift?.name].filter(Boolean).join(' + '),
+        subtitle: sportToday.length > 0 ? `Ajoutée pour aujourd'hui · déjà fait : ${doneText.join(', ')}` : "Ajoutée pour aujourd'hui",
+        steps,
+        cta: planned ? { label: 'Commencer', icon: 'play', to: planned.to, state: planned.state } : null,
+      }
+    }
     if (plan) {
       const subtitle = `Plan ${race === 'marathon' ? 'marathon' : 'semi'} · ${planWeekLabel(plan)}`
       if (run || lift || (cross && !ranToday)) {
@@ -239,7 +272,7 @@ export function useToday() {
   // Séance au choix : une autre séance de muscu, et/ou une course à la fin (celle du plan s'il y en a une aujourd'hui).
   const runner = plan ? data.programs.find((p) => p.id === RUNNER_TEMPLATE_ID) : undefined
   const choices = [...rotation(data.programs), ...(runner ? [runner] : [])].filter((p) => activeExercises(p).length > 0)
-  const runState = run ? { day: run.day, kind: run.kind } : {}
+  const runState = run ? { day: run.day, kind: run.kind, ...(addedRuns.has(run) ? { km: run.km } : {}) } : {}
   const runStep = (group: string): Step =>
     run
       ? {

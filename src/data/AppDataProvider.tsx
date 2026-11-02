@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'rea
 import { movementKey } from '../content/sportLibrary'
 import { todayParis, weekStart } from '../domain/date'
 import { EMPTY_DATA_V1 } from '../domain/model'
+import { prune } from '../domain/dayItems'
 import { betterChrono } from '../domain/marathon/paces'
 import { isRunEntry, RUN_MOVEMENT_ID } from '../domain/marathon/runs'
 import { doneRuns } from '../domain/marathon/runs'
@@ -274,6 +275,12 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
         const sickWeeks = sick ? [...new Set([...m.sickWeeks, monday])].sort() : m.sickWeeks.filter((d) => d !== monday)
         await write(db, now(), async () => {
           await db.profile.put({ ...v1.profile, marathon: { ...m, sickWeeks } })
+        })
+      },
+      async savePlanEdits(e) {
+        const { v1 } = state()
+        await write(db, now(), async () => {
+          await db.profile.put({ ...v1.profile, planEdits: prune(e, todayParis()) })
         })
       },
       async setOffDay(day, off) {

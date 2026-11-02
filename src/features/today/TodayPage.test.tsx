@@ -4,6 +4,8 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { describe, expect, test } from 'vitest'
 import { g, pe, program, set, ss } from '../../test/factories'
 import { icon } from '../../test/icon'
+import type { PlannedItem } from '../../domain/dayItems'
+import { EMPTY_PROFILE } from '../../domain/model'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { saveLive } from '../log-sport/liveSession'
 import { savePractice, startPractice } from '../practice/practiceSession'
@@ -37,7 +39,37 @@ const unfold = async (title: string | RegExp) => {
   return card(title)
 }
 
+const edits = (day: string, item: PlannedItem) => ({ profile: { ...EMPTY_PROFILE, planEdits: { added: [{ id: 'a1', day, item }], hidden: [] } } })
+const longRun: PlannedItem = { kind: 'run', runKind: 'long', km: 15 }
+
 describe('TodayPage', () => {
+  test('une séance prévue hier et pas faite : « La faire aujourd’hui » la déplace', async () => {
+    const { actions } = renderToday({ v1: edits('2026-10-14', longRun) })
+    const missed = screen.getByRole('region', { name: 'Pas faite' })
+    expect(within(missed).getByText('Sortie longue 15 km')).toBeInTheDocument()
+    expect(within(missed).getByText(/prévue hier/)).toBeInTheDocument()
+    await userEvent.click(within(missed).getByRole('button', { name: "La faire aujourd'hui" }))
+    expect(actions.savePlanEdits).toHaveBeenCalledWith({ added: [{ id: 'a1', day: today, item: longRun }], hidden: [] })
+  })
+
+  test('« Laisser tomber » retire la séance manquée', async () => {
+    const { actions } = renderToday({ v1: edits('2026-10-14', longRun) })
+    await userEvent.click(within(screen.getByRole('region', { name: 'Pas faite' })).getByRole('button', { name: 'Laisser tomber' }))
+    expect(actions.savePlanEdits).toHaveBeenCalledWith({ added: [], hidden: [] })
+  })
+
+  test('rien de manqué : pas de carte « Pas faite »', () => {
+    renderToday({})
+    expect(screen.queryByRole('region', { name: 'Pas faite' })).not.toBeInTheDocument()
+  })
+
+  test('une sortie longue ajoutée pour aujourd’hui se lance avec sa distance', async () => {
+    renderToday({ v1: edits(today, longRun) })
+    const sport = await unfold(/Sortie longue/)
+    await userEvent.click(within(sport).getByRole('button', { name: /Commencer/ }))
+    expect(screen.getByText(/at \/course .*"kind":"long".*"km":15/)).toBeInTheDocument()
+  })
+
   test('les parcours accords et gammes restent visibles, carte Guitare ouverte ou repliée', async () => {
     renderToday({})
     const guitar = card('Technique et répertoire')
