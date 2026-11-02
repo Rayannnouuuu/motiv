@@ -2,7 +2,7 @@
 
 _2 nov. 2026. Retour d'usage : « tu as transformé la séance longue en fractionné, ça ne va pas avec le programme, et les allures sont trop faciles », puis « un peu trop dur, je fais souvent dans les 7 minutes »._
 
-**État : sur la branche `refonte/lot-22`, en attente de validation. Pas en ligne.**
+**État : en ligne sur `/motiv/` (« Push », 2 nov.).**
 
 ## Ce qui change
 
