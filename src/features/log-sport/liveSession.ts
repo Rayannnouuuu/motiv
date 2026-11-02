@@ -21,6 +21,8 @@ export interface LiveState {
   restSec?: number
   /** Course à enchaîner à la fin (état passé à la séance de course), absente sinon. */
   thenRun?: object
+  /** Séance légère (semaine allégée, affûtage) : moitié des séries, charges un cran plus bas. */
+  light?: boolean
 }
 
 export type LiveAction =
@@ -191,11 +193,21 @@ export interface Tracking {
   movement: (programExerciseId: string) => Movement | undefined
 }
 
+/** Séance légère : la moitié des séries (au moins une), et des charges de 10 % plus basses, arrondies à 2,5 kg. */
+export const LIGHT = { sets: 0.5, load: 0.9 }
+export const lightSets = (n: number) => Math.max(1, Math.ceil(n * LIGHT.sets))
+export const lightExercises = (exs: ProgramExercise[], light: boolean | undefined): ProgramExercise[] =>
+  light ? exs.map((e) => ({ ...e, targetSets: lightSets(e.targetSets) })) : exs
+export const lightWeight = (kg: number, light: boolean | undefined) => (light && kg > 0 ? Math.max(0, Math.round((kg * LIGHT.load) / 2.5) * 2.5) : kg)
+export const lightPrefill = <T extends { weightKg: number }>(p: T, light: boolean | undefined): T =>
+  light ? { ...p, weightKg: lightWeight(p.weightKg, true) } : p
+
 export function tracking(v1: Pick<DataV1, 'templates' | 'sessions' | 'exercises'>): Tracking {
   const of = new Map(v1.templates.flatMap((t) => t.blocks.flatMap((b) => b.entries)).map((e) => [e.id, e.exerciseId] as const))
   const movements = new Map(v1.exercises.map((m) => [m.id, m] as const))
   const key = (id: string) => of.get(id) ?? id
-  return { history: sportByMovement(v1), key, movement: (id) => movements.get(key(id)) }
+  // Une séance légère n'entre pas dans la progression : la suivante ne repart pas de charges allégées.
+  return { history: sportByMovement({ ...v1, sessions: v1.sessions.filter((s) => !s.isLight) }), key, movement: (id) => movements.get(key(id)) }
 }
 
 /**

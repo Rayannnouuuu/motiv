@@ -39,12 +39,12 @@ const isBefore = (s: { day: string; createdAt: string }, day: string, createdAt:
  * Une correction depuis l'ancienne forme garde ce qu'elle ne connaît pas : séance légère, douleur, et la
  * sortie de course elle-même (distance, durée).
  */
-function keepLight(row: V1.Session, v1: V1.DataV1): V1.Session {
+function keepLight(row: V1.Session, v1: V1.DataV1, light?: boolean): V1.Session {
   const stored = v1.sessions.find((s) => s.id === row.id)
   const runs = stored?.blocks.flatMap((b) => b.entries.filter(isRunEntry)) ?? []
   return {
     ...row,
-    isLight: stored?.isLight ?? false,
+    isLight: light ?? stored?.isLight ?? false,
     ...(stored?.pain !== undefined ? { pain: stored.pain } : {}),
     ...(runs.length > 0 ? { blocks: [...row.blocks, { type: 'main' as const, entries: runs }] } : {}),
   }
@@ -160,7 +160,7 @@ export function AppDataProvider({ db, welcome, children }: { db: MotivDb; welcom
             ? { total: original.xp, lines: [] }
             : sportSessionXp({ sets }, history, (id) => names.get(id) ?? 'Exo inconnu')
         const session: SportSession = { ...d, xp: xp.total, createdAt }
-        const row = keepLight(sportSessionToV1(session, r.exerciseOf), v1)
+        const row = keepLight(sportSessionToV1(session, r.exerciseOf), v1, d.light)
         await write(db, now(), async () => {
           await db.sessions.put(row)
           await db.exercises.bulkPut(r.created())

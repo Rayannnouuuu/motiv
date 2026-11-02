@@ -6,6 +6,6 @@ export function useStartPlanned() {
   const navigate = useNavigate()
   return {
     run: (r: PlannedRun) => navigate('/course', { state: { day: r.day, kind: r.kind } }),
-    strength: (programId: string) => navigate('/log/sport', { state: { programId } }),
+    strength: (programId: string, light?: boolean) => navigate('/log/sport', { state: { programId, ...(light ? { light: true } : {}) } }),
   }
 }

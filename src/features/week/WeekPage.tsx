@@ -107,7 +107,7 @@ export function WeekPage() {
   /** Lancer une séance d'aujourd'hui. Une sortie ajoutée n'a pas de détail au plan : on passe sa distance. */
   const launch = ({ item: i, addedId }: DayItem) =>
     i.kind === 'strength'
-      ? start.strength(i.programId)
+      ? start.strength(i.programId, i.light)
       : i.kind === 'guitar'
         ? navigate('/seance')
         : i.runKind !== 'cross' && navigate('/course', { state: { day: today, kind: i.runKind, ...(addedId ? { km: i.km } : {}) } })

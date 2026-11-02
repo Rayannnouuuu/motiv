@@ -131,6 +131,26 @@ test('séance sport : chaque série rattachée au mouvement de la bibliothèque'
   expect(row!.blocks[0].entries).toEqual([{ exerciseId: 'squat', templateEntryId: 'prog-b2-pe0', sets: [{ reps: 8, loadKg: 100 }] }])
 })
 
+test('séance sport légère : marquée comme telle, une séance normale ne l’est pas', async () => {
+  const db = testDb()
+  await importV0(db, v0Replica())
+  const seen = mount(db)
+  await screen.findByText('appli')
+  const draft = (id: string, day: string) => ({
+    id,
+    day,
+    programId: 'prog-b2',
+    durationMin: 40,
+    flowRating: 4 as const,
+    desireRating: 4 as const,
+    sets: [{ programExerciseId: 'prog-b2-pe0', setIndex: 1, reps: 8, weightKg: 90 }],
+  })
+  await seen.actions!.saveSportSession({ ...draft('light-s', '2026-10-20'), light: true })
+  await seen.actions!.saveSportSession(draft('normal-s', '2026-10-21'))
+  expect((await db.sessions.get('light-s'))!.isLight).toBe(true)
+  expect((await db.sessions.get('normal-s'))!.isLight).toBe(false)
+})
+
 test('records sport comptés par mouvement : un nouveau programme garde l’historique du squat', async () => {
   const db = testDb()
   await importV0(db, v0Replica())

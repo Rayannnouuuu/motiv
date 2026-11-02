@@ -65,6 +65,24 @@ describe('TodayPage', () => {
     expect(screen.queryByRole('region', { name: 'Pas faite' })).not.toBeInTheDocument()
   })
 
+  test('séance de muscu légère du plan : la moitié des séries à l’écran, et « léger » est transmis au lancement', async () => {
+    const m = profile({ startedOn: '2026-10-12' })
+    const plan = generatePlan(m, 78, [], '2026-10-12')
+    const week = plan.weeks.find((w) => w.strength.some((s) => s.light))!
+    const slot = week.strength.find((s) => s.light)!
+    // Sans sortie ce jour-là (masquée), c'est la muscu légère que lance « Commencer ».
+    const hidden = week.runs.filter((r) => r.day === slot.day).map((r) => `${slot.day}|run-${r.kind}`)
+    const programs = [
+      program({ id: slot.programId, name: slot.name, exercises: [pe({ id: 'x', programId: slot.programId, name: 'Squat', targetSets: 4, targetReps: 8 })] }),
+    ]
+    renderToday({ today: slot.day, data: { programs }, v1: { profile: { ...EMPTY_PROFILE, marathon: m, planEdits: { added: [], hidden } } } })
+    const sport = await unfold(new RegExp(slot.name))
+    expect(within(sport).getByText('2×8')).toBeInTheDocument()
+    expect(within(sport).queryByText('4×8')).not.toBeInTheDocument()
+    await userEvent.click(within(sport).getByRole('button', { name: /Commencer/ }))
+    expect(screen.getByText(new RegExp(`at /log/sport .*"programId":"${slot.programId}".*"light":true`))).toBeInTheDocument()
+  })
+
   test('une sortie ajoutée passe devant celle du plan du jour : la longue se lance, le fractionné reste listé', async () => {
     const m = profile({ startedOn: '2026-10-12' })
     const plan = generatePlan(m, 78, [], '2026-10-12')

@@ -455,3 +455,21 @@ describe('LogSportPage', () => {
     expect(screen.getByRole('link', { name: 'Créer ton programme' })).toHaveAttribute('href', '/moi/modeles')
   })
 })
+
+describe('séance légère', () => {
+  test('lancée depuis le plan : la moitié des séries, charge −10 %, message, et la séance est marquée légère', async () => {
+    renderSport({ route: { pathname: '/log/sport', state: { programId: 'haut', light: true } }, data: { programs: [haut, bas], sportSessions: history } })
+    expect(await screen.findByText('Séance légère : la moitié des séries, charges −10 %, et des reps en réserve.')).toBeInTheDocument()
+    expect(screen.getByText('Série 1/2 · objectif 2×8')).toBeInTheDocument()
+    // La charge du jour est 62,5 : −10 % = 56,25, arrondi au cran de 2,5 kg le plus proche : 57,5.
+    expect(loadLive()).toMatchObject({ programId: 'haut', light: true, weightKg: 57.5 })
+  })
+
+  test('lancée normalement : toutes les séries, charge du jour, pas de message', () => {
+    renderSport({ route: { pathname: '/log/sport', state: { programId: 'haut' } }, data: { programs: [haut, bas], sportSessions: history } })
+    expect(screen.queryByText(/Séance légère/)).not.toBeInTheDocument()
+    expect(screen.getByText('Série 1/4 · objectif 4×8')).toBeInTheDocument()
+    expect(loadLive()).toMatchObject({ weightKg: 62.5 })
+    expect(loadLive()?.light).toBeUndefined()
+  })
+})

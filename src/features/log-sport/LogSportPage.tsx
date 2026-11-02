@@ -20,6 +20,8 @@ import { haptic } from '../../ui/spring'
 import { Stepper } from '../../ui/Stepper'
 import {
   activeExercises,
+  lightExercises,
+  lightPrefill,
   elapsedMin,
   formatWeight,
   isStale,
@@ -44,9 +46,9 @@ const CHEER_MS = 2500
 const nowIso = () => new Date().toISOString()
 
 /** Nouvelle séance, sur le premier exo du programme, à la charge de la dernière fois. */
-function newLive(program: Program, t: Tracking): LiveState {
+function newLive(program: Program, t: Tracking, light = false): LiveState {
   const first = activeExercises(program)[0]
-  const p = first ? prefillFor(first, t) : { weightKg: 0, reps: 1 }
+  const p = first ? lightPrefill(prefillFor(first, t), light) : { weightKg: 0, reps: 1 }
   return {
     id: crypto.randomUUID(),
     programId: program.id,
@@ -56,6 +58,7 @@ function newLive(program: Program, t: Tracking): LiveState {
     weightKg: p.weightKg,
     reps: p.reps,
     sets: [],
+    ...(light ? { light: true } : {}),
   }
 }
 
@@ -66,7 +69,8 @@ export function LogSportPage() {
   const { data, v1 } = useAppData()
   const track = useMemo(() => tracking(v1), [v1])
   const navigate = useNavigate()
-  const navState = useLocation().state as { programId?: unknown; thenRun?: unknown } | null
+  const navState = useLocation().state as { programId?: unknown; thenRun?: unknown; light?: unknown } | null
+  const askedLight = navState?.light === true
   const requestedId = typeof navState?.programId === 'string' ? navState.programId : null
   const thenRun = navState?.thenRun && typeof navState.thenRun === 'object' ? navState.thenRun : undefined
   // « Commencer X » sur l'accueil : la séance démarre directement sur son premier exo.
@@ -74,7 +78,7 @@ export function LogSportPage() {
     const saved = loadLive()
     if (saved) return saved
     const p = startable(data.programs, requestedId)
-    return p ? { ...newLive(p, track), thenRun } : null
+    return p ? { ...newLive(p, track, askedLight), thenRun } : null
   })
   // Évalué à l'ouverture : une séance reprise après plus de 12 h demande quoi en faire.
   const [askStale, setAskStale] = useState(() => live !== null && isStale(live, new Date()))
@@ -100,7 +104,7 @@ export function LogSportPage() {
   }
 
   const program = live && data.programs.find((p) => p.id === live.programId)
-  const exercises = activeExercises(program ?? undefined)
+  const exercises = lightExercises(activeExercises(program ?? undefined), live?.light)
 
   if (!live) return <ChooseProgram onStart={setLive} preferred={requestedId} />
 
@@ -145,7 +149,7 @@ export function LogSportPage() {
   }
   const goBack = () => {
     const prev = exercises[Math.min(index, exercises.length) - 1]
-    const p = prev ? prefillFor(prev, track) : { weightKg: 0, reps: 1 }
+    const p = prev ? lightPrefill(prefillFor(prev, track), live.light) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'prevExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
 
@@ -153,7 +157,7 @@ export function LogSportPage() {
 
   const current = exercises[index]
   const recent = recentSetsFor(track.key(current.id), track.history)
-  const proposal = prefillFor(current, track)
+  const proposal = lightPrefill(prefillFor(current, track), live.light)
   const doneSets = live.sets.filter((s) => s.programExerciseId === current.id)
   const done = doneSets.length
   const next = exercises[index + 1]
@@ -166,7 +170,7 @@ export function LogSportPage() {
   const challenge = activeSetChallenge(data.challenges, current.id)
   const challengeMet = challenge !== null && doneSets.some((s) => meetsChallenge(challenge.target, s))
   const goNext = () => {
-    const p = next ? prefillFor(next, track) : { weightKg: 0, reps: 1 }
+    const p = next ? lightPrefill(prefillFor(next, track), live.light) : { weightKg: 0, reps: 1 }
     dispatch({ type: 'nextExercise', prefill: { weightKg: p.weightKg, reps: p.reps } })
   }
   const completeSet = () => {
@@ -218,6 +222,11 @@ export function LogSportPage() {
             )}
           </p>
           <h1 className="t-title1">{current.name}</h1>
+          {live.light && (
+            <p className="t-subhead mt-1 rounded-md bg-sport/12 px-3 py-2 font-semibold text-sport">
+              Séance légère : la moitié des séries, charges −10 %, et des reps en réserve.
+            </p>
+          )}
           <p className="t-body text-muted tabular-nums">
             {reached ? (
               <>
@@ -511,6 +520,7 @@ function FinishSession({ live, onDone, onBack, onAbandon }: { live: LiveState; o
         sets: live.sets,
         flowRating: flow,
         desireRating: desire,
+        ...(live.light ? { light: true } : {}),
         ...noteOf(note),
       })
       onDone()
