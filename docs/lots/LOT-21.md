@@ -2,7 +2,7 @@
 
 _2 nov. 2026. Retour d'usage : « la sortie longue se met en course libre, sans indication, alors que le fractionné a un guide et une allure ; plus j'avance dans le programme, plus ça doit devenir exigeant »._
 
-**État : sur la branche `refonte/lot-21`, en attente de validation. Pas en ligne.**
+**État : en ligne sur `/motiv/` (« Push », 2 nov.).**
 
 ## Cause
 

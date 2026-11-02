@@ -176,4 +176,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 18 — Parcours des accords (96 étapes, lancé depuis la carte Guitare d’Aujourd’hui) : en ligne. Gammes au lot 19.
 - [x] Lot 19 — Parcours des gammes (19 étapes, 14 formes, liaisons entre positions) : en ligne, avec les lignes Parcours toujours visibles sur Aujourd’hui.
 - [x] Lot 20 — Moduler ses journées (ajouter, déplacer, retirer, rattraper) : en ligne.
-- [ ] Lot 21 — Guide des sorties ajoutées à la main (blocs, allure, exigence qui suit le programme) : sur la branche, en attente de validation.
+- [x] Lot 21 — Guide des sorties ajoutées à la main (blocs, allure, exigence qui suit le programme) : en ligne.
