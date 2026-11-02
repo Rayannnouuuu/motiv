@@ -2,7 +2,7 @@
 
 _2 nov. 2026. Demande : « moduler toutes mes journées, ajouter les séances que je veux, faire aujourd'hui la séance longue que je n'ai pas pu faire hier, faire plus de sport que ce qui est prévu »._
 
-**État : sur la branche `refonte/lot-20`, en attente de validation. Pas sur l'essai (le déploiement de l'essai n'a pas pu être lancé : l'outil GitHub était déconnecté) ni sur `/motiv/`.**
+**État : en ligne sur `/motiv/` (« Push », 2 nov.), sans passage par l'essai : son déploiement n'a pas pu être lancé (outil GitHub déconnecté).**
 
 ## Ce qui change
 

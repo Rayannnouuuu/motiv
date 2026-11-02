@@ -175,4 +175,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 17 — Tes tablatures (feuille « Tablature » par morceau, Vava Inouva au catalogue) : en ligne.
 - [x] Lot 18 — Parcours des accords (96 étapes, lancé depuis la carte Guitare d’Aujourd’hui) : en ligne. Gammes au lot 19.
 - [x] Lot 19 — Parcours des gammes (19 étapes, 14 formes, liaisons entre positions) : en ligne, avec les lignes Parcours toujours visibles sur Aujourd’hui.
-- [ ] Lot 20 — Moduler ses journées (ajouter, déplacer, retirer, rattraper) : sur la branche, en attente de validation ; essai à lancer à la main (Actions › Run workflow).
+- [x] Lot 20 — Moduler ses journées (ajouter, déplacer, retirer, rattraper) : en ligne.
