@@ -5,7 +5,7 @@ import { Icon } from '../../design/icons'
 import { noteOf } from '../../domain/note'
 import { CHRONO_LABELS } from '../../domain/marathon/profile'
 import { formatDuration } from '../../domain/marathon/paces'
-import { plannedOn, type PlannedRun, type RunKind } from '../../domain/marathon/plan'
+import { guideRun, plannedOn, RUN_LABELS, runSegments, type PlannedRun, type RunKind } from '../../domain/marathon/plan'
 import type { Rating } from '../../domain/types'
 import { Button } from '../../ui/Button'
 import { ModalBar } from '../../ui/ModalBar'
@@ -125,8 +125,10 @@ export function RunPage() {
   const day = run?.day ?? asked?.day ?? mk?.today ?? ''
   // Ouverte sans précision : la première sortie prévue ce jour-là, sinon une course libre.
   const kind = run?.kind ?? asked?.kind ?? (mk?.plan && day ? plannedOn(mk.plan, day).runs.find((r) => r.kind !== 'cross')?.kind : undefined)
-  const planned = (mk?.plan && day && plannedOn(mk.plan, day).runs.find((r) => r.kind === kind)) || null
-  const segments = planned?.segments ?? []
+  const fromPlan = (mk?.plan && day && plannedOn(mk.plan, day).runs.find((r) => r.kind === kind)) || null
+  // Pas au plan ce jour-là (sortie ajoutée à la main) : le même guide que le plan, au cran de la semaine.
+  const planned = fromPlan ?? (kind && day ? guideRun(kind, run?.km ?? asked?.km ?? 0, mk?.plan ?? null, mk?.m.race.kind ?? 'marathon', day) : null)
+  const segments = planned ? runSegments(planned, mk?.plan ?? null) : []
   const running = run !== null && run.pausedAt === null && !finishing
   const sec = run ? Math.floor(elapsedMs(run, now) / 1000) : 0
   const seg = segmentAt(segments, sec)
@@ -148,7 +150,7 @@ export function RunPage() {
 
   if (finishing && run) return <FinishRun run={run} planned={planned} onBack={() => setFinishing(false)} />
 
-  const title = planned && mk ? runLabel(planned, mk.m.race.kind) : 'Course libre'
+  const title = planned ? (mk ? runLabel(planned, mk.m.race.kind) : RUN_LABELS[planned.kind]) : 'Course libre'
   const start = () => {
     primeBeep()
     setNow(new Date())
@@ -219,6 +221,11 @@ export function RunPage() {
         {run && seg && (
           <div className="flex flex-col items-center gap-1" aria-live="polite">
             <p className="t-title2 text-sport">{segments[seg.index].label}</p>
+            {mk?.plan && (
+              <p className="t-headline">
+                <Icon name="target" /> {paceText(mk.plan.paces, segments[seg.index].pace)}
+              </p>
+            )}
             <p className="t-title3 tabular-nums">encore {clock(seg.left)}</p>
             {segments[seg.index + 1] && (
               <p className="t-subhead text-muted">

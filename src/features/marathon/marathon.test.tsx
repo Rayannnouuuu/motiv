@@ -191,6 +191,26 @@ describe('séance de course', () => {
     expect(await screen.findByText(/^at \/xp/)).toBeInTheDocument()
   })
 
+  test('sortie longue ajoutée à la main : plus de « course libre », un guide, une allure et un bloc au minuteur', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+    render(<RunPage />, '/course', { pathname: '/course', state: { day: TODAY, kind: 'long', km: 18 } }, base)
+    expect(screen.getByRole('heading', { name: 'Sortie longue' })).toBeInTheDocument()
+    expect(screen.queryByText('Course libre')).not.toBeInTheDocument()
+    expect(screen.getByText(/18 km · Sortie longue, régulière et facile/)).toBeInTheDocument()
+    expect(screen.getByText(/\/km/)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Démarrer' }))
+    expect(loadRun()).toMatchObject({ day: TODAY, kind: 'long', km: 18 })
+    expect(screen.getByText('Régulier et facile')).toBeInTheDocument()
+    expect(screen.getAllByText(/\/km/).length).toBeGreaterThanOrEqual(2)
+  })
+
+  test('sans plan marathon : la sortie ajoutée a quand même son nom et sa consigne', () => {
+    render(<RunPage />, '/course', { pathname: '/course', state: { day: TODAY, kind: 'intervals', km: 8 } }, undefined)
+    expect(screen.getByRole('heading', { name: 'Fractionné' })).toBeInTheDocument()
+    expect(screen.getByText(/5 × 3 min rapide/)).toBeInTheDocument()
+  })
+
   test('course-marche : minuteur d’intervalles, un bip à chaque bloc', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
