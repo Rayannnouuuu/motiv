@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { profile, TODAY } from './fixtures'
+import { addDays } from '../date'
 import { generatePlan, guideRun, runSegments, type Plan, type Phase } from './plan'
 
 const plan: Plan = generatePlan(profile({ level: { chrono: { distance: '10k', sec: 2880, day: TODAY } } }), 78, [], TODAY)
@@ -79,5 +80,26 @@ describe('blocs pour le minuteur', () => {
 
   test('pas de distance : pas de blocs', () => {
     expect(runSegments(guideRun('long', 0, plan, 'marathon', dayOf('base')), plan)).toEqual([])
+  })
+})
+
+describe('le plan se cale sur tes sorties', () => {
+  const m = profile({ level: { chrono: { distance: '10k', sec: 2880, day: TODAY } } })
+  const runs = [3, 10, 17, 24].map((n) => ({ day: addDays(TODAY, -n), km: 8, sec: 8 * 440, pain: null }))
+
+  test('des sorties plus lentes que le chrono : les allures du plan partent plus lentes, toutes ensemble', () => {
+    const calibrated = generatePlan(m, 78, runs, TODAY)
+    for (const k of ['easy', 'long', 'marathon', 'threshold', 'intervals'] as const)
+      expect(calibrated.paces.secPerKm[k]![0]).toBeGreaterThan(plan.paces.secPerKm[k]![0])
+    // La sortie longue ajoutée utilise ces allures pour ses blocs.
+    const spec = guideRun('long', 20, calibrated, 'marathon', dayOf('specific'))
+    const slow = runSegments(spec, calibrated)[0].sec
+    const model = runSegments(guideRun('long', 20, plan, 'marathon', dayOf('specific')), plan)[0].sec
+    expect(slow).toBeGreaterThan(model)
+  })
+
+  test('sans durée connue : le plan ne change pas', () => {
+    const noSec = runs.map(({ day, km, pain }) => ({ day, km, pain }))
+    expect(generatePlan(m, 78, noSec, TODAY).paces).toEqual(plan.paces)
   })
 })

@@ -21,7 +21,7 @@ export function runOf(s: Session): { km: number; sec: number } | null {
 export function doneRuns(sessions: Session[]): DoneRun[] {
   return sessions.flatMap((s) => {
     const r = s.discipline === 'sport' ? runOf(s) : null
-    return r ? [{ day: s.day, km: r.km, pain: s.pain ?? null }] : []
+    return r ? [{ day: s.day, km: r.km, ...(r.sec > 0 ? { sec: r.sec } : {}), pain: s.pain ?? null }] : []
   })
 }
 

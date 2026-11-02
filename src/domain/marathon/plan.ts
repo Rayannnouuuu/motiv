@@ -4,7 +4,7 @@
  */
 import { addDays, daysBetween, weekStart } from '../date'
 import type { Day } from '../types'
-import { paces, type PaceKind, type Paces } from './paces'
+import { paces, typicalPace, type PaceKind, type Paces } from './paces'
 import { RUNNER_TEMPLATE_ID } from './strength'
 import { isCautious, RACE_KM, runnerLevel, weekdayOf, type MarathonProfile, type RaceKind, type RunnerLevel, type Weekday } from './profile'
 
@@ -74,6 +74,8 @@ export interface PlanWeek {
 export interface DoneRun {
   day: Day
   km: number
+  /** Durée en secondes, quand on la connaît : elle sert à caler les allures sur tes sorties. */
+  sec?: number
   pain: number | null
 }
 
@@ -415,7 +417,7 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
   const level = runnerLevel(p.level)
   const cautious = isCautious(p, weightKg)
   const walkRun = p.walkRun || level === 'beginner'
-  const pc = paces(p, today)
+  const pc = paces(p, today, typicalPace(done, today))
   const start = weekStart(p.startedOn)
   const n = Math.floor(daysBetween(start, weekStart(p.race.day)) / 7) + 1
   const current = Math.floor(daysBetween(start, weekStart(today)) / 7)
