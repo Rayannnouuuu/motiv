@@ -3,7 +3,7 @@ import type { IconName } from '../../design/icons'
 import { dailyPlan } from '../../domain/dailyPlan'
 import { EMPTY_EDITS, isHidden } from '../../domain/dayItems'
 import { historyOf } from '../../domain/history'
-import { plannedOn, type PlannedRun, type PlannedStrength } from '../../domain/marathon/plan'
+import { guideRun, plannedOn, type PlannedRun, type PlannedStrength } from '../../domain/marathon/plan'
 import { runOf } from '../../domain/marathon/runs'
 import { todayQueue, type NextAction, type PlannedToday } from '../../domain/nextAction'
 import { rotation, upcomingPrograms } from '../../domain/progression'
@@ -68,7 +68,7 @@ export function useToday() {
   const todaysStrength = inPlan.strength.filter((s) => !isHidden(edits, today, `muscu-${s.programId}`))
   for (const a of addedToday) {
     if (a.item.kind === 'run') {
-      const r: PlannedRun = { day: today, kind: a.item.runKind, km: a.item.km, detail: '', pace: null, segments: [], fastKm: 0 }
+      const r = guideRun(a.item.runKind, a.item.km, plan, race, today)
       addedRuns.add(r)
       todaysRuns.push(r)
     } else if (a.item.kind === 'strength') {

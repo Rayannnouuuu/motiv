@@ -6,7 +6,7 @@ import { addDays, daysBetween, weekStart } from '../date'
 import type { Day } from '../types'
 import { paces, type PaceKind, type Paces } from './paces'
 import { RUNNER_TEMPLATE_ID } from './strength'
-import { isCautious, RACE_KM, runnerLevel, weekdayOf, type MarathonProfile, type RunnerLevel, type Weekday } from './profile'
+import { isCautious, RACE_KM, runnerLevel, weekdayOf, type MarathonProfile, type RaceKind, type RunnerLevel, type Weekday } from './profile'
 
 export type Phase = 'base' | 'development' | 'specific' | 'taper'
 export type RunKind = 'easy' | 'recovery' | 'long' | 'threshold' | 'intervals' | 'racePace' | 'walkRun' | 'cross' | 'race'
@@ -207,8 +207,8 @@ function walkRunSegments(km: number, phase: Phase, paceSec: number): Segment[] {
   ]
 }
 
-function qualityRun(kind: 'threshold' | 'intervals' | 'racePace', w: WeekShape, c: Ctx): Omit<Draft, 'day'> {
-  const raceLabel = c.p.race.kind === 'marathon' ? 'marathon' : 'semi'
+function qualityRun(kind: 'threshold' | 'intervals' | 'racePace', w: WeekShape, raceKind: RaceKind): Omit<Draft, 'day'> {
+  const raceLabel = raceKind === 'marathon' ? 'marathon' : 'semi'
   if (kind === 'threshold') {
     const [reps, work] = w.phase === 'specific' ? [3, 10] : w.deload || w.phase === 'taper' ? [2, 8] : [3, 8]
     return {
@@ -342,7 +342,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
       segments: walkRun ? walkRunSegments(longKm, w.phase, longPace) : [],
     })
   }
-  const qRuns = quality.map((d, i) => ({ day: dayOf(d), ...qualityRun(qualityKinds[i], w, c) }))
+  const qRuns = quality.map((d, i) => ({ day: dayOf(d), ...qualityRun(qualityKinds[i], w, c.p.race.kind) }))
   // Environ 80 % facile : on retire d'abord les passages à allure de la sortie longue, puis on raccourcit la qualité.
   const total = () => w.km
   const hard = () => qRuns.reduce((s, r) => s + hardKm(r, 0), 0) + longMp
@@ -550,4 +550,90 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
 export function plannedOn(plan: Plan, day: Day): { runs: PlannedRun[]; strength: PlannedStrength[] } {
   const w = plan.weeks.find((x) => day >= x.start && day <= addDays(x.start, 6))
   return { runs: w?.runs.filter((r) => r.day === day) ?? [], strength: w?.strength.filter((s) => s.day === day) ?? [] }
+}
+
+/**
+ * Le guide d'une sortie qui n'est pas au plan (ajoutée à la main) : les mêmes séances et les mêmes allures que le plan,
+ * au cran de la semaine du jour : plus on avance (base, développement, spécifique), plus le fractionné, le seuil et la
+ * fin de sortie longue à allure course sont exigeants. Sans plan marathon : la base, sans allures chiffrées.
+ */
+export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind: RaceKind, day: Day): PlannedRun {
+  const w = plan?.weeks.find((x) => day >= x.start && day <= addDays(x.start, 6)) ?? (plan ? plan.weeks[clamp(plan.current, 0, plan.weeks.length - 1)] : null)
+  const phase: Phase = w?.phase ?? 'base'
+  const deload = w?.deload ?? false
+  const walkRun = plan?.walkRun ?? false
+  const longPace = plan?.paces.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : (plan?.level ?? 'regular')]
+  const shape: WeekShape = {
+    start: w?.start ?? day,
+    phase,
+    deload,
+    sick: false,
+    frozen: false,
+    raceWeek: false,
+    firstTaper: false,
+    km: w?.km || Math.max(km / 0.15, 20),
+    longKm: w?.longKm || km,
+  }
+  const done = (d: Omit<Draft, 'day' | 'km'> & { km?: number }, longMp = 0): PlannedRun => {
+    const run: Draft = { day, km: d.km ?? km, kind: d.kind, detail: d.detail, pace: d.pace, segments: d.segments }
+    return { ...run, fastKm: round05(hardKm(run, longMp)) }
+  }
+  switch (kind) {
+    case 'easy':
+    case 'walkRun':
+      return walkRun || kind === 'walkRun'
+        ? done({ kind, detail: 'En aisance, en alternant course et marche', pace: 'easy', segments: walkRunSegments(km, phase, longPace) })
+        : done({ kind, detail: 'En aisance : tu peux parler en phrases', pace: 'easy', segments: [] })
+    case 'recovery':
+      return done({ kind, detail: 'Très facile, pour récupérer', pace: 'recovery', segments: [] })
+    case 'long': {
+      // Même règle que le plan : de l'allure course sur la fin seulement en phase spécifique ; plus tôt, un petit bout (10 %) en développement.
+      const mp =
+        walkRun || deload ? 0 : phase === 'specific' ? clamp(round05(km * 0.25), 3, 10) : phase === 'development' ? clamp(round05(km * 0.1), 1.5, 4) : 0
+      const detail = walkRun
+        ? 'Sortie longue en course-marche'
+        : mp > 0
+          ? `Sortie longue dont ${mp.toLocaleString('fr-FR')} km à allure course sur la fin`
+          : 'Sortie longue, régulière et facile'
+      return done({ kind, detail, pace: 'long', segments: walkRun ? walkRunSegments(km, phase, longPace) : [] }, mp)
+    }
+    case 'threshold':
+    case 'intervals':
+    case 'racePace': {
+      const q = qualityRun(kind, shape, raceKind)
+      return done({ ...q, km: km > 0 ? km : q.km }, 0)
+    }
+    case 'cross':
+      return done({ kind, detail: 'Vélo ou marche, sans impact, 45 min faciles', pace: null, segments: [], km: 0 })
+    case 'race':
+      return done({ kind, detail: 'Le jour J', pace: 'marathon', segments: [] })
+  }
+}
+
+/**
+ * Les blocs d'une sortie pour le minuteur : ceux du plan (fractionné, seuil, course-marche) ; pour une sortie longue ou
+ * à allure course, découpés en kilomètres puis convertis en temps avec les allures du plan (facile, puis allure course).
+ */
+export function runSegments(run: PlannedRun, plan: Plan | null): Segment[] {
+  if (run.segments.length > 0) return run.segments
+  if (!plan || run.km <= 0) return []
+  const longPace = plan.paces.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[plan.walkRun ? 'walkRun' : plan.level]
+  const easyPace = plan.paces.secPerKm.easy?.[1] ?? longPace
+  const mpPace = plan.paces.secPerKm.marathon?.[1] ?? Math.round(longPace * 0.88)
+  if (run.kind === 'long') {
+    const mp = Math.min(run.fastKm, run.km)
+    return mp > 0
+      ? [
+          { label: 'Facile', sec: Math.round((run.km - mp) * longPace), pace: 'long' },
+          { label: 'Allure course', sec: Math.round(mp * mpPace), pace: 'marathon' },
+        ]
+      : [{ label: 'Régulier et facile', sec: Math.round(run.km * longPace), pace: 'long' }]
+  }
+  if (run.kind === 'racePace' && run.km > 3)
+    return [
+      { label: 'Échauffement facile', sec: Math.round(1.5 * easyPace), pace: 'easy' },
+      { label: 'Allure course', sec: Math.round((run.km - 3) * mpPace), pace: 'marathon' },
+      { label: 'Retour au calme', sec: Math.round(1.5 * easyPace), pace: 'easy' },
+    ]
+  return []
 }
