@@ -28,6 +28,7 @@ export function fakeActions(over: Partial<Actions> = {}): Actions {
     saveSong: vi.fn(async () => {}),
     setSongStatus: vi.fn(async () => {}),
     setSongTab: vi.fn(async () => {}),
+    savePlanEdits: vi.fn(async () => {}),
     saveProgram: vi.fn(async () => {}),
     rerollChallenge: vi.fn(async () => {}),
     startCycle: vi.fn(async () => {}),

@@ -5,6 +5,7 @@
  */
 import type { Equipment, MuscleGroup, RepRange, SportMetric } from '../content/sportLibrary'
 import type { Cycle } from './cycles'
+import type { PlanEdits } from './dayItems'
 import type { MarathonProfile } from './marathon/profile'
 import type { WeeklyReview } from './weeklyReview'
 import type { GuitarProgress } from './guitar/engine'
@@ -170,6 +171,8 @@ export interface Profile {
   morningCheckin?: boolean
   /** Parcours guitare (lot G2) : progression par compétence et focus de la semaine. Facultatif : pas de migration. */
   guitar?: GuitarState
+  /** Séances ajoutées, déplacées ou retirées d'un jour (lot 20). Facultatif : pas de migration. */
+  planEdits?: PlanEdits
 }
 
 export interface GuitarState {

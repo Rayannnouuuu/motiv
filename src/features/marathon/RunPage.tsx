@@ -118,7 +118,7 @@ function FinishRun({ run, planned, onBack }: { run: RunState; planned: PlannedRu
 export function RunPage() {
   const mk = useMarathon()
   const navigate = useNavigate()
-  const asked = useLocation().state as { day?: string; kind?: RunKind } | null
+  const asked = useLocation().state as { day?: string; kind?: RunKind; km?: number } | null
   const [run, setRun] = useState<RunState | null>(() => loadRun())
   const [now, setNow] = useState(() => new Date())
   const [finishing, setFinishing] = useState(false)
@@ -152,7 +152,15 @@ export function RunPage() {
   const start = () => {
     primeBeep()
     setNow(new Date())
-    setRun({ id: crypto.randomUUID(), day, kind: kind ?? 'easy', km: planned?.km ?? 0, startedAt: new Date().toISOString(), pausedAt: null, pausedMs: 0 })
+    setRun({
+      id: crypto.randomUUID(),
+      day,
+      kind: kind ?? 'easy',
+      km: planned?.km ?? asked?.km ?? 0,
+      startedAt: new Date().toISOString(),
+      pausedAt: null,
+      pausedMs: 0,
+    })
   }
   const togglePause = () => {
     const at = new Date()

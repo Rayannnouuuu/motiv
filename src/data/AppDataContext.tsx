@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import type { PlanEdits } from '../domain/dayItems'
 import type { Chrono, MarathonProfile } from '../domain/marathon/profile'
 import type { Checkin, DataV1, GuitarState, Idea, Proof, SongStatus } from '../domain/model'
 import type { ImportedRun } from '../domain/stravaImport'
@@ -71,6 +72,8 @@ export interface Actions {
   setSickWeek(monday: Day, sick: boolean): Promise<void>
   /** Un jour où tu n'es pas disponible (plan marathon + muscu) : le plan se recalcule sans lui. */
   setOffDay(day: Day, off: boolean): Promise<void>
+  /** Séances ajoutées, déplacées ou retirées d'un jour : l'état complet remplace le précédent. */
+  savePlanEdits(e: PlanEdits): Promise<void>
   /** Preuve audio ou photo (lot 5) : la fiche et son fichier, écrits ensemble. */
   saveProof(p: Proof, bytes: ArrayBuffer): Promise<void>
   deleteProof(id: string): Promise<void>

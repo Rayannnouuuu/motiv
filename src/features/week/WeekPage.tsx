@@ -16,10 +16,12 @@ import { Pill } from '../../ui/Pill'
 import { Screen } from '../../ui/Screen'
 import { Switch } from '../../ui/Switch'
 import { TileRow } from '../../ui/Tile'
-import { dayLabel, km, runLabel } from '../marathon/format'
+import { dayLabel, km } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { useStartPlanned } from '../marathon/useStartPlanned'
 import { DaySheet, type Chip } from './DaySheet'
+import { itemLabel } from './itemLabel'
+import { itemsOn, addSession, moveItem, removeItem, EMPTY_EDITS, type DayItem, type PlannedItem } from '../../domain/dayItems'
 import { currentWeek, planWeekLabel, planWeekProgress } from './planWeek'
 import { useRhythm } from './useRhythm'
 
@@ -82,7 +84,7 @@ export function WeekPage() {
   const { data, v1, today } = useAppData()
   const mk = useMarathon()
   const start = useStartPlanned()
-  const { setOffDay } = useActions()
+  const { setOffDay, savePlanEdits } = useActions()
   const navigate = useNavigate()
   const [openDay, setOpenDay] = useState<string | null>(null)
   const monday = weekStart(today)
@@ -100,8 +102,17 @@ export function WeekPage() {
   const race = mk?.m.race.kind ?? 'marathon'
   const sportGoal = goals.sport
   const names = new Map(data.programs.map((p) => [p.id, p.name]))
+  const edits = v1.profile.planEdits ?? EMPTY_EDITS
+  const label = (i: PlannedItem) => itemLabel(i, (id) => names.get(id))
+  /** Lancer une séance d'aujourd'hui. Une sortie ajoutée n'a pas de détail au plan : on passe sa distance. */
+  const launch = ({ item: i, addedId }: DayItem) =>
+    i.kind === 'strength'
+      ? start.strength(i.programId)
+      : i.kind === 'guitar'
+        ? navigate('/seance')
+        : i.runKind !== 'cross' && navigate('/course', { state: { day: today, kind: i.runKind, ...(addedId ? { km: i.km } : {}) } })
+  const programs = data.programs.filter((p) => !p.archived).sort((a, b) => a.position - b.position)
 
-  const shownWeek = plan?.weeks.find((w) => w.start === shownMonday) ?? null
   const focusId = v1.profile.guitar ? weekFocus(v1.profile.guitar.progress, v1.profile.guitar.focus, today) : null
   const guitarFocus = focusId ? getSkill(focusId) : null
   const weekName = shift === 0 ? 'Cette semaine' : shift === 1 ? 'Semaine prochaine' : `Semaine du ${shortDate(shownMonday)}`
@@ -121,28 +132,20 @@ export function WeekPage() {
         to: `/log/corriger/${s.id}`,
       })
     }
-    // Le prévu du plan, à partir d'aujourd'hui, tant qu'il n'est pas fait.
-    if (shownWeek && day >= today) {
-      const ran = sessions.some((s) => runOf(s))
-      const lifted = sessions.some((s) => s.discipline === 'sport' && !runOf(s))
-      for (const r of shownWeek.runs.filter((x) => x.day === day && !ran))
-        chips.push({
-          key: `run-${r.kind}`,
-          tone: 'sport',
-          icon: 'sport',
-          text: `${runLabel(r, race)}${r.km > 0 ? ` ${km(r.km)}` : ''}`,
-          done: false,
-          onClick: day === today && r.kind !== 'cross' ? () => start.run(r) : undefined,
-        })
-      for (const st of shownWeek.strength.filter((x) => x.day === day && !lifted))
-        chips.push({
-          key: `muscu-${st.programId}`,
-          tone: 'sport',
-          icon: 'muscu',
-          text: `${st.name}${st.light ? ' léger' : ''}`,
-          done: false,
-          onClick: day === today ? () => start.strength(st.programId) : undefined,
-        })
+    // Le prévu (plan et séances ajoutées), tant qu'il n'est pas fait ; un jour passé de la semaine : manqué.
+    for (const it of itemsOn(day, { plan, edits, sessions: v1.sessions })) {
+      if (it.done) continue
+      const missed = day < today
+      const text = label(it.item)
+      chips.push({
+        key: it.key,
+        tone: it.item.kind === 'guitar' ? 'guitar' : 'sport',
+        icon: it.item.kind === 'strength' ? 'muscu' : it.item.kind === 'guitar' ? 'guitar' : 'sport',
+        text: missed ? `${text} · manquée` : text,
+        done: false,
+        item: it,
+        onClick: day === today ? () => launch(it) : undefined,
+      })
     }
     return chips
   }
@@ -342,6 +345,14 @@ export function WeekPage() {
           items={off.has(openDay) ? [] : chipsOf(openDay)}
           log={openDay === today ? { day: openDay, when: "Aujourd'hui" } : openDay === addDays(today, -1) ? { day: openDay, when: 'Hier' } : null}
           isToday={openDay === today}
+          edits={{
+            day: openDay,
+            today,
+            programs,
+            onAdd: (day, item) => void savePlanEdits(addSession(edits, day, item, crypto.randomUUID())),
+            onMove: (it, to) => void savePlanEdits(moveItem(edits, it, to, crypto.randomUUID())),
+            onRemove: (it) => void savePlanEdits(removeItem(edits, it)),
+          }}
           off={mk && openDay >= today ? off.has(openDay) : null}
           onOff={(v) => void setOffDay(openDay, v)}
           onNavigate={(to, state) => navigate(to, state ? { state } : undefined)}

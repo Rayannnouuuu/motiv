@@ -1,10 +1,11 @@
 import { useId, useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAppData } from '../../data/AppDataContext'
+import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
-import { longDate } from '../../domain/date'
+import { addDays, daysBetween, longDate } from '../../domain/date'
 import { focusOf, reviewDue } from '../../domain/weeklyReview'
+import { EMPTY_EDITS, missedBefore, moveItem, removeItem } from '../../domain/dayItems'
 import { EMPTY_PROGRESS } from '../../domain/guitar/engine'
 import { currentStep } from '../../domain/guitar/tracks'
 import { guitarWeek } from '../../domain/guitarWeek'
@@ -17,6 +18,7 @@ import { Screen } from '../../ui/Screen'
 import { GoalTile, TileRow } from '../../ui/Tile'
 import { StorageNotices } from '../backup/StorageNotices'
 import { StartSheet } from '../start/StartSheet'
+import { itemLabel } from '../week/itemLabel'
 import { currentWeek, planWeekProgress } from '../week/planWeek'
 import { useRhythm } from '../week/useRhythm'
 import { MorningCheckin } from './MorningCheckin'
@@ -146,6 +148,7 @@ export function TodayPage() {
   const nextChord = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'chords')
   const nextScale = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'scales')
   const navigate = useNavigate()
+  const { savePlanEdits } = useActions()
   const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
   const rhythm = useRhythm()
   // Séance de sport composée à la main (autre séance, course à la fin) : remplace celle prévue.
@@ -158,6 +161,11 @@ export function TodayPage() {
   const isOpen = (c: DayCard) => open[c.tone] ?? (c.tone === first || c.state === 'live')
   const toggle = (c: DayCard) => setOpen({ ...open, [c.tone]: !isOpen(c) })
   const maintain = songsToMaintain(v1.songs, v1.sessions, today)
+  // Séances prévues les 3 derniers jours et pas faites : à rattraper aujourd'hui, ou à laisser tomber.
+  const edits = v1.profile.planEdits ?? EMPTY_EDITS
+  const programName = (id: string) => data.programs.find((p) => p.id === id)?.name
+  const missed = missedBefore(today, { plan: mk?.plan ?? null, edits, sessions: v1.sessions })
+  const ago = (day: string) => (day === addDays(today, -1) ? 'hier' : day === addDays(today, -2) ? 'avant-hier' : `il y a ${daysBetween(day, today)} jours`)
 
   const goals = rhythm.week
   const minutes = guitarWeek(data.guitarSessions, today).days.reduce((n, d) => n + d.minutes, 0)
@@ -244,6 +252,34 @@ export function TodayPage() {
             />
           ))}
         </div>
+
+        {missed.length > 0 && (
+          <section aria-labelledby="missed-title">
+            <SectionHeader id="missed-title" title="Pas faite" action={missed.length > 1 ? `${missed.length} séances` : undefined} />
+            <div className="flex flex-col gap-2.5">
+              {missed.map((m) => (
+                <div key={`${m.day}-${m.key}`} className="flex flex-col gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
+                  <p className="t-subhead">
+                    <span className="font-semibold">{itemLabel(m.item, programName)}</span>
+                    <span className="text-muted"> · prévue {ago(m.day)}</span>
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      className="flex-1"
+                      tone={m.item.kind === 'guitar' ? 'guitar' : 'sport'}
+                      onClick={() => void savePlanEdits(moveItem(edits, m, today, crypto.randomUUID()))}
+                    >
+                      La faire aujourd'hui
+                    </Button>
+                    <Button className="flex-1" variant="secondary" onClick={() => void savePlanEdits(removeItem(edits, m))}>
+                      Laisser tomber
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <PlateauCard />
 
