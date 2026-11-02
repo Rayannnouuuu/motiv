@@ -6,16 +6,16 @@ const plan: Plan = generatePlan(profile({ level: { chrono: { distance: '10k', se
 const dayOf = (phase: Phase) => plan.weeks.find((w) => w.phase === phase && !w.deload)!.start
 
 describe('guide d’une sortie ajoutée à la main', () => {
-  test('la sortie longue : facile en base, un petit bout à allure course en développement, plus en spécifique', () => {
+  test('la sortie longue suit le plan : facile et régulière, de l’allure course sur la fin seulement en phase spécifique', () => {
     const base = guideRun('long', 20, plan, 'marathon', dayOf('base'))
     const dev = guideRun('long', 20, plan, 'marathon', dayOf('development'))
     const spec = guideRun('long', 20, plan, 'marathon', dayOf('specific'))
     expect(base).toMatchObject({ kind: 'long', km: 20, pace: 'long', fastKm: 0, detail: 'Sortie longue, régulière et facile' })
-    expect(dev.fastKm).toBe(2)
+    expect(dev).toMatchObject({ kind: 'long', fastKm: 0, detail: 'Sortie longue, régulière et facile' })
     expect(spec.fastKm).toBe(5)
-    expect(base.fastKm).toBeLessThan(dev.fastKm)
-    expect(dev.fastKm).toBeLessThan(spec.fastKm)
     expect(spec.detail).toBe('Sortie longue dont 5 km à allure course sur la fin')
+    // Une sortie longue reste une sortie longue : jamais de blocs de fractionné.
+    for (const r of [base, dev, spec]) expect(r.segments).toEqual([])
   })
 
   test('une semaine allégée garde la sortie longue facile', () => {

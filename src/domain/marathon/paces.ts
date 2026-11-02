@@ -7,6 +7,8 @@ import { CHRONO_KM, RACE_KM, type Chrono, type ChronoDistance, type MarathonProf
 /** Exposant de Riegel et marge prudente appliquée aux temps prédits. */
 export const RIEGEL_EXPONENT = 1.06
 export const PRUDENT_MARGIN = 1.05
+/** Marge des allures de travail (seuil, fractionné) : plus exigeante que celle de la course. */
+export const TRAIN_MARGIN = 1.02
 
 /** Temps prédit sur `toKm` à partir d'un temps `sec` sur `fromKm`. */
 export const riegel = (sec: number, fromKm: number, toKm: number) => sec * (toKm / fromKm) ** RIEGEL_EXPONENT
@@ -75,6 +77,8 @@ export function paces(p: MarathonProfile, today: string): Paces {
 
   const fromKm = CHRONO_KM[c.distance]
   const at = (km: number) => (riegel(c.sec, fromKm, km) * PRUDENT_MARGIN) / km
+  // Les allures de travail (seuil, fractionné) visent ta forme du jour, avec une marge réduite : la prudence pleine reste pour la course.
+  const train = (km: number) => (riegel(c.sec, fromKm, km) * TRAIN_MARGIN) / km
   let race = at(raceKm)
   const predictedSec = race * raceKm
   // Objectif plus lent que le chrono : on s'entraîne à l'objectif (prudence). Plus rapide : on garde le chrono.
@@ -94,11 +98,11 @@ export function paces(p: MarathonProfile, today: string): Paces {
     predictedSec,
     secPerKm: {
       marathon: [r(race), r(race)],
-      easy: [r(marathon * 1.15), r(marathon * 1.25)],
-      long: [r(marathon * 1.18), r(marathon * 1.28)],
-      recovery: [r(marathon * 1.3), r(marathon * 1.4)],
-      threshold: [r(at(15)), r(at(15) * 1.02)],
-      intervals: [r(at(5)), r(at(5) * 1.02)],
+      easy: [r(marathon * 1.1), r(marathon * 1.2)],
+      long: [r(marathon * 1.12), r(marathon * 1.22)],
+      recovery: [r(marathon * 1.25), r(marathon * 1.35)],
+      threshold: [r(train(15)), r(train(15) * 1.02)],
+      intervals: [r(train(5)), r(train(5) * 1.02)],
     },
     feel: FEEL,
     hr,

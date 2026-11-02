@@ -70,7 +70,7 @@ export function useToday() {
     if (a.item.kind === 'run') {
       const r = guideRun(a.item.runKind, a.item.km, plan, race, today)
       addedRuns.add(r)
-      todaysRuns.push(r)
+      todaysRuns.unshift(r)
     } else if (a.item.kind === 'strength') {
       const programId = a.item.programId
       const name = data.programs.find((p) => p.id === programId)?.name ?? a.item.name ?? 'Muscu'
@@ -81,6 +81,8 @@ export function useToday() {
   const run = ranToday ? undefined : todays?.runs.find((r) => r.kind !== 'cross')
   const cross = todays?.runs.find((r) => r.kind === 'cross')
   const lift = liftedToday ? undefined : todays?.strength[0]
+  // Une autre sortie prévue le même jour (celle que tu as ajoutée passe devant) : listée, pas lancée.
+  const alsoRun = ranToday ? [] : (todays?.runs ?? []).filter((r) => r !== run && r.kind !== 'cross')
   const liftProgram = lift && data.programs.find((p) => p.id === lift.programId)
   const runName = (r: PlannedRun) => `${runLabel(r, race)}${r.km > 0 ? ` ${km(r.km)}` : ''}`
   const planned: PlannedToday | null = run
@@ -187,6 +189,7 @@ export function useToday() {
     if (!plan && (run || lift)) {
       const steps: Step[] = []
       if (run) steps.push({ title: `Course · ${runLabel(run, race).toLowerCase()}`, detail: run.km > 0 ? km(run.km) : '', group: 'Course' })
+      for (const r of alsoRun) steps.push({ title: `Aussi prévu · ${runLabel(r, race).toLowerCase()}`, detail: r.km > 0 ? km(r.km) : '', group: 'Course' })
       if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}`))
       return {
         tone: 'sport',
@@ -208,6 +211,7 @@ export function useToday() {
             group: 'Course',
           })
         else if (cross && !ranToday) steps.push({ title: runLabel(cross, race), detail: cross.detail, group: 'Course' })
+        for (const r of alsoRun) steps.push({ title: `Aussi prévu · ${runLabel(r, race).toLowerCase()}`, detail: r.km > 0 ? km(r.km) : '', group: 'Course' })
         if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}${lift.light ? ' (léger)' : ''}`))
         const names = [run ? runName(run) : cross && !ranToday ? runLabel(cross, race) : null, lift?.name].filter(Boolean)
         return {

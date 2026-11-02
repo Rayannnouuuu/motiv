@@ -554,8 +554,8 @@ export function plannedOn(plan: Plan, day: Day): { runs: PlannedRun[]; strength:
 
 /**
  * Le guide d'une sortie qui n'est pas au plan (ajoutée à la main) : les mêmes séances et les mêmes allures que le plan,
- * au cran de la semaine du jour : plus on avance (base, développement, spécifique), plus le fractionné, le seuil et la
- * fin de sortie longue à allure course sont exigeants. Sans plan marathon : la base, sans allures chiffrées.
+ * au cran de la semaine du jour : plus on avance (base, développement, spécifique), plus le fractionné et le seuil sont
+ * exigeants, et la sortie longue finit à allure course en phase spécifique. Sans plan marathon : la base, sans allures chiffrées.
  */
 export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind: RaceKind, day: Day): PlannedRun {
   const w = plan?.weeks.find((x) => day >= x.start && day <= addDays(x.start, 6)) ?? (plan ? plan.weeks[clamp(plan.current, 0, plan.weeks.length - 1)] : null)
@@ -587,9 +587,8 @@ export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind:
     case 'recovery':
       return done({ kind, detail: 'Très facile, pour récupérer', pace: 'recovery', segments: [] })
     case 'long': {
-      // Même règle que le plan : de l'allure course sur la fin seulement en phase spécifique ; plus tôt, un petit bout (10 %) en développement.
-      const mp =
-        walkRun || deload ? 0 : phase === 'specific' ? clamp(round05(km * 0.25), 3, 10) : phase === 'development' ? clamp(round05(km * 0.1), 1.5, 4) : 0
+      // Même règle que le plan : de l'allure course sur la fin seulement en phase spécifique, sinon une sortie longue facile et régulière.
+      const mp = walkRun || deload || phase !== 'specific' ? 0 : clamp(round05(km * 0.25), 3, 10)
       const detail = walkRun
         ? 'Sortie longue en course-marche'
         : mp > 0
