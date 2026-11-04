@@ -2,7 +2,7 @@
 
 _4 nov. 2026. Retour d'usage : « reprends tous les plans de sport, ce n'est pas assez exigeant, je ne dépasse jamais 20 km par semaine, c'est peu pour préparer un marathon »._
 
-**État : sur la branche `refonte/lot-24`, en attente de validation. Pas en ligne.**
+**État : en ligne sur `/motiv/` (« Push », 4 nov.).**
 
 ## Cause
 
