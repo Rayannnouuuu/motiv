@@ -236,9 +236,39 @@ describe('adaptation semaine après semaine', () => {
     expect(plan.alerts).toEqual([])
   })
 
-  test('faite à 70 % : on repart de ce qui a été fait', () => {
-    const plan = generatePlan(p, 75, all(25), '2026-10-26')
-    expect(plan.weeks[1].km).toBeLessThanOrEqual(25 * 1.1 + 0.5)
+  test('faite à 65 % : on repart de ce qui a été fait', () => {
+    const did = week0.km * 0.65
+    const plan = generatePlan(p, 75, all(did), '2026-10-26')
+    // Le plan repart de ce qui a été fait, sans descendre sous 70 % du volume de départ.
+    expect(plan.weeks[1].km).toBeLessThanOrEqual(Math.max(did, week0.km * 0.7) * 1.1 + 0.5)
+    expect(plan.weeks[1].km).toBeLessThan(week0.km * 1.1)
+  })
+
+  test('faite à 75 % : presque tenue, on garde le même volume avant de monter', () => {
+    const plan = generatePlan(p, 75, all(week0.km * 0.75), '2026-10-26')
+    expect(plan.weeks[1].km).toBeLessThanOrEqual(week0.km + 0.5)
+    expect(plan.weeks[1].km).toBeGreaterThanOrEqual(week0.km - 0.5)
+    expect(plan.alerts).toEqual(['Semaine presque tenue : on garde le même volume avant de monter.'])
+  })
+
+  test('faite à 90 % : tenue, la progression continue (elle ne repart pas de ce qui a été couru)', () => {
+    const plan = generatePlan(p, 75, all(week0.km * 0.9), '2026-10-26')
+    expect(plan.weeks[1].km).toBeGreaterThan(week0.km)
+    expect(plan.alerts).toEqual([])
+  })
+
+  test('90 % de réalisation chaque semaine : le volume monte, il ne reste pas bloqué au même niveau', () => {
+    const start = profile({ level: { weeklyKm: 20, longestKm: 10, years: 1, chrono: null }, constraints: { days: [1, 3, 5, 6], longRunDay: 6, gym: false } })
+    const done: DoneRun[] = []
+    const planned: number[] = []
+    for (let k = 0; k < 14; k++) {
+      const plan = generatePlan(start, 78, done, addDays(TODAY, 7 * k))
+      const w = plan.weeks[k]
+      planned.push(w.km)
+      for (const r of w.runs.filter((x) => x.kind !== 'cross')) done.push(run(r.day, r.km * 0.9))
+    }
+    expect(planned[13]).toBeGreaterThanOrEqual(planned[0] * 2)
+    expect(Math.max(...planned)).toBeGreaterThanOrEqual(45)
   })
 
   test('une semaine manquée : pas de rattrapage, même volume', () => {
