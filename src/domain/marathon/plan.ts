@@ -113,11 +113,17 @@ export const RULES = {
   painMax: 3,
   /** Pas de musculation les 10 derniers jours. */
   noStrengthDays: 10,
+  /** Part du volume prévu faite la semaine d'avant : sous 50 %, semaine manquée. */
+  missedBelow: 0.5,
+  /** Sous 70 %, le plan repart de ce qui a été couru. */
+  heldBelow: 0.7,
+  /** À partir de 85 %, la semaine est tenue : la progression continue. Entre les deux, on garde le même volume. */
+  keptAt: 0.85,
 }
 
 const PEAK_KM: Record<'marathon' | 'half', Record<RunnerLevel, number>> = {
-  marathon: { experienced: 70, regular: 50, beginner: 35 },
-  half: { experienced: 50, regular: 38, beginner: 25 },
+  marathon: { experienced: 85, regular: 65, beginner: 45 },
+  half: { experienced: 62, regular: 48, beginner: 32 },
 }
 /** Allure de sortie longue supposée sans chrono (s/km), pour le plafond de 3 h. */
 const DEFAULT_LONG_PACE: Record<RunnerLevel | 'walkRun', number> = { experienced: 345, regular: 390, beginner: 480, walkRun: 510 }
@@ -298,7 +304,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
     return { runs: runs.map((r) => ({ ...r, fastKm: 0 })), strength: [] }
   }
 
-  const maxRuns = Math.min(walkRun ? 4 : { experienced: 5, regular: 4, beginner: 3 }[level], cautious ? 4 : 5)
+  const maxRuns = Math.min(walkRun ? 4 : { experienced: 5, regular: 5, beginner: 4 }[level], cautious ? 4 : 5)
   const runDays = pickDays(days, longDay, Math.min(days.length, maxRuns)).filter((d) => dayOf(d) >= c.from)
   const hasLong = runDays.includes(longDay)
 
@@ -469,12 +475,19 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
       const prev = weeks[i - 1]
       const did = byWeek.get(prev.start) ?? { km: 0, longest: 0 }
       if (prev.phase !== 'taper') {
-        if (did.km < prev.km * 0.5) missed++
+        const ratio = prev.km > 0 ? did.km / prev.km : 1
+        if (ratio < RULES.missedBelow) missed++
         else {
           missed = 0
           if (!prev.deload && !prev.sick) {
             lastGood = { km: did.km, long: Math.max(did.longest, longStart) }
-            build = Math.min(build, Math.max(did.km, startKm * 0.7))
+            // Une semaine tenue à 85 % ou plus compte comme tenue : le plan continue sa progression. Avant, il repartait de ce
+            // qui avait été couru, donc 90 % de réalisation le bloquait au même volume pour toujours.
+            if (ratio < RULES.heldBelow) build = Math.min(build, Math.max(did.km, startKm * 0.7))
+            else if (ratio < RULES.keptAt) {
+              grow = false
+              if (i === current) alerts.push('Semaine presque tenue : on garde le même volume avant de monter.')
+            }
           }
         }
         if (missed >= 2) {
