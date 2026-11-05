@@ -28,6 +28,8 @@ export interface SportDraft {
   flowRating: Rating
   desireRating: Rating
   note?: string
+  /** Séance légère (semaine allégée, affûtage) : marquée comme telle, hors de la progression des charges. */
+  light?: boolean
 }
 
 /** Une sortie de course, notée en fin de séance (lot 3). */

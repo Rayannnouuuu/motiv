@@ -15,7 +15,7 @@ import { guitarToday, weekGoals } from '../../domain/streak'
 import { guitarTarget } from '../../domain/targets'
 import type { Domain, Program } from '../../domain/types'
 import type { Step } from '../../ui/Hero'
-import { activeExercises, formatWeight, loadLive, prefillFor, resolveIndex, tracking } from '../log-sport/liveSession'
+import { activeExercises, formatWeight, lightExercises, lightPrefill, loadLive, prefillFor, resolveIndex, tracking } from '../log-sport/liveSession'
 import { dayLabel, km, paceText, runLabel } from '../marathon/format'
 import { useMarathon } from '../marathon/useMarathon'
 import { runningPracticeMinutes } from '../practice/practiceSession'
@@ -88,7 +88,7 @@ export function useToday() {
   const planned: PlannedToday | null = run
     ? { label: `Commencer : ${runLabel(run, race)}`, to: '/course', state: { day: run.day, kind: run.kind, ...(addedRuns.has(run) ? { km: run.km } : {}) } }
     : lift
-      ? { label: `Commencer : ${lift.name}`, to: '/log/sport', state: { programId: lift.programId } }
+      ? { label: `Commencer : ${lift.name}`, to: '/log/sport', state: { programId: lift.programId, ...(lift.light ? { light: true } : {}) } }
       : null
 
   const queue: QueueItem[] = todayQueue({ data, today, guitarLiveMin, sportLiveProgram: liveProgram?.name ?? null, planned, planActive: plan !== null }).map(
@@ -101,9 +101,10 @@ export function useToday() {
   const sportAction = queue.find((q) => q.tone === 'sport')?.action
   const guitarAction = queue.find((q) => q.tone === 'guitar')?.action
 
-  const programSteps = (p: Program, group?: string): Step[] =>
-    activeExercises(p).map((e) => {
-      const pre = prefillFor(e, track)
+  /** Les exos d'une séance avec leurs séries et leur charge ; une séance légère : moitié des séries, charges −10 %. */
+  const programSteps = (p: Program, group?: string, light?: boolean): Step[] =>
+    lightExercises(activeExercises(p), light).map((e) => {
+      const pre = lightPrefill(prefillFor(e, track), light)
       return { title: e.name, detail: `${e.targetSets}×${e.targetReps}${pre.known ? ` · ${formatWeight(pre.weightKg)}` : ''}`, group }
     })
 
@@ -190,7 +191,7 @@ export function useToday() {
       const steps: Step[] = []
       if (run) steps.push({ title: `Course · ${runLabel(run, race).toLowerCase()}`, detail: run.km > 0 ? km(run.km) : '', group: 'Course' })
       for (const r of alsoRun) steps.push({ title: `Aussi prévu · ${runLabel(r, race).toLowerCase()}`, detail: r.km > 0 ? km(r.km) : '', group: 'Course' })
-      if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}`))
+      if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}`, lift.light))
       return {
         tone: 'sport',
         state: 'todo',
@@ -212,7 +213,7 @@ export function useToday() {
           })
         else if (cross && !ranToday) steps.push({ title: runLabel(cross, race), detail: cross.detail, group: 'Course' })
         for (const r of alsoRun) steps.push({ title: `Aussi prévu · ${runLabel(r, race).toLowerCase()}`, detail: r.km > 0 ? km(r.km) : '', group: 'Course' })
-        if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}${lift.light ? ' (léger)' : ''}`))
+        if (lift && liftProgram) steps.push(...programSteps(liftProgram, `Muscu · ${lift.name}${lift.light ? ' (léger)' : ''}`, lift.light))
         const names = [run ? runName(run) : cross && !ranToday ? runLabel(cross, race) : null, lift?.name].filter(Boolean)
         return {
           tone: 'sport',
@@ -288,6 +289,8 @@ export function useToday() {
   /** La séance que tu composes : une séance de muscu (ou aucune), puis la course si tu la veux. */
   const custom = (programId: string | null, withRun: boolean): DayCard => {
     const p = choices.find((x) => x.id === programId)
+    // La séance légère du plan reste légère quand on la lance d'ici, avec ou sans la course.
+    const light = lift?.light === true && p?.id === lift.programId
     if (!p)
       return {
         tone: 'sport',
@@ -302,8 +305,13 @@ export function useToday() {
       state: 'todo',
       title: withRun ? `${p.name} + course` : p.name,
       subtitle: withRun ? 'Muscu, puis la course' : sport.subtitle,
-      steps: [...programSteps(p, `Muscu · ${p.name}`), ...(withRun ? [runStep('Course à la fin')] : [])],
-      cta: { label: 'Commencer', icon: 'play', to: '/log/sport', state: { programId: p.id, ...(withRun ? { thenRun: runState } : {}) } },
+      steps: [...programSteps(p, `Muscu · ${p.name}`, light), ...(withRun ? [runStep('Course à la fin')] : [])],
+      cta: {
+        label: 'Commencer',
+        icon: 'play',
+        to: '/log/sport',
+        state: { programId: p.id, ...(light ? { light: true } : {}), ...(withRun ? { thenRun: runState } : {}) },
+      },
     }
   }
   /** Ce que la carte Sport propose par défaut : la muscu prévue (ou due), avec la course prévue aujourd'hui. */

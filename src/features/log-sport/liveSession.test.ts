@@ -4,6 +4,9 @@ import { v1Of } from '../../test/renderWithData'
 import { EMPTY_DATA } from '../../domain/types'
 import {
   isStale,
+  lightExercises,
+  lightSets,
+  lightWeight,
   liveReducer,
   loadLive,
   prefillFor,
@@ -199,4 +202,28 @@ test('recentSetsFor : 3 dernières séances sur l’exo, séries dans l’ordre'
     { day: '2026-09-20', sets: [set(60, 8, 'a', 1)] },
   ])
   expect(recentSetsFor('a', [])).toEqual([])
+})
+
+describe('séance légère', () => {
+  test('moitié des séries (au moins une), charges −10 % arrondies à 2,5 kg, poids du corps inchangé', () => {
+    expect([1, 2, 3, 4, 5].map(lightSets)).toEqual([1, 1, 2, 2, 3])
+    expect(lightWeight(65, true)).toBe(57.5)
+    expect(lightWeight(100, true)).toBe(90)
+    expect(lightWeight(0, true)).toBe(0)
+    expect(lightWeight(65, false)).toBe(65)
+    expect(lightWeight(65, undefined)).toBe(65)
+    const ex = [pe({ targetSets: 4 }), pe({ targetSets: 3 })]
+    expect(lightExercises(ex, true).map((e) => e.targetSets)).toEqual([2, 2])
+    expect(lightExercises(ex, false)).toBe(ex)
+  })
+})
+
+test('tracking : une séance légère n’entre pas dans la progression des charges', () => {
+  const heavy = ss([set(60, 8, 'bench', 1)], '2026-10-01', 'haut')
+  const light = ss([set(54, 8, 'bench', 1)], '2026-10-08', 'haut')
+  const base = v1Of({ ...EMPTY_DATA, programs: [program({ id: 'haut', exercises: [pe({ id: 'bench', programId: 'haut' })] })], sportSessions: [heavy, light] })
+  const flagged = { ...base, sessions: base.sessions.map((x) => (x.day === '2026-10-08' ? { ...x, isLight: true } : x)) }
+  const entry = pe({ id: 'bench', programId: 'haut' })
+  expect(prefillFor(entry, tracking(flagged)).weightKg).toBeGreaterThanOrEqual(60)
+  expect(prefillFor(entry, tracking(base)).weightKg).toBeLessThanOrEqual(60)
 })
