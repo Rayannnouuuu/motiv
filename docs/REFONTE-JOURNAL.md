@@ -180,3 +180,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 22 — La sortie longue reste une sortie longue (priorité à ce que tu ajoutes) ; allures calées sur tes sorties puis resserrées sur tout le programme : en ligne.
 - [x] Lot 23 — La séance de muscu « légère » est vraiment légère (moitié des séries, charges −10 %, hors progression) : en ligne.
 - [x] Lot 24 — Plan plus exigeant : fin du blocage à 20 km par semaine (adaptation qui ne tire plus le plan vers le bas, volumes maximum relevés) : en ligne.
+- [ ] Audit de cohérence des plans de sport (`docs/AUDIT-SPORT.md`) : 7 incohérences, lots 25 à 28 proposés, en attente de validation.
