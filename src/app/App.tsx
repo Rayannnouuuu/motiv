@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import { BottomNav } from './BottomNav'
+import { SpaceChooser, useSpace } from './space'
 import { LevelUpWatcher } from '../features/levels/LevelUpWatcher'
 import { TodayPage } from '../features/today/TodayPage'
 
@@ -32,6 +33,8 @@ const StravaPage = page(() => import('../features/strava/StravaPage'), 'StravaPa
 const GuidedSessionPage = page(() => import('../features/guitar/GuidedSessionPage'), 'GuidedSessionPage')
 
 function Shell({ children }: { children: ReactNode }) {
+  // À l'ouverture : l'écran noir Sport / Guitare avant tout écran à onglets.
+  if (useSpace().choosing) return <SpaceChooser />
   return (
     <>
       {/* Marge de 20 px ; la place de la barre d'onglets en fin de page. */}
@@ -269,6 +272,7 @@ export function AppRoutes() {
           }
         />
         {/* Anciennes adresses (favoris, anciens rappels). */}
+        <Route path="/parcours" element={<Navigate to="/parcours/accords" replace />} />
         <Route path="/semaine" element={<Navigate to="/plan" replace />} />
         <Route path="/marathon" element={<Navigate to="/plan/course" replace />} />
         <Route path="/bibliotheque" element={<LibraryRedirect />} />

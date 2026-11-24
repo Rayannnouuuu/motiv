@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { Icon, type IconName } from '../../design/icons'
 import { TONE } from '../../design/tone'
@@ -59,6 +60,7 @@ export function DaySheet({
   onClose: () => void
 }) {
   const [sel, setSel] = useState<Chip | null>(null)
+  const { space } = useSpace()
   const [adding, setAdding] = useState(false)
   return (
     <Sheet label={label} onClose={onClose} title={() => <h2 className="t-headline text-center capitalize">{label}</h2>}>
@@ -83,13 +85,15 @@ export function DaySheet({
           )}
           {log && (
             <Group>
-              <Row
-                icon={<Icon name="guitar" className="text-guitar" />}
-                title="Noter une séance de guitare"
-                subtitle={log.when}
-                onClick={() => (close(), onNavigate('/log/guitare', { day: log.day }))}
-              />
-              {isToday && (
+              {inSpace(space, 'guitar') && (
+                <Row
+                  icon={<Icon name="guitar" className="text-guitar" />}
+                  title="Noter une séance de guitare"
+                  subtitle={log.when}
+                  onClick={() => (close(), onNavigate('/log/guitare', { day: log.day }))}
+                />
+              )}
+              {isToday && inSpace(space, 'sport') && (
                 <Row
                   icon={<Icon name="sport" className="text-sport" />}
                   title="Faire une séance de sport"

@@ -180,3 +180,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 22 — La sortie longue reste une sortie longue (priorité à ce que tu ajoutes) ; allures calées sur tes sorties puis resserrées sur tout le programme : en ligne.
 - [x] Lot 23 — La séance de muscu « légère » est vraiment légère (moitié des séries, charges −10 %, hors progression) : en ligne.
 - [x] Lot 24 — Plan plus exigeant : fin du blocage à 20 km par semaine (adaptation qui ne tire plus le plan vers le bas, volumes maximum relevés) : en ligne.
+- [ ] Lot 26 — Deux espaces, Sport et Guitare, avec un écran noir de choix à l’ouverture : sur l’essai, en attente de validation.

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { registerSW } from 'virtual:pwa-register'
 import { AppRoutes } from './app/App'
 import { KeepAwake } from './app/KeepAwake'
+import { SpaceProvider } from './app/space'
 import { setupUpdates } from './app/updates'
 import { AppDataProvider } from './data/AppDataProvider'
 import { createDb } from './data/db'
@@ -17,7 +18,6 @@ import '@fontsource/pixelify-sans/latin-600.css'
 import '@fontsource/pixelify-sans/latin-700.css'
 import '@fontsource/pixelify-sans/latin-ext-700.css'
 import './index.css'
-import { Splash } from './ui/Splash'
 import { followSystemTheme, getStyle, setStyle } from './design/theme'
 
 // Sur iPhone, :active (retour visuel à l'appui) ne s'applique que si la page écoute les touchers.
@@ -35,10 +35,11 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* « /motiv » ou « /motiv/essai » : la version d'essai vit sous l'appli principale. */}
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-      <Splash />
       <KeepAwake />
       <AppDataProvider db={createDb()} welcome={<WelcomePage />}>
-        <AppRoutes />
+        <SpaceProvider>
+          <AppRoutes />
+        </SpaceProvider>
       </AppDataProvider>
     </BrowserRouter>
   </StrictMode>,

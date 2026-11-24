@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
@@ -115,11 +116,15 @@ export function WeekPage() {
 
   const focusId = v1.profile.guitar ? weekFocus(v1.profile.guitar.progress, v1.profile.guitar.focus, today) : null
   const guitarFocus = focusId ? getSkill(focusId) : null
+  // Dans l'espace Sport, le plan ne montre que le sport (sorties, muscu).
+  const { space } = useSpace()
+  const shown = (['guitar', 'sport'] as const).filter((d) => inSpace(space, d))
+  const sum = (k: 'done' | 'goal') => shown.reduce((n, d) => n + (d === 'sport' ? sportGoal : goals.guitar)[k], 0)
   const weekName = shift === 0 ? 'Cette semaine' : shift === 1 ? 'Semaine prochaine' : `Semaine du ${shortDate(shownMonday)}`
 
   const chipsOf = (day: string): Chip[] => {
     const chips: Chip[] = []
-    const sessions = v1.sessions.filter((s) => s.day === day).sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    const sessions = v1.sessions.filter((s) => s.day === day && inSpace(space, s.discipline)).sort((a, b) => a.createdAt.localeCompare(b.createdAt))
     for (const s of sessions) {
       const run = runOf(s)
       const text = s.discipline === 'guitar' ? `Guitare ${s.durationMin} min` : run ? `Course ${km(run.km)}` : (names.get(s.templateId ?? '') ?? 'Muscu')
@@ -134,7 +139,7 @@ export function WeekPage() {
     }
     // Le prévu (plan et séances ajoutées), tant qu'il n'est pas fait ; un jour passé de la semaine : manqué.
     for (const it of itemsOn(day, { plan, edits, sessions: v1.sessions })) {
-      if (it.done) continue
+      if (it.done || !inSpace(space, it.item.kind === 'guitar' ? 'guitar' : 'sport')) continue
       const missed = day < today
       const text = label(it.item)
       chips.push({
@@ -156,7 +161,7 @@ export function WeekPage() {
       overline={`Semaine ${isoWeek(today)} · ${monday.slice(5, 7) === days[6].slice(5, 7) ? Number(monday.slice(8)) : shortDate(monday)} – ${shortDate(days[6])}`}
       pill={
         <Pill>
-          {goals.guitar.done + sportGoal.done} / {goals.guitar.goal + sportGoal.goal} séances
+          {sum('done')} / {sum('goal')} séances
         </Pill>
       }
     >
@@ -194,14 +199,14 @@ export function WeekPage() {
             tone="accent"
             overline="Objectifs de la semaine"
             titleId="plan-title"
-            title={`${goals.guitar.done + goals.sport.done} séances sur ${goals.guitar.goal + goals.sport.goal}`}
+            title={`${sum('done')} séances sur ${sum('goal')}`}
             subtitle={
               streak.weeks > 0
                 ? `${streak.weeks} semaine${streak.weeks > 1 ? 's' : ''} réussie${streak.weeks > 1 ? 's' : ''} d'affilée`
                 : 'Semaine réussie : les deux objectifs tenus. Repos et jours légers ne cassent rien.'
             }
           >
-            {(['guitar', 'sport'] as const).map((d) => (
+            {shown.map((d) => (
               <div key={d}>
                 <p className="t-footnote flex items-baseline justify-between gap-2">
                   <span className="flex items-center gap-1.5 text-muted">
@@ -238,7 +243,7 @@ export function WeekPage() {
           />
         )}
 
-        {guitarFocus && (
+        {inSpace(space, 'guitar') && guitarFocus && (
           <Link to="/seance" className="tap-row flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
             <p className="t-subhead min-w-0 flex-1">
               <span className="t-overline mr-2 text-guitar">Focus guitare</span>

@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { Icon } from '../../design/icons'
 import { addDays } from '../../domain/date'
@@ -34,6 +35,7 @@ export function AddSessionSheet({
   onClose: () => void
 }) {
   const [step, setStep] = useState<'type' | 'strength' | 'run'>('type')
+  const { space } = useSpace()
   const [run, setRun] = useState<{ kind: RunKind; km: number } | null>(null)
   return (
     <Sheet label={`Ajouter une séance · ${label}`} onClose={onClose} title={() => <h2 className="t-headline text-center">Ajouter · {label}</h2>}>
@@ -98,12 +100,14 @@ export function AddSessionSheet({
           <Group>
             <Row icon={<Icon name="muscu" className="text-sport" />} title="Muscu" subtitle="Un de tes modèles de séance" onClick={() => setStep('strength')} />
             <Row icon={<Icon name="sport" className="text-sport" />} title="Course" subtitle="Type de sortie et distance" onClick={() => setStep('run')} />
-            <Row
-              icon={<Icon name="guitar" className="text-guitar" />}
-              title="Guitare"
-              subtitle="Une séance de guitare"
-              onClick={() => add({ kind: 'guitar' })}
-            />
+            {inSpace(space, 'guitar') && (
+              <Row
+                icon={<Icon name="guitar" className="text-guitar" />}
+                title="Guitare"
+                subtitle="Une séance de guitare"
+                onClick={() => add({ kind: 'guitar' })}
+              />
+            )}
           </Group>
         )
       }}

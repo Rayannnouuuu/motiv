@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import { CATEGORY_LABELS, EXERCISES, type ExerciseCategory } from '../../content/exercises'
@@ -58,11 +59,12 @@ const repRange = (m: Movement) =>
 
 function Exercises() {
   const { data, v1 } = useAppData()
+  const { space } = useSpace()
   const [editing, setEditing] = useState<Movement | null>(null)
   const sport = v1.exercises.filter((m) => !m.archived).sort((a, b) => a.name.localeCompare(b.name, 'fr'))
   return (
     <div className="flex flex-col gap-6 pb-4">
-      {(Object.keys(CATEGORY_LABELS) as ExerciseCategory[]).map((cat) => (
+      {(inSpace(space, 'guitar') ? (Object.keys(CATEGORY_LABELS) as ExerciseCategory[]) : []).map((cat) => (
         <Group key={cat} header={`Guitare · ${CATEGORY_LABELS[cat]}`} labelledBy={`biblio-${cat}`}>
           {EXERCISES.filter((e) => e.category === cat)
             .sort((a, b) => a.difficulty - b.difficulty || a.title.localeCompare(b.title, 'fr'))
@@ -80,23 +82,25 @@ function Exercises() {
             })}
         </Group>
       ))}
-      <Group header="Sport" footer="Touche un mouvement pour le modifier. Les tiens (nés d'un nom inconnu) sont à compléter.">
-        {sport.map((m) => (
-          <Row
-            key={m.id}
-            title={m.name}
-            subtitle={[
-              m.category ? MUSCLE_GROUP_LABELS[m.category] : 'à compléter',
-              m.body && (m.body === 'upper' ? 'haut du corps' : 'bas du corps'),
-              repRange(m),
-            ]
-              .filter(Boolean)
-              .join(' · ')}
-            onClick={() => setEditing(m)}
-            aria-label={`Modifier ${m.name}`}
-          />
-        ))}
-      </Group>
+      {inSpace(space, 'sport') && (
+        <Group header="Sport" footer="Touche un mouvement pour le modifier. Les tiens (nés d'un nom inconnu) sont à compléter.">
+          {sport.map((m) => (
+            <Row
+              key={m.id}
+              title={m.name}
+              subtitle={[
+                m.category ? MUSCLE_GROUP_LABELS[m.category] : 'à compléter',
+                m.body && (m.body === 'upper' ? 'haut du corps' : 'bas du corps'),
+                repRange(m),
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              onClick={() => setEditing(m)}
+              aria-label={`Modifier ${m.name}`}
+            />
+          ))}
+        </Group>
+      )}
       {editing && <MovementSheet movement={editing} onClose={() => setEditing(null)} />}
     </div>
   )
