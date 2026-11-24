@@ -51,8 +51,15 @@ export function SpaceProvider({ children, initial }: { children: ReactNode; init
 
 const LABEL: Record<Space, string> = { sport: 'Sport', guitar: 'Guitare' }
 
+/** Couleurs fixes des cartes de l'écran d'ouverture : dégradé de la couleur de l'espace et halo. */
+const CARD: Record<Space, string> = {
+  sport: 'bg-gradient-to-b from-[#7dbcff] to-[#3d8ef0] shadow-[0_12px_40px_-12px_rgba(90,169,255,0.7)]',
+  guitar: 'bg-gradient-to-b from-[#f7bd62] to-[#e08a1e] shadow-[0_12px_40px_-12px_rgba(242,163,58,0.7)]',
+}
+const HINT: Record<Space, string> = { sport: 'Course · Muscu', guitar: 'Accords · Morceaux' }
+
 /**
- * L'écran d'ouverture : fond noir, deux grands boutons. Couleurs fixes (celles du thème sombre), quel que soit
+ * L'écran d'ouverture : fond noir, deux cartes. Couleurs fixes (celles du thème sombre), quel que soit
  * le thème choisi : l'écran reste noir.
  */
 export function SpaceChooser() {
@@ -68,20 +75,30 @@ export function SpaceChooser() {
       aria-label="Choisir un espace"
       className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-black px-5 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] text-white"
     >
-      <p className="t-overline tracking-[0.3em] text-white/60">MOTIV</p>
-      {/* Deux cartes en portrait, côte à côte. */}
-      <div className="grid w-full max-w-[16rem] grid-cols-2 gap-3">
-        {(['sport', 'guitar'] as const).map((s) => (
+      <p className="t-overline animate-fade tracking-[0.3em] text-white/50">MOTIV</p>
+      {/* Deux cartes en portrait, côte à côte, bien séparées. */}
+      <div className="grid w-full max-w-[18rem] grid-cols-2 gap-6">
+        {(['sport', 'guitar'] as const).map((s, i) => (
           <button
             key={s}
             type="button"
             onClick={() => go(s)}
-            className={`tap-scale flex aspect-[3/4] flex-col items-center justify-center gap-3 rounded-2xl ${
-              s === 'sport' ? 'bg-[#5aa9ff] text-[#0f1012]' : 'bg-[#f2a33a] text-[#0f1012]'
-            }`}
+            aria-label={LABEL[s]}
+            aria-describedby={`space-hint-${s}`}
+            style={{ animationDelay: `${80 + i * 70}ms` }}
+            className={`tap-scale animate-rise relative flex aspect-[3/4] flex-col items-center justify-center gap-3 overflow-hidden rounded-3xl text-[#0f1012] ring-1 ring-white/25 ring-inset ${CARD[s]}`}
           >
-            <Icon name={s} size={28} />
-            <span className="font-display text-xl font-bold tracking-tight">{LABEL[s]}</span>
+            {/* Reflet en haut de la carte. */}
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+            <span className="relative grid size-14 place-items-center rounded-full bg-black/15">
+              <Icon name={s} size={28} />
+            </span>
+            <span className="relative flex flex-col items-center gap-0.5">
+              <span className="font-display text-xl leading-none font-bold tracking-tight">{LABEL[s]}</span>
+              <span id={`space-hint-${s}`} className="text-xs font-medium text-[#0f1012]/70">
+                {HINT[s]}
+              </span>
+            </span>
           </button>
         ))}
       </div>

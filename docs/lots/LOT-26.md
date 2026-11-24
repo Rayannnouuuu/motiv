@@ -6,7 +6,7 @@ _24 nov. 2026. Demande : « sépare l'onglet guitare et l'onglet sport ; dès l'
 
 ## Ce qui change
 
-- **À chaque ouverture de l'appli : un écran noir avec deux petites cartes en portrait, côte à côte : Sport (bleu) et Guitare (ambre).** Il remplace l'animation du logo sur fond vert. Il reste noir quel que soit le thème.
+- **À chaque ouverture de l'appli : un écran noir avec deux petites cartes en portrait, côte à côte et bien espacées : Sport (dégradé bleu, « Course · Muscu ») et Guitare (dégradé ambre, « Accords · Morceaux »), avec un léger halo.** Il remplace l'animation du logo sur fond vert. Il reste noir quel que soit le thème.
 - **Chaque espace a ses onglets**, dans sa couleur :
   - **Sport** : Aujourd'hui · Plan · Progrès · Moi ;
   - **Guitare** : Aujourd'hui · **Parcours** (accords et gammes) · Progrès · Moi.

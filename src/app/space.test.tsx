@@ -25,11 +25,9 @@ describe('écran d’ouverture', () => {
     renderApp()
     const chooser = screen.getByRole('dialog', { name: 'Choisir un espace' })
     expect(chooser).toHaveClass('bg-black')
-    expect(
-      within(chooser)
-        .getAllByRole('button')
-        .map((b) => b.textContent),
-    ).toEqual(['Sport', 'Guitare'])
+    expect(within(chooser).getAllByRole('button')).toHaveLength(2)
+    expect(within(chooser).getByRole('button', { name: 'Sport', description: 'Course · Muscu' })).toBeInTheDocument()
+    expect(within(chooser).getByRole('button', { name: 'Guitare', description: 'Accords · Morceaux' })).toBeInTheDocument()
     expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
   })
 
