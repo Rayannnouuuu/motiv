@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { useAppData } from '../../data/AppDataContext'
 import { getExercise } from '../../content/exercises'
@@ -235,7 +236,9 @@ const WALL_SIZE = 10
 
 export function ProgressPage() {
   const { data, v1, today } = useAppData()
-  const [metric, setMetric] = useState<Metric>('hours')
+  // Dans un espace, Progrès ne montre que ses courbes, ses gains et ses records.
+  const { space } = useSpace()
+  const [metric, setMetric] = useState<Metric>(space === 'sport' ? 'strength' : 'hours')
   const [period, setPeriod] = useState<Period>(90)
   const [choice, setChoice] = useState<Partial<Record<Metric, string>>>({})
   const [adding, setAdding] = useState(false)
@@ -256,10 +259,10 @@ export function ProgressPage() {
     return r ? [{ day: s.day, ...r }] : []
   })
   const view = buildView(data, runs, metric, sub, today, period)
-  const won = gainLines(gains(data, runs, today, period))
+  const won = gainLines(gains(data, runs, today, period)).filter((w) => inSpace(space, w.domain))
   const split = metric === 'split' ? guitarSplit(data, addDays(today, -(period - 1)), today) : []
   const splitMax = Math.max(1, ...split.map((x) => x.minutes))
-  const wall = recordWall(data, runs)
+  const wall = recordWall(data, runs).filter((r) => inSpace(space, r.domain))
   const seen = observations(data, v1.profile.checkins ?? [], today)
   const win = windowPoints(view.points, today, period)
   const formatDelta = view.formatDelta ?? view.format
@@ -321,15 +324,17 @@ export function ProgressPage() {
         </Group>
 
         <div className="flex flex-col gap-2">
-          <Segmented
-            label="Univers"
-            options={[
-              { value: 'guitar', label: 'Guitare' },
-              { value: 'sport', label: 'Sport' },
-            ]}
-            value={domain}
-            onChange={(d) => setMetric(d === 'guitar' ? 'hours' : 'strength')}
-          />
+          {space === null && (
+            <Segmented
+              label="Univers"
+              options={[
+                { value: 'guitar', label: 'Guitare' },
+                { value: 'sport', label: 'Sport' },
+              ]}
+              value={domain}
+              onChange={(d) => setMetric(d === 'guitar' ? 'hours' : 'strength')}
+            />
+          )}
           <Segmented label="Courbe" options={CURVES[domain]} value={curveOf(metric)} onChange={(c) => setMetric(PAIRS[c]?.[0].value ?? (c as Metric))} />
           {PAIRS[curveOf(metric)] && (
             <Segmented label={curveOf(metric) === 'course' ? 'Course' : 'Corps'} options={PAIRS[curveOf(metric)]!} value={metric} onChange={setMetric} />

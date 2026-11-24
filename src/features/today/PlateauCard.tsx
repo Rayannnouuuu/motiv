@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppData } from '../../data/AppDataContext'
@@ -11,7 +12,8 @@ import { hiddenUntil, hideUntil } from './later'
 export function PlateauCard() {
   const { data, today } = useAppData()
   const [, refresh] = useState(0)
-  const p = plateaus(data, today).find((x) => (hiddenUntil(`plateau:${plateauKey(x)}`) ?? '') <= today)
+  const { space } = useSpace()
+  const p = plateaus(data, today).find((x) => inSpace(space, x.domain) && (hiddenUntil(`plateau:${plateauKey(x)}`) ?? '') <= today)
   if (!p) return null
   return (
     <section className="flex flex-col gap-3 rounded-2xl border border-line bg-surface px-5 py-4.5 shadow-card" aria-labelledby="plateau-title">

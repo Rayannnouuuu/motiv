@@ -1,5 +1,6 @@
 import { useId, useState, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { inSpace, useSpace } from '../../app/space'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { TONE } from '../../design/tone'
@@ -149,6 +150,8 @@ export function TodayPage() {
   const nextScale = currentStep(v1.profile.guitar?.progress ?? EMPTY_PROGRESS, 'scales')
   const navigate = useNavigate()
   const { savePlanEdits } = useActions()
+  // Dans un espace (Sport ou Guitare), Aujourd'hui ne montre que lui.
+  const { space } = useSpace()
   const { queue, guitar, sport: planned, mk, choices, pick, custom } = useToday()
   const rhythm = useRhythm()
   // Séance de sport composée à la main (autre séance, course à la fin) : remplace celle prévue.
@@ -156,15 +159,17 @@ export function TodayPage() {
   const sport = compose ? custom(compose.programId, compose.withRun) : planned
   const chosen = compose ?? pick
   const [sheet, setSheet] = useState(false)
-  const first = queue[0]?.tone
+  const first = queue.filter((q) => inSpace(space, q.tone))[0]?.tone
   const [open, setOpen] = useState<Record<string, boolean>>({})
-  const isOpen = (c: DayCard) => open[c.tone] ?? (c.tone === first || c.state === 'live')
+  const isOpen = (c: DayCard) => open[c.tone] ?? (space !== null || c.tone === first || c.state === 'live')
   const toggle = (c: DayCard) => setOpen({ ...open, [c.tone]: !isOpen(c) })
   const maintain = songsToMaintain(v1.songs, v1.sessions, today)
   // Séances prévues les 3 derniers jours et pas faites : à rattraper aujourd'hui, ou à laisser tomber.
   const edits = v1.profile.planEdits ?? EMPTY_EDITS
   const programName = (id: string) => data.programs.find((p) => p.id === id)?.name
-  const missed = missedBefore(today, { plan: mk?.plan ?? null, edits, sessions: v1.sessions })
+  const missed = missedBefore(today, { plan: mk?.plan ?? null, edits, sessions: v1.sessions }).filter((m) =>
+    inSpace(space, m.item.kind === 'guitar' ? 'guitar' : 'sport'),
+  )
   const ago = (day: string) => (day === addDays(today, -1) ? 'hier' : day === addDays(today, -2) ? 'avant-hier' : `il y a ${daysBetween(day, today)} jours`)
 
   const goals = rhythm.week
@@ -172,7 +177,7 @@ export function TodayPage() {
   const remaining = Math.max(0, goals.sport.goal - goals.sport.done)
   const planWeek = currentWeek(mk?.plan)
   const sportGoal = goals.sport
-  const cards = first === 'sport' ? [sport, guitar] : [guitar, sport]
+  const cards = (first === 'sport' ? [sport, guitar] : [guitar, sport]).filter((c) => inSpace(space, c.tone))
 
   return (
     <Screen
@@ -283,7 +288,7 @@ export function TodayPage() {
 
         <PlateauCard />
 
-        {maintain.length > 0 && (
+        {inSpace(space, 'guitar') && maintain.length > 0 && (
           <section aria-labelledby="also-title">
             <SectionHeader id="also-title" title="Aussi aujourd'hui" action={`${maintain.length} à faire`} />
             <div className="flex flex-col gap-2.5">
@@ -306,34 +311,40 @@ export function TodayPage() {
             id="week-title"
             title="Cette semaine"
             action={
-              <Link to="/plan" className="hit tap inline-flex min-h-11 items-center">
-                Voir la semaine
-              </Link>
+              inSpace(space, 'sport') && (
+                <Link to="/plan" className="hit tap inline-flex min-h-11 items-center">
+                  Voir la semaine
+                </Link>
+              )
             }
           />
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className={`grid gap-2.5 ${space ? 'grid-cols-1' : 'grid-cols-2'}`}>
             {focusOf(v1.profile.reviews, today) && (
               <p className="t-subhead col-span-2 rounded-xl border border-line bg-surface px-4 py-3">
                 <span className="t-overline mr-2 text-muted">Focus</span>
                 {focusOf(v1.profile.reviews, today)}
               </p>
             )}
-            <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances" to="/plan">
-              {minutes} min jouées
-            </GoalTile>
-            <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances" to="/plan">
-              {planWeek ? (
-                planWeekProgress(planWeek, v1.sessions).text
-              ) : data.programs.length === 0 ? (
-                <Link to="/moi/modeles" className="hit tap font-semibold text-sport">
-                  Choisir ton programme
-                </Link>
-              ) : remaining === 0 ? (
-                'Semaine validée'
-              ) : (
-                `Encore ${plural(remaining, 'séance', 'séances')}`
-              )}
-            </GoalTile>
+            {inSpace(space, 'guitar') && (
+              <GoalTile tone="guitar" done={goals.guitar.done} goal={goals.guitar.goal} unit="séances" to={space === 'guitar' ? '/progres' : '/plan'}>
+                {minutes} min jouées
+              </GoalTile>
+            )}
+            {inSpace(space, 'sport') && (
+              <GoalTile tone="sport" done={sportGoal.done} goal={sportGoal.goal} unit="séances" to="/plan">
+                {planWeek ? (
+                  planWeekProgress(planWeek, v1.sessions).text
+                ) : data.programs.length === 0 ? (
+                  <Link to="/moi/modeles" className="hit tap font-semibold text-sport">
+                    Choisir ton programme
+                  </Link>
+                ) : remaining === 0 ? (
+                  'Semaine validée'
+                ) : (
+                  `Encore ${plural(remaining, 'séance', 'séances')}`
+                )}
+              </GoalTile>
+            )}
           </div>
         </section>
 

@@ -1,3 +1,4 @@
+import { inSpace, useSpace } from '../../app/space'
 import { useState } from 'react'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
@@ -17,6 +18,7 @@ import { Ideas } from './Ideas'
 import { ChallengeCard } from '../today/ChallengeCard'
 
 const UNIVERSE: Record<Domain, string> = { guitar: 'Guitare', sport: 'Sport' }
+const DOMAINS = ['guitar', 'sport'] as const
 const num = (v: number) => v.toLocaleString('fr-FR', { maximumFractionDigits: 1 })
 
 /** Avant / après d'un objectif : d'où l'on partait, où l'on en est. */
@@ -47,6 +49,7 @@ function BeforeAfter({ challenge }: { challenge: Challenge }) {
  */
 export function CycleHero() {
   const { data, v1, today } = useAppData()
+  const { space } = useSpace()
   const mk = useMarathon()
   const { startCycle, saveCycleReview } = useActions()
   const { busy, error, run } = useRun()
@@ -55,7 +58,7 @@ export function CycleHero() {
   // Tiré une fois à l'ouverture : la proposition ne change pas sous les yeux.
   const [proposal] = useState(() => proposeTargets(data, today, Math.random, mk?.plan))
   const objectives = (c: { guitar: string | null; sport: string | null }) =>
-    (['guitar', 'sport'] as const).flatMap((d) => data.challenges.filter((x) => x.id === c[d]))
+    DOMAINS.filter((d) => inSpace(space, d)).flatMap((d) => data.challenges.filter((x) => x.id === c[d]))
 
   if (state.kind === 'running') {
     const days = daysBetween(state.cycle.start, today)
@@ -146,7 +149,7 @@ export function CycleHero() {
       subtitle="Un objectif phare par discipline, 6 semaines pour l'atteindre."
     >
       <ul className="rows overflow-hidden rounded-lg bg-inset">
-        {(['guitar', 'sport'] as const).map((d) => (
+        {DOMAINS.filter((d) => inSpace(space, d)).map((d) => (
           <li key={d} className="flex items-center gap-3 px-3 py-2.5">
             <Icon name={d} className={TONE.text[d]} />
             <span className="t-subhead flex-1 font-semibold">{describeTarget(proposal[d], data)}</span>

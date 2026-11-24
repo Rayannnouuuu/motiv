@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { inSpace, useSpace } from '../../app/space'
 import { useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { lastLog } from '../../domain/lastLog'
@@ -13,6 +14,7 @@ import { Sheet } from '../../ui/Sheet'
 export function StartSheet({ onClose }: { onClose: () => void }) {
   const { data } = useAppData()
   const navigate = useNavigate()
+  const { space } = useSpace()
   const next = nextProgram(data.programs, data.sportSessions)
   const go = (close: () => void, to: string, state?: object) => {
     close()
@@ -23,36 +25,40 @@ export function StartSheet({ onClose }: { onClose: () => void }) {
     <Sheet label="Commencer" onClose={onClose} title={() => <h2 className="t-headline text-center">Commencer</h2>}>
       {(close) => (
         <div className="flex flex-col gap-6">
-          <Group header="Guitare">
-            <Row
-              icon={<Icon name="target" className="text-guitar" />}
-              title="Séance guidée"
-              subtitle="15 à 60 min, construite pour toi"
-              onClick={() => go(close, '/seance')}
-            />
-            <Row icon={<Icon name="guitar" className="text-guitar" />} title="Jouer maintenant" onClick={() => go(close, '/jouer', { autostart: true })} />
-            <Row
-              icon={<Icon name="plus" className="text-guitar" />}
-              title="Noter une séance déjà faite"
-              onClick={() => go(close, '/log', { discipline: 'guitar' })}
-            />
-          </Group>
-          <Group header="Sport">
-            {next && (
+          {inSpace(space, 'guitar') && (
+            <Group header="Guitare">
               <Row
-                icon={<Icon name="sport" className="text-sport" />}
-                title={`Séance ${next.name}`}
-                subtitle="La prochaine de ton programme"
-                onClick={() => go(close, '/log/sport', { programId: next.id })}
+                icon={<Icon name="target" className="text-guitar" />}
+                title="Séance guidée"
+                subtitle="15 à 60 min, construite pour toi"
+                onClick={() => go(close, '/seance')}
               />
-            )}
-            <Row icon={<Icon name="sport" className="text-sport" />} title="Choisir une séance" onClick={() => go(close, '/log/sport')} />
-            <Row
-              icon={<Icon name="plus" className="text-sport" />}
-              title="Noter une séance déjà faite"
-              onClick={() => go(close, '/log', { discipline: 'sport' })}
-            />
-          </Group>
+              <Row icon={<Icon name="guitar" className="text-guitar" />} title="Jouer maintenant" onClick={() => go(close, '/jouer', { autostart: true })} />
+              <Row
+                icon={<Icon name="plus" className="text-guitar" />}
+                title="Noter une séance déjà faite"
+                onClick={() => go(close, '/log', { discipline: 'guitar' })}
+              />
+            </Group>
+          )}
+          {inSpace(space, 'sport') && (
+            <Group header="Sport">
+              {next && (
+                <Row
+                  icon={<Icon name="sport" className="text-sport" />}
+                  title={`Séance ${next.name}`}
+                  subtitle="La prochaine de ton programme"
+                  onClick={() => go(close, '/log/sport', { programId: next.id })}
+                />
+              )}
+              <Row icon={<Icon name="sport" className="text-sport" />} title="Choisir une séance" onClick={() => go(close, '/log/sport')} />
+              <Row
+                icon={<Icon name="plus" className="text-sport" />}
+                title="Noter une séance déjà faite"
+                onClick={() => go(close, '/log', { discipline: 'sport' })}
+              />
+            </Group>
+          )}
           {lastLog(data) && (
             <Group>
               <Row

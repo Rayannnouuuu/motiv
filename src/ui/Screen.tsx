@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { SpaceSwitch } from '../app/space'
 
 /**
  * Écran principal, même gabarit sur chaque onglet (REFONTE §7) : un surtitre en capitales (date, période), le
@@ -43,7 +44,8 @@ export function Screen({
           <p aria-hidden className={`t-headline transition-opacity duration-200 ${compact ? 'opacity-100' : 'opacity-0'}`}>
             {title}
           </p>
-          {leading && <div className="absolute left-4 flex items-center">{leading}</div>}
+          {/* Sans bouton retour : on passe d'un espace à l'autre (Sport, Guitare) en haut à gauche. */}
+          <div className="absolute left-4 flex items-center">{leading ?? <SpaceSwitch />}</div>
           {trailing && <div className="absolute right-4 flex items-center">{trailing}</div>}
         </div>
       </div>
