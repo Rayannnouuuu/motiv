@@ -66,22 +66,25 @@ export function SpaceChooser() {
     <div
       role="dialog"
       aria-label="Choisir un espace"
-      className="fixed inset-0 z-50 flex flex-col gap-4 bg-black px-5 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-white"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-black px-5 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] text-white"
     >
-      <p className="t-overline text-center tracking-[0.3em] text-white/60">MOTIV</p>
-      {(['sport', 'guitar'] as const).map((s) => (
-        <button
-          key={s}
-          type="button"
-          onClick={() => go(s)}
-          className={`tap-scale flex flex-1 flex-col items-center justify-center gap-4 rounded-3xl ${
-            s === 'sport' ? 'bg-[#5aa9ff] text-[#0f1012]' : 'bg-[#f2a33a] text-[#0f1012]'
-          }`}
-        >
-          <Icon name={s} size={64} />
-          <span className="font-display text-5xl font-bold tracking-tight">{LABEL[s]}</span>
-        </button>
-      ))}
+      <p className="t-overline tracking-[0.3em] text-white/60">MOTIV</p>
+      {/* Deux cartes en portrait, côte à côte. */}
+      <div className="grid w-full max-w-[16rem] grid-cols-2 gap-3">
+        {(['sport', 'guitar'] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => go(s)}
+            className={`tap-scale flex aspect-[3/4] flex-col items-center justify-center gap-3 rounded-2xl ${
+              s === 'sport' ? 'bg-[#5aa9ff] text-[#0f1012]' : 'bg-[#f2a33a] text-[#0f1012]'
+            }`}
+          >
+            <Icon name={s} size={28} />
+            <span className="font-display text-xl font-bold tracking-tight">{LABEL[s]}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
