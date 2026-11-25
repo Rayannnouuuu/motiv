@@ -7,7 +7,7 @@ import { icon } from '../../test/icon'
 import type { PlannedItem } from '../../domain/dayItems'
 import { EMPTY_PROFILE } from '../../domain/model'
 import { profile } from '../../domain/marathon/fixtures'
-import { generatePlan } from '../../domain/marathon/plan'
+import { generatePlan, HARD_KINDS } from '../../domain/marathon/plan'
 import { renderWithData, type RenderWithDataOptions } from '../../test/renderWithData'
 import { saveLive } from '../log-sport/liveSession'
 import { savePractice, startPractice } from '../practice/practiceSession'
@@ -86,11 +86,12 @@ describe('TodayPage', () => {
   test('une sortie ajoutée passe devant celle du plan du jour : la longue se lance, le fractionné reste listé', async () => {
     const m = profile({ startedOn: '2026-10-12' })
     const plan = generatePlan(m, 78, [], '2026-10-12')
-    const quality = plan.weeks.flatMap((w) => w.runs).find((r) => r.kind === 'threshold' || r.kind === 'intervals')!
+    // Une séance dure de la semaine en cours (sans semaine passée manquée, le plan ne bouge pas).
+    const quality = plan.weeks[0].runs.find((r) => HARD_KINDS.has(r.kind))!
     const base = edits(quality.day, longRun)
     renderToday({ today: quality.day, v1: { profile: { ...EMPTY_PROFILE, marathon: m, planEdits: base.profile.planEdits } } })
     const sport = await unfold(/Sortie longue/)
-    expect(within(sport).getByText(/Aussi prévu · (seuil|fractionné)/i)).toBeInTheDocument()
+    expect(within(sport).getByText(/Aussi prévu · (côtes|fartlek|seuil|fractionné)/i)).toBeInTheDocument()
     await userEvent.click(within(sport).getByRole('button', { name: /Commencer/ }))
     expect(screen.getByText(/at \/course .*"kind":"long".*"km":15/)).toBeInTheDocument()
   })

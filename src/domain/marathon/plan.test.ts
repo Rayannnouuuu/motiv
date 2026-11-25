@@ -3,7 +3,7 @@ import { addDays, daysBetween } from '../date'
 import { feasibility } from './feasibility'
 import { profile, TODAY } from './fixtures'
 import { betterChrono, paces, PRUDENT_MARGIN } from './paces'
-import { generatePlan, RULES, type DoneRun, type Plan } from './plan'
+import { generatePlan, HARD_KINDS, RULES, type DoneRun, type Plan } from './plan'
 import type { MarathonProfile } from './profile'
 
 /** Les règles du cahier des charges, vérifiées semaine par semaine. */
@@ -25,8 +25,8 @@ function checkRules(plan: Plan, p: MarathonProfile) {
       expect(w.runs.length).toBeGreaterThanOrEqual(Math.min(3, p.constraints.days.length))
       expect(w.runs.length).toBeLessThanOrEqual(5)
     }
-    // Environ 80 % en endurance facile.
-    const fast = w.runs.reduce((s, r) => s + r.fastKm, 0)
+    // Environ 80 % en endurance facile (le test 5 km, seul dans sa semaine toutes les 6 semaines, est à part).
+    const fast = w.runs.filter((r) => r.kind !== 'test').reduce((s, r) => s + r.fastKm, 0)
     if (!raceWeek) expect(fast).toBeLessThanOrEqual(w.km * RULES.hardShare + 0.5)
     // Sortie longue : plafonnée à 32 km et 3 h.
     expect(w.longKm).toBeLessThanOrEqual(RULES.longCapKm)
@@ -55,10 +55,10 @@ function checkRules(plan: Plan, p: MarathonProfile) {
       if (w.phase === 'taper') expect(s.light).toBe(true)
       const next = w.runs.find((r) => r.day === addDays(s.day, 1)) ?? weeks[w.index + 1]?.runs.find((r) => r.day === addDays(s.day, 1))
       // Jamais la veille d'une sortie longue ou d'une séance de qualité, jamais le jour de la sortie longue.
-      expect(['long', 'threshold', 'intervals', 'racePace', 'race']).not.toContain(next?.kind)
+      expect(next && (next.kind === 'long' || next.kind === 'race' || HARD_KINDS.has(next.kind))).toBeFalsy()
       expect(w.runs.find((r) => r.day === s.day)?.kind).not.toBe('long')
       // Le même jour qu'une séance dure quand il y en a une de libre.
-      const hard = w.runs.filter((r) => ['threshold', 'intervals', 'racePace'].includes(r.kind))
+      const hard = w.runs.filter((r) => HARD_KINDS.has(r.kind))
       const eligible = hard.filter((r) => daysBetween(r.day, p.race.day) > RULES.noStrengthDays)
       if (eligible.length >= w.strength.length) expect(eligible.map((r) => r.day)).toContain(s.day)
     }
@@ -118,6 +118,15 @@ const PROFILES: [string, MarathonProfile, number | null][] = [
       constraints: { days: [0, 1, 3, 4, 6], longRunDay: 6, gym: true },
     }),
     70,
+  ],
+  [
+    'régulier, 20 km par semaine, marathon en septembre (50 semaines)',
+    profile({
+      race: { name: 'Marathon', day: '2027-09-26', kind: 'marathon', goalSec: null },
+      level: { weeklyKm: 20, longestKm: 10, years: 1, chrono: null },
+      constraints: { days: [1, 3, 5, 6], longRunDay: 6, gym: true },
+    }),
+    75,
   ],
   [
     'course-marche choisie, régulier, 20 semaines',
@@ -223,6 +232,65 @@ describe('allures', () => {
   })
 })
 
+describe('plan exigeant (lot 28) : marathon en septembre, 20 km par semaine au départ', () => {
+  const p = profile({
+    race: { name: 'Marathon', day: '2027-09-26', kind: 'marathon', goalSec: null },
+    level: { weeklyKm: 20, longestKm: 10, years: 1, chrono: null },
+    constraints: { days: [1, 3, 5, 6], longRunDay: 6, gym: true },
+  })
+  const plan = generatePlan(p, 75, [], TODAY)
+  const { weeks } = plan
+  const hard = (w: Plan['weeks'][number]) => w.runs.filter((r) => HARD_KINDS.has(r.kind) && r.kind !== 'test')
+  const build = weeks.filter((w) => w.phase !== 'taper' && !w.deload)
+
+  test('un bloc vitesse, puis 7 semaines de développement et 8 de spécifique avant l’affûtage', () => {
+    const count = (ph: string) => weeks.filter((w) => w.phase === ph).length
+    expect(count('development')).toBe(7)
+    expect(count('specific')).toBe(8)
+    expect(count('taper')).toBe(3)
+    expect(count('base')).toBe(weeks.length - 18)
+  })
+
+  test('des séances rapides dès la première semaine, deux par semaine dès 30 km', () => {
+    expect(hard(weeks[0]).map((r) => r.kind)).toEqual(['hills'])
+    const speed = new Set(weeks.filter((w) => w.phase === 'base').flatMap((w) => hard(w).map((r) => r.kind)))
+    expect([...speed].sort()).toEqual(['fartlek', 'hills', 'intervals', 'threshold'])
+    for (const w of build.filter((x) => x.km >= 30 && x.index >= 2 && !x.runs.some((r) => r.kind === 'test') && x.phase !== 'specific'))
+      expect(hard(w)).toHaveLength(2)
+  })
+
+  test('un test sur 5 km toutes les 6 semaines en base et en développement', () => {
+    const tests = weeks.filter((w) => w.runs.some((r) => r.kind === 'test')).map((w) => w.index)
+    expect(tests.length).toBeGreaterThanOrEqual(5)
+    expect(tests.every((i) => i % 6 === 5 && ['base', 'development'].includes(weeks[i].phase))).toBe(true)
+    // Seul dans sa semaine : jambes fraîches.
+    for (const i of tests) expect(hard(weeks[i])).toEqual([])
+  })
+
+  test('les séances progressent : de 3 × 8 min de seuil à 25 min d’affilée, de 8 × 400 m à 6 × 1000 m', () => {
+    const details = (kind: string) => weeks.flatMap((w) => w.runs.filter((r) => r.kind === kind).map((r) => r.detail))
+    expect(details('threshold')[0]).toMatch(/^15 min facile, [34] × 8 min au seuil/)
+    expect(details('threshold').some((d) => d.includes('25 min au seuil'))).toBe(true)
+    expect(details('intervals')[0]).toContain('8 × 400 m')
+    expect(details('intervals').some((d) => d.includes('× 1000 m'))).toBe(true)
+    const mp = weeks.flatMap((w) => w.runs.filter((r) => r.kind === 'racePace').map((r) => r.fastKm))
+    expect(Math.max(...mp)).toBeGreaterThanOrEqual(12)
+  })
+
+  test('pas de plateau de plusieurs mois : le pic de volume arrive en spécifique', () => {
+    const peak = Math.max(...build.map((w) => w.km))
+    expect(build.find((w) => w.km === peak)!.phase).toBe('specific')
+    expect(Math.max(...build.filter((w) => w.phase === 'base').map((w) => w.km))).toBeLessThan(peak)
+  })
+
+  test('des footings qui comptent (6 km dès 30 km par semaine), avec des accélérations une fois par semaine', () => {
+    for (const w of weeks.slice(0, -1)) {
+      if (w.km >= 30) for (const r of w.runs.filter((x) => x.kind === 'easy')) expect(r.km).toBeGreaterThanOrEqual(6)
+      expect(w.runs.filter((r) => r.segments.some((s) => s.label === 'Accélération'))).toHaveLength(1)
+    }
+  })
+})
+
 describe('adaptation semaine après semaine', () => {
   const p = profile()
   const run = (day: string, km: number, pain: number | null = 0): DoneRun => ({ day, km, pain })
@@ -248,16 +316,29 @@ describe('adaptation semaine après semaine', () => {
     const plan = generatePlan(p, 75, all(week0.km * 0.75), '2026-10-26')
     expect(plan.weeks[1].km).toBeLessThanOrEqual(week0.km + 0.5)
     expect(plan.weeks[1].km).toBeGreaterThanOrEqual(week0.km - 0.5)
-    expect(plan.alerts).toEqual(['Semaine presque tenue : on garde le même volume avant de monter.'])
+    // La sortie longue faite à 75 % plafonne aussi celle de la semaine (+10 % au plus).
+    expect(plan.alerts).toEqual([
+      'Semaine presque tenue : on garde le même volume avant de monter.',
+      expect.stringMatching(/^Ta plus longue sortie du dernier mois/),
+    ])
   })
 
   test('faite à 90 % : tenue, la progression continue (elle ne repart pas de ce qui a été couru)', () => {
     const plan = generatePlan(p, 75, all(week0.km * 0.9), '2026-10-26')
     expect(plan.weeks[1].km).toBeGreaterThan(week0.km)
-    expect(plan.alerts).toEqual([])
+    expect(plan.alerts.filter((a) => !a.startsWith('Ta plus longue sortie'))).toEqual([])
   })
 
-  test('90 % de réalisation chaque semaine : le volume monte, il ne reste pas bloqué au même niveau', () => {
+  test('une sortie ne dépasse jamais de plus de 10 % la plus longue du dernier mois', () => {
+    const plan = generatePlan(p, 75, all(week0.km * 0.6), '2026-10-26')
+    const longest = week0.longKm * 0.6
+    for (const r of plan.weeks[1].runs) expect(r.km).toBeLessThanOrEqual(Math.round(longest * 1.1 * 2) / 2)
+    expect(plan.alerts).toContain(
+      `Ta plus longue sortie du dernier mois : ${(Math.round(longest * 2) / 2).toLocaleString('fr-FR')} km. Cette semaine, aucune sortie ne dépasse ${(Math.round(longest * 1.1 * 2) / 2).toLocaleString('fr-FR')} km (+10 % au plus) : ce sont les hausses brutales qui blessent.`,
+    )
+  })
+
+  test('90 % de réalisation chaque semaine (sortie longue faite en entier) : le volume monte, il ne reste pas bloqué au même niveau', () => {
     const start = profile({ level: { weeklyKm: 20, longestKm: 10, years: 1, chrono: null }, constraints: { days: [1, 3, 5, 6], longRunDay: 6, gym: false } })
     const done: DoneRun[] = []
     const planned: number[] = []
@@ -265,7 +346,10 @@ describe('adaptation semaine après semaine', () => {
       const plan = generatePlan(start, 78, done, addDays(TODAY, 7 * k))
       const w = plan.weeks[k]
       planned.push(w.km)
-      for (const r of w.runs.filter((x) => x.kind !== 'cross')) done.push(run(r.day, r.km * 0.9))
+      // La sortie longue en entier : la raccourcir chaque semaine la bloque (règle des +10 %), et le plan le dit.
+      const long = w.runs.find((x) => x.kind === 'long')?.km ?? 0
+      const others = w.km - long
+      for (const r of w.runs.filter((x) => x.kind !== 'cross')) done.push(run(r.day, r.kind === 'long' ? r.km : (r.km * (w.km * 0.9 - long)) / others))
     }
     expect(planned[13]).toBeGreaterThanOrEqual(planned[0] * 2)
     expect(Math.max(...planned)).toBeGreaterThanOrEqual(45)

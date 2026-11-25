@@ -16,7 +16,7 @@
 import { findMovement } from '../../content/sportLibrary'
 import { addDays, daysBetween } from '../date'
 import type { Day, Program } from '../types'
-import { RULES, type Plan, type PlanWeek, type PlannedStrength } from './plan'
+import { HARD_KINDS, RULES, type Plan, type PlanWeek, type PlannedStrength } from './plan'
 
 export interface MuscuProgram {
   id: string
@@ -49,8 +49,6 @@ export function toMuscu(p: Program): MuscuProgram {
   return { id: p.id, name: p.name, lower: exos.length > 0 && lower * 2 >= exos.length }
 }
 
-const HARD = new Set(['threshold', 'intervals', 'racePace'])
-
 /** Nombre de séances de muscu voulues dans la semaine. */
 function wanted(w: PlanWeek, rotationSize: number): number {
   if (w.sick) return 0
@@ -64,7 +62,7 @@ function dayRules(w: PlanWeek, raceDay: Day) {
   const runOn = (d: Day) => w.runs.filter((r) => r.day === d && r.kind !== 'cross')
   const isLong = (d: Day) => runOn(d).some((r) => r.kind === 'long')
   const isRace = (d: Day) => runOn(d).some((r) => r.kind === 'race') || d === raceDay
-  const isHard = (d: Day) => runOn(d).some((r) => HARD.has(r.kind))
+  const isHard = (d: Day) => runOn(d).some((r) => HARD_KINDS.has(r.kind))
   const keyRun = (d: Day) => isLong(d) || isRace(d) || isHard(d)
   return {
     allowed(d: Day, lower: boolean) {

@@ -182,3 +182,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 24 — Plan plus exigeant : fin du blocage à 20 km par semaine (adaptation qui ne tire plus le plan vers le bas, volumes maximum relevés) : en ligne.
 - [x] Lot 26 — Deux espaces, Sport et Guitare, avec un écran noir de choix à l’ouverture : en ligne.
 - [ ] Lot 27 — Le sélecteur d’espace en haut à gauche affiche l’espace où l’on est : sur l’essai, en attente de validation.
+- [ ] Lot 28 — Plan marathon exigeant : bloc vitesse, 2 séances dures par semaine, séances qui progressent, test 5 km toutes les 6 semaines, aucune sortie à plus de +10 % de la plus longue du mois : sur l’essai, en attente de validation.

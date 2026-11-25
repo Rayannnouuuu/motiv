@@ -105,7 +105,7 @@ describe('plan', () => {
       data: { bodyMetrics: [{ id: 'w', day: '2026-10-01', weightKg: 75, waistCm: null, chestCm: null, armCm: null, thighCm: null }] },
     })
     expect(screen.getByText('J-173')).toBeInTheDocument()
-    expect(screen.getByText(/^Semaine 1\/25 · Base/)).toBeInTheDocument()
+    expect(screen.getByText(/^Semaine 1\/25 · Base et vitesse/)).toBeInTheDocument()
     const week = screen.getByRole('region', { name: 'Cette semaine' })
     expect(within(week).getByText("Aujourd'hui")).toBeInTheDocument()
     expect(within(week).getByRole('button', { name: 'Commencer : Footing facile' })).toBeInTheDocument()
@@ -137,7 +137,7 @@ describe('plan', () => {
   test('Aujourd’hui : la carte sport montre la sortie du plan, lancée d’un toucher', async () => {
     render(<TodayPage />, '/', '/', base)
     const sport = screen.getByRole('region', { name: /^Footing facile/ })
-    expect(within(sport).getByText(/^Plan marathon · Base · semaine 1 sur/)).toBeInTheDocument()
+    expect(within(sport).getByText(/^Plan marathon · Base et vitesse · semaine 1 sur/)).toBeInTheDocument()
     await userEvent.click(within(sport).getAllByRole('button')[0])
     await userEvent.click(within(sport).getByRole('button', { name: 'Commencer' }))
     expect(screen.getByText(`at /course {"day":"${TODAY}","kind":"easy"}`)).toBeInTheDocument()
@@ -149,7 +149,7 @@ describe('plan', () => {
     const days = within(screen.getByRole('region', { name: 'Jour par jour' })).getAllByRole('listitem')
     const text = days.map((d) => d.textContent).join(' | ')
     for (const name of ['Push', 'Pull', 'Legs']) expect(text).toContain(name)
-    expect(within(screen.getByRole('region', { name: /^Base · semaine 1 sur/ })).getByText(/muscu 0 \/ /)).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: /^Base et vitesse · semaine 1 sur/ })).getByText(/muscu 0 \/ /)).toBeInTheDocument()
   })
 
   test('Plan sans course : « Préparer une course » ouvre le questionnaire', async () => {
@@ -160,9 +160,9 @@ describe('plan', () => {
 
   test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {
     render(<WeekPage />, '/plan', '/plan', base)
-    const hero = screen.getByRole('region', { name: /^Base · semaine 1 sur/ })
+    const hero = screen.getByRole('region', { name: /^Base et vitesse · semaine 1 sur/ })
     expect(within(hero).getByText('J-173')).toBeInTheDocument()
-    expect(within(hero).getByRole('img', { name: 'Phase en cours : Base' })).toBeInTheDocument()
+    expect(within(hero).getByRole('img', { name: 'Phase en cours : Base et vitesse' })).toBeInTheDocument()
     const today = screen.getByRole('listitem', { current: 'date' })
     await userEvent.click(within(today).getByRole('button', { name: /^Footing facile/ }))
     expect(screen.getByText(`at /course {"day":"${TODAY}","kind":"easy"}`)).toBeInTheDocument()
@@ -208,7 +208,7 @@ describe('séance de course', () => {
   test('sans plan marathon : la sortie ajoutée a quand même son nom et sa consigne', () => {
     render(<RunPage />, '/course', { pathname: '/course', state: { day: TODAY, kind: 'intervals', km: 8 } }, undefined)
     expect(screen.getByRole('heading', { name: 'Fractionné' })).toBeInTheDocument()
-    expect(screen.getByText(/5 × 3 min rapide/)).toBeInTheDocument()
+    expect(screen.getByText(/8 × 400 m vite/)).toBeInTheDocument()
   })
 
   test('course-marche : minuteur d’intervalles, un bip à chaque bloc', async () => {

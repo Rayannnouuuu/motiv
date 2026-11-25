@@ -9,20 +9,26 @@ import { RUNNER_TEMPLATE_ID } from './strength'
 import { isCautious, RACE_KM, runnerLevel, weekdayOf, type MarathonProfile, type RaceKind, type RunnerLevel, type Weekday } from './profile'
 
 export type Phase = 'base' | 'development' | 'specific' | 'taper'
-export type RunKind = 'easy' | 'recovery' | 'long' | 'threshold' | 'intervals' | 'racePace' | 'walkRun' | 'cross' | 'race'
+export type RunKind = 'easy' | 'recovery' | 'long' | 'threshold' | 'intervals' | 'hills' | 'fartlek' | 'racePace' | 'test' | 'walkRun' | 'cross' | 'race'
 
-export const PHASE_LABELS: Record<Phase, string> = { base: 'Base', development: 'Développement', specific: 'Spécifique', taper: 'Affûtage' }
+export const PHASE_LABELS: Record<Phase, string> = { base: 'Base et vitesse', development: 'Développement', specific: 'Spécifique', taper: 'Affûtage' }
 export const RUN_LABELS: Record<RunKind, string> = {
   easy: 'Footing facile',
   recovery: 'Récupération',
   long: 'Sortie longue',
   threshold: 'Seuil',
   intervals: 'Fractionné',
+  hills: 'Côtes',
+  fartlek: 'Fartlek',
   racePace: 'Allure course',
+  test: 'Test 5 km',
   walkRun: 'Course-marche',
   cross: 'Vélo ou marche',
   race: 'Course',
 }
+
+/** Les séances dures : jamais deux jours de suite ni collées à la sortie longue, jamais de jambes la veille. */
+export const HARD_KINDS: ReadonlySet<RunKind> = new Set<RunKind>(['threshold', 'intervals', 'hills', 'fartlek', 'racePace', 'test'])
 
 /** Un bloc du minuteur d'intervalles. */
 export interface Segment {
@@ -119,6 +125,15 @@ export const RULES = {
   heldBelow: 0.7,
   /** À partir de 85 %, la semaine est tenue : la progression continue. Entre les deux, on garde le même volume. */
   keptAt: 0.85,
+  /** Une sortie ne dépasse jamais de plus de 10 % la plus longue du dernier mois : ce sont ces pics qui blessent. */
+  spikeMax: 1.1,
+  /** Un test sur 5 km toutes les 6 semaines (base et développement) : ton temps recale les allures. */
+  testEvery: 6,
+  /** Plan long : le bloc marathon (7 semaines de développement, 8 de spécifique) ; avant, un bloc vitesse. */
+  devWeeks: 7,
+  specificWeeks: 8,
+  /** Plan long : le volume suit une rampe de 70 % du pic au départ jusqu'au pic au début du spécifique (pas de plateau de plusieurs mois). */
+  rampFrom: 0.7,
 }
 
 const PEAK_KM: Record<'marathon' | 'half', Record<RunnerLevel, number>> = {
@@ -129,6 +144,8 @@ const PEAK_KM: Record<'marathon' | 'half', Record<RunnerLevel, number>> = {
 const DEFAULT_LONG_PACE: Record<RunnerLevel | 'walkRun', number> = { experienced: 345, regular: 390, beginner: 480, walkRun: 510 }
 
 const round05 = (x: number) => Math.round(x * 2) / 2
+const floor05 = (x: number) => Math.floor(x * 2) / 2
+const fr = (x: number) => x.toLocaleString('fr-FR')
 const clamp = (x: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, x))
 const min = (s: number) => s * 60
 const circular = (a: number, b: number) => Math.min(Math.abs(a - b), 7 - Math.abs(a - b))
@@ -177,6 +194,15 @@ function pickDays(days: Weekday[], longDay: Weekday, count: number): Weekday[] {
 }
 
 interface WeekShape {
+  index: number
+  /** Avancée dans le programme : 0 au départ, 1 au pic. Les séances progressent avec elle. */
+  t: number
+  /** Avancée dans la phase : 0 à son début, 1 à sa fin. */
+  pt: number
+  /** Semaine de test sur 5 km. */
+  test: boolean
+  /** Plafond de la sortie longue cette semaine : +10 % sur la plus longue du dernier mois. */
+  longMax?: number
   start: Day
   phase: Phase
   deload: boolean
@@ -215,55 +241,149 @@ function walkRunSegments(km: number, phase: Phase, paceSec: number): Segment[] {
   ]
 }
 
-function qualityRun(kind: 'threshold' | 'intervals' | 'racePace', w: WeekShape, raceKind: RaceKind): Omit<Draft, 'day'> {
+type QualityKind = 'threshold' | 'intervals' | 'hills' | 'fartlek' | 'racePace' | 'test'
+
+/** Les séances progressent avec le programme (dernier cran atteint vers la fin du développement) ; deux crans de moins en semaine allégée ou en affûtage. */
+function step<T>(steps: T[], w: WeekShape): T {
+  const i = Math.min(steps.length - 1, Math.floor((w.t / 0.85) * steps.length))
+  return steps[Math.max(0, w.deload || w.phase === 'taper' ? i - 2 : i)]
+}
+/** Seuil : répétitions × minutes, jusqu'à 25 min d'affilée. */
+const THRESHOLD: [number, number][] = [
+  [3, 8],
+  [4, 8],
+  [3, 10],
+  [3, 12],
+  [2, 15],
+  [2, 18],
+  [1, 25],
+]
+/** Fractionné : répétitions × mètres, de 8 × 400 m à 6 × 1000 m. */
+const INTERVALS: [number, number][] = [
+  [8, 400],
+  [10, 400],
+  [6, 600],
+  [8, 600],
+  [5, 800],
+  [6, 800],
+  [5, 1000],
+  [6, 1000],
+]
+/** Côtes : répétitions × secondes. */
+const HILLS: [number, number][] = [
+  [6, 45],
+  [8, 45],
+  [10, 45],
+  [8, 60],
+  [10, 60],
+]
+/** Fartlek : répétitions, secondes vite, secondes lent. */
+const FARTLEK: [number, number, number][] = [
+  [10, 60, 60],
+  [12, 60, 60],
+  [8, 120, 60],
+  [10, 120, 60],
+  [6, 180, 90],
+]
+const dur = (sec: number) => (sec < 60 ? `${sec} s` : sec % 60 ? `${Math.floor(sec / 60)} min ${String(sec % 60).padStart(2, '0')}` : `${sec / 60} min`)
+const WARM: Segment = { label: 'Échauffement', sec: 15 * 60, pace: 'easy' }
+const COOL: Segment = { label: 'Retour au calme', sec: 10 * 60, pace: 'easy' }
+const repeat = (n: number, blocks: (i: number) => Segment[]) => Array.from({ length: n }, (_, i) => blocks(i)).flat()
+
+/** Une séance dure de la semaine. `km` : la distance choisie (sortie ajoutée à la main), sinon celle du plan. */
+function qualityRun(kind: QualityKind, w: WeekShape, raceKind: RaceKind, intervalsPace: number, km?: number): Omit<Draft, 'day'> {
   const raceLabel = raceKind === 'marathon' ? 'marathon' : 'semi'
-  if (kind === 'threshold') {
-    const [reps, work] = w.phase === 'specific' ? [3, 10] : w.deload || w.phase === 'taper' ? [2, 8] : [3, 8]
-    return {
-      kind,
-      km: clamp(round05(w.km * 0.15), 6, 12),
-      detail: `15 min facile, ${reps} × ${work} min au seuil (2 min de récup), 10 min facile`,
-      pace: 'threshold',
-      segments: [
-        { label: 'Échauffement', sec: min(15), pace: 'easy' },
-        ...Array.from({ length: reps }, () => [
-          { label: 'Seuil', sec: min(work), pace: 'threshold' as const },
-          { label: 'Récup', sec: min(2), pace: 'recovery' as const },
-        ]).flat(),
-        { label: 'Retour au calme', sec: min(10), pace: 'easy' },
-      ],
+  switch (kind) {
+    case 'threshold': {
+      const [reps, work] = step(THRESHOLD, w)
+      const blocks = reps === 1 ? `${work} min au seuil` : `${reps} × ${work} min au seuil (2 min de récup)`
+      return {
+        kind,
+        km: km ?? clamp(round05(w.km * 0.15), 6, 13),
+        detail: `15 min facile, ${blocks}, 10 min facile`,
+        pace: 'threshold',
+        segments: [
+          WARM,
+          ...repeat(reps, (i) => [
+            { label: 'Seuil', sec: work * 60, pace: 'threshold' },
+            ...(i < reps - 1 ? [{ label: 'Récup', sec: 120, pace: 'recovery' } as const] : []),
+          ]),
+          COOL,
+        ],
+      }
     }
-  }
-  if (kind === 'intervals') {
-    const reps = w.deload || w.phase === 'taper' ? 4 : w.phase === 'specific' ? 6 : 5
-    return {
-      kind,
-      km: clamp(round05(w.km * 0.13), 5, 11),
-      detail: `15 min facile, ${reps} × 3 min rapide (2 min de récup), 10 min facile`,
-      pace: 'intervals',
-      segments: [
-        { label: 'Échauffement', sec: min(15), pace: 'easy' },
-        ...Array.from({ length: reps }, () => [
-          { label: 'Rapide', sec: min(3), pace: 'intervals' as const },
-          { label: 'Récup', sec: min(2), pace: 'recovery' as const },
-        ]).flat(),
-        { label: 'Retour au calme', sec: min(10), pace: 'easy' },
-      ],
+    case 'intervals': {
+      const [reps, m] = step(INTERVALS, w)
+      const sec = Math.round(((m / 1000) * intervalsPace) / 5) * 5
+      const rest = Math.max(60, Math.round((sec * 0.6) / 15) * 15)
+      return {
+        kind,
+        km: km ?? clamp(round05(w.km * 0.13), 5, 11),
+        detail: `15 min facile, ${reps} × ${m} m vite (${dur(rest)} de récup en trottinant), 10 min facile`,
+        pace: 'intervals',
+        segments: [
+          WARM,
+          ...repeat(reps, () => [
+            { label: `${m} m vite`, sec, pace: 'intervals' },
+            { label: 'Récup', sec: rest, pace: 'recovery' },
+          ]),
+          COOL,
+        ],
+      }
     }
-  }
-  const km = w.phase === 'taper' ? clamp(round05(w.km * 0.15), 6, 10) : clamp(round05(w.km * 0.15), 8, 14)
-  return {
-    kind,
-    km,
-    detail: `1,5 km facile, ${(km - 3).toLocaleString('fr-FR')} km à allure ${raceLabel}, 1,5 km facile`,
-    pace: 'marathon',
-    segments: [],
+    case 'hills': {
+      const [reps, sec] = step(HILLS, w)
+      return {
+        kind,
+        km: km ?? clamp(round05(w.km * 0.13), 5, 9),
+        detail: `15 min facile, ${reps} × ${dur(sec)} en côte, fort (récup en redescendant au trot), 10 min facile`,
+        pace: 'intervals',
+        segments: [
+          WARM,
+          ...repeat(reps, () => [
+            { label: 'Côte', sec, pace: 'intervals' },
+            { label: 'Redescente', sec: sec * 2, pace: 'recovery' },
+          ]),
+          COOL,
+        ],
+      }
+    }
+    case 'fartlek': {
+      const [reps, fast, slow] = step(FARTLEK, w)
+      return {
+        kind,
+        km: km ?? clamp(round05(w.km * 0.14), 5, 10),
+        detail: `15 min facile, ${reps} × ${dur(fast)} vite / ${dur(slow)} lent, 10 min facile`,
+        pace: 'intervals',
+        segments: [
+          WARM,
+          ...repeat(reps, () => [
+            { label: 'Vite', sec: fast, pace: 'intervals' },
+            { label: 'Lent', sec: slow, pace: 'easy' },
+          ]),
+          COOL,
+        ],
+      }
+    }
+    case 'test':
+      return {
+        kind,
+        km: 5,
+        detail: 'Échauffe-toi 15 min avant de lancer le chrono, puis 5 km le plus vite possible, régulier : ton temps recale toutes tes allures',
+        pace: null,
+        segments: [],
+      }
+    case 'racePace': {
+      // De 6 à 14 km à allure course au fil du spécifique.
+      const mp = km !== undefined ? Math.max(1, km - 3) : w.phase === 'taper' ? 5 : w.deload ? 6 : round05(6 + 8 * w.pt)
+      return { kind, km: mp + 3, detail: `1,5 km facile, ${fr(mp)} km à allure ${raceLabel}, 1,5 km facile`, pace: 'marathon', segments: [] }
+    }
   }
 }
 
 /** Part « dure » d'une sortie pour la règle des 80 % facile. */
-const hardKm = (r: Omit<Draft, 'day'>, longMp: number) =>
-  r.kind === 'threshold' ? r.km * 0.45 : r.kind === 'intervals' ? r.km * 0.35 : r.kind === 'racePace' ? r.km - 3 : r.kind === 'long' ? longMp : 0
+const HARD_SHARE: Partial<Record<RunKind, number>> = { threshold: 0.45, intervals: 0.35, fartlek: 0.3, hills: 0.2, test: 1 }
+const hardKm = (r: Omit<Draft, 'day'>, longMp: number) => (r.kind === 'racePace' ? r.km - 3 : r.kind === 'long' ? longMp : r.km * (HARD_SHARE[r.kind] ?? 0))
 
 /** Les séances d'une semaine : jours, types, km, puis le renfo. */
 function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: PlannedStrength[] } {
@@ -275,7 +395,6 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   if (days.length === 0) return { runs: [], strength: [] }
   const longDay = days.includes(p.constraints.longRunDay) ? p.constraints.longRunDay : days[days.length - 1]
   const raceDay = p.race.day
-  const minEasy = walkRun ? 2 : 3
   const longPace = c.paces.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : level]
 
   // Semaine de la course : la course, et deux petits footings avant (pas la veille).
@@ -307,19 +426,25 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   const maxRuns = Math.min(walkRun ? 4 : { experienced: 5, regular: 5, beginner: 4 }[level], cautious ? 4 : 5)
   const runDays = pickDays(days, longDay, Math.min(days.length, maxRuns)).filter((d) => dayOf(d) >= c.from)
   const hasLong = runDays.includes(longDay)
+  const easySec = c.paces.secPerKm.easy?.[1] ?? longPace
+  const intervalsSec = c.paces.secPerKm.intervals?.[0] ?? Math.round(longPace * 0.78)
 
-  // Séances de qualité : aucune en base, en course-marche, malade ou douleur ; une au plus en semaine allégée ou prudent.
-  const qualityKinds: ('threshold' | 'intervals' | 'racePace')[] =
+  // Séances dures : dès la base (vitesse en base, seuil et fractionné en développement, allure course et seuil en
+  // spécifique), deux par semaine à partir de 30 km. Une seule sous 30 km, en semaine allégée, en mode prudent, les 2
+  // premières semaines et la semaine du test ; aucune en course-marche ou malade.
+  const speed: QualityKind = (['hills', 'fartlek', 'intervals'] as const)[w.index % 3]
+  const qualityKinds: QualityKind[] =
     walkRun || w.sick
       ? []
-      : w.phase === 'development'
-        ? ['threshold', 'intervals']
-        : w.phase === 'specific'
-          ? ['racePace', 'threshold']
-          : w.phase === 'taper'
-            ? ['racePace']
-            : []
-  let q = Math.min(qualityKinds.length, level === 'experienced' ? 2 : 1, w.deload || cautious ? 1 : 2)
+      : w.phase === 'base'
+        ? [speed, 'threshold']
+        : w.phase === 'development'
+          ? ['threshold', 'intervals']
+          : w.phase === 'specific'
+            ? ['racePace', 'threshold']
+            : ['racePace']
+  if (w.test && qualityKinds.length > 0) qualityKinds[0] = 'test'
+  let q = Math.min(qualityKinds.length, w.deload || cautious || w.test || w.index < 2 || w.km < 30 ? 1 : 2)
   q = Math.max(0, Math.min(q, runDays.length - 2))
   // Jours de qualité : loin de la sortie longue, jamais la veille ni le lendemain, jamais deux jours de suite.
   const others = runDays.filter((d) => d !== longDay)
@@ -332,11 +457,33 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
     quality.push(d)
   }
 
+  // Environ 80 % facile : les séances dures dans l'ordre (l'allure course raccourcie s'il le faut), puis les km à allure
+  // course sur la fin de la sortie longue, avec ce qui reste. Le test 5 km (seul, toutes les 6 semaines) est à part.
+  let budget = w.km * RULES.hardShare
+  const qRuns: Draft[] = []
+  for (const [i, d] of quality.entries()) {
+    let r: Draft = { day: dayOf(d), ...qualityRun(qualityKinds[i], w, p.race.kind, intervalsSec) }
+    if (r.kind === 'racePace' && hardKm(r, 0) > budget && budget >= 5)
+      r = { day: r.day, ...qualityRun('racePace', w, p.race.kind, intervalsSec, floor05(budget) + 3) }
+    const h = r.kind === 'test' ? 0 : hardKm(r, 0)
+    if (h > budget + 1e-9) continue
+    qRuns.push(r)
+    budget -= h
+  }
+  const qKm = qRuns.reduce((s, r) => s + r.km, 0)
+
+  // Le reste en footings faciles (récupération le lendemain de la sortie longue), et toujours 3 sorties dans la semaine.
+  // Des footings qui comptent : 6 km dès 30 km par semaine ; la sortie longue cède la place qu'il faut, jusqu'à 40 % de la semaine.
+  let easyDays = runDays.filter((d) => d !== longDay && !qRuns.some((r) => r.day === dayOf(d)))
+  const minEasy = walkRun ? 2 : clamp(round05(w.km * 0.2), 4, 6)
+  const longTarget = Math.min(round05(w.longKm), w.longMax ?? Infinity)
+  let longKm = hasLong ? longTarget : 0
+  if (hasLong && !walkRun && easyDays.length > 0) longKm = Math.min(longKm, Math.max(round05(w.km * 0.4), floor05(w.km - qKm - minEasy * easyDays.length)))
+  const longMpWanted = !walkRun && !w.frozen && w.phase === 'specific' && !w.deload ? clamp(round05(longKm * (0.15 + 0.2 * w.pt)), 3, 12) : 0
+  let longMp = Math.min(longMpWanted, floor05(budget)) >= 3 ? Math.min(longMpWanted, floor05(budget)) : 0
+
   const runs: Draft[] = []
-  let longMp = 0
-  if (hasLong) {
-    const longKm = round05(w.longKm)
-    longMp = !walkRun && !w.frozen && w.phase === 'specific' && !w.deload ? clamp(round05(longKm * 0.25), 3, 10) : 0
+  if (hasLong)
     runs.push({
       day: dayOf(longDay),
       kind: 'long',
@@ -344,37 +491,34 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
       detail: walkRun
         ? 'Sortie longue en course-marche'
         : longMp > 0
-          ? `Sortie longue dont ${longMp.toLocaleString('fr-FR')} km à allure course sur la fin`
+          ? `Sortie longue dont ${fr(longMp)} km à allure course sur la fin`
           : 'Sortie longue, régulière et facile',
       pace: 'long',
       segments: walkRun ? walkRunSegments(longKm, w.phase, longPace) : [],
     })
-  }
-  const qRuns = quality.map((d, i) => ({ day: dayOf(d), ...qualityRun(qualityKinds[i], w, c.p.race.kind) }))
-  // Environ 80 % facile : on retire d'abord les passages à allure de la sortie longue, puis on raccourcit la qualité.
-  const total = () => w.km
-  const hard = () => qRuns.reduce((s, r) => s + hardKm(r, 0), 0) + longMp
-  if (hard() > total() * RULES.hardShare) {
-    longMp = 0
-    if (runs[0]?.kind === 'long') runs[0] = { ...runs[0], detail: 'Sortie longue, régulière et facile' }
-  }
-  while (qRuns.length > 0 && hard() > total() * RULES.hardShare) qRuns.pop()
   runs.push(...qRuns)
 
-  // Le reste en footings faciles (récupération le lendemain de la sortie longue), 3 km au moins, et
-  // toujours 3 sorties dans la semaine.
-  let easyDays = runDays.filter((d) => d !== longDay && !qRuns.some((r) => r.day === dayOf(d)))
   const rest = Math.max(0, w.km - runs.reduce((s, r) => s + r.km, 0))
   const keep = Math.max(0, 3 - runs.length)
   while (easyDays.length > keep && rest / easyDays.length < minEasy) easyDays = easyDays.slice(0, -1)
-  // Un footing reste un footing : au plus 14 km (8 en course-marche), et pas plus de 60 % de la sortie longue.
-  const maxEasy = walkRun ? 8 : clamp(round05(w.longKm * 0.6), minEasy, 14)
+  // Sortie longue plafonnée par la règle des +10 % : ses km vont aux footings, sans dépasser le même plafond.
+  // Sinon un footing reste un footing : au plus 14 km, jamais plus long que la sortie longue, 60 % de celle-ci ou 30 % de la semaine.
+  const maxEasy =
+    w.longMax !== undefined
+      ? Math.min(walkRun ? 8 : 14, w.longMax)
+      : walkRun
+        ? 8
+        : Math.max(minEasy, Math.min(14, round05(w.longKm), round05(Math.max(w.longKm * 0.6, w.km * 0.3))))
   // Demi-km par défaut, le reste sur le premier : la somme tombe juste.
   const each = Math.min(maxEasy, Math.max(walkRun ? 1.5 : 2, Math.floor((rest / Math.max(1, easyDays.length)) * 2) / 2))
   const extra = Math.max(0, Math.min(maxEasy - each, round05(rest - each * easyDays.length)))
+  // Accélérations à la fin d'un footing par semaine (pas celui du lendemain de la sortie longue).
+  let strides = !walkRun && !w.frozen && !w.sick
   for (const [i, d] of easyDays.entries()) {
     const km = i === 0 ? each + extra : each
     const recovery = !walkRun && hasLong && d === (longDay + 1) % 7
+    const withStrides = strides && !recovery
+    if (withStrides) strides = false
     runs.push({
       day: dayOf(d),
       kind: walkRun ? 'walkRun' : w.frozen ? 'easy' : recovery ? 'recovery' : 'easy',
@@ -383,22 +527,51 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
         ? 'En aisance, en alternant course et marche'
         : recovery
           ? 'Très facile, pour récupérer de la sortie longue'
-          : 'En aisance : tu peux parler en phrases',
+          : withStrides
+            ? 'En aisance, puis 6 accélérations de 20 s (1 min de trot entre chaque)'
+            : 'En aisance : tu peux parler en phrases',
       pace: recovery ? 'recovery' : 'easy',
-      segments: walkRun ? walkRunSegments(km, w.phase, longPace) : [],
+      segments: walkRun
+        ? walkRunSegments(km, w.phase, longPace)
+        : withStrides
+          ? [
+              { label: 'Footing', sec: Math.round(km * easySec), pace: 'easy' },
+              ...repeat(6, () => [
+                { label: 'Accélération', sec: 20, pace: 'intervals' },
+                { label: 'Trot', sec: 60, pace: 'recovery' },
+              ]),
+            ]
+          : [],
     })
+  }
+  // Un footing en moins (volume trop faible pour 6 km) : ses km reviennent à la sortie longue, jusqu'à sa distance prévue.
+  const long = runs.find((r) => r.kind === 'long')
+  const missing = floor05(w.km - runs.reduce((s, r) => s + r.km, 0))
+  if (long && !walkRun && missing > 0) long.km += Math.max(0, Math.min(missing, longTarget - long.km))
+  // Les footings plafonnés peuvent laisser la semaine sous sa cible : la règle des 80 % facile se vérifie sur ce qui est
+  // vraiment prévu. D'abord plus d'allure course dans la sortie longue, puis la dernière séance dure devient un footing.
+  const hardTotal = () => runs.reduce((s, r) => s + (r.kind === 'test' ? 0 : hardKm(r, r.kind === 'long' ? longMp : 0)), 0)
+  const kmTotal = () => runs.reduce((s, r) => s + r.km, 0)
+  while (hardTotal() > kmTotal() * RULES.hardShare + 1e-9) {
+    if (longMp > 0 && long) {
+      longMp = 0
+      long.detail = 'Sortie longue, régulière et facile'
+      continue
+    }
+    const last = [...runs].reverse().find((r) => HARD_KINDS.has(r.kind) && r.kind !== 'test')
+    if (!last) break
+    Object.assign(last, { kind: 'easy', detail: 'En aisance : tu peux parler en phrases', pace: 'easy', segments: [] })
   }
   // Douleur : les séances dures deviennent du vélo ou de la marche (sans impact, 0 km de course).
   if (w.frozen)
     for (const r of runs)
-      if (r.kind === 'threshold' || r.kind === 'intervals' || r.kind === 'racePace')
-        Object.assign(r, { kind: 'cross', km: 0, detail: 'Vélo ou marche, sans impact, 45 min faciles', pace: null, segments: [] })
+      if (HARD_KINDS.has(r.kind)) Object.assign(r, { kind: 'cross', km: 0, detail: 'Vélo ou marche, sans impact, 45 min faciles', pace: null, segments: [] })
   runs.sort((a, b) => (a.day < b.day ? -1 : 1))
 
   // Renfo : 2 en base et développement, 1 en spécifique, 1 légère au début de l'affûtage, aucune les 10 derniers jours.
   const want = w.sick ? 0 : w.phase === 'base' || w.phase === 'development' ? 2 : w.phase === 'specific' || w.firstTaper ? 1 : 0
   const lastStrength = addDays(raceDay, -(RULES.noStrengthDays + 1))
-  const hardDay = (d: Day) => runs.some((r) => r.day === d && (r.kind === 'threshold' || r.kind === 'intervals' || r.kind === 'racePace'))
+  const hardDay = (d: Day) => runs.some((r) => r.day === d && HARD_KINDS.has(r.kind))
   // Jamais la veille d'une sortie longue ou d'une séance de qualité.
   const eve = (d: Day) => runs.some((r) => r.day === addDays(d, 1) && (r.kind === 'long' || r.kind === 'race' || hardDay(r.day)))
   const isLong = (d: Day) => runs.some((r) => r.day === d && r.kind === 'long')
@@ -419,6 +592,15 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   return { runs: runs.map((r) => ({ ...r, fastKm: round05(hardKm(r, r.kind === 'long' ? longMp : 0)) })), strength }
 }
 
+/** Avancée d'une semaine : dans le programme (0 → 1 au pic, 3 semaines avant la course) et dans sa phase (0 → 1). */
+function progress(phases: Phase[], i: number): { t: number; pt: number } {
+  let a = i
+  let b = i
+  while (a > 0 && phases[a - 1] === phases[i]) a--
+  while (b < phases.length - 1 && phases[b + 1] === phases[i]) b++
+  return { t: clamp(i / Math.max(1, phases.length - 4), 0, 1), pt: b > a ? (i - a) / (b - a) : 1 }
+}
+
 export function generatePlan(p: MarathonProfile, weightKg: number | null, done: DoneRun[], today: Day): Plan {
   const level = runnerLevel(p.level)
   const cautious = isCautious(p, weightKg)
@@ -435,11 +617,16 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
   const taper = half || n < 16 ? 2 : 3
   const m = Math.max(0, n - taper)
   const [bw, dw] = walkRun ? [0.5, 0.25] : [0.35, 0.3]
-  const base = Math.round(m * bw)
-  const dev = Math.round(m * dw)
+  // Plan long : le bloc marathon (développement puis spécifique) garde sa durée, tout ce qui précède est un bloc vitesse.
+  const longPlan = !walkRun && m >= RULES.devWeeks + RULES.specificWeeks + 8
+  const base = longPlan ? m - RULES.devWeeks - RULES.specificWeeks : Math.round(m * bw)
+  const dev = longPlan ? RULES.devWeeks : Math.round(m * dw)
   const phaseOf = (i: number): Phase => (i >= m ? 'taper' : i < base ? 'base' : i < base + dev ? 'development' : 'specific')
+  const phases = Array.from({ length: n }, (_, i) => phaseOf(i))
 
   const peakKm = Math.max(PEAK_KM[p.race.kind][walkRun ? 'beginner' : level], Math.min(p.level.weeklyKm, 90))
+  // Rampe du plan long : le pic est atteint au début du spécifique, pas des mois avant.
+  const ramp = (i: number) => (longPlan ? peakKm * (RULES.rampFrom + (1 - RULES.rampFrom) * Math.min(1, i / Math.max(1, base + dev))) : Infinity)
   const startKm = Math.max(walkRun ? 8 : 12, Math.min(p.level.weeklyKm, peakKm))
   const longPace = pc.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : level]
   const longCap = half ? Math.min(RULES.halfLongCapKm, RULES.halfLongCapSec / longPace) : Math.min(RULES.longCapKm, RULES.longCapSec / longPace)
@@ -452,6 +639,8 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
 
   const byWeek = doneByWeek(done)
   const freeze = painFreeze(done)
+  // Pas de pic sur une seule sortie : la plus longue des 30 jours avant la semaine, +10 % au plus (semaines passées et en cours).
+  const monthLongest = (from: Day) => Math.max(0, ...done.filter((r) => r.day >= addDays(from, -30) && r.day < from).map((r) => r.km))
   const alerts: string[] = []
   const weeks: PlanWeek[] = []
   let build = startKm
@@ -508,6 +697,9 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
       const ratios = taper === 3 ? RULES.taper3 : RULES.taper2
       const raceWeek = i === n - 1
       shape = {
+        index: i,
+        ...progress(phases, i),
+        test: false,
         start: wStart,
         phase,
         deload: false,
@@ -520,16 +712,42 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
       }
     } else {
       if (grow) {
-        build = Math.min(peakKm, build * growth)
-        long = Math.min(longCap, long + inc)
+        // +10 % au plus, et pas plus vite que la rampe du plan long (sans jamais redescendre à cause d'elle).
+        build = Math.min(peakKm, Math.max(build, Math.min(build * growth, ramp(i))))
+        // Sortie longue : +10 % au plus d'une semaine de charge à l'autre (et +1,5 à 2,5 km au plus).
+        long = Math.min(longCap, long + Math.min(inc, Math.max(1, long * (RULES.spikeMax - 1))))
       }
-      // Sortie longue : 45 % de la semaine à petit volume (3 sorties équilibrées), 55 % ensuite ; après le pic, elle redescend.
-      // L'accumulateur suit la part retenue : la sortie longue ne prend jamais plus de +1,5 à 3 km d'un coup.
-      long = Math.min(long, build * (build < 25 ? 0.45 : 0.55))
+      // Sortie longue : 45 % de la semaine sous 30 km, 42 % au-delà ; après le pic, elle redescend.
+      long = Math.min(long, build * (build < 30 ? 0.45 : 0.42))
       let wLong = long
       if (i > peakWeek && peakWeek >= 0) wLong = Math.min(wLong, topLong * 0.7)
       const factor = sick ? RULES.sick : deload ? RULES.deload : 1
-      shape = { start: wStart, phase, deload, sick, frozen, raceWeek: false, firstTaper: false, km: round05(build * factor), longKm: round05(wLong * factor) }
+      const test = !walkRun && !sick && (phase === 'base' || phase === 'development') && i % RULES.testEvery === RULES.testEvery - 1
+      shape = {
+        index: i,
+        ...progress(phases, i),
+        test,
+        start: wStart,
+        phase,
+        deload,
+        sick,
+        frozen,
+        raceWeek: false,
+        firstTaper: false,
+        km: round05(build * factor),
+        longKm: round05(wLong * factor),
+      }
+      const longest = i <= current ? monthLongest(wStart) : 0
+      if (longest > 0) {
+        const cap = Math.max(5, round05(longest * RULES.spikeMax))
+        if (shape.longKm > cap) {
+          shape.longMax = cap
+          if (i === current)
+            alerts.push(
+              `Ta plus longue sortie du dernier mois : ${fr(round05(longest))} km. Cette semaine, aucune sortie ne dépasse ${fr(cap)} km (+10 % au plus) : ce sont les hausses brutales qui blessent.`,
+            )
+        }
+      }
     }
     const { runs, strength } = weekSessions(shape, ctx)
     // Le volume prévu est celui des sorties réellement placées (jours disponibles, footings plafonnés).
@@ -539,7 +757,10 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
       // La suite progresse depuis ce qui est vraiment prévu (jours disponibles, footings plafonnés).
       // Une semaine raccourcie par des jours indisponibles ne fait pas baisser la suite.
       const limited = (p.offDays ?? []).some((d) => d >= wStart && d <= addDays(wStart, 6))
-      if (!frozen && !limited) build = Math.min(build, km)
+      // Une semaine plafonnée par la règle des +10 % ne fait pas baisser la suite : le plafond se recalcule chaque semaine.
+      if (!frozen && !limited && shape.longMax === undefined) build = Math.min(build, km)
+      // La suite de la sortie longue part de celle vraiment prévue (raccourcie pour les footings, ou plafonnée) : +10 % au plus.
+      if (longKm > 0) long = Math.min(long, longKm)
       topKm = Math.max(topKm, km)
       if (i <= peakWeek || peakWeek < 0) topLong = Math.max(topLong, longKm)
     }
@@ -578,7 +799,16 @@ export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind:
   const deload = w?.deload ?? false
   const walkRun = plan?.walkRun ?? false
   const longPace = plan?.paces.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : (plan?.level ?? 'regular')]
+  const i = w?.index ?? 0
   const shape: WeekShape = {
+    index: i,
+    ...(plan && w
+      ? progress(
+          plan.weeks.map((x) => x.phase),
+          i,
+        )
+      : { t: 0, pt: 0 }),
+    test: false,
     start: w?.start ?? day,
     phase,
     deload,
@@ -603,7 +833,7 @@ export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind:
       return done({ kind, detail: 'Très facile, pour récupérer', pace: 'recovery', segments: [] })
     case 'long': {
       // Même règle que le plan : de l'allure course sur la fin seulement en phase spécifique, sinon une sortie longue facile et régulière.
-      const mp = walkRun || deload || phase !== 'specific' ? 0 : clamp(round05(km * 0.25), 3, 10)
+      const mp = walkRun || deload || phase !== 'specific' ? 0 : clamp(round05(km * (0.15 + 0.2 * shape.pt)), 3, 12)
       const detail = walkRun
         ? 'Sortie longue en course-marche'
         : mp > 0
@@ -613,10 +843,14 @@ export function guideRun(kind: RunKind, km: number, plan: Plan | null, raceKind:
     }
     case 'threshold':
     case 'intervals':
-    case 'racePace': {
-      const q = qualityRun(kind, shape, raceKind)
-      return done({ ...q, km: km > 0 ? km : q.km }, 0)
-    }
+    case 'hills':
+    case 'fartlek':
+    case 'racePace':
+    case 'test':
+      return done(
+        qualityRun(kind, shape, raceKind, plan?.paces.secPerKm.intervals?.[0] ?? Math.round(longPace * 0.78), km > 0 && kind !== 'test' ? km : undefined),
+        0,
+      )
     case 'cross':
       return done({ kind, detail: 'Vélo ou marche, sans impact, 45 min faciles', pace: null, segments: [], km: 0 })
     case 'race':
