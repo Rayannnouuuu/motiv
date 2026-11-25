@@ -127,6 +127,11 @@ export const RULES = {
   keptAt: 0.85,
   /** Une sortie ne dépasse jamais de plus de 10 % la plus longue du dernier mois : ce sont ces pics qui blessent. */
   spikeMax: 1.1,
+  /** Jamais plus léger : 20 km par semaine au départ (14 en course-marche), sortie longue de 6 km, aucune sortie sous 4 km. */
+  minStartKm: 20,
+  minStartKmWalkRun: 14,
+  minLongKm: 6,
+  minEasyKm: 4,
   /** Un test sur 5 km toutes les 6 semaines (base et développement) : ton temps recale les allures. */
   testEvery: 6,
   /** Plan long : le bloc marathon (7 semaines de développement, 8 de spécifique) ; avant, un bloc vitesse. */
@@ -401,7 +406,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   if (w.raceWeek) {
     const raceWd = weekdayOf(raceDay)
     const shake = days.filter((d) => d < raceWd - 1 && dayOf(d) >= c.from).slice(-2)
-    const easyKm = clamp(round05(c.peakKm * 0.1), 3, 6)
+    const easyKm = clamp(round05(c.peakKm * 0.1), RULES.minEasyKm, 6)
     const runs: Draft[] = [
       ...shake.map((d) => ({
         day: dayOf(d),
@@ -475,7 +480,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   // Le reste en footings faciles (récupération le lendemain de la sortie longue), et toujours 3 sorties dans la semaine.
   // Des footings qui comptent : 6 km dès 30 km par semaine ; la sortie longue cède la place qu'il faut, jusqu'à 40 % de la semaine.
   let easyDays = runDays.filter((d) => d !== longDay && !qRuns.some((r) => r.day === dayOf(d)))
-  const minEasy = walkRun ? 2 : clamp(round05(w.km * 0.2), 4, 6)
+  const minEasy = walkRun ? RULES.minEasyKm : clamp(round05(w.km * 0.2), RULES.minEasyKm, 6)
   const longTarget = Math.min(round05(w.longKm), w.longMax ?? Infinity)
   let longKm = hasLong ? longTarget : 0
   if (hasLong && !walkRun && easyDays.length > 0) longKm = Math.min(longKm, Math.max(round05(w.km * 0.4), floor05(w.km - qKm - minEasy * easyDays.length)))
@@ -510,7 +515,7 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
         ? 8
         : Math.max(minEasy, Math.min(14, round05(w.longKm), round05(Math.max(w.longKm * 0.6, w.km * 0.3))))
   // Demi-km par défaut, le reste sur le premier : la somme tombe juste.
-  const each = Math.min(maxEasy, Math.max(walkRun ? 1.5 : 2, Math.floor((rest / Math.max(1, easyDays.length)) * 2) / 2))
+  const each = Math.min(maxEasy, Math.max(RULES.minEasyKm, Math.floor((rest / Math.max(1, easyDays.length)) * 2) / 2))
   const extra = Math.max(0, Math.min(maxEasy - each, round05(rest - each * easyDays.length)))
   // Accélérations à la fin d'un footing par semaine (pas celui du lendemain de la sortie longue).
   let strides = !walkRun && !w.frozen && !w.sick
@@ -627,10 +632,10 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
   const peakKm = Math.max(PEAK_KM[p.race.kind][walkRun ? 'beginner' : level], Math.min(p.level.weeklyKm, 90))
   // Rampe du plan long : le pic est atteint au début du spécifique, pas des mois avant.
   const ramp = (i: number) => (longPlan ? peakKm * (RULES.rampFrom + (1 - RULES.rampFrom) * Math.min(1, i / Math.max(1, base + dev))) : Infinity)
-  const startKm = Math.max(walkRun ? 8 : 12, Math.min(p.level.weeklyKm, peakKm))
+  const startKm = Math.max(walkRun ? RULES.minStartKmWalkRun : RULES.minStartKm, Math.min(p.level.weeklyKm, peakKm))
   const longPace = pc.secPerKm.long?.[1] ?? DEFAULT_LONG_PACE[walkRun ? 'walkRun' : level]
   const longCap = half ? Math.min(RULES.halfLongCapKm, RULES.halfLongCapSec / longPace) : Math.min(RULES.longCapKm, RULES.longCapSec / longPace)
-  const longStart = clamp(Math.min(p.level.longestKm, startKm * 0.5), walkRun ? 3 : 5, longCap)
+  const longStart = clamp(Math.min(p.level.longestKm, startKm * 0.5), RULES.minLongKm, longCap)
   const inc = cautious ? 1.5 : level === 'experienced' ? 2.5 : 2
   const growth = cautious ? RULES.growthCautious : RULES.growth
   const deloadEvery = cautious ? RULES.deloadEveryCautious : RULES.deloadEvery
@@ -680,8 +685,8 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
           }
         }
         if (missed >= 2) {
-          build = Math.max(walkRun ? 8 : 10, lastGood.km * 0.7)
-          long = Math.max(walkRun ? 3 : 5, Math.min(long, lastGood.long * 0.7))
+          build = Math.max(walkRun ? RULES.minStartKmWalkRun : 14, lastGood.km * 0.7)
+          long = Math.max(RULES.minLongKm, Math.min(long, lastGood.long * 0.7))
           grow = false
           if (i === current) alerts.push('Plus d’une semaine manquée : le volume redescend avant de remonter.')
         } else if (missed === 1) {
@@ -735,11 +740,11 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
         raceWeek: false,
         firstTaper: false,
         km: round05(build * factor),
-        longKm: round05(wLong * factor),
+        longKm: round05(sick ? wLong * factor : Math.max(RULES.minLongKm, wLong * factor)),
       }
       const longest = i <= current ? monthLongest(wStart) : 0
       if (longest > 0) {
-        const cap = Math.max(5, round05(longest * RULES.spikeMax))
+        const cap = Math.max(RULES.minLongKm, round05(longest * RULES.spikeMax))
         if (shape.longKm > cap) {
           shape.longMax = cap
           if (i === current)
@@ -784,15 +789,16 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
 
 /**
  * Recommencer le plan aujourd'hui : la semaine 1 est cette semaine, au niveau du moment (moyenne des semaines courues
- * parmi les 4 dernières, plus longue sortie des 30 derniers jours) quand il y a des sorties. L'historique ne bouge pas.
+ * parmi les 4 dernières, plus longue sortie des 30 derniers jours) s'il est au-dessus de celui du profil : recommencer
+ * ne fait jamais descendre de niveau (ni passer en course-marche). L'historique ne bouge pas.
  */
 export function restartPlan(p: MarathonProfile, done: DoneRun[], today: Day): MarathonProfile {
   const monday = weekStart(today)
   const recent = done.filter((r) => r.day >= addDays(monday, -28) && r.day < monday)
   const weeks = new Set(recent.map((r) => weekStart(r.day))).size
   const month = done.filter((r) => r.day >= addDays(today, -30) && r.day <= today)
-  const weeklyKm = weeks > 0 ? Math.round(recent.reduce((s, r) => s + r.km, 0) / weeks) : p.level.weeklyKm
-  const longestKm = month.length > 0 ? round05(Math.max(...month.map((r) => r.km))) : p.level.longestKm
+  const weeklyKm = Math.max(p.level.weeklyKm, weeks > 0 ? Math.round(recent.reduce((s, r) => s + r.km, 0) / weeks) : 0)
+  const longestKm = Math.max(p.level.longestKm, month.length > 0 ? round05(Math.max(...month.map((r) => r.km))) : 0)
   return { ...p, startedOn: today, level: { ...p.level, weeklyKm, longestKm } }
 }
 
