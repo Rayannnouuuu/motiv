@@ -183,3 +183,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 26 — Deux espaces, Sport et Guitare, avec un écran noir de choix à l’ouverture : en ligne.
 - [x] Lot 27 — Le sélecteur d’espace en haut à gauche affiche l’espace où l’on est : en ligne.
 - [x] Lot 28 — Plan marathon exigeant : bloc vitesse, 2 séances dures par semaine, séances qui progressent, test 5 km toutes les 6 semaines, aucune sortie à plus de +10 % de la plus longue du mois : en ligne.
+- [ ] Lot 29 — Recommencer le plan marathon aujourd’hui, à ton niveau du moment (Plan › Marathon) : sur l’essai, en attente de validation.

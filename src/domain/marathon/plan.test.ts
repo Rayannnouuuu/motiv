@@ -3,7 +3,7 @@ import { addDays, daysBetween } from '../date'
 import { feasibility } from './feasibility'
 import { profile, TODAY } from './fixtures'
 import { betterChrono, paces, PRUDENT_MARGIN } from './paces'
-import { generatePlan, HARD_KINDS, RULES, type DoneRun, type Plan } from './plan'
+import { generatePlan, HARD_KINDS, restartPlan, RULES, type DoneRun, type Plan } from './plan'
 import type { MarathonProfile } from './profile'
 
 /** Les règles du cahier des charges, vérifiées semaine par semaine. */
@@ -401,5 +401,34 @@ describe('adaptation semaine après semaine', () => {
     expect(moved.weeks[0].start).toBe('2026-11-02')
     expect(moved.weeks.at(-1)!.runs.at(-1)!.day).toBe('2027-05-02')
     checkRules(moved, { ...p, race: { ...p.race, day: '2027-05-02' } })
+  })
+})
+
+describe('recommencer le plan', () => {
+  const p = profile({ startedOn: '2026-09-07' })
+  const today = '2026-11-25' // mercredi
+
+  test('semaine 1 cette semaine, au niveau des 4 dernières semaines courues et de la plus longue sortie du mois', () => {
+    const done: DoneRun[] = [
+      { day: '2026-10-20', km: 30, pain: 0 }, // plus de 4 semaines avant : ignorée
+      { day: '2026-10-27', km: 8, pain: 0 },
+      { day: '2026-11-01', km: 12, pain: 0 },
+      { day: '2026-11-10', km: 7, pain: 0 },
+      { day: '2026-11-15', km: 14.2, pain: 0 },
+      { day: '2026-11-24', km: 6, pain: 0 }, // cette semaine : comptée pour la plus longue, pas pour la moyenne
+    ]
+    const next = restartPlan(p, done, today)
+    expect(next.startedOn).toBe(today)
+    // 2 semaines courues sur les 4 dernières (celles du 26 oct. et du 9 nov.) : 41,2 km / 2.
+    expect(next.level.weeklyKm).toBe(21)
+    expect(next.level.longestKm).toBe(14)
+    expect(next.race).toEqual(p.race)
+    const plan = generatePlan(next, 75, done, today)
+    expect(plan.current).toBe(0)
+    expect(plan.weeks[0].start).toBe('2026-11-23')
+  })
+
+  test('sans sortie récente : le niveau du profil est gardé', () => {
+    expect(restartPlan(p, [], today)).toEqual({ ...p, startedOn: today })
   })
 })
