@@ -782,6 +782,20 @@ export function generatePlan(p: MarathonProfile, weightKg: number | null, done: 
   return { weeks, current, level, cautious, walkRun, paces: pc, frozen: current >= 0 && current < n ? freeze : null, alerts }
 }
 
+/**
+ * Recommencer le plan aujourd'hui : la semaine 1 est cette semaine, au niveau du moment (moyenne des semaines courues
+ * parmi les 4 dernières, plus longue sortie des 30 derniers jours) quand il y a des sorties. L'historique ne bouge pas.
+ */
+export function restartPlan(p: MarathonProfile, done: DoneRun[], today: Day): MarathonProfile {
+  const monday = weekStart(today)
+  const recent = done.filter((r) => r.day >= addDays(monday, -28) && r.day < monday)
+  const weeks = new Set(recent.map((r) => weekStart(r.day))).size
+  const month = done.filter((r) => r.day >= addDays(today, -30) && r.day <= today)
+  const weeklyKm = weeks > 0 ? Math.round(recent.reduce((s, r) => s + r.km, 0) / weeks) : p.level.weeklyKm
+  const longestKm = month.length > 0 ? round05(Math.max(...month.map((r) => r.km))) : p.level.longestKm
+  return { ...p, startedOn: today, level: { ...p.level, weeklyKm, longestKm } }
+}
+
 /** Ce qui est prévu un jour donné. */
 export function plannedOn(plan: Plan, day: Day): { runs: PlannedRun[]; strength: PlannedStrength[] } {
   const w = plan.weeks.find((x) => day >= x.start && day <= addDays(x.start, 6))

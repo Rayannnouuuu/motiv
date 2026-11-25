@@ -1,11 +1,13 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useActions, useAppData } from '../../data/AppDataContext'
 import { Icon } from '../../design/icons'
 import { shortDate, weekStart } from '../../domain/date'
+import { feasibility } from '../../domain/marathon/feasibility'
 import { formatDuration } from '../../domain/marathon/paces'
-import { PHASE_LABELS, type PlanWeek } from '../../domain/marathon/plan'
+import { PHASE_LABELS, restartPlan, type PlanWeek } from '../../domain/marathon/plan'
 import { RACE_LABELS } from '../../domain/marathon/profile'
-import { RUN_MOVEMENT_ID } from '../../domain/marathon/runs'
+import { doneRuns, RUN_MOVEMENT_ID } from '../../domain/marathon/runs'
 import { runnerMoves, STRENGTH_PURPOSE } from '../../domain/marathon/strength'
 import { Button } from '../../ui/Button'
 import { Card } from '../../ui/Card'
@@ -258,7 +260,51 @@ function PlanView({ mk }: { mk: Marathon }) {
           accessory={<Switch label="Malade cette semaine" checked={m.sickWeeks.includes(monday)} onChange={(v) => void setSickWeek(monday, v)} />}
         />
       </Group>
+      <RestartPlan mk={mk} />
       <p className="t-footnote px-4 text-muted">{mk.f.medical}</p>
+    </div>
+  )
+}
+
+/** Recommencer le plan à la semaine 1, au niveau du moment, après confirmation. */
+function RestartPlan({ mk }: { mk: Marathon }) {
+  const { v1 } = useAppData()
+  const { saveMarathon } = useActions()
+  const [confirming, setConfirming] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const next = restartPlan(mk.m, doneRuns(v1.sessions), mk.today)
+  if (!feasibility(next, mk.weight, mk.today).ok) return null
+  if (!confirming)
+    return (
+      <Group footer="Le plan repart de la semaine 1 cette semaine, à ton niveau du moment.">
+        <Row title="Recommencer le plan aujourd’hui" onClick={() => setConfirming(true)} />
+      </Group>
+    )
+  return (
+    <div className="animate-rise flex flex-col gap-3 rounded-xl bg-surface p-4 shadow-card">
+      <p className="t-subhead text-center">
+        Recommencer le plan aujourd’hui ? Il repart de la semaine 1 avec {km(next.level.weeklyKm)} par semaine et une sortie longue de{' '}
+        {km(next.level.longestKm)}. Tes sorties restent dans l’historique.
+      </p>
+      <div className="flex gap-2">
+        <Button variant="ghost" tone="sport" onClick={() => setConfirming(false)}>
+          Annuler
+        </Button>
+        <Button
+          tone="sport"
+          className="flex-1"
+          disabled={saving}
+          onClick={() => {
+            setSaving(true)
+            void saveMarathon(next).finally(() => {
+              setSaving(false)
+              setConfirming(false)
+            })
+          }}
+        >
+          Recommencer
+        </Button>
+      </div>
     </div>
   )
 }

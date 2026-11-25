@@ -158,6 +158,15 @@ describe('plan', () => {
     expect(screen.getByText(/^at \/moi\/profil/)).toBeInTheDocument()
   })
 
+  test('recommencer le plan aujourd’hui : confirmation, puis semaine 1 à ton niveau', async () => {
+    const { actions } = render(<MarathonPage />, '/plan/course', '/plan/course', base)
+    await userEvent.click(screen.getByRole('button', { name: /Recommencer le plan aujourd’hui/ }))
+    expect(screen.getByText(/^Recommencer le plan aujourd’hui \? Il repart de la semaine 1 avec 35 km par semaine/)).toBeInTheDocument()
+    expect(actions.saveMarathon).not.toHaveBeenCalled()
+    await userEvent.click(screen.getByRole('button', { name: 'Recommencer' }))
+    expect(actions.saveMarathon).toHaveBeenCalledWith({ ...base, startedOn: TODAY })
+  })
+
   test('Semaine : J-N, la phase, le prévu jour par jour ; la sortie du jour se lance d’un toucher', async () => {
     render(<WeekPage />, '/plan', '/plan', base)
     const hero = screen.getByRole('region', { name: /^Base et vitesse · semaine 1 sur/ })
