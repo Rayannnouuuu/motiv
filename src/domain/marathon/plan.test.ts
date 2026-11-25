@@ -405,7 +405,7 @@ describe('adaptation semaine après semaine', () => {
 })
 
 describe('recommencer le plan', () => {
-  const p = profile({ startedOn: '2026-09-07' })
+  const p = profile({ startedOn: '2026-09-07', level: { weeklyKm: 15, longestKm: 8 } })
   const today = '2026-11-25' // mercredi
 
   test('semaine 1 cette semaine, au niveau des 4 dernières semaines courues et de la plus longue sortie du mois', () => {
@@ -428,7 +428,33 @@ describe('recommencer le plan', () => {
     expect(plan.weeks[0].start).toBe('2026-11-23')
   })
 
+  test('jamais en dessous du profil : des semaines légères ne font pas descendre de niveau (ni passer en course-marche)', () => {
+    const next = restartPlan(p, [{ day: '2026-11-10', km: 3, pain: 0 }], today)
+    expect(next.level).toMatchObject({ weeklyKm: 15, longestKm: 8 })
+    expect(generatePlan(next, 75, [], today).walkRun).toBe(false)
+  })
+
   test('sans sortie récente : le niveau du profil est gardé', () => {
     expect(restartPlan(p, [], today)).toEqual({ ...p, startedOn: today })
+  })
+})
+
+describe('jamais trop léger : aucune sortie sous 4 km, sortie longue de 6 km au moins', () => {
+  test.each([
+    ['régulier, 10 km par semaine', { weeklyKm: 10, longestKm: 4 }, false],
+    ['débutant (course-marche), 5 km par semaine', { weeklyKm: 5, longestKm: 3 }, true],
+  ])('%s', (_, level, walkRun) => {
+    const p = profile({
+      race: { name: 'Marathon', day: '2027-09-26', kind: 'marathon', goalSec: null },
+      level: { ...level, years: 1, chrono: null },
+      constraints: { days: [1, 3, 5, 6], longRunDay: 6, gym: true },
+    })
+    const plan = generatePlan(p, 75, [], TODAY)
+    expect(plan.walkRun).toBe(walkRun)
+    expect(plan.weeks[0].km).toBeGreaterThanOrEqual(walkRun ? 14 : 19.5)
+    for (const w of plan.weeks) {
+      if (w.phase !== 'taper' && !w.sick) expect(w.longKm).toBeGreaterThanOrEqual(6)
+      for (const r of w.runs.filter((x) => x.km > 0)) expect(r.km).toBeGreaterThanOrEqual(4)
+    }
   })
 })
