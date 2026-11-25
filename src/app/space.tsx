@@ -106,7 +106,7 @@ export function SpaceChooser() {
   )
 }
 
-/** En haut des écrans d'un espace : passer à l'autre en un toucher. */
+/** En haut des écrans d'un espace : l'espace où l'on est ; un toucher passe à l'autre. */
 export function SpaceSwitch() {
   const { space, choose } = useSpace()
   const navigate = useNavigate()
@@ -115,18 +115,18 @@ export function SpaceSwitch() {
   return (
     <button
       type="button"
-      aria-label={`Passer à l'espace ${LABEL[other]}`}
+      aria-label={`${LABEL[space]} : passer à l'espace ${LABEL[other]}`}
       onClick={() => {
         choose(other)
         navigate('/')
       }}
-      className={`hit tap t-subhead flex min-h-11 items-center gap-1.5 font-semibold ${other === 'sport' ? 'text-sport' : 'text-guitar'}`}
+      className={`hit tap t-subhead flex min-h-11 items-center gap-1.5 font-semibold ${space === 'sport' ? 'text-sport' : 'text-guitar'}`}
     >
+      <Icon name={space} />
+      {LABEL[space]}
       <span aria-hidden className="text-muted">
         ⇄
       </span>
-      <Icon name={other} />
-      {LABEL[other]}
     </button>
   )
 }

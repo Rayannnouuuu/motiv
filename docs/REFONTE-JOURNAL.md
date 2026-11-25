@@ -181,3 +181,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 23 — La séance de muscu « légère » est vraiment légère (moitié des séries, charges −10 %, hors progression) : en ligne.
 - [x] Lot 24 — Plan plus exigeant : fin du blocage à 20 km par semaine (adaptation qui ne tire plus le plan vers le bas, volumes maximum relevés) : en ligne.
 - [x] Lot 26 — Deux espaces, Sport et Guitare, avec un écran noir de choix à l’ouverture : en ligne.
+- [ ] Lot 27 — Le sélecteur d’espace en haut à gauche affiche l’espace où l’on est : sur l’essai, en attente de validation.

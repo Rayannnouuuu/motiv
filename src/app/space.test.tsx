@@ -63,9 +63,12 @@ describe('deux espaces séparés', () => {
 
   test('on passe d’un espace à l’autre en haut à gauche, d’un toucher', async () => {
     renderApp('sport')
-    await userEvent.click(screen.getByRole('button', { name: "Passer à l'espace Guitare" }))
+    // Le bouton affiche l'espace où l'on est.
+    const toGuitar = screen.getByRole('button', { name: "Sport : passer à l'espace Guitare" })
+    expect(toGuitar).toHaveTextContent(/^Sport/)
+    await userEvent.click(toGuitar)
     expect(tabs()).toEqual(["Aujourd'hui", 'Parcours', 'Progrès', 'Moi'])
-    expect(screen.getByRole('button', { name: "Passer à l'espace Sport" })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: "Guitare : passer à l'espace Sport" })).toHaveTextContent(/^Guitare/)
     expect(sessionStorage.getItem('motiv.space.v1')).toBe('guitar')
   })
 
