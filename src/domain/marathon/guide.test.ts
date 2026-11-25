@@ -13,8 +13,11 @@ describe('guide d’une sortie ajoutée à la main', () => {
     const spec = guideRun('long', 20, plan, 'marathon', dayOf('specific'))
     expect(base).toMatchObject({ kind: 'long', km: 20, pace: 'long', fastKm: 0, detail: 'Sortie longue, régulière et facile' })
     expect(dev).toMatchObject({ kind: 'long', fastKm: 0, detail: 'Sortie longue, régulière et facile' })
-    expect(spec.fastKm).toBe(5)
-    expect(spec.detail).toBe('Sortie longue dont 5 km à allure course sur la fin')
+    expect(spec.fastKm).toBeGreaterThanOrEqual(3)
+    expect(spec.detail).toBe(`Sortie longue dont ${spec.fastKm.toLocaleString('fr-FR')} km à allure course sur la fin`)
+    // Plus on avance dans le spécifique, plus la fin à allure course est longue.
+    const specWeeks = plan.weeks.filter((w) => w.phase === 'specific' && !w.deload)
+    expect(guideRun('long', 20, plan, 'marathon', specWeeks.at(-1)!.start).fastKm).toBeGreaterThan(spec.fastKm)
     // Une sortie longue reste une sortie longue : jamais de blocs de fractionné.
     for (const r of [base, dev, spec]) expect(r.segments).toEqual([])
   })
@@ -24,14 +27,17 @@ describe('guide d’une sortie ajoutée à la main', () => {
     expect(guideRun('long', 20, plan, 'marathon', deload.start).fastKm).toBe(0)
   })
 
-  test('seuil et fractionné : plus de répétitions en spécifique qu’en développement ; la distance choisie est gardée', () => {
-    const blocks = (kind: 'threshold' | 'intervals', phase: Phase) =>
-      guideRun(kind, 9, plan, 'marathon', dayOf(phase)).segments.filter((s) => s.pace === kind).length
-    expect(blocks('intervals', 'development')).toBe(5)
-    expect(blocks('intervals', 'specific')).toBe(6)
+  test('seuil et fractionné : des blocs plus longs en spécifique qu’en développement ; la distance choisie est gardée', () => {
+    const work = (kind: 'threshold' | 'intervals', phase: Phase) =>
+      Math.max(
+        ...guideRun(kind, 9, plan, 'marathon', dayOf(phase))
+          .segments.filter((s) => s.pace === kind)
+          .map((s) => s.sec),
+      )
+    expect(work('intervals', 'specific')).toBeGreaterThan(work('intervals', 'development'))
+    expect(work('threshold', 'specific')).toBeGreaterThan(work('threshold', 'development'))
     const threshold = guideRun('threshold', 9, plan, 'marathon', dayOf('specific'))
     expect(threshold.km).toBe(9)
-    expect(threshold.segments.filter((s) => s.pace === 'threshold')).toHaveLength(3)
     expect(threshold.pace).toBe('threshold')
   })
 
@@ -56,8 +62,8 @@ describe('blocs pour le minuteur', () => {
       ['Allure course', 'marathon'],
     ])
     const longPace = plan.paces.secPerKm.long![1]
-    expect(segs[0].sec).toBe(Math.round(15 * longPace))
-    expect(segs[1].sec).toBeLessThan(Math.round(5 * longPace))
+    expect(segs[0].sec).toBe(Math.round((20 - run.fastKm) * longPace))
+    expect(segs[1].sec).toBeLessThan(Math.round(run.fastKm * longPace))
   })
 
   test('sortie longue de base : un seul bloc régulier', () => {
