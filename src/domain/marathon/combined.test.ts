@@ -30,10 +30,9 @@ describe('combineMuscu', () => {
     expect(combineMuscu(base, input({ rotation: [] }))).toBe(base)
   })
 
-  test('base : Push, Pull, Legs dans l’ordre de la rotation, jamais le jour de la sortie longue', () => {
-    const w = plan.weeks[0]
-    expect(w.strength.map((s) => s.name)).toEqual(['Push', 'Pull', 'Legs'])
-    for (const s of w.strength) expect(runOn(w, s.day).some((r) => r.kind === 'long')).toBe(false)
+  test('base : Push, Pull, Legs, jamais un jour de course (toutes les semaines)', () => {
+    expect(plan.weeks[0].strength.map((s) => s.name)).toEqual(['Push', 'Pull', 'Legs'])
+    for (const w of plan.weeks) for (const s of w.strength) expect(runOn(w, s.day)).toEqual([])
   })
 
   test('toutes les semaines : jambes jamais la veille d’une sortie longue, d’une séance dure ou de la course, ni le lendemain de la sortie longue', () => {
@@ -47,11 +46,16 @@ describe('combineMuscu', () => {
   })
 
   test('une séance par jour au plus, la rotation continue d’une semaine à l’autre', () => {
-    const order = plan.weeks.flatMap((w) => w.strength)
-    for (const w of plan.weeks) expect(new Set(w.strength.map((s) => s.day)).size).toBe(w.strength.length)
-    // Hors renfo coureur (qui remplace les jambes), la suite suit Push → Pull → Legs.
-    const names = order.map((s) => (s.programId === RUNNER_TEMPLATE_ID ? 'Legs' : s.name))
-    names.forEach((n, i) => i > 0 && expect(PPL[(PPL.findIndex((x) => x.name === names[i - 1]) + 1) % 3].name).toBe(n))
+    let pointer = 0
+    for (const w of plan.weeks) {
+      expect(new Set(w.strength.map((s) => s.day)).size).toBe(w.strength.length)
+      // Chaque semaine prend les séances suivantes de la rotation (les jambes le jour qui leur va, l'ordre des jours peut changer) ;
+      // le renfo coureur remplace les jambes.
+      const names = w.strength.map((s) => (s.programId === RUNNER_TEMPLATE_ID ? 'Legs' : s.name)).sort()
+      const next = Array.from({ length: names.length }, (_, i) => PPL[(pointer + i) % 3].name).sort()
+      expect(names).toEqual(next)
+      pointer += names.length
+    }
   })
 
   test('dosage : 3 en base, 2 en spécifique (jambes → renfo coureur), 1 légère au début de l’affûtage, rien les 10 derniers jours', () => {
@@ -73,8 +77,8 @@ describe('combineMuscu', () => {
   test('semaine en cours : séances déjà faites décomptées, rien avant aujourd’hui ni aujourd’hui si une séance est faite', () => {
     const today = addDays(TODAY, 2) // mercredi
     const wk = combineMuscu(base, input({ today, doneThisWeek: 1, doneToday: true, next: 1 })).weeks[0]
-    expect(wk.strength.length).toBe(2)
-    expect(wk.strength[0].name).toBe('Pull')
+    // Après mercredi, un seul jour sans course (vendredi) : la séance suivante de la rotation.
+    expect(wk.strength.map((s) => [s.name, s.day])).toEqual([['Pull', addDays(TODAY, 4)]])
     expect(wk.strength.every((s) => s.day > today)).toBe(true)
   })
 })

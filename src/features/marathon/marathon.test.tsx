@@ -109,7 +109,9 @@ describe('plan', () => {
     const week = screen.getByRole('region', { name: 'Cette semaine' })
     expect(within(week).getByText("Aujourd'hui")).toBeInTheDocument()
     expect(within(week).getByRole('button', { name: 'Commencer : Footing facile' })).toBeInTheDocument()
-    expect(within(week).getByRole('button', { name: 'Commencer : Renfo coureur' })).toBeInTheDocument()
+    // Le renfo tombe un jour sans course (vendredi), pas avec le footing du jour.
+    expect(within(week).queryByRole('button', { name: 'Commencer : Renfo coureur' })).not.toBeInTheDocument()
+    expect(within(week).getAllByText(/Renfo coureur/).length).toBeGreaterThan(0)
     expect(within(screen.getByRole('region', { name: 'Tes allures' })).getByText('Allure marathon')).toBeInTheDocument()
     expect(screen.getByText(/la musculation sert la course/)).toBeInTheDocument()
   })
@@ -148,7 +150,9 @@ describe('plan', () => {
     render(<WeekPage />, '/plan', '/plan', base, { data: { programs } })
     const days = within(screen.getByRole('region', { name: 'Jour par jour' })).getAllByRole('listitem')
     const text = days.map((d) => d.textContent).join(' | ')
-    for (const name of ['Push', 'Pull', 'Legs']) expect(text).toContain(name)
+    // Mardi, 2 jours sans course restent (mercredi, vendredi) : les 2 séances suivantes de la rotation, jamais avec une sortie.
+    for (const name of ['Push', 'Pull']) expect(text).toContain(name)
+    for (const d of days) if (/Push|Pull|Legs/.test(d.textContent ?? '')) expect(d.textContent).not.toMatch(/km/)
     expect(within(screen.getByRole('region', { name: /^Base et vitesse · semaine 1 sur/ })).getByText(/muscu 0 \/ /)).toBeInTheDocument()
   })
 
