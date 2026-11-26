@@ -580,13 +580,10 @@ function weekSessions(w: WeekShape, c: Ctx): { runs: PlannedRun[]; strength: Pla
   // Jamais la veille d'une sortie longue ou d'une séance de qualité.
   const eve = (d: Day) => runs.some((r) => r.day === addDays(d, 1) && (r.kind === 'long' || r.kind === 'race' || hardDay(r.day)))
   const isLong = (d: Day) => runs.some((r) => r.day === d && r.kind === 'long')
-  const allDays = days.map(dayOf).filter((d) => d >= c.from && d <= lastStrength)
-  // D'abord après une séance dure (les jours faciles restent faciles), puis un jour de footing, puis un jour sans course.
-  const order = [
-    ...allDays.filter(hardDay),
-    ...allDays.filter((d) => !hardDay(d) && runs.some((r) => r.day === d)),
-    ...allDays.filter((d) => !runs.some((r) => r.day === d)),
-  ]
+  // Jamais un jour de course : course et renfo le même jour, ça fait beaucoup (lot 31). Un jour libre de la semaine.
+  const order = Array.from({ length: 7 }, (_, i) => addDays(w.start, i)).filter(
+    (d) => d >= c.from && d <= lastStrength && !runs.some((r) => r.day === d) && !off.has(d),
+  )
   const strength: PlannedStrength[] = []
   for (const d of order) {
     if (strength.length >= want) break

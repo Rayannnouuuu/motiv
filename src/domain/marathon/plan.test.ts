@@ -47,7 +47,7 @@ function checkRules(plan: Plan, p: MarathonProfile) {
         if (w.index < n - 5) expect(++sinceDeload).toBeLessThanOrEqual(plan.cautious ? 3 : 4)
       }
     }
-    // Renfo : 2 en base et développement, 1 en spécifique, 1 légère au début de l'affûtage, rien les 10 derniers jours.
+    // Renfo : 2 en base et développement, 1 en spécifique, 1 légère au début de l'affûtage, rien les 10 derniers jours ; un jour sans course.
     const max = { base: 2, development: 2, specific: 1, taper: 1 }[w.phase]
     expect(w.strength.length).toBeLessThanOrEqual(max)
     for (const s of w.strength) {
@@ -56,11 +56,8 @@ function checkRules(plan: Plan, p: MarathonProfile) {
       const next = w.runs.find((r) => r.day === addDays(s.day, 1)) ?? weeks[w.index + 1]?.runs.find((r) => r.day === addDays(s.day, 1))
       // Jamais la veille d'une sortie longue ou d'une séance de qualité, jamais le jour de la sortie longue.
       expect(next && (next.kind === 'long' || next.kind === 'race' || HARD_KINDS.has(next.kind))).toBeFalsy()
-      expect(w.runs.find((r) => r.day === s.day)?.kind).not.toBe('long')
-      // Le même jour qu'une séance dure quand il y en a une de libre.
-      const hard = w.runs.filter((r) => HARD_KINDS.has(r.kind))
-      const eligible = hard.filter((r) => daysBetween(r.day, p.race.day) > RULES.noStrengthDays)
-      if (eligible.length >= w.strength.length) expect(eligible.map((r) => r.day)).toContain(s.day)
+      // Jamais un jour de course : course et renfo le même jour, ça fait beaucoup.
+      expect(w.runs.some((r) => r.day === s.day)).toBe(false)
     }
   }
   // La plus longue sortie a lieu 3 semaines avant la course.

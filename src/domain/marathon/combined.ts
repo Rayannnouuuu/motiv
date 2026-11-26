@@ -6,10 +6,9 @@
  * Règles (entraînement concurrent course + force) :
  * - Combien : 3 séances en base et développement (2 en semaine allégée), 2 en spécifique, 1 légère au début de
  *   l'affûtage, aucune les 10 derniers jours ni en semaine malade.
- * - Jamais le jour de la sortie longue ni de la course.
+ * - Jamais un jour de course (lot 31 : course + muscu le même jour, « ça fait beaucoup »).
  * - Jambes : jamais la veille d'une sortie longue, d'une séance de qualité ou de la course, ni le lendemain de la
- *   sortie longue. De préférence le jour d'une séance dure (après elle) : les jours faciles restent faciles.
- * - Haut du corps : de préférence un jour sans course, sinon un jour de footing.
+ *   sortie longue.
  * - En spécifique et en affûtage, la séance jambes devient le renfo coureur (plus léger, utile à la course).
  * - L'ordre de ta rotation est respecté et les séances sont étalées sur la semaine.
  */
@@ -66,41 +65,48 @@ function dayRules(w: PlanWeek, raceDay: Day) {
   const keyRun = (d: Day) => isLong(d) || isRace(d) || isHard(d)
   return {
     allowed(d: Day, lower: boolean) {
-      if (isLong(d) || isRace(d)) return false
+      if (runOn(d).length > 0 || isRace(d)) return false
       if (!lower) return true
       return !keyRun(addDays(d, 1)) && !isLong(addDays(d, -1))
     },
+    /** Jambes : de préférence le lendemain d'une séance dure (les deux fatigues sur les mêmes 48 h, le reste de la semaine frais). */
     tier(d: Day, lower: boolean) {
-      const rest = runOn(d).length === 0
-      if (lower) return isHard(d) ? 0 : rest ? 2 : 1
-      return rest ? 0 : isHard(d) ? 2 : 1
+      return lower && !isHard(addDays(d, -1)) ? 1 : 0
     },
   }
 }
 
 /**
- * Place les séances de la semaine dans l'ordre de la rotation, en respectant les règles : on garde la combinaison
- * de jours qui en place le plus, puis la mieux répartie (au plus 3 séances sur 7 jours : on essaie tout).
+ * Place les séances de la semaine sur les jours libres, en respectant les règles : les prochaines séances de la rotation
+ * (le plus possible, dans l'ordre de la rotation), chacune sur le jour qui lui va, même si l'ordre des jours change
+ * (jambes le seul jour possible, le haut du corps sur les autres). À égalité : l'ordre de la rotation, les jours
+ * préférés, pas deux séances collées (au plus 3 séances sur 7 jours : on essaie tout).
  */
 function placeWeek(w: PlanWeek, programs: MuscuProgram[], from: Day, raceDay: Day, light: boolean, off: Set<Day>): PlannedStrength[] {
   const last = addDays(raceDay, -(RULES.noStrengthDays + 1))
   const days = Array.from({ length: 7 }, (_, i) => addDays(w.start, i)).filter((d) => d >= from && d <= last && !off.has(d))
   const rules = dayRules(w, raceDay)
-  let best: { days: Day[]; score: number } = { days: [], score: 0 }
-  const search = (k: number, chosen: Day[], score: number) => {
-    if (chosen.length > best.days.length || (chosen.length === best.days.length && score < best.score)) best = { days: chosen, score }
+  let best: { picks: [number, Day][]; score: number } = { picks: [], score: 0 }
+  const score = (picks: [number, Day][]) => {
+    const sorted = [...picks].sort((a, b) => (a[1] < b[1] ? -1 : 1))
+    return sorted.reduce((s, [k, d], i) => {
+      const prev = sorted[i - 1]
+      const glued = prev && daysBetween(prev[1], d) === 1 ? 1 : 0
+      const swapped = prev && prev[0] > k ? 1 : 0
+      return s + rules.tier(d, programs[k].lower) * 2 + glued + swapped
+    }, 0)
+  }
+  const search = (k: number, picks: [number, Day][]) => {
+    const s = score(picks)
+    if (picks.length > best.picks.length || (picks.length === best.picks.length && s < best.score)) best = { picks, score: s }
     if (k === programs.length) return
-    const p = programs[k]
     for (const d of days) {
-      if (chosen.length > 0 && d <= chosen[chosen.length - 1]) continue
-      if (!rules.allowed(d, p.lower)) continue
-      // Préférence du jour, et jamais deux séances de muscu collées si on peut l'éviter.
-      const glued = chosen.length > 0 && daysBetween(chosen[chosen.length - 1], d) === 1 ? 1 : 0
-      search(k + 1, [...chosen, d], score + rules.tier(d, p.lower) * 2 + glued)
+      if (picks.some(([, x]) => x === d) || !rules.allowed(d, programs[k].lower)) continue
+      search(k + 1, [...picks, [k, d]])
     }
   }
-  search(0, [], 0)
-  return best.days.map((day, i) => ({ day, light, programId: programs[i].id, name: programs[i].name }))
+  search(0, [])
+  return [...best.picks].sort((a, b) => (a[1] < b[1] ? -1 : 1)).map(([k, day]) => ({ day, light, programId: programs[k].id, name: programs[k].name }))
 }
 
 /** Le plan avec ta muscu à la place du renfo coureur, de la semaine en cours jusqu'à la course. */
