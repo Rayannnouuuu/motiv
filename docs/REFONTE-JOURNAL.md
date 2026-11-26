@@ -185,4 +185,4 @@ Pour reprendre une session : lire `docs/REFONTE.md` (le cahier des charges), pui
 - [x] Lot 28 — Plan marathon exigeant : bloc vitesse, 2 séances dures par semaine, séances qui progressent, test 5 km toutes les 6 semaines, aucune sortie à plus de +10 % de la plus longue du mois : en ligne.
 - [x] Lot 29 — Recommencer le plan marathon aujourd’hui, à ton niveau du moment (Plan › Marathon) : en ligne.
 - [x] Lot 30 — Plus de séances de 2,5 km : aucune sortie sous 4 km, sortie longue de 6 km au moins, départ à 20 km par semaine ; recommencer ne fait plus descendre de niveau : en ligne.
-- [ ] Lot 31 — La muscu jamais le même jour qu’une course : sur l’essai, en attente de validation.
+- [x] Lot 31 — La muscu jamais le même jour qu’une course : en ligne.
